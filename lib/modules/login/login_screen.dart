@@ -61,28 +61,30 @@ class LoginScreen extends StatelessWidget {
                       ),
                       defaultFormField(
                           controller: emailController,
-                          type: TextInputType.text,
+                          type: TextInputType.emailAddress,
                           validate: (String? value) {
                             if (value!.isEmpty) {
                               return 'رجاءً ادخل البريد الالكتروني الصحيح';
                             }
+                            return null;
                           },
                           label: 'البريد الإلكتروني',
                           prefixIcon: Icons.email_outlined),
                       SizedBox(
-                        height: 10.0,
+                        height: 20.0,
                       ),
                       defaultFormField(
                         controller: passwordController,
                         type: TextInputType.visiblePassword,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return ' رجاءً ادخل كلمة المرور بشكل صحيح';
+                            return 'رجاءً ادخل كلمة المرور الصحيحة';
                           }
+                          return null;
                         },
+                        suffixIcon: LoginCubit.get(context).suffixIcon,
                         label: 'كلمة المرور',
                         prefixIcon: Icons.lock_outline,
-                        suffixIcon: LoginCubit.get(context).suffixIcon,
                         isPassword: LoginCubit.get(context).isPassword,
                         suffixPressed: () {
                           LoginCubit.get(context).changePasswordVisibility();

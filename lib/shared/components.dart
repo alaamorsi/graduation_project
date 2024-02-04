@@ -34,9 +34,9 @@ Widget defaultFormField({
         cursorColor: Colors.black,
         textAlign: TextAlign.end,
         onFieldSubmitted: onSubmit,
-        onChanged: onChanged,
+        onChanged: onChanged?? (val) {},
         validator: validate,
-        style: TextStyle(color: Colors.black,fontSize: 22),
+        style: TextStyle(color: Colors.black,fontSize: 25),
         decoration: InputDecoration(
             hintText: label,
             hintStyle: TextStyle(color: Colors.grey, fontSize: 25,),
