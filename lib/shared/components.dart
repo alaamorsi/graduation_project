@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 /////////////////////////////////////////////////////
@@ -16,16 +18,8 @@ Widget defaultFormField({
   void Function()? suffixPressed,
   bool isClickable = true,
 }) =>
-    Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        border: Border(
-            top: BorderSide(color: Colors.black),
-            bottom: BorderSide(color: Colors.black),
-            right: BorderSide(color: Colors.black),
-            left: BorderSide(color: Colors.black)),
-        borderRadius: BorderRadius.circular(10),
-      ),
+    Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
       child: TextFormField(
         controller: controller,
         keyboardType: type,
@@ -36,24 +30,78 @@ Widget defaultFormField({
         onFieldSubmitted: onSubmit,
         onChanged: onChanged,
         validator: validate,
-        style: TextStyle(color: Colors.black,fontSize: 22),
-        decoration: InputDecoration(
-            hintText: label,
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 25,),
-            prefixIcon: Icon(
-              prefixIcon,
-              color: Colors.grey,
-              size: 40,
+        style: TextStyle(color: Colors.black,),
+        decoration:InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+
+          hintText: label,
+              hintStyle: TextStyle(color: Colors.black12, fontSize: 20,),
+              // prefixIcon: Icon(
+              //   prefixIcon,
+              //   color: Colors.grey,
+              // ),
+            prefixIcon: prefixIcon != null
+                  ? IconButton(
+                      onPressed: suffixPressed,
+                      icon: Icon(
+                        prefixIcon,
+                      ),
+                    )
+                  : null,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(
+                color: Colors.green,
+                width: 1.5
             ),
-            suffixIcon: suffixIcon != null
-                ? IconButton(
-                    onPressed: suffixPressed,
-                    icon: Icon(
-                      suffixIcon,
-                    ),
-                  )
-                : null,
-            border: InputBorder.none),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 1.5,
+            ),
+          ),
+          enabledBorder:OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 1.5,
+            ),
+          ),
+        ),
+
+        // InputDecoration(
+        //     border: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(2.0),
+        //       borderSide: BorderSide(
+        //         color: Colors.blue,
+        //         width: 1,
+        //       ),
+        //     ),
+        //     enabledBorder:OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(5.0),
+        //       borderSide: BorderSide(
+        //         color: Colors.blue,
+        //         width: 1,
+        //       ),
+        //     ),
+        //     hintText: label,
+        //     hintStyle: TextStyle(color: Colors.black12, fontSize: 20,),
+        //     // prefixIcon: Icon(
+        //     //   prefixIcon,
+        //     //   color: Colors.grey,
+        //     // ),
+        //   prefixIcon: prefixIcon != null
+        //         ? IconButton(
+        //             onPressed: suffixPressed,
+        //             icon: Icon(
+        //               prefixIcon,
+        //             ),
+        //           )
+        //         : null,
+        //   ),
       ),
     );
 
@@ -64,7 +112,7 @@ Widget myDivider() => Padding(
       child: Container(
         width: double.infinity,
         height: 1.0,
-        color: Colors.grey[300],
+        color: Colors.white,
       ),
     );
 

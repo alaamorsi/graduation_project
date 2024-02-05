@@ -6,18 +6,20 @@ import 'package:graduation_project/my_flutter_app_icons.dart';
 import '../../shared/components.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
+import 'login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+class studenScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _studenScreenState createState() => _studenScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _studenScreenState extends State<studenScreen> {
   late String name, email, phone;
 
   //TextController to read text entered in text field
   TextEditingController password = TextEditingController();
-  TextEditingController confirmpassword = TextEditingController();
+  TextEditingController namecontrol = TextEditingController();
+  TextEditingController  emillecontrol = TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -45,13 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Colors.blue,
                               ),
                               children: <TextSpan>[
-                            TextSpan(
-                                text: 'tiona',
-                                style: TextStyle(
-                                  fontSize: 50.0,
-                                  color: Colors.yellow,
-                                )),
-                          ])),
+                                TextSpan(
+                                    text: 'tiona',
+                                    style: TextStyle(
+                                      fontSize: 50.0,
+                                      color: Colors.yellow,
+                                    )),
+                              ])),
                       SizedBox(
                         height: 15,
                       ),
@@ -71,8 +73,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       defaultFormField(
-                          controller: confirmpassword,
+                          controller: namecontrol,
                           type: TextInputType.text,
+                          validate: (String? value) {
+                            if (value!.isEmpty) {
+                              return 'رجاءً ادخل الاسم';
+                            }
+                          },
+                          label: 'الاسم',
+                          prefixIcon: Icons.account_box_rounded),
+                      defaultFormField(
+                          controller: emillecontrol,
+                          type: TextInputType.emailAddress,
                           validate: (String? value) {
                             if (value!.isEmpty) {
                               return 'رجاءً ادخل البريد الالكتروني الصحيح';
@@ -102,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             'شروط استخدام هذا التطبيق',
                             style:
-                                TextStyle(fontSize: 15.0, color: Colors.grey),
+                            TextStyle(fontSize: 15.0, color: Colors.grey),
                           ),
                           Checkbox(
                             value: LoginCubit.get(context).acceptCondition,
@@ -156,66 +168,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => secend_screen()));
+                                        builder: (context) => LoginScreen()));
                               },
-                              child: Text("انشاء حساب",
+                              child: Text("تسجيل الدخول",
                                   style: TextStyle(color: Colors.blueAccent)),
                             ),
                             Text(
-                              "ليس لديك حساب ؟",
+                              " لديك حساب بالفعل ؟",
                               style: TextStyle(color: Colors.grey),
                             ),
                           ],
                         ),
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: 1,
-                                width: double.infinity,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 2.0,
-                          ),
-                          Text(
-                            'أو التسجيل عن طريق',
-                            style:
-                                TextStyle(fontSize: 18.0, color: Colors.grey),
-                          ),
-                          SizedBox(
-                            width: 2.0,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: 1,
-                                width: double.infinity,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                MyFlutterApp.google_plus_g,
-                                size: 50,
-                                color: Colors.red,
-                              )),
-                        ],
-                      ),
+
                     ],
                   ),
                 ),

@@ -8,11 +8,11 @@ class LoginCubit extends Cubit<LoginStates> {
   static LoginCubit get(context) => BlocProvider.of(context);
 
  // Control to visible or invisible password
-  IconData suffixIcon = Icons.visibility_outlined;
+  IconData prefixIcon = Icons.visibility_outlined;
   bool isPassword = true;
   void changePasswordVisibility() {
     isPassword = !isPassword;
-    suffixIcon = isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    prefixIcon = isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(ChangePasswordVisibilityState());
   }
   // Change accept conditions
