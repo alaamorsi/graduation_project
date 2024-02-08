@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/login/secnd_screen.dart';
-import 'package:graduation_project/my_flutter_app_icons.dart';
 import '../../shared/components.dart';
+import '../../shared/constant.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 import 'login_screen.dart';
@@ -19,8 +17,8 @@ class _teacherScreenState extends State<teacherScreen> {
   //TextController to read text entered in text field
   TextEditingController password = TextEditingController();
   TextEditingController namecontrol = TextEditingController();
-  TextEditingController  emillecontrol = TextEditingController();
-  TextEditingController  phoneecontrol = TextEditingController();
+  TextEditingController emillecontrol = TextEditingController();
+  TextEditingController phoneecontrol = TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -32,48 +30,35 @@ class _teacherScreenState extends State<teacherScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: Colors.black,
-            body: Center(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formkey,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            body: SingleChildScrollView(
+              child: Form(
+                key: _formkey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      RichText(
-                          text: TextSpan(
-                              text: 'Educa',
-                              style: TextStyle(
-                                fontSize: 50.0,
-                                color: Colors.blue,
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: 'tiona',
-                                    style: TextStyle(
-                                      fontSize: 50.0,
-                                      color: Colors.yellow,
-                                    )),
-                              ])),
-                      SizedBox(
-                        height: 15,
+                      SizedBox(height: 10.0),
+                      Container(
+                        width: double.infinity,
+                        height: 100.0,
+                        child: Image(image: mode?AssetImage('Assets/logo1.png'):AssetImage('Assets/logo2.png'),),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8, right: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'تسجيل الدخول',
-                              style: TextStyle(
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
+                      SizedBox(height: 10.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Text(
+                              'أنشئ حساب مدرس',
+                              style:Theme.of(context).textTheme.titleMedium,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-
+                      SizedBox(height: 20.0),
                       defaultFormField(
                           controller: namecontrol,
                           type: TextInputType.text,
@@ -84,6 +69,7 @@ class _teacherScreenState extends State<teacherScreen> {
                           },
                           label: 'الاسم',
                           prefixIcon: Icons.account_box_rounded),
+                      SizedBox(height: 10.0),
                       defaultFormField(
                           controller: phoneecontrol,
                           type: TextInputType.phone,
@@ -94,6 +80,7 @@ class _teacherScreenState extends State<teacherScreen> {
                           },
                           label: 'رقم الموبايل',
                           prefixIcon: Icons.phone),
+                      SizedBox(height: 10.0),
                       defaultFormField(
                           controller: emillecontrol,
                           type: TextInputType.emailAddress,
@@ -104,6 +91,7 @@ class _teacherScreenState extends State<teacherScreen> {
                           },
                           label: 'البريد الإلكتروني',
                           prefixIcon: Icons.email_outlined),
+                      SizedBox(height: 10.0),
                       defaultFormField(
                         controller: password,
                         type: TextInputType.visiblePassword,
@@ -120,15 +108,16 @@ class _teacherScreenState extends State<teacherScreen> {
                           LoginCubit.get(context).changePasswordVisibility();
                         },
                       ),
+                      SizedBox(height: 10.0),
+                      //شروط الاستخدام
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'شروط استخدام هذا التطبيق',
-                            style:
-                            TextStyle(fontSize: 15.0, color: Colors.grey),
-                          ),
+                              'شروط الاستخدام',
+                              style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
                           Checkbox(
+                            side: BorderSide(color: mode?Colors.black:Colors.white),
                             value: LoginCubit.get(context).acceptCondition,
                             onChanged: (value) {
                               LoginCubit.get(context).changeAcceptConditions();
@@ -136,63 +125,40 @@ class _teacherScreenState extends State<teacherScreen> {
                           ),
                         ],
                       ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                if (_formkey.currentState!.validate()) {
-                                  print("successful");
-
-                                  return;
-                                } else {
-                                  print("UnSuccessfull");
-                                }
-                              },
-                              child: Text(
-                                "تسجيل الدخول",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 2.0,
-                                shadowColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    10,
-                                  ),
-                                ),
-                                backgroundColor: Colors.red,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 150),
-                              ),
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 10.0),
+                      //login button
+                      usedButton(
+                        atEnd: false,
+                        text: "إنشاء",
+                        onPressed: () {if (_formkey.currentState!.validate()) {
+                          print("successful");
+                          return;
+                        } else {
+                          print("UnSuccessfull");}
+                        },
+                        context: context,
+                        color: Colors.red.shade900,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginScreen()));
-                              },
-                              child: Text("تسجيل الدخول",
-                                  style: TextStyle(color: Colors.blueAccent)),
-                            ),
-                            Text(
-                              " لديك حساب بالفعل ؟",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 10.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
+                            child: Text("سجل الدخول",
+                                style: TextStyle(color: Colors.red.shade900,fontSize:15.0,fontWeight: FontWeight.bold)),
+                          ),
+                          Text(" لديك حساب بالفعل ؟",
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
                       ),
-
+                      SizedBox(height: 50.0),
                     ],
                   ),
                 ),

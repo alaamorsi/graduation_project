@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/login/secnd_screen.dart';
 import 'package:graduation_project/my_flutter_app_icons.dart';
+import 'package:graduation_project/shared/constant.dart';
 import '../../shared/components.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
@@ -29,47 +29,35 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: Colors.black,
-            body: Center(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formkey,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            body: SingleChildScrollView(
+              child: Form(
+                key: _formkey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      RichText(
-                          text: TextSpan(
-                              text: 'Educa',
-                              style: TextStyle(
-                                fontSize: 50.0,
-                                color: Colors.blue,
-                              ),
-                              children: <TextSpan>[
-                            TextSpan(
-                                text: 'tiona',
-                                style: TextStyle(
-                                  fontSize: 50.0,
-                                  color: Colors.yellow,
-                                )),
-                          ])),
-                      SizedBox(
-                        height: 15,
+                      SizedBox(height: 10.0),
+                      Container(
+                        width: double.infinity,
+                        height: 100.0,
+                        child: Image(image: mode?AssetImage('Assets/logo1.png'):AssetImage('Assets/logo2.png'),),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8, right: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
+                      SizedBox(height: 10.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Text(
                               'تسجيل الدخول',
-                              style: TextStyle(
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
+                              style:Theme.of(context).textTheme.titleMedium,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                      SizedBox(height: 20.0),
                       defaultFormField(
                           controller: confirmpassword,
                           type: TextInputType.text,
@@ -80,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           label: 'البريد الإلكتروني',
                           prefixIcon: Icons.email_outlined),
+                      SizedBox(height: 20.0,),
                       defaultFormField(
                         controller: password,
                         type: TextInputType.visiblePassword,
@@ -96,15 +85,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           LoginCubit.get(context).changePasswordVisibility();
                         },
                       ),
+                      SizedBox(height: 10.0),
+                      //شروط الاستخدام
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'شروط استخدام هذا التطبيق',
-                            style:
-                                TextStyle(fontSize: 15.0, color: Colors.grey),
-                          ),
+                            'شروط الاستخدام',
+                            style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
                           Checkbox(
+                            side: BorderSide(color: mode?Colors.black:Colors.white),
                             value: LoginCubit.get(context).acceptCondition,
                             onChanged: (value) {
                               LoginCubit.get(context).changeAcceptConditions();
@@ -112,72 +102,49 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                if (_formkey.currentState!.validate()) {
-                                  print("successful");
-
-                                  return;
-                                } else {
-                                  print("UnSuccessfull");
-                                }
-                              },
-                              child: Text(
-                                "تسجيل الدخول",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 2.0,
-                                shadowColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    10,
-                                  ),
-                                ),
-                                backgroundColor: Colors.red,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 150),
-                              ),
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 10.0),
+                      //login button
+                      usedButton(
+                        atEnd: false,
+                        text: "تسجيل الدخول",
+                        onPressed: () {if (_formkey.currentState!.validate()) {
+                            print("successful");
+                            return;
+                          } else {
+                          print("UnSuccessfull");}
+                        },
+                        context: context,
+                        color: Colors.red.shade900,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => secend_screen()));
-                              },
-                              child: Text("انشاء حساب",
-                                  style: TextStyle(color: Colors.blueAccent)),
-                            ),
-                            Text(
-                              "ليس لديك حساب ؟",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 10.0),
+                      //didn't have an account?
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => secend_screen()));
+                            },
+                            child: Text("انشاء حساب",
+                                style: TextStyle(color: Colors.red.shade900,fontSize:15.0,fontWeight: FontWeight.bold)),
+                          ),
+                          Text(
+                            "ليس لديك حساب ؟",
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
                       ),
+                      SizedBox(height: 50.0),
                       Row(
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: 1,
-                                width: double.infinity,
-                                color: Colors.grey,
-                              ),
+                            child: Container(
+                              height: 1,
+                              width: double.infinity,
+                              color: Colors.red,
                             ),
                           ),
                           SizedBox(
@@ -186,36 +153,44 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             'أو التسجيل عن طريق',
                             style:
-                                TextStyle(fontSize: 18.0, color: Colors.grey),
+                            TextStyle(fontSize: 15.0, color: Colors.red),
                           ),
                           SizedBox(
                             width: 2.0,
                           ),
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: 1,
-                                width: double.infinity,
-                                color: Colors.grey,
-                              ),
+                            child: Container(
+                              height: 1,
+                              width: double.infinity,
+                              color: Colors.red,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 30.0),
+                      //google logo
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                MyFlutterApp.google_plus_g,
-                                size: 50,
-                                color: Colors.red,
-                              )),
+                          Center(
+                            child: Container(
+                              width: 50.0,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.red.shade900,),
+                              child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.g_mobiledata,
+                                    size: 35.0,
+                                    color: Colors.white,
+                                  )),
+                            ),
+                          ),
                         ],
                       ),
+                      SizedBox(height: 30.0),
                     ],
                   ),
                 ),

@@ -1,10 +1,33 @@
-// ignore_for_file: prefer_const_constructors
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 /////////////////////////////////////////////////////
-//default text form field
+
+Widget usedButton({
+  void Function()? onPressed,
+  required String text,
+  required Color color,
+  required BuildContext context,
+  bool atEnd=true,
+}) =>ElevatedButton(
+    onPressed: onPressed,
+    style: ElevatedButton.styleFrom(
+      elevation: 2.0,
+      shadowColor: Colors.white,
+      backgroundColor: color,
+      padding: EdgeInsets.all(10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+    ),
+    child: Row(
+      mainAxisAlignment: atEnd?MainAxisAlignment.end:MainAxisAlignment.center,
+      children: [
+        Text(
+          text,
+          style:TextStyle(color: Colors.white,fontSize: 20.0),
+        ),
+      ],
+    ));
+
+//default input form field
 Widget defaultFormField({
   required TextEditingController controller,
   required TextInputType type,
@@ -18,90 +41,44 @@ Widget defaultFormField({
   void Function()? suffixPressed,
   bool isClickable = true,
 }) =>
-    Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
-      child: TextFormField(
-        controller: controller,
-        keyboardType: type,
-        obscureText: isPassword,
-        enabled: isClickable,
-        cursorColor: Colors.black,
-        textAlign: TextAlign.end,
-        onFieldSubmitted: onSubmit,
-        onChanged: onChanged,
-        validator: validate,
-        style: TextStyle(color: Colors.black,),
-        decoration:InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-
-          hintText: label,
-              hintStyle: TextStyle(color: Colors.black12, fontSize: 20,),
-              // prefixIcon: Icon(
-              //   prefixIcon,
-              //   color: Colors.grey,
-              // ),
-            prefixIcon: prefixIcon != null
-                  ? IconButton(
-                      onPressed: suffixPressed,
-                      icon: Icon(
-                        prefixIcon,
-                      ),
-                    )
-                  : null,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide(
-                color: Colors.green,
-                width: 1.5
-            ),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 1.5,
-            ),
-          ),
-          enabledBorder:OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 1.5,
-            ),
+    TextFormField(
+      controller: controller,
+      keyboardType: type,
+      obscureText: isPassword,
+      enabled: isClickable,
+      cursorColor: Colors.black,
+      textAlign: TextAlign.end,
+      onFieldSubmitted: onSubmit,
+      onChanged: onChanged,
+      validator: validate,
+      style: const TextStyle(color: Colors.black,),
+      decoration:InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        hintText: label,
+        hintStyle: const TextStyle(color: Colors.black26, fontSize: 15,),
+        prefixIcon:IconButton(onPressed: suffixPressed, icon: Icon(prefixIcon)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+              color: Colors.green,
+              width: 1.5
           ),
         ),
-
-        // InputDecoration(
-        //     border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(2.0),
-        //       borderSide: BorderSide(
-        //         color: Colors.blue,
-        //         width: 1,
-        //       ),
-        //     ),
-        //     enabledBorder:OutlineInputBorder(
-        //       borderRadius: BorderRadius.circular(5.0),
-        //       borderSide: BorderSide(
-        //         color: Colors.blue,
-        //         width: 1,
-        //       ),
-        //     ),
-        //     hintText: label,
-        //     hintStyle: TextStyle(color: Colors.black12, fontSize: 20,),
-        //     // prefixIcon: Icon(
-        //     //   prefixIcon,
-        //     //   color: Colors.grey,
-        //     // ),
-        //   prefixIcon: prefixIcon != null
-        //         ? IconButton(
-        //             onPressed: suffixPressed,
-        //             icon: Icon(
-        //               prefixIcon,
-        //             ),
-        //           )
-        //         : null,
-        //   ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: Colors.black,
+            width: 1.5,
+          ),
+        ),
+        enabledBorder:OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: Colors.black,
+            width: 1.5,
+          ),
+        ),
       ),
     );
 
