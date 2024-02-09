@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 /////////////////////////////////////////////////////
-
 Widget usedButton({
   void Function()? onPressed,
   required String text,
@@ -40,8 +39,7 @@ Widget defaultFormField({
   IconData? suffixIcon,
   void Function()? suffixPressed,
   bool isClickable = true,
-}) =>
-    TextFormField(
+}) => TextFormField(
       controller: controller,
       keyboardType: type,
       obscureText: isPassword,
@@ -82,6 +80,25 @@ Widget defaultFormField({
       ),
     );
 
+PreferredSizeWidget defaultAppBar({
+  required BuildContext context,
+  required String logo,
+}) => AppBar(
+  iconTheme: Theme.of(context).appBarTheme.iconTheme,
+  titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
+  leading: Padding(
+  padding: const EdgeInsets.only(left: 10.0),
+  child: IconButton(onPressed: (){}, icon: Icon(Icons.search)),
+  ),
+  title: Image(image: AssetImage(logo)),
+  actions: [
+  Padding(
+  padding: const EdgeInsets.only(right: 10.0),
+  child: IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
+  )
+  ],
+  elevation: 2.0,
+  );
 Widget myDivider() => Padding(
       padding: const EdgeInsetsDirectional.only(
         start: 20.0,
