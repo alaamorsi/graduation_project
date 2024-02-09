@@ -32,7 +32,7 @@ class _suiupState extends State<splash> {
             Text("Educationa",
               style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 40.0),
             ),
-          ],
+          ]
         ),
       ),
     );

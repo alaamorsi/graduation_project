@@ -154,7 +154,7 @@ class _teacherScreenState extends State<teacherScreen> {
                         Text(" لديك حساب بالفعل ؟",
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
-                      ],
+                      ]
                     ),
                     SizedBox(height: 50.0),
                   ],

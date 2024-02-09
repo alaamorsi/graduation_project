@@ -19,7 +19,6 @@ class StudentLayout extends StatelessWidget {
             width: double.infinity,
           ),
           //body: cubit.screens[cubit.currentIndex],
-
           bottomNavigationBar: BottomNavigationBar(
             elevation: 5.0,
             currentIndex: cubit.currentIndex,

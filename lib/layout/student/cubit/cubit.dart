@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
-
 import '../../../shared/constant.dart';
 
 class StudentCubit extends Cubit<StudentStates> {

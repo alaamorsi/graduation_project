@@ -142,7 +142,7 @@ class _studenScreenState extends State<studenScreen> {
                         Text(" لديك حساب بالفعل ؟",
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
-                      ],
+                      ]
                     ),
                     SizedBox(height: 50.0),
                   ],
