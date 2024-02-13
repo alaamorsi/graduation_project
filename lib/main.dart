@@ -7,11 +7,13 @@ import 'package:graduation_project/modules/login/cubit/cubit.dart';
 import 'package:graduation_project/modules/splash.dart';
 import 'package:graduation_project/shared/cache_helper.dart';
 import 'package:graduation_project/shared/constant.dart';
+import 'package:graduation_project/shared/dio_helper.dart';
 import 'package:graduation_project/shared/themes.dart';
 
 void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
+  Diohelper.init();
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
   runApp(MyApp(appMode: mode));

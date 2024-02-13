@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'شروط الاستخدام',
                           style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
                         Checkbox(
-                          side: BorderSide(color: mode?Colors.black:Colors.white),
+                          side: BorderSide(color: Theme.of(context).iconTheme.color!),
                           value: LoginCubit.get(context).acceptCondition,
                           onChanged: (value) {
                             LoginCubit.get(context).changeAcceptConditions();

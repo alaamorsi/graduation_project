@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graduation_project/modules/search_screen.dart';
@@ -179,45 +180,75 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
     );
 
 /////////////////////
-Widget buldarticalitm(articls,context)=>Padding(
-  padding: const EdgeInsets.all(20.0),
-  child: Row(children: [
-    Container(
-      width: 120,
-      height: 120,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-            image: NetworkImage('${articls['urlToImage']}'),
-            fit: BoxFit.cover,
+Widget BuiltArticleItem(article, context) => InkWell(
+  onTap: () {
+    // navigateTo(context, WebViewScreen(article['url']));
+  },
+  child: Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: Row(
+      children: [
+        Container(
+          width: 120.0,
+          height: 120.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
 
-          )
-      ),
+            // image: DecorationImage(
+
+            //   image: NetworkImage(
+
+            //       '${article['urlToImage']}'),
+
+            //   fit: BoxFit.cover,
+
+            // )
+          ),
+        ),
+        SizedBox(
+          width: 20.0,
+        ),
+        Expanded(
+          child: Container(
+            height: 120.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    '${article['title']}',
+                    style: Theme.of(context).textTheme.headline6,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  '${article['publishedAt']}',
+                  style: TextStyle(
+                      fontSize: 10.0, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+          ),
+        )
+      ],
     ),
-    SizedBox(width: 20,),
-    Expanded(
-      child: Container(
-        height: 120,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start ,
-          children: [
-            Expanded(child: Text("${articls['title']}",
-              style: Theme.of(context).textTheme.bodyText1,
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-
-            ),),
-            Text('${articls['publishedAt']}',
-              style: TextStyle(
-                color: Colors.grey,
-              ),)
-          ],),
-      ),
-    )
-  ],),
+  ),
 );
 
+
+Widget articleBuilder(list, context, {isSearch = false}) => ConditionalBuilder(
+  condition: list.length > 0,
+  builder: (context) => ListView.separated(
+    physics: BouncingScrollPhysics(),
+    itemBuilder: (context, index) => BuiltArticleItem(list[index], context),
+    separatorBuilder: (context, index) => myDivider(),
+    itemCount: 10,
+  ),
+  fallback: (context) =>
+  isSearch ? Container() : Center(child: CircularProgressIndicator()),
+);
 void showToast({
   required String text,
   required ToastStates state,

@@ -43,7 +43,7 @@ class _searshscreenState extends State<searshscreen> {
 
                 ),
               ),
-              Expanded(child: buldarticalitm(list,context)),
+              Expanded(child: articleBuilder(list, context,isSearch: true))
             ],
           ),
         );

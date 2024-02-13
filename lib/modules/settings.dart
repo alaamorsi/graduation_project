@@ -109,13 +109,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           textLabel: "المظهر",
                           initialSelectionText: CacheHelper.getData(key: 'tm')??"الخاص بالنظام",
                           chooses: [
-                            DropdownMenuEntry(value: "الخاص بالنظام", label: "الخاص بالنظام",
-                              leadingIcon: Icon(appCubit.modeIcon,color: Theme.of(context).iconTheme.color),
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
-                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
-                              ),
-                            ),
                             DropdownMenuEntry(value: "فاتح", label: "فاتح",
                               leadingIcon: Icon(Icons.light_mode,color: Theme.of(context).iconTheme.color),
                               style: ButtonStyle(
@@ -138,9 +131,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 break;
                               case "غامق":
                                 appCubit.changeAppMode("غامق");
-                                break;
-                              case "الخاص بالنظام":
-                                appCubit.changeAppMode("الخاص بالنظام");
                                 break;
                             }
                           }
