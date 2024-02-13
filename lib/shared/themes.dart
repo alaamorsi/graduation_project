@@ -5,7 +5,7 @@ ThemeData darkTheme = ThemeData(
   primarySwatch: Colors.blueGrey,
   scaffoldBackgroundColor: Colors.black,
   appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.blueGrey,
+    backgroundColor: Colors.black,
     titleSpacing: 20.0,
     iconTheme: IconThemeData(
       color: Colors.white,
@@ -23,7 +23,7 @@ ThemeData darkTheme = ThemeData(
     ),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Colors.black,
+    selectedItemColor: Colors.blueGrey,
     elevation: 20.0,
     backgroundColor: Colors.black54,
     unselectedItemColor: Colors.grey,
@@ -52,6 +52,7 @@ ThemeData darkTheme = ThemeData(
     ),
   ),
   canvasColor: Colors.blueGrey,
+  primaryColor: Colors.white,
   iconTheme: IconThemeData(
     color: Colors.white,
   ),
@@ -110,6 +111,7 @@ ThemeData lightTheme = ThemeData(
   ),
   ),
   canvasColor: Colors.blue.shade900,
+  primaryColor: Colors.blue.shade900,
   iconTheme: IconThemeData(
     color: Colors.black,
   ),
