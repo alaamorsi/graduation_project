@@ -16,6 +16,7 @@ class _suiupState extends State<splash> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,12 +26,8 @@ class _suiupState extends State<splash> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundImage: AssetImage("Assets/logo_splash.png"),
-              radius: 100,
-            ),
-            SizedBox(height: 15,),
-            Text("Educationa",
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 40.0),
+              backgroundImage: AssetImage("Assets/splash_logo.png"),
+              radius: 99.0,
             ),
           ]
         ),

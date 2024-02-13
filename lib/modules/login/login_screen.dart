@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
-import 'package:graduation_project/modules/login/secnd_screen.dart';
+import 'package:graduation_project/modules/login/second_screen.dart';
 import 'package:graduation_project/shared/constant.dart';
 import '../../shared/components.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -32,40 +33,41 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Form(
               key: _formkey,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 10.0),
-                    Container(
-                      width: double.infinity,
-                      height: 100.0,
-                      child: Image(image: mode?AssetImage('Assets/logo1.png'):AssetImage('Assets/logo2.png'),),
-                    ),
-                    SizedBox(height: 10.0),
+                    SizedBox(height: 100.0),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Text(
-                            'تسجيل الدخول',
-                            style:Theme.of(context).textTheme.titleMedium,
-                          ),
+                        Text(
+                          'تسجيل الدخول',
+                          style:TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,
+                          color: mode?Colors.blue.shade900:Colors.white),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'سجل الأن لتستمتع بخدماتنا الرائعة',
+                          style:TextStyle(fontSize: 13.0, color: Colors.grey),
                         ),
                       ],
                     ),
                     SizedBox(height: 20.0),
                     defaultFormField(
                         controller: confirmpassword,
-                        type: TextInputType.text,
+                        type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
                             return 'رجاءً ادخل البريد الالكتروني الصحيح';
                           }
                         },
                         label: 'البريد الإلكتروني',
-                        prefixIcon: Icons.email_outlined),
+                        suffixIcon: Icons.email_outlined),
                     SizedBox(height: 20.0,),
                     defaultFormField(
                       controller: password,
@@ -76,10 +78,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       label: 'كلمة المرور',
-                      // prefixIcon: Icons.lock_outline,
+                      suffixIcon: Icons.lock_outline,
                       prefixIcon: LoginCubit.get(context).prefixIcon,
                       isPassword: LoginCubit.get(context).isPassword,
-                      suffixPressed: () {
+                      prefixPressed: () {
                         LoginCubit.get(context).changePasswordVisibility();
                       },
                     ),
@@ -104,6 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //login button
                     usedButton(
                       atEnd: false,
+                      paddingSize: 10.0,
                       text: "تسجيل الدخول",
                       onPressed: () {if (_formkey.currentState!.validate()) {
                           print("successful");
@@ -113,55 +116,55 @@ class _LoginScreenState extends State<LoginScreen> {
                         print("UnSuccessfull");}
                       },
                       context: context,
-                      color: Colors.red.shade900,
+                      color: Theme.of(context).canvasColor,
                     ),
                     SizedBox(height: 10.0),
                     //didn't have an account?
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
                           onPressed: () {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => secend_screen()));
+                                    builder: (context) => SecondScreen()));
                           },
                           child: Text("انشاء حساب",
-                              style: TextStyle(color: Colors.red.shade900,fontSize:15.0,fontWeight: FontWeight.bold)),
+                              style: TextStyle(color: mode?Colors.blue.shade900:Colors.white,fontSize:15.0,fontWeight: FontWeight.bold)),
                         ),
                         Text(
                           "ليس لديك حساب ؟",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: TextStyle(color: Colors.grey,fontSize: 14.0),
                         ),
                       ],
                     ),
-                    SizedBox(height: 50.0),
+                    SizedBox(height: 30.0),
                     Row(
                       children: [
                         Expanded(
                           child: Container(
                             height: 1,
                             width: double.infinity,
-                            color: Colors.red,
+                            color: Theme.of(context).iconTheme.color,
                           ),
                         ),
                         SizedBox(
-                          width: 2.0,
+                          width: 5.0,
                         ),
                         Text(
-                          'أو التسجيل عن طريق',
+                          'أو',
                           style:
-                          TextStyle(fontSize: 15.0, color: Colors.red),
+                          TextStyle(fontSize: 15.0,color: Theme.of(context).canvasColor),
                         ),
                         SizedBox(
-                          width: 2.0,
+                          width: 5.0,
                         ),
                         Expanded(
                           child: Container(
                             height: 1,
                             width: double.infinity,
-                            color: Colors.red,
+                            color: Theme.of(context).iconTheme.color,
                           ),
                         ),
                       ],
@@ -172,24 +175,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Center(
-                          child: Container(
-                            width: 50.0,
-                            height: 50.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25.0),
-                              color: Colors.red.shade900,),
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.g_mobiledata,
-                                  size: 35.0,
-                                  color: Colors.white,
-                                )),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 20.0,
+                            foregroundImage: AssetImage("Assets/G.jpg"),
+                            child: InkWell(onTap: (){},),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 30.0),
                   ],
                 ),
               ),

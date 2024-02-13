@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:graduation_project/modules/settings.dart';
 /////////////////////////////////////////////////////
 
 Widget usedButton({
@@ -7,6 +8,8 @@ Widget usedButton({
   required String text,
   required Color color,
   required BuildContext context,
+  double paddingSize = 15.0,
+  double radius = 25.0,
   bool atEnd=true,
 }) =>ElevatedButton(
     onPressed: onPressed,
@@ -14,15 +17,15 @@ Widget usedButton({
       elevation: 2.0,
       shadowColor: Colors.white,
       backgroundColor: color,
-      padding: EdgeInsets.all(10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      padding: EdgeInsets.all(paddingSize),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
     ),
     child: Row(
       mainAxisAlignment: atEnd?MainAxisAlignment.end:MainAxisAlignment.center,
       children: [
         Text(
           text,
-          style:TextStyle(color: Colors.white,fontSize: 20.0),
+          style:TextStyle(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.bold),
         ),
       ],
     ));
@@ -36,9 +39,9 @@ Widget defaultFormField({
   bool isPassword = false,
   required String? Function(String? val)? validate,
   required String label,
-  required IconData prefixIcon,
-  IconData? suffixIcon,
-  void Function()? suffixPressed,
+  required IconData suffixIcon,
+  IconData? prefixIcon,
+  void Function()? prefixPressed,
   bool isClickable = true,
 }) => TextFormField(
       controller: controller,
@@ -50,32 +53,34 @@ Widget defaultFormField({
       onFieldSubmitted: onSubmit,
       onChanged: onChanged,
       validator: validate,
-      style: const TextStyle(color: Colors.black,),
+      style: const TextStyle(color: Colors.blue,fontSize: 16.0),
       decoration:InputDecoration(
         filled: true,
         fillColor: Colors.white,
         hintText: label,
-        hintStyle: const TextStyle(color: Colors.black26, fontSize: 15,),
-        prefixIcon:IconButton(onPressed: suffixPressed, icon: Icon(prefixIcon)),
+        hintStyle: TextStyle(color: Colors.black26, fontSize: 13.0),
+        suffixIcon:Icon(suffixIcon),
+        prefixIcon:IconButton(onPressed: prefixPressed, icon: Icon(prefixIcon)),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(25.0),
           borderSide: BorderSide(
-              color: Colors.green,
-              width: 1.5
-          ),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: Colors.black,
-            width: 1.5,
+              color: Colors.blue,
+              width: 2.0
           ),
         ),
         enabledBorder:OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(25.0),
           borderSide: BorderSide(
-            color: Colors.black,
-            width: 1.5,
+            color: Colors.black87,
+            width: 1.2,
+          ),
+        ),
+
+        border:OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(
+            color: Colors.black87,
+            width: 1.2,
           ),
         ),
       ),
@@ -95,7 +100,7 @@ PreferredSizeWidget defaultAppBar({
   actions: [
   Padding(
   padding: const EdgeInsets.only(right: 10.0),
-  child: IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
+  child: IconButton(onPressed: (){navigateTo(context, SettingsScreen());}, icon: Icon(Icons.settings)),
   )
   ],
   elevation: 2.0,

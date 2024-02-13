@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ThemeData darkTheme = ThemeData(
-  primarySwatch: Colors.red,
-  scaffoldBackgroundColor: Colors.black54,
+  primarySwatch: Colors.blueGrey,
+  scaffoldBackgroundColor: Colors.black,
   appBarTheme: const AppBarTheme(
+    backgroundColor: Colors.blueGrey,
     titleSpacing: 20.0,
     iconTheme: IconThemeData(
       color: Colors.white,
+      size: 30.0
     ),
-    backgroundColor: Colors.black54,
     elevation: 0.0,
     titleTextStyle: TextStyle(
       color: Colors.white,
-      fontSize: 20.0,
+      fontSize: 25.0,
       fontWeight: FontWeight.bold,
     ),
     systemOverlayStyle: SystemUiOverlayStyle(
@@ -22,7 +23,7 @@ ThemeData darkTheme = ThemeData(
     ),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Colors.red,
+    selectedItemColor: Colors.black,
     elevation: 20.0,
     backgroundColor: Colors.black54,
     unselectedItemColor: Colors.grey,
@@ -50,28 +51,35 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
   ),
+  canvasColor: Colors.blueGrey,
+  iconTheme: IconThemeData(
+    color: Colors.white,
+  ),
 );
 
+
+///////////////////light mode
 ThemeData lightTheme = ThemeData(
-  primarySwatch: Colors.red,
+  primarySwatch: Colors.blue,
   scaffoldBackgroundColor: Colors.white,
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Colors.red,
+    selectedItemColor: Colors.blue,
     elevation: 20.0,
     backgroundColor: Colors.white,
     unselectedItemColor: Colors.grey,
     type: BottomNavigationBarType.fixed,
   ),
   appBarTheme: const AppBarTheme(
+    backgroundColor: Colors.white,
     titleSpacing: 20.0,
     iconTheme: IconThemeData(
       color: Colors.black,
+      size: 30.0,
     ),
-    backgroundColor: Colors.white,
     elevation: 0.0,
     titleTextStyle: TextStyle(
       color: Colors.black,
-      fontSize: 20.0,
+      fontSize: 25.0,
       fontWeight: FontWeight.bold,
     ),
     systemOverlayStyle: SystemUiOverlayStyle(
@@ -101,4 +109,9 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black,
   ),
   ),
+  canvasColor: Colors.blue.shade900,
+  iconTheme: IconThemeData(
+    color: Colors.black,
+  ),
 );
+
