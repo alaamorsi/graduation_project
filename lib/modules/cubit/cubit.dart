@@ -58,25 +58,23 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppChangModeState());
   }
 
-  List<dynamic>search=[];
-  void getsearch( value) {
-    emit(searchlodeng());
+  List<dynamic> search = [];
+
+  void getSearch(String value) {
+    emit(searchloading());
     search = [];
-    {
-      Diohelper.getData(
-        Url: '/v2/everything',
-        query: {
-          "q": "$value",
-          "apiKey": "0b88baa1c084481ebcd72e26525baca7",
-        },
-      ).then((value) {
-        search = value.data['articles'];
-        print(search[0]['title']);
-        emit(searchdatasucssed());
-      }).catchError((errorr) {
-        print(errorr.toString());
-        emit(getdataerrorsearch());
-      });
-    }
+
+    Diohelper.getData(Url: 'v2/everything', query: {
+      'q': '$value',
+      'apiKey': '2871845932ca4f2c8e8a8594dada13d4',
+    }).then((value) {
+      // print(value.data['articles'][0]['title'].toString());
+      search = value.data['articles'];
+      print(search[0]['title']);
+      emit(searchDataSuccess());
+    }).catchError((error) {
+      print(error.toString());
+      emit(getdataerrorsearch(error.toString()));
+    });
   }
 }

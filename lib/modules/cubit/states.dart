@@ -8,8 +8,12 @@ class AppChangModeIconState extends AppStates {}
 
 class AppChangLanguageState extends AppStates {}
 
-class  getdataerrorsearch extends AppStates{}
+class  getdataerrorsearch extends AppStates{
+  final String error;
 
-class searchdatasucssed extends AppStates{}
+  getdataerrorsearch(this.error);
+}
 
-class searchlodeng extends AppStates{}
+class searchDataSuccess extends AppStates{}
+
+class searchloading extends AppStates{}

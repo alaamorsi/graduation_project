@@ -7,7 +7,6 @@ import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
 class searshscreen extends StatefulWidget {
-  const searshscreen({Key? key}) : super(key: key);
 
   @override
   _searshscreenState createState() => _searshscreenState();
@@ -20,7 +19,7 @@ class _searshscreenState extends State<searshscreen> {
     return BlocConsumer<AppCubit,AppStates>(
       listener:(context, state) {},
       builder: (context, state) {
-        var list=AppCubit.get(context).getsearch;
+        var list=AppCubit.get(context).search;
         return Scaffold(
           appBar: AppBar(),
           body: Column(
@@ -30,11 +29,9 @@ class _searshscreenState extends State<searshscreen> {
                 child: defaultFormField(
                   controller: Search,
                   type: TextInputType.text,
-                  onChanged:
-                  ((value){
-                    AppCubit.get(context).getsearch(value);
-
-                  }),
+                  onChanged: (value) {
+                    AppCubit.get(context).getSearch(value);
+                  },
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'رجاءً ادخل كلمه البحث';
