@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:graduation_project/modules/search_screen.dart';
 import 'package:graduation_project/modules/settings.dart';
 
 import 'constant.dart';
@@ -140,7 +141,7 @@ PreferredSizeWidget defaultAppBar({
   titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
   leading: Padding(
   padding: const EdgeInsets.only(left: 10.0),
-  child: IconButton(onPressed: (){}, icon: Icon(Icons.search)),
+  child: IconButton(onPressed: (){navigateTo(context, searshscreen());}, icon: Icon(Icons.search)),
   ),
   title: Image(image: AssetImage(logo)),
   actions: [
@@ -176,6 +177,46 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       ),
       (Route<dynamic> rout) => false,
     );
+
+/////////////////////
+Widget buldarticalitm(articls,context)=>Padding(
+  padding: const EdgeInsets.all(20.0),
+  child: Row(children: [
+    Container(
+      width: 120,
+      height: 120,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+            image: NetworkImage('${articls['urlToImage']}'),
+            fit: BoxFit.cover,
+
+          )
+      ),
+    ),
+    SizedBox(width: 20,),
+    Expanded(
+      child: Container(
+        height: 120,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start ,
+          children: [
+            Expanded(child: Text("${articls['title']}",
+              style: Theme.of(context).textTheme.bodyText1,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+
+            ),),
+            Text('${articls['publishedAt']}',
+              style: TextStyle(
+                color: Colors.grey,
+              ),)
+          ],),
+      ),
+    )
+  ],),
+);
 
 void showToast({
   required String text,

@@ -13,8 +13,6 @@ void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
-  var tM = ThemeMode.system;
-  getThemeMode(tM);
   mode = CacheHelper.getData(key: 'appMode')??mode;
   runApp(MyApp(appMode: mode));
 }

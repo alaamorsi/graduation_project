@@ -4,6 +4,7 @@ import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/constant.dart';
 
+import '../shared/cache_helper.dart';
 import '../shared/components.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -96,81 +97,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 30.0),
                   Row(
-                    children: [
-                      const Spacer(),
-                      Text("مظهر التطبيق",style: Theme.of(context).textTheme.titleSmall,),
-                    ]
-                  ),
-                  Row(
-                      children: [
-                        DropdownMenu(
-                          width: 300.0,
-                          enableSearch: false,
-                          label: Text("المظهر",style: Theme.of(context).textTheme.titleMedium,),
-                          initialSelection: "تلقائي",
-                          dropdownMenuEntries:  <DropdownMenuEntry<String>>[
-                            DropdownMenuEntry(value: "تلقائي", label: "تلقائي",
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
-                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
-                              ),
-                            ),
-                            DropdownMenuEntry(value: "فاتح", label: "فاتح",
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
-                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
-                              ),
-                            ),
-                            DropdownMenuEntry(value: "غامق", label: "غامق",
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
-                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
-                              ),
-                            ),
-                          ],
-                          onSelected: (color){
-                            if (color == "فاتح")
-                            {
-                              appCubit.changeAppMode("فاتح");
-                            }
-                            else if (color == "غامق")
-                            {
-                              appCubit.changeAppMode("غامق");
-                            }
-                            else
-                            {
-                              appCubit.changeAppMode("تلقائي");
-                            }
-                          },
-                          inputDecorationTheme: InputDecorationTheme(
-                            labelStyle: Theme.of(context).textTheme.titleSmall,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: BorderSide(
-                                  color: mode?Colors.black:Colors.white,
-                                  width: 2.0
-                              ),
-                            ),
-                            enabledBorder:OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: BorderSide(
-                                color: mode?Colors.black:Colors.white,
-                                width: 2.0,
-                              ),
-                            ),
-                          ),
-                          textStyle: Theme.of(context).textTheme.titleSmall,
-                          menuStyle: MenuStyle(
-                            backgroundColor: MaterialStateProperty.all(mode?Colors.white:Colors.black),
-                            side: MaterialStateProperty.all(
-                              BorderSide(color: mode?Colors.black:Colors.white),
-                            ),
-                          ),
-                        ),
-                      ]
-                  ),
-                  const SizedBox(height: 30.0),
-                  Row(
                       children: [
                         const Spacer(),
                         Text("مظهر التطبيق",style: Theme.of(context).textTheme.titleSmall,),
@@ -181,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       myDropDownMenu(
                           context: context,
                           textLabel: "المظهر",
-                          initialSelectionText: "الخاص بالنظام",
+                          initialSelectionText: CacheHelper.getData(key: 'tm')??"الخاص بالنظام",
                           chooses: [
                             DropdownMenuEntry(value: "الخاص بالنظام", label: "الخاص بالنظام",
                               leadingIcon: Icon(appCubit.modeIcon,color: Theme.of(context).iconTheme.color),

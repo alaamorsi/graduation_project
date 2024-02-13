@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/cache_helper.dart';
+import 'package:graduation_project/shared/dio_helper.dart';
 import '../../shared/constant.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -27,20 +28,11 @@ class AppCubit extends Cubit<AppStates> {
     else
       {
         theme = ThemeMode.system;
-        if(theme == ThemeMode.light){
-          theme = ThemeMode.light;
-          logoImage = "Assets/logo1.png";
-          mode = true;
-        }
-        else if(theme == ThemeMode.dark)
-        {
-          theme = ThemeMode.dark;
-          logoImage = "Assets/logo2.png";
-          mode = false;
-        }
+        print(theme.name);
       }
     changeIcon();
     CacheHelper.saveData(key: 'appMode', value: mode);
+    CacheHelper.saveData(key: 'tm', value: tm);
     emit(AppChangModeState());
   }
   void changeIcon()
@@ -55,6 +47,7 @@ class AppCubit extends Cubit<AppStates> {
     }
     emit(AppChangModeIconState());
   }
+
   // Change accept conditions
   String appLang = 'Arabic';
   bool lang = true;
@@ -63,5 +56,27 @@ class AppCubit extends Cubit<AppStates> {
     CacheHelper.saveData(key: 'appLang', value: lang);
     appLang = lang ? 'Arabic' : 'English';
     emit(AppChangModeState());
+  }
+
+  List<dynamic>search=[];
+  void getsearch( value) {
+    emit(searchlodeng());
+    search = [];
+    {
+      Diohelper.getData(
+        Url: '/v2/everything',
+        query: {
+          "q": "$value",
+          "apiKey": "0b88baa1c084481ebcd72e26525baca7",
+        },
+      ).then((value) {
+        search = value.data['articles'];
+        print(search[0]['title']);
+        emit(searchdatasucssed());
+      }).catchError((errorr) {
+        print(errorr.toString());
+        emit(getdataerrorsearch());
+      });
+    }
   }
 }
