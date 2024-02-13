@@ -157,7 +157,7 @@ Widget myDivider() => Padding(
       ),
       child: Container(
         width: double.infinity,
-        height: 1.0,
+        height: 10.0,
         color: Colors.white,
       ),
     );
@@ -211,4 +211,174 @@ Color chooseToastColor(ToastStates state) {
 
   return color;
 }
+// Discovery item
+Widget buildDiscoveryItem(BuildContext context, index)
+{
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.height;
+  return Padding(
+    padding: EdgeInsetsDirectional.only(start: 5.0,top: 5.0,end: 5.0),
+    child: InkWell(
+      onTap: (){},
+      child: Container(
+        width: screenWidth,
+        // height: screenHeight /4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          color: Theme.of(context).backgroundColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  width: screenWidth / 2.5,
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      image: DecorationImage(
+                          image: AssetImage('Assets/splash_logo.png'),
+                          fit: BoxFit.fill)),
+                ),
+              ),
+              SizedBox(
+                width: 5.0,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                        child: Text(
+                          'علاء مرسي فتحي',
+                          style: TextStyle(
+                              fontSize: 20.0, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                        )),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                      'الثالث الثانوي',
+                                      style: TextStyle(fontSize: 10.0),
+                                      textAlign: TextAlign.end,
+                                    )),
+                                SizedBox(width: 5.0),
+                                Icon(
+                                  Icons.school,
+                                  size: 20.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                      'انجليزي',
+                                      style: TextStyle(fontSize: 10.0),
+                                      textAlign: TextAlign.end,
+                                    )),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Icon(
+                                  Icons.book,
+                                  size: 20.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                      '2024',
+                                      style: TextStyle(fontSize: 10.0),
+                                      textAlign: TextAlign.end,
+                                    )),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Icon(
+                                  Icons.hourglass_bottom,
+                                  size: 20.0,
+                                ),
+                              ],
+                              mainAxisAlignment: MainAxisAlignment.end,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                      'ترم اول',
+                                      style: TextStyle(fontSize: 10.0),
+                                      textAlign: TextAlign.end,
+                                    )),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Icon(
+                                  Icons.layers_sharp,
+                                  size: 20.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '128',
+                            style: TextStyle(fontSize: 10.0),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Icon(
+                            Icons.play_circle,
+                            size: 20.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );}
 

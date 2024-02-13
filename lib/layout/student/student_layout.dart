@@ -18,10 +18,7 @@ class StudentLayout extends StatelessWidget {
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: defaultAppBar(context: context, logo: logoImage),
-          body: Container(
-            width: double.infinity,
-          ),
-          //body: cubit.screens[cubit.currentIndex],
+          body: cubit.screens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             elevation: 5.0,
             currentIndex: cubit.currentIndex,
