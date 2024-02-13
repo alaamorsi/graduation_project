@@ -11,14 +11,10 @@ import 'package:graduation_project/shared/themes.dart';
 
 void main() async{
 
-
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   var tM = ThemeMode.system;
-  if(tM == ThemeMode.dark)
-    {
-      mode = false;
-    }
+  getThemeMode(tM);
   mode = CacheHelper.getData(key: 'appMode')??mode;
   runApp(MyApp(appMode: mode));
 }

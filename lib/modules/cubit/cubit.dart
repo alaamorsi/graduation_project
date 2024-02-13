@@ -39,8 +39,21 @@ class AppCubit extends Cubit<AppStates> {
           mode = false;
         }
       }
+    changeIcon();
     CacheHelper.saveData(key: 'appMode', value: mode);
     emit(AppChangModeState());
+  }
+  void changeIcon()
+  {
+    ThemeMode M = ThemeMode.system;
+    if(M == ThemeMode.light){
+      modeIcon = Icons.light_mode;
+    }
+    else if(M == ThemeMode.dark)
+    {
+      modeIcon = Icons.dark_mode;
+    }
+    emit(AppChangModeIconState());
   }
   // Change accept conditions
   String appLang = 'Arabic';
