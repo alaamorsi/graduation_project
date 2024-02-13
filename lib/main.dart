@@ -14,7 +14,8 @@ void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
-  if(ThemeMode.system == ThemeMode.dark)
+  var tM = ThemeMode.system;
+  if(tM == ThemeMode.dark)
     {
       mode = false;
     }

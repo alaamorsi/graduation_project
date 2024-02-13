@@ -4,6 +4,8 @@ import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/constant.dart';
 
+import '../shared/components.dart';
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -51,9 +53,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             onSelected: (lang){
 
                             },
-                            dropdownMenuEntries: const <DropdownMenuEntry<String>>[
-                              DropdownMenuEntry(value: "English", label: "English"),
-                              DropdownMenuEntry(value: "عربي", label: "عربي"),
+                            dropdownMenuEntries:  <DropdownMenuEntry<String>>[
+                              DropdownMenuEntry(value: "English", label: "English",
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
+                                  foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
+                                ),
+                              ),
+                              DropdownMenuEntry(value: "عربي", label: "عربي",
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
+                                  foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
+                                ),
+                              ),
                             ],
                           inputDecorationTheme: InputDecorationTheme(
                             floatingLabelStyle: Theme.of(context).textTheme.titleSmall,
@@ -96,10 +108,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           enableSearch: false,
                           label: Text("المظهر",style: Theme.of(context).textTheme.titleMedium,),
                           initialSelection: "تلقائي",
-                          dropdownMenuEntries: const <DropdownMenuEntry<String>>[
-                            DropdownMenuEntry(value: "تلقائي", label: "تلقائي"),
-                            DropdownMenuEntry(value: "فاتح", label: "فاتح"),
-                            DropdownMenuEntry(value: "غامق", label: "غامق"),
+                          dropdownMenuEntries:  <DropdownMenuEntry<String>>[
+                            DropdownMenuEntry(value: "تلقائي", label: "تلقائي",
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
+                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
+                              ),
+                            ),
+                            DropdownMenuEntry(value: "فاتح", label: "فاتح",
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
+                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
+                              ),
+                            ),
+                            DropdownMenuEntry(value: "غامق", label: "غامق",
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
+                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
+                              ),
+                            ),
                           ],
                           onSelected: (color){
                             if (color == "فاتح")
@@ -141,6 +168,58 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ),
                       ]
+                  ),
+                  const SizedBox(height: 30.0),
+                  Row(
+                      children: [
+                        const Spacer(),
+                        Text("مظهر التطبيق",style: Theme.of(context).textTheme.titleSmall,),
+                      ]
+                  ),
+                  Row(
+                    children: [
+                      myDropDownMenu(
+                          context: context,
+                          textLabel: "المظهر",
+                          initialSelectionText: "الخاص بالنظام",
+                          chooses: [
+                            DropdownMenuEntry(value: "الخاص بالنظام", label: "الخاص بالنظام",
+                              leadingIcon: Icon(appCubit.modeIcon,color: Theme.of(context).iconTheme.color),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
+                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
+                              ),
+                            ),
+                            DropdownMenuEntry(value: "فاتح", label: "فاتح",
+                              leadingIcon: Icon(Icons.light_mode,color: Theme.of(context).iconTheme.color),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
+                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
+                              ),
+                            ),
+                            DropdownMenuEntry(value: "غامق", label: "غامق",
+                              leadingIcon: Icon(Icons.dark_mode,color: Theme.of(context).iconTheme.color),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
+                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
+                              ),
+                            ),
+                          ],
+                          onSelect: (color){
+                            switch (color) {
+                              case "فاتح":
+                                appCubit.changeAppMode("فاتح");
+                                break;
+                              case "غامق":
+                                appCubit.changeAppMode("غامق");
+                                break;
+                              case "الخاص بالنظام":
+                                appCubit.changeAppMode("الخاص بالنظام");
+                                break;
+                            }
+                          }
+                      ),
+                    ]
                   ),
                 ]
             ),

@@ -9,10 +9,8 @@ class AppCubit extends Cubit<AppStates> {
   static AppCubit get(context) => BlocProvider.of(context);
 
  // Control to visible or invisible password
-  IconData appMode = Icons.light_mode;
   ThemeMode theme = ThemeMode.system;
-
-
+  IconData modeIcon = mode ? Icons.light_mode : Icons.dark_mode;
   void changeAppMode(String tm) {
     if (tm=="فاتح")
       {
@@ -34,7 +32,7 @@ class AppCubit extends Cubit<AppStates> {
           logoImage = "Assets/logo1.png";
           mode = true;
         }
-        else
+        else if(theme == ThemeMode.dark)
         {
           theme = ThemeMode.dark;
           logoImage = "Assets/logo2.png";
@@ -42,10 +40,8 @@ class AppCubit extends Cubit<AppStates> {
         }
       }
     CacheHelper.saveData(key: 'appMode', value: mode);
-    appMode = mode ? Icons.light_mode : Icons.dark_mode;
     emit(AppChangModeState());
   }
-
   // Change accept conditions
   String appLang = 'Arabic';
   bool lang = true;

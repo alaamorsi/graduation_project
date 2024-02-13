@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graduation_project/modules/settings.dart';
+
+import 'constant.dart';
 /////////////////////////////////////////////////////
 
 Widget usedButton({
@@ -85,6 +87,50 @@ Widget defaultFormField({
         ),
       ),
     );
+
+///////////////
+Widget myDropDownMenu({
+  required BuildContext context,
+  required String textLabel,
+  required String initialSelectionText,
+  required List<DropdownMenuEntry> chooses,
+  required void Function(dynamic) onSelect,
+  Color lightColor = Colors.white,
+  Color darkColor = Colors.black,
+  double radius = 25.0,
+})
+=> DropdownMenu(
+  width: 300.0,
+  enableSearch: false,
+  label: Text(textLabel,style: Theme.of(context).textTheme.titleMedium,),
+  initialSelection: initialSelectionText,
+  dropdownMenuEntries: chooses,
+  onSelected: onSelect,
+  inputDecorationTheme: InputDecorationTheme(
+    labelStyle: Theme.of(context).textTheme.titleSmall,
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(radius),
+      borderSide: BorderSide(
+          color: mode?darkColor:lightColor,
+          width: 2.0
+      ),
+    ),
+    enabledBorder:OutlineInputBorder(
+      borderRadius: BorderRadius.circular(radius),
+      borderSide: BorderSide(
+        color: mode?darkColor:lightColor,
+        width: 2.0,
+      ),
+    ),
+  ),
+  textStyle: Theme.of(context).textTheme.titleSmall,
+  menuStyle: MenuStyle(
+    backgroundColor: MaterialStateProperty.all(mode?lightColor:darkColor),
+    side: MaterialStateProperty.all(
+      BorderSide(color: mode?darkColor:lightColor,),
+    ),
+  ),
+);
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext context,
