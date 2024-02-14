@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/cache_helper.dart';
 import 'package:graduation_project/shared/dio_helper.dart';
+import '../../shared/components.dart';
 import '../../shared/constant.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -43,23 +44,46 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppChangModeState());
   }
 
-  List<dynamic> search = [];
+  bool isOpened = false;
+  void checkViewDemoList()
+  {
+    isOpened = !isOpened;
+    emit(CheckViewDemoListState(isOpened));
+  }
 
+  bool isFilterOpen = false ;
+  late OverlayEntry entry;
+  String startValue ='Arabic';
+  void showSearchFilter(context) {
+    entry = buildSearchFilter(context: context, filterOff: closeSearchFilter, filterOn: (){});
+    final overlay = Overlay.of(context);
+    overlay.insert(entry);
+    isFilterOpen = true;
+    emit(SearchFilterOpenState());
+  }
+  void closeSearchFilter(){
+    isFilterOpen = false ;
+    entry.remove();
+    emit(SearchFilterCloseState());
+  }
+
+  List<dynamic> search = [];
   void getSearch(String value) {
-    emit(searchloading());
+    emit(GetSearchDataLoading());
     search = [];
 
     Diohelper.getData(Url: 'v2/everything', query: {
-      'q': '$value',
+      'q': value,
       'apiKey': '2871845932ca4f2c8e8a8594dada13d4',
     }).then((value) {
-      // print(value.data['articles'][0]['title'].toString());
       search = value.data['articles'];
-      print(search[0]['title']);
-      emit(searchDataSuccess());
+      emit(GetSearchDataSuccess());
     }).catchError((error) {
-      print(error.toString());
-      emit(getdataerrorsearch(error.toString()));
+      emit(GetSearchDataError(error.toString()));
     });
+  }
+
+  void searchBy(String value) {
+    emit(MakeSearchFilter());
   }
 }

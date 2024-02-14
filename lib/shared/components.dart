@@ -1,9 +1,5 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:graduation_project/modules/search_screen.dart';
-import 'package:graduation_project/modules/settings.dart';
-
 import 'constant.dart';
 /////////////////////////////////////////////////////
 
@@ -26,10 +22,10 @@ Widget usedButton({
     ),
     child: Row(
       mainAxisAlignment: atEnd?MainAxisAlignment.end:MainAxisAlignment.center,
-      children: [
+      children:[
         Text(
           text,
-          style:TextStyle(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.bold),
+          style:const TextStyle(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.bold),
         ),
       ],
     ));
@@ -62,27 +58,26 @@ Widget defaultFormField({
         filled: true,
         fillColor: Colors.white,
         hintText: label,
-        hintStyle: TextStyle(color: Colors.black26, fontSize: 13.0),
+        hintStyle: const TextStyle(color: Colors.black26, fontSize: 13.0),
         suffixIcon:Icon(suffixIcon),
         prefixIcon:IconButton(onPressed: prefixPressed, icon: Icon(prefixIcon)),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
               color: Colors.blue,
               width: 2.0
           ),
         ),
         enabledBorder:OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.black87,
             width: 1.2,
           ),
         ),
-
         border:OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.black87,
             width: 1.2,
           ),
@@ -136,15 +131,20 @@ Widget myDropDownMenu({
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext context,
-  required String logo,
+  required IconData leadingIcon,
+  required void Function() leadingFunction,
+  required Widget title,
+  IconData? atEndIcon,
+  void Function()? atEndFunction,
+  bool atEnd = true,
 }) =>
     AppBar(
       toolbarHeight: 70.0,
       bottomOpacity: 0.7,
       elevation: 2.0,
       shadowColor: Colors.grey,
-      shape: ContinuousRectangleBorder(
-        borderRadius: const BorderRadius.only(
+      shape: const ContinuousRectangleBorder(
+        borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(70.0),
           bottomRight: Radius.circular(70.0),
         ),
@@ -152,17 +152,15 @@ PreferredSizeWidget defaultAppBar({
       iconTheme: Theme.of(context).appBarTheme.iconTheme,
       titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
       leading: Padding(padding: const EdgeInsets.only(left: 10.0),
-        child: IconButton(onPressed: (){navigateTo(context, searshscreen());}, icon: Icon(Icons.search)),
+        child: IconButton(onPressed: leadingFunction, icon: Icon(leadingIcon)),
       ),
-      title: Image(image: AssetImage(logo)),
-      actions: [
-        Padding(padding: const EdgeInsets.only(right: 10.0),
+      title: title,
+      actions: atEnd?[Padding(padding: const EdgeInsets.only(right: 10.0),
           child: IconButton(
-              onPressed: (){navigateTo(context, SettingsScreen());},
-              icon: Icon(Icons.settings),
+              onPressed: atEndFunction,
+              icon: Icon(atEndIcon),
           ),
-        ),
-      ],
+        ),]:[],
   );
 
 
@@ -207,21 +205,9 @@ Widget BuiltArticleItem(article, context) => InkWell(
           height: 120.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-
-            // image: DecorationImage(
-
-            //   image: NetworkImage(
-
-            //       '${article['urlToImage']}'),
-
-            //   fit: BoxFit.cover,
-
-            // )
           ),
         ),
-        SizedBox(
-          width: 20.0,
-        ),
+        SizedBox(width: 20.0,),
         Expanded(
           child: Container(
             height: 120.0,
@@ -232,7 +218,7 @@ Widget BuiltArticleItem(article, context) => InkWell(
                 Expanded(
                   child: Text(
                     '${article['title']}',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleMedium,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -267,19 +253,19 @@ void showToast({
     );
 
 // enum
-enum ToastStates { SUCCESS, ERROR, WARNING }
+enum ToastStates { success, error, warning }
 
 Color chooseToastColor(ToastStates state) {
   Color color;
 
   switch (state) {
-    case ToastStates.SUCCESS:
+    case ToastStates.success:
       color = Colors.green;
       break;
-    case ToastStates.ERROR:
+    case ToastStates.error:
       color = Colors.red;
       break;
-    case ToastStates.WARNING:
+    case ToastStates.warning:
       color = Colors.amber;
       break;
   }
@@ -294,7 +280,7 @@ Widget buildDiscoveryItem({
 }) {
   double screenWidth = MediaQuery.of(context).size.width;
   return Padding(
-    padding: EdgeInsetsDirectional.all(5.0),
+    padding: const EdgeInsetsDirectional.all(10.0),
     child: InkWell(
       onTap: (){},
       child: Container(
@@ -305,10 +291,10 @@ Widget buildDiscoveryItem({
           children: [
             //for the gray backLayer
             Padding(
-              padding: const EdgeInsets.only(top: 20.0),
+              padding: const EdgeInsets.only(top: 20.0,right: 10.0),
               child: Container(
                 width: screenWidth *4/5,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(21.0)),
                   color: Colors.grey,
                 ),
@@ -319,7 +305,7 @@ Widget buildDiscoveryItem({
               padding: const EdgeInsets.only(left: 20.0,bottom: 20.0),
               child: Container(
                 width: screenWidth *4/5,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(21.0)),
                   image: DecorationImage(
                       image: AssetImage("Assets/cardBack1.png"),
@@ -338,7 +324,7 @@ Widget buildDiscoveryItem({
                           Container(
                             width: 92.0,
                             height: 92.0,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(35.0),
                                   bottomRight: Radius.circular(35.0),
@@ -351,7 +337,7 @@ Widget buildDiscoveryItem({
                               child: Container(
                                 width: 90.0,
                                 height: 90.0,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(35.0),
                                     bottomRight: Radius.circular(35.0),
@@ -365,10 +351,10 @@ Widget buildDiscoveryItem({
                               ),
                             ),
                           ),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                         ],
                       ),
-                      SizedBox(width: 5.0,),
+                      const SizedBox(width: 5.0,),
                       //teacher and course data
                       Expanded(
                         child: Column(
@@ -396,7 +382,7 @@ Widget buildDiscoveryItem({
                                               style: TextStyle(fontSize: 12.0,color: cardItemColor),
                                               textAlign: TextAlign.end,
                                             )),
-                                        SizedBox(width: 5.0),
+                                        const SizedBox(width: 5.0),
                                         Icon(
                                           Icons.school,
                                           size: 20.0,
@@ -405,9 +391,7 @@ Widget buildDiscoveryItem({
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
+                                  const SizedBox(width: 5.0,),
                                   Expanded(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -418,9 +402,7 @@ Widget buildDiscoveryItem({
                                               style: TextStyle(fontSize: 12.0,color: cardItemColor),
                                               textAlign: TextAlign.end,
                                             )),
-                                        SizedBox(
-                                          width: 5.0,
-                                        ),
+                                        const SizedBox(width: 5.0,),
                                         Icon(
                                           Icons.book,
                                           size: 20.0,
@@ -439,6 +421,7 @@ Widget buildDiscoveryItem({
                                 children: [
                                   Expanded(
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Expanded(
                                             child: Text(
@@ -446,21 +429,16 @@ Widget buildDiscoveryItem({
                                               style: TextStyle(fontSize: 12.0,color: cardItemColor),
                                               textAlign: TextAlign.end,
                                             )),
-                                        SizedBox(
-                                          width: 5.0,
-                                        ),
+                                        const SizedBox(width: 5.0,),
                                         Icon(
                                           Icons.hourglass_bottom,
                                           size: 20.0,
                                           color: cardItemColor,
                                         ),
                                       ],
-                                      mainAxisAlignment: MainAxisAlignment.end,
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
+                                  const SizedBox(width: 5.0,),
                                   Expanded(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -471,9 +449,7 @@ Widget buildDiscoveryItem({
                                               style: TextStyle(fontSize: 12.0,color: cardItemColor),
                                               textAlign: TextAlign.end,
                                             )),
-                                        SizedBox(
-                                          width: 5.0,
-                                        ),
+                                        const SizedBox(width: 5.0,),
                                         Icon(
                                           Icons.layers_sharp,
                                           size: 20.0,
@@ -494,9 +470,7 @@ Widget buildDiscoveryItem({
                                     '128',
                                     style: TextStyle(fontSize: 12.0,color: cardItemColor),
                                   ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
+                                  const SizedBox(width: 5.0,),
                                   Icon(
                                     Icons.play_circle,
                                     size: 20.0,
@@ -518,4 +492,116 @@ Widget buildDiscoveryItem({
       ),
     ),
   );}
+
+OverlayEntry buildSearchFilter({
+  required BuildContext context,
+  required void Function()? filterOff,
+  required void Function()?  filterOn,
+}){
+  double screenHeight = MediaQuery.of(context).size.height;
+  double screenWidth = MediaQuery.of(context).size.width;
+  return OverlayEntry(
+    builder: (context) => Positioned(
+      left: 50.0,
+      top: screenHeight / 6,
+      right: 50.0,
+      bottom: screenHeight / 3,
+      child: Container(
+        height: screenHeight / 2,
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Column(
+          children: [
+            PhysicalModel(
+              color: Colors.grey,
+              shadowColor: Colors.grey,
+              elevation: 7.0,
+              borderRadius: BorderRadius.circular(9.0),
+              child: Container(
+                height: screenHeight / 13,
+                width: screenWidth-100,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.0),
+                  // border: const Border(bottom: BorderSide(color: Colors.grey,)),
+                ),
+                child: Center(
+                  child: Text(
+                    'فلترة البحث ؟',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20.0,),
+            // DropdownButton<String>(
+            //   value: startValue,
+            //   style: const TextStyle(color: Colors.black),
+            //   items: const [
+            //     DropdownMenuItem(value: 'Arabic',child: Text('لغة عربية'),),
+            //     DropdownMenuItem(value: 'English',child: Text('لغة انجليزية'),),
+            //     DropdownMenuItem(value: 'French',child: Text('لغة فرنسية'),),
+            //     DropdownMenuItem(value: 'Math',child: Text('مادة الرياضيات'),),
+            //     DropdownMenuItem(value: 'Science',child: Text('مادة العلوم'),),
+            //   ],
+            //   onChanged: (String? value){
+            //     startValue = value!;
+            //     emit(MakeSearchFilter());}
+            //   ),
+            // const SizedBox(height: 10.0,),
+            //accept and reject buttons
+            const Spacer(),
+            PhysicalModel(
+              color: Colors.grey,
+              shadowColor: Colors.grey,
+              elevation: 7.0,
+              borderRadius: BorderRadius.circular(9.0),
+              child: Container(
+                height: screenHeight / 13,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FilledButton(
+                      onPressed: (){
+                        filterOff!();
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
+                        elevation: MaterialStateProperty.all(2.0),
+                      ),
+                      child: const Text(
+                        'الغاء',
+                        style: TextStyle(color: Colors.white, fontSize: 12.0),
+                      ),
+                    ),
+                    const SizedBox(width: 10.0),
+                    FilledButton(
+                      onPressed: () {
+                        filterOff!();
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        elevation: MaterialStateProperty.all(2.0), // Adding shadow
+                      ),
+                      child: const Text(
+                        'بحث',
+                        style: TextStyle(color: Colors.white, fontSize: 12.0),
+                      ),
+                    ),
+                    const SizedBox(width: 10.0),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
 

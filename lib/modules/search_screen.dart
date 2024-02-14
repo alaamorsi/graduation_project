@@ -1,19 +1,18 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/shared/components.dart';
-
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
-class searshscreen extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
   @override
-  _searshscreenState createState() => _searshscreenState();
+  SearchScreenState createState() => SearchScreenState();
 }
 
-class _searshscreenState extends State<searshscreen> {
+class SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -28,8 +27,8 @@ class _searshscreenState extends State<searshscreen> {
             bottomOpacity: 0.7,
             elevation: 2.0,
             shadowColor: Colors.grey,
-            shape: ContinuousRectangleBorder(
-              borderRadius: const BorderRadius.only(
+            shape: const ContinuousRectangleBorder(
+              borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(70.0),
                 bottomRight: Radius.circular(70.0),
               ),
@@ -37,8 +36,14 @@ class _searshscreenState extends State<searshscreen> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 11.0),
               child: IconButton(
-                  onPressed: (){Navigator.pop(context);},
-                  icon: Icon(Icons.arrow_back_ios_rounded,size:30.0,)
+                  onPressed: (){
+                    if(AppCubit.get(context).isFilterOpen)
+                      {
+                        AppCubit.get(context).closeSearchFilter();
+                      }
+                    Navigator.pop(context);
+                    },
+                  icon: const Icon(Icons.arrow_back_ios_rounded,size:30.0,)
               ),
             ),
             title: TextField(
@@ -63,26 +68,33 @@ class _searshscreenState extends State<searshscreen> {
               Padding(
                 padding: const EdgeInsets.only(right:11.0),
                 child: IconButton(
-                    onPressed: (){},
-                    icon: Icon(Icons.filter_alt_outlined,size:30.0,)
+                    onPressed: (){
+                      if(!AppCubit.get(context).isFilterOpen)
+                      {
+                        AppCubit.get(context).showSearchFilter(context);
+                      }
+                      else
+                      {
+                        AppCubit.get(context).closeSearchFilter();
+                      }
+                    },
+                    icon: const Icon(Icons.filter_alt_outlined,size:30.0,)
                 ),
               ),
             ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Expanded(
-              child: ConditionalBuilder(
-                condition: list.length > 0,
-                builder: (context) => ListView.separated(
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => BuiltArticleItem(list[index], context),
-                  separatorBuilder: (context, index) => myDivider(),
-                  itemCount: list.length,
-                ),
-                fallback: (context) =>startSearching?Center(child: CircularProgressIndicator()):Container(),
+            child: ConditionalBuilder(
+              condition: list.isNotEmpty,
+              builder: (context) => ListView.separated(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) => BuiltArticleItem(list[index], context),
+                separatorBuilder: (context, index) => myDivider(),
+                itemCount: list.length,
               ),
+              fallback: (context) =>startSearching?const Center(child: CircularProgressIndicator()):Container(),
             )
           ),
         );
