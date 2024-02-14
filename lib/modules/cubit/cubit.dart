@@ -11,45 +11,35 @@ class AppCubit extends Cubit<AppStates> {
 
  // Control to visible or invisible password
   ThemeMode theme = ThemeMode.light;
-  IconData modeIcon = mode ? Icons.light_mode : Icons.dark_mode;
   void changeAppMode(String tm) {
-    if (tm=="فاتح")
+    if (tm=="Light")
       {
         theme = ThemeMode.light;
         mode = true;
-        logoImage = "Assets/logo1.png";
       }
-    else if(tm=="غامق")
+    else if(tm=="Dark")
       {
         theme = ThemeMode.dark;
-        logoImage = "Assets/logo2.png";
         mode = false;
       }
-    changeIcon();
-    CacheHelper.saveData(key: 'appMode', value: mode);
+    CacheHelper.putBoolean(key: 'appMode', value: mode);
     CacheHelper.saveData(key: 'tm', value: tm);
     emit(AppChangModeState());
   }
-  void changeIcon()
-  {
-    ThemeMode M = ThemeMode.system;
-    if(M == ThemeMode.light){
-      modeIcon = Icons.light_mode;
-    }
-    else if(M == ThemeMode.dark)
-    {
-      modeIcon = Icons.dark_mode;
-    }
-    emit(AppChangModeIconState());
-  }
 
-  // Change accept conditions
-  String appLang = 'Arabic';
+  // Change language by default arabic
   bool lang = true;
-  void changeAppLanguage() {
-    lang = !lang;
-    CacheHelper.saveData(key: 'appLang', value: lang);
-    appLang = lang ? 'Arabic' : 'English';
+  void changeAppLanguage(String ln) {
+    if (ln=="English")
+    {
+      lang = false;
+    }
+    else if(ln=="Arabic")
+    {
+      lang = true;
+    }
+    CacheHelper.putBoolean(key: 'appLang', value: lang);
+    CacheHelper.saveData(key: 'ln', value: ln);
     emit(AppChangModeState());
   }
 

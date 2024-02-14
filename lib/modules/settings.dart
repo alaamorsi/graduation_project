@@ -50,10 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             width: 300.0,
                             enableSearch: false,
                             label: Text("اللغة",style: Theme.of(context).textTheme.titleMedium,),
-                            initialSelection: "عربي",
-                            onSelected: (lang){
-
-                            },
+                            initialSelection: CacheHelper.getData(key: 'ln')??"عربي",
                             dropdownMenuEntries:  <DropdownMenuEntry<String>>[
                               DropdownMenuEntry(value: "English", label: "English",
                                 style: ButtonStyle(
@@ -61,13 +58,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
                                 ),
                               ),
-                              DropdownMenuEntry(value: "عربي", label: "عربي",
+                              DropdownMenuEntry(value: "Arabic", label: "عربي",
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
                                   foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
                                 ),
                               ),
                             ],
+                          onSelected: (language){
+                            switch (language) {
+                              case "Arabic":
+                                appCubit.changeAppMode("Arabic");
+                                break;
+                              case "English":
+                                appCubit.changeAppMode("English");
+                                break;
+                            }
+                          },
                           inputDecorationTheme: InputDecorationTheme(
                             floatingLabelStyle: Theme.of(context).textTheme.titleSmall,
                             focusedBorder: OutlineInputBorder(
@@ -109,14 +116,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           textLabel: "المظهر",
                           initialSelectionText: CacheHelper.getData(key: 'tm')??"الخاص بالنظام",
                           chooses: [
-                            DropdownMenuEntry(value: "فاتح", label: "فاتح",
+                            DropdownMenuEntry(value: "Light", label: "فاتح",
                               leadingIcon: Icon(Icons.light_mode,color: Theme.of(context).iconTheme.color),
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
                                 foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
                               ),
                             ),
-                            DropdownMenuEntry(value: "غامق", label: "غامق",
+                            DropdownMenuEntry(value: "Dark", label: "داكن",
                               leadingIcon: Icon(Icons.dark_mode,color: Theme.of(context).iconTheme.color),
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
@@ -126,11 +133,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ],
                           onSelect: (color){
                             switch (color) {
-                              case "فاتح":
-                                appCubit.changeAppMode("فاتح");
+                              case "Light":
+                                appCubit.changeAppMode("Light");
                                 break;
-                              case "غامق":
-                                appCubit.changeAppMode("غامق");
+                              case "Dark":
+                                appCubit.changeAppMode("Dark");
                                 break;
                             }
                           }

@@ -5,7 +5,7 @@ ThemeData darkTheme = ThemeData(
   primarySwatch: Colors.blueGrey,
   scaffoldBackgroundColor: Colors.black,
   appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.black45,
     titleSpacing: 20.0,
     iconTheme: IconThemeData(
       color: Colors.white,
@@ -56,6 +56,7 @@ ThemeData darkTheme = ThemeData(
   iconTheme: IconThemeData(
     color: Colors.white,
   ),
+  cardColor: Colors.black,
 );
 
 
@@ -63,15 +64,8 @@ ThemeData darkTheme = ThemeData(
 ThemeData lightTheme = ThemeData(
   primarySwatch: Colors.blue,
   scaffoldBackgroundColor: Colors.white,
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Colors.blue,
-    elevation: 20.0,
-    backgroundColor: Colors.white,
-    unselectedItemColor: Colors.grey,
-    type: BottomNavigationBarType.fixed,
-  ),
   appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.blue,
     titleSpacing: 20.0,
     iconTheme: IconThemeData(
       color: Colors.black,
@@ -87,6 +81,13 @@ ThemeData lightTheme = ThemeData(
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
     ),
+  ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    selectedItemColor: Colors.blue,
+    elevation: 20.0,
+    backgroundColor: Colors.white,
+    unselectedItemColor: Colors.grey,
+    type: BottomNavigationBarType.fixed,
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
@@ -115,5 +116,6 @@ ThemeData lightTheme = ThemeData(
   iconTheme: IconThemeData(
     color: Colors.black,
   ),
+  cardColor: Colors.white,
 );
 

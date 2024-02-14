@@ -137,22 +137,36 @@ Widget myDropDownMenu({
 PreferredSizeWidget defaultAppBar({
   required BuildContext context,
   required String logo,
-}) => AppBar(
-  iconTheme: Theme.of(context).appBarTheme.iconTheme,
-  titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
-  leading: Padding(
-  padding: const EdgeInsets.only(left: 10.0),
-  child: IconButton(onPressed: (){navigateTo(context, searshscreen());}, icon: Icon(Icons.search)),
-  ),
-  title: Image(image: AssetImage(logo)),
-  actions: [
-  Padding(
-  padding: const EdgeInsets.only(right: 10.0),
-  child: IconButton(onPressed: (){navigateTo(context, SettingsScreen());}, icon: Icon(Icons.settings)),
-  )
-  ],
-  elevation: 2.0,
+}) =>
+    AppBar(
+      toolbarHeight: 70.0,
+      bottomOpacity: 0.7,
+      elevation: 2.0,
+      shadowColor: Colors.grey,
+      shape: ContinuousRectangleBorder(
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(70.0),
+          bottomRight: Radius.circular(70.0),
+        ),
+      ),
+      iconTheme: Theme.of(context).appBarTheme.iconTheme,
+      titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
+      leading: Padding(padding: const EdgeInsets.only(left: 10.0),
+        child: IconButton(onPressed: (){navigateTo(context, searshscreen());}, icon: Icon(Icons.search)),
+      ),
+      title: Image(image: AssetImage(logo)),
+      actions: [
+        Padding(padding: const EdgeInsets.only(right: 10.0),
+          child: IconButton(
+              onPressed: (){navigateTo(context, SettingsScreen());},
+              icon: Icon(Icons.settings),
+          ),
+        ),
+      ],
   );
+
+
+
 Widget myDivider() => Padding(
       padding: const EdgeInsetsDirectional.only(
         start: 20.0,
@@ -238,17 +252,6 @@ Widget BuiltArticleItem(article, context) => InkWell(
 );
 
 
-Widget articleBuilder(list, context, {isSearch = false}) => ConditionalBuilder(
-  condition: list.length > 0,
-  builder: (context) => ListView.separated(
-    physics: BouncingScrollPhysics(),
-    itemBuilder: (context, index) => BuiltArticleItem(list[index], context),
-    separatorBuilder: (context, index) => myDivider(),
-    itemCount: 10,
-  ),
-  fallback: (context) =>
-  isSearch ? Container() : Center(child: CircularProgressIndicator()),
-);
 void showToast({
   required String text,
   required ToastStates state,
@@ -284,171 +287,233 @@ Color chooseToastColor(ToastStates state) {
   return color;
 }
 // Discovery item
-Widget buildDiscoveryItem(BuildContext context, index)
-{
+Widget buildDiscoveryItem({
+  required BuildContext context,
+  required int index,
+  Color cardItemColor = Colors.white,
+}) {
   double screenWidth = MediaQuery.of(context).size.width;
-  double screenHeight = MediaQuery.of(context).size.height;
   return Padding(
-    padding: EdgeInsetsDirectional.only(start: 5.0,top: 5.0,end: 5.0),
+    padding: EdgeInsetsDirectional.all(5.0),
     child: InkWell(
       onTap: (){},
       child: Container(
-        width: screenWidth,
-        // height: screenHeight /4,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          color: Theme.of(context).backgroundColor,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  width: screenWidth / 2.5,
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      image: DecorationImage(
-                          image: AssetImage('Assets/splash_logo.png'),
-                          fit: BoxFit.fill)),
+        width: screenWidth *5/6,
+        color:Colors.grey.withOpacity(0.0),
+        child: Stack(
+          alignment: AlignmentDirectional.bottomStart,
+          children: [
+            //for the gray backLayer
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Container(
+                width: screenWidth *4/5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(21.0)),
+                  color: Colors.grey,
                 ),
               ),
-              SizedBox(
-                width: 5.0,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                        child: Text(
-                          'علاء مرسي فتحي',
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+            ),
+            //for the first one
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0,bottom: 20.0),
+              child: Container(
+                width: screenWidth *4/5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(21.0)),
+                  image: DecorationImage(
+                      image: AssetImage("Assets/cardBack1.png"),
+                      fit: BoxFit.fill
+                  ),
+                  // color: Colors.grey,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(13.0,),
+                  child: Row(
+                    children: [
+                      //teacher Image
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Expanded(
-                                    child: Text(
-                                      'الثالث الثانوي',
-                                      style: TextStyle(fontSize: 10.0),
-                                      textAlign: TextAlign.end,
-                                    )),
-                                SizedBox(width: 5.0),
-                                Icon(
-                                  Icons.school,
-                                  size: 20.0,
+                          Container(
+                            width: 92.0,
+                            height: 92.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(35.0),
+                                  bottomRight: Radius.circular(35.0),
+                                  topRight: Radius.circular(3.0),
+                                  bottomLeft: Radius.circular(3.0),
                                 ),
-                              ],
+                                color: Colors.white
+                            ),
+                            child: Center(
+                              child: Container(
+                                width: 90.0,
+                                height: 90.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(35.0),
+                                    bottomRight: Radius.circular(35.0),
+                                    topRight: Radius.circular(3.0),
+                                    bottomLeft: Radius.circular(3.0),
+                                  ),
+                                  image: DecorationImage(
+                                    image: AssetImage('Assets/teacher.png'),
+                                    fit: BoxFit.fill,),
+                                ),
+                              ),
                             ),
                           ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Expanded(
-                                    child: Text(
-                                      'انجليزي',
-                                      style: TextStyle(fontSize: 10.0),
-                                      textAlign: TextAlign.end,
-                                    )),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                Icon(
-                                  Icons.book,
-                                  size: 20.0,
-                                ),
-                              ],
-                            ),
-                          ),
+                          SizedBox(height: 20.0),
                         ],
                       ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Text(
-                                      '2024',
-                                      style: TextStyle(fontSize: 10.0),
-                                      textAlign: TextAlign.end,
-                                    )),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                Icon(
-                                  Icons.hourglass_bottom,
-                                  size: 20.0,
-                                ),
-                              ],
-                              mainAxisAlignment: MainAxisAlignment.end,
+                      SizedBox(width: 5.0,),
+                      //teacher and course data
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            //teacher name
+                            Expanded(
+                              child: Text(
+                                'عبدالرحمن الكيلاني',
+                                style: TextStyle(
+                                    fontSize: 18.0, fontWeight: FontWeight.bold,color: cardItemColor),
+                                overflow: TextOverflow.ellipsis,),),
+                            //subject and eduLevel
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Expanded(
+                                            child: Text(
+                                              '3 الثانوي',
+                                              style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                              textAlign: TextAlign.end,
+                                            )),
+                                        SizedBox(width: 5.0),
+                                        Icon(
+                                          Icons.school,
+                                          size: 20.0,
+                                          color: cardItemColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Expanded(
+                                            child: Text(
+                                              'انجليزي',
+                                              style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                              textAlign: TextAlign.end,
+                                            )),
+                                        SizedBox(
+                                          width: 5.0,
+                                        ),
+                                        Icon(
+                                          Icons.book,
+                                          size: 20.0,
+                                          color: cardItemColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Expanded(
-                                    child: Text(
-                                      'ترم اول',
-                                      style: TextStyle(fontSize: 10.0),
-                                      textAlign: TextAlign.end,
-                                    )),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                Icon(
-                                  Icons.layers_sharp,
-                                  size: 20.0,
-                                ),
-                              ],
+                            //term and year of course
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            child: Text(
+                                              '2024',
+                                              style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                              textAlign: TextAlign.end,
+                                            )),
+                                        SizedBox(
+                                          width: 5.0,
+                                        ),
+                                        Icon(
+                                          Icons.hourglass_bottom,
+                                          size: 20.0,
+                                          color: cardItemColor,
+                                        ),
+                                      ],
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Expanded(
+                                            child: Text(
+                                              'ترم اول',
+                                              style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                              textAlign: TextAlign.end,
+                                            )),
+                                        SizedBox(
+                                          width: 5.0,
+                                        ),
+                                        Icon(
+                                          Icons.layers_sharp,
+                                          size: 20.0,
+                                          color: cardItemColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            //number of videos
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    '128',
+                                    style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Icon(
+                                    Icons.play_circle,
+                                    size: 20.0,
+                                    color: cardItemColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '128',
-                            style: TextStyle(fontSize: 10.0),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Icon(
-                            Icons.play_circle,
-                            size: 20.0,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     ),

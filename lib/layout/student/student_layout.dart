@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/shared/components.dart';
-
 import '../../shared/constant.dart';
 
 
@@ -17,7 +16,7 @@ class StudentLayout extends StatelessWidget {
         var cubit = StudentCubit.get(context);
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          appBar: defaultAppBar(context: context, logo: logoImage),
+          appBar: defaultAppBar(context: context, logo: appBarLogo),
           body: cubit.screens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             elevation: 5.0,

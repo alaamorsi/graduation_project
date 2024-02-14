@@ -26,7 +26,7 @@ class _suiupState extends State<splash> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundImage: AssetImage("Assets/splash_logo.png"),
+              backgroundImage: AssetImage("Assets/logo.png"),
               radius: 99.0,
             ),
           ]
