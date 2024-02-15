@@ -28,6 +28,14 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppChangModeState());
   }
 
+  // Change notification state
+  bool notification = true;
+  void changeNotificationState() {
+    notification = !notification;
+    CacheHelper.putBoolean(key: 'notification', value: notification);
+    emit(AppChangeNotificationState());
+  }
+
   // Change language by default arabic
   bool lang = true;
   void changeAppLanguage(String ln) {

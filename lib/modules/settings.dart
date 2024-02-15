@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
-import 'package:graduation_project/shared/constant.dart';
-
 import '../shared/cache_helper.dart';
 import '../shared/components.dart';
 
@@ -23,35 +21,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
         var appCubit = AppCubit.get(context);
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          appBar: AppBar(
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back_ios_outlined)),
-            ),
-            title: Padding(
-              padding: const EdgeInsets.only(left: 60.0),
-              child: Text("الأعدادات",style: Theme.of(context).textTheme.titleLarge,),
-            ),
-          ),
+          appBar: defaultAppBar(
+              context: context,
+              leadingIcon: Icons.arrow_back_ios_outlined,
+              leadingFunction: (){Navigator.pop(context);},
+              title:Padding(
+                padding: const EdgeInsets.only(left: 60.0),
+                child: Text("الأعدادات",style: Theme.of(context).textTheme.titleLarge,),
+              ),),
           body: Padding(
-            padding:  EdgeInsets.all(30.0),
+            padding:   const EdgeInsets.all(30.0),
             child: Column(
                 children: [
                   Row(
-
                       children: [
-                        Spacer(),
+                        const Spacer(),
                         Text("لغة التطبيق",style: Theme.of(context).textTheme.titleSmall,),
                       ]
                   ),
                   Row(
                       children: [
-                        DropdownMenu(
-                            width: 300.0,
-                            enableSearch: false,
-                            label: Text("اللغة",style: Theme.of(context).textTheme.titleMedium,),
-                            initialSelection: CacheHelper.getData(key: 'ln')??"عربي",
-                            dropdownMenuEntries:  <DropdownMenuEntry<String>>[
+                        myDropDownMenu(
+                            context: context,
+                            title: "اللغة",
+                            initialSelectionText: CacheHelper.getData(key: 'ln')??"عربي",
+                            chooses: <DropdownMenuEntry<String>>[
                               DropdownMenuEntry(value: "English", label: "English",
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
@@ -65,42 +59,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ),
                               ),
                             ],
-                          onSelected: (language){
-                            switch (language) {
-                              case "Arabic":
-                                appCubit.changeAppMode("Arabic");
-                                break;
-                              case "English":
-                                appCubit.changeAppMode("English");
-                                break;
+                            onSelect: (language){
+                              switch (language) {
+                                case "Arabic":
+                                  appCubit.changeAppMode("Arabic");
+                                  break;
+                                case "English":
+                                  appCubit.changeAppMode("English");
+                                  break;
+                              }
                             }
-                          },
-                          inputDecorationTheme: InputDecorationTheme(
-                            floatingLabelStyle: Theme.of(context).textTheme.titleSmall,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: BorderSide(
-                                  color: mode?Colors.black:Colors.white,
-                                  width: 2.0
-                              ),
-                            ),
-                            enabledBorder:OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: BorderSide(
-                                color: mode?Colors.black:Colors.white,
-                                width: 2.0,
-                              ),
-                            ),
-                          ),
-                          textStyle: Theme.of(context).textTheme.titleSmall,
-                          menuStyle: MenuStyle(
-                            backgroundColor: MaterialStateProperty.all(mode?Colors.white:Colors.black),
-                            side: MaterialStateProperty.all(
-                                BorderSide(color: mode?Colors.black:Colors.white),
-                            ),
-                          ),
                         ),
                       ]
+                  ),
+                  const SizedBox(height: 30.0),
+                  Container(
+                    height: 65.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.0),
+                      border: Border.all(color: Theme.of(context).iconTheme.color!,width: 2.0),
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    child: Row(
+                        children: [
+                          Switch(
+                              value: appCubit.notification,
+                              inactiveThumbColor: Colors.blueGrey,
+                              activeColor: Colors.blue,
+                              onChanged: (value){
+                                appCubit.changeNotificationState();
+                              }),
+                          const Spacer(),
+                          Text("الأشعارات",style: Theme.of(context).textTheme.titleSmall,),
+                          const SizedBox(width: 10,)
+                        ]
+                    ),
                   ),
                   const SizedBox(height: 30.0),
                   Row(
@@ -113,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       myDropDownMenu(
                           context: context,
-                          textLabel: "المظهر",
+                          title: "المظهر",
                           initialSelectionText: CacheHelper.getData(key: 'tm')??"الخاص بالنظام",
                           chooses: [
                             DropdownMenuEntry(value: "Light", label: "فاتح",

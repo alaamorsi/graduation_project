@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
+import 'package:graduation_project/modules/student/profile.dart';
 import 'package:graduation_project/modules/student/student_discovery.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
@@ -10,7 +11,8 @@ class StudentCubit extends Cubit<StudentStates> {
 
   int currentIndex = 0;
   List<Widget> screens = [
-    StudentDiscovery(),
+    const StudentDiscovery(),
+    const ProfileScreen(),
   ];
   List<String> titles = [
     'استكشاف',

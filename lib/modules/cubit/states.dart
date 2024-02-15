@@ -6,6 +6,8 @@ class AppChangModeState extends AppStates {}
 
 class AppChangLanguageState extends AppStates {}
 
+class AppChangeNotificationState extends AppStates {}
+
 class GetSearchDataLoading extends AppStates{}
 
 class GetSearchDataSuccess extends AppStates{}

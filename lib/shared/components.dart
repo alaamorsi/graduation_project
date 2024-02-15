@@ -39,10 +39,13 @@ Widget defaultFormField({
   bool isPassword = false,
   required String? Function(String? val)? validate,
   required String label,
-  required IconData suffixIcon,
+  IconData? suffixIcon,
   IconData? prefixIcon,
   void Function()? prefixPressed,
+  bool thereSuffix = true,
+  bool therePrefix = true,
   bool isClickable = true,
+  double radius = 25.0,
 }) => TextFormField(
       controller: controller,
       keyboardType: type,
@@ -59,24 +62,24 @@ Widget defaultFormField({
         fillColor: Colors.white,
         hintText: label,
         hintStyle: const TextStyle(color: Colors.black26, fontSize: 13.0),
-        suffixIcon:Icon(suffixIcon),
-        prefixIcon:IconButton(onPressed: prefixPressed, icon: Icon(prefixIcon)),
+        suffixIcon:thereSuffix?Icon(suffixIcon):null,
+        prefixIcon:therePrefix?IconButton(onPressed: prefixPressed, icon: Icon(prefixIcon)):null,
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(radius),
           borderSide: const BorderSide(
               color: Colors.blue,
               width: 2.0
           ),
         ),
         enabledBorder:OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(radius),
           borderSide: const BorderSide(
             color: Colors.black87,
             width: 1.2,
           ),
         ),
         border:OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(radius),
           borderSide: const BorderSide(
             color: Colors.black87,
             width: 1.2,
@@ -88,7 +91,7 @@ Widget defaultFormField({
 ///////////////
 Widget myDropDownMenu({
   required BuildContext context,
-  required String textLabel,
+  required String title,
   required String initialSelectionText,
   required List<DropdownMenuEntry> chooses,
   required void Function(dynamic) onSelect,
@@ -99,7 +102,7 @@ Widget myDropDownMenu({
 => DropdownMenu(
   width: 300.0,
   enableSearch: false,
-  label: Text(textLabel,style: Theme.of(context).textTheme.titleMedium,),
+  label: Text(title,style: Theme.of(context).textTheme.titleMedium,),
   initialSelection: initialSelectionText,
   dropdownMenuEntries: chooses,
   onSelected: onSelect,
@@ -272,6 +275,7 @@ Color chooseToastColor(ToastStates state) {
 
   return color;
 }
+
 // Discovery item
 Widget buildDiscoveryItem({
   required BuildContext context,

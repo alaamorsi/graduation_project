@@ -51,12 +51,12 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
   ),
-  canvasColor: Colors.blueGrey,
-  primaryColor: Colors.white,
+  canvasColor: Colors.white,
+  primaryColor: Colors.black,
   iconTheme: const IconThemeData(
     color: Colors.white,
   ),
-  cardColor: Colors.black,
+  cardColor: Colors.blueGrey,
 );
 
 
@@ -112,10 +112,10 @@ ThemeData lightTheme = ThemeData(
   ),
   ),
   canvasColor: Colors.blue.shade900,
-  primaryColor: Colors.blue.shade900,
+  primaryColor: Colors.white,
   iconTheme: const IconThemeData(
     color: Colors.black,
   ),
-  cardColor: Colors.white,
+  cardColor: Colors.blue.shade900,
 );
 

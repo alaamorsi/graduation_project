@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
+import 'package:graduation_project/modules/login/cubit/cubit.dart';
 import 'package:graduation_project/modules/splash.dart';
 import 'package:graduation_project/shared/cache_helper.dart';
 import 'package:graduation_project/shared/constant.dart';
@@ -24,7 +26,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (BuildContext context) => AppCubit(),
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (BuildContext context) => AppCubit()),
+        BlocProvider(create: (BuildContext context) => LoginCubit()),
+        BlocProvider(create: (BuildContext context) => StudentCubit()),
+      ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
         builder: (context,state){
@@ -33,7 +42,7 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: AppCubit.get(context).theme,
-            home:splash(),
+            home:const Splash(),
           );
         },
       ),
