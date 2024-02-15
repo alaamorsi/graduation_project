@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
 import '../../shared/components.dart';
-import '../../shared/constant.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 import 'login_screen.dart';
 
-class studenScreen extends StatefulWidget {
+class StudentScreen extends StatefulWidget {
+  const StudentScreen({super.key});
+
   @override
-  _studenScreenState createState() => _studenScreenState();
+  StudentScreenState createState() => StudentScreenState();
 }
 
-class _studenScreenState extends State<studenScreen> {
+class StudentScreenState extends State<StudentScreen> {
   late String name, email, phone;
 
   //TextController to read text entered in text field
@@ -27,7 +28,7 @@ class _studenScreenState extends State<studenScreen> {
     return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        Color primary = Theme.of(context).primaryColor;
+        var theme = Theme.of(context);
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SingleChildScrollView(
@@ -39,31 +40,31 @@ class _studenScreenState extends State<studenScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 10.0,),
+                    const SizedBox(height: 10.0,),
                     InkWell(
-                      onTap: (){navigateAndFinish(context, SecondScreen());},
+                      onTap: (){navigateAndFinish(context, const SecondScreen());},
                       child: Row(
                         children: [
                           Icon(Icons.arrow_back_ios_rounded,
-                                color: primary,size: 35.0,
+                                color: theme.canvasColor,size: 35.0,
                           ),
                           Text("سجل الدخول",
-                            style: TextStyle(color: primary,fontSize: 25.0,fontWeight: FontWeight.bold),)
+                            style: TextStyle(color: theme.canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
                         ]
                       ),
                     ),
-                    SizedBox(height: 70.0),
+                    const SizedBox(height: 70.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "حساب طالب",
                           style:TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,
-                              color: primary),
+                              color: theme.canvasColor),
                         ),
                       ],
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
@@ -72,7 +73,7 @@ class _studenScreenState extends State<studenScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20.0),
+                    const SizedBox(height: 20.0),
                     defaultFormField(
                         controller: namecontrol,
                         type: TextInputType.text,
@@ -80,10 +81,11 @@ class _studenScreenState extends State<studenScreen> {
                           if (value!.isEmpty) {
                             return 'رجاءً ادخل الاسم';
                           }
+                          return null;
                         },
                         label: 'الاسم',
                         suffixIcon: Icons.account_box_rounded),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     defaultFormField(
                         controller: emillecontrol,
                         type: TextInputType.emailAddress,
@@ -91,10 +93,11 @@ class _studenScreenState extends State<studenScreen> {
                           if (value!.isEmpty) {
                             return 'رجاءً ادخل البريد الالكتروني الصحيح';
                           }
+                          return null;
                         },
                         label: 'البريد الإلكتروني',
                         suffixIcon: Icons.email_outlined),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     defaultFormField(
                       controller: password,
                       type: TextInputType.visiblePassword,
@@ -102,6 +105,7 @@ class _studenScreenState extends State<studenScreen> {
                         if (value!.isEmpty) {
                           return ' رجاءً ادخل كلمة المرور بشكل صحيح';
                         }
+                        return null;
                       },
                       label: 'كلمة المرور',
                       suffixIcon: Icons.lock_outline,
@@ -111,7 +115,7 @@ class _studenScreenState extends State<studenScreen> {
                         LoginCubit.get(context).changePasswordVisibility();
                       },
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     //شروط الاستخدام
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -120,7 +124,7 @@ class _studenScreenState extends State<studenScreen> {
                             'شروط الاستخدام',
                             style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
                         Checkbox(
-                          side: BorderSide(color: mode?Colors.black:Colors.white),
+                          side: BorderSide(color: theme.iconTheme.color!),
                           value: LoginCubit.get(context).acceptCondition,
                           onChanged: (value) {
                             LoginCubit.get(context).changeAcceptConditions();
@@ -128,21 +132,20 @@ class _studenScreenState extends State<studenScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     //login button
                     usedButton(
                       atEnd: false,
                       text: "إنشاء",
                       onPressed: () {if (_formkey.currentState!.validate()) {
-                        print("successful");
                         return;
                       } else {
-                        print("UnSuccessfull");}
+                      }
                       },
                       context: context,
-                      color: Theme.of(context).canvasColor,
+                      color: theme.cardColor,
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -151,12 +154,12 @@ class _studenScreenState extends State<studenScreen> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LoginScreen()));
+                                    builder: (context) => const LoginScreen()));
                           },
                           child: Text("سجل الدخول",
-                              style: TextStyle(color: primary,fontSize:15.0,fontWeight: FontWeight.bold)),
+                              style: TextStyle(color: theme.canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
                         ),
-                        Text(" لديك حساب بالفعل ؟",
+                        const Text(" لديك حساب بالفعل ؟",
                           style:TextStyle(fontSize: 14.0, color: Colors.grey),
                         ),
                       ]

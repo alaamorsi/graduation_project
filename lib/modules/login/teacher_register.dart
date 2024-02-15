@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
 import '../../shared/components.dart';
-import '../../shared/constant.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 import 'login_screen.dart';
 
-class teacherScreen extends StatefulWidget {
+class TeacherScreen extends StatefulWidget {
+  const TeacherScreen({super.key});
+
   @override
 
-  _teacherScreenState createState() => _teacherScreenState();
+  TeacherScreenState createState() => TeacherScreenState();
 }
 
-class _teacherScreenState extends State<teacherScreen> {
+class TeacherScreenState extends State<TeacherScreen> {
   late String name, email, phone;
 
   //TextController to read text entered in text field
@@ -29,7 +30,7 @@ class _teacherScreenState extends State<teacherScreen> {
     return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        Color primary = Theme.of(context).primaryColor;
+        var theme = Theme.of(context);
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SingleChildScrollView(
@@ -40,31 +41,31 @@ class _teacherScreenState extends State<teacherScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 10.0,),
+                    const SizedBox(height: 10.0,),
                     InkWell(
-                      onTap: (){navigateAndFinish(context, SecondScreen());},
+                      onTap: (){navigateAndFinish(context, const SecondScreen());},
                       child: Row(
                           children: [
                             Icon(Icons.arrow_back_ios_rounded,
-                              color:primary,size: 35.0,
+                              color:theme.canvasColor,size: 35.0,
                             ),
                             Text("سجل الدخول",
-                              style: TextStyle(color: primary,fontSize: 25.0,fontWeight: FontWeight.bold),)
+                              style: TextStyle(color: theme.canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
                           ]
                       ),
                     ),
-                    SizedBox(height: 50.0,),
+                    const SizedBox(height: 50.0,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'حساب مدرس',
                           style:TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,
-                              color: primary),
+                              color: theme.canvasColor),
                         ),
                       ],
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
@@ -73,7 +74,7 @@ class _teacherScreenState extends State<teacherScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20.0),
+                    const SizedBox(height: 20.0),
                     defaultFormField(
                         controller: namecontrol,
                         type: TextInputType.text,
@@ -81,10 +82,11 @@ class _teacherScreenState extends State<teacherScreen> {
                           if (value!.isEmpty) {
                             return 'رجاءً ادخل الاسم';
                           }
+                          return null;
                         },
                         label: 'الاسم',
                         suffixIcon: Icons.account_box_rounded),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     defaultFormField(
                         controller: phoneecontrol,
                         type: TextInputType.phone,
@@ -92,10 +94,11 @@ class _teacherScreenState extends State<teacherScreen> {
                           if (value!.isEmpty) {
                             return 'رجاءً ادخل رقم الموبايل';
                           }
+                          return null;
                         },
                         label: 'رقم الموبايل',
                         suffixIcon: Icons.phone),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     defaultFormField(
                         controller: emillecontrol,
                         type: TextInputType.emailAddress,
@@ -103,10 +106,11 @@ class _teacherScreenState extends State<teacherScreen> {
                           if (value!.isEmpty) {
                             return 'رجاءً ادخل البريد الالكتروني الصحيح';
                           }
+                          return null;
                         },
                         label: 'البريد الإلكتروني',
                         suffixIcon: Icons.email_outlined),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     defaultFormField(
                       controller: password,
                       type: TextInputType.visiblePassword,
@@ -114,6 +118,7 @@ class _teacherScreenState extends State<teacherScreen> {
                         if (value!.isEmpty) {
                           return ' رجاءً ادخل كلمة المرور بشكل صحيح';
                         }
+                        return null;
                       },
                       label: 'كلمة المرور',
                       suffixIcon: Icons.lock_outline,
@@ -123,7 +128,7 @@ class _teacherScreenState extends State<teacherScreen> {
                         LoginCubit.get(context).changePasswordVisibility();
                       },
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     //شروط الاستخدام
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -132,7 +137,7 @@ class _teacherScreenState extends State<teacherScreen> {
                             'شروط الاستخدام',
                             style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
                         Checkbox(
-                          side: BorderSide(color: mode?Colors.black:Colors.white),
+                          side: BorderSide(color: theme.iconTheme.color!),
                           value: LoginCubit.get(context).acceptCondition,
                           onChanged: (value) {
                             LoginCubit.get(context).changeAcceptConditions();
@@ -140,21 +145,21 @@ class _teacherScreenState extends State<teacherScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     //login button
                     usedButton(
                       atEnd: false,
                       text: "إنشاء",
                       onPressed: () {if (_formkey.currentState!.validate()) {
-                        print("successful");
                         return;
                       } else {
-                        print("UnSuccessfull");}
+
+                      }
                       },
                       context: context,
-                      color: Theme.of(context).canvasColor,
+                      color: theme.cardColor,
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -163,12 +168,12 @@ class _teacherScreenState extends State<teacherScreen> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LoginScreen()));
+                                    builder: (context) => const LoginScreen()));
                           },
                           child: Text("سجل الدخول",
-                              style: TextStyle(color:primary,fontSize:15.0,fontWeight: FontWeight.bold)),
+                              style: TextStyle(color:theme.cardColor,fontSize:15.0,fontWeight: FontWeight.bold)),
                         ),
-                        Text(" لديك حساب بالفعل ؟",
+                        const Text(" لديك حساب بالفعل ؟",
                           style:TextStyle(fontSize: 14.0,color:Colors.grey),
                         ),
                       ]
