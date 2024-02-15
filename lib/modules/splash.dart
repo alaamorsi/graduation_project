@@ -12,6 +12,7 @@ class _suiupState extends State<splash> {
     Future.delayed(
         Duration(seconds:3), (){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen(),),);
+
         });
     super.initState();
   }

@@ -10,6 +10,7 @@ class StudentCubit extends Cubit<StudentStates> {
 
   int currentIndex = 0;
   List<Widget> screens = [
+
     StudentDiscovery(),
   ];
   List<String> titles = [
