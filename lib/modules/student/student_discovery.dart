@@ -30,7 +30,7 @@ class _StudentDiscoveryState extends State<StudentDiscovery> {
           children: [
             InkWell(
               onTap: (){
-                navigateTo(context, const DiscoveryDetails());
+                navigateTo(context, DiscoveryDetails());
               },
               child: Container(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 10.0),

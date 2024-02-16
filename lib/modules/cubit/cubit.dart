@@ -52,13 +52,6 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppChangModeState());
   }
 
-  bool isOpened = false;
-  void checkViewDemoList()
-  {
-    isOpened = !isOpened;
-    emit(CheckViewDemoListState(isOpened));
-  }
-
   bool isFilterOpen = false ;
   late OverlayEntry entry;
   String startValue ='Arabic';

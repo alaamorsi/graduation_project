@@ -25,4 +25,22 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StudentChangeBottomNavState());
 
   }
+  bool isPaid = false ;
+  List<bool> demoList = List<bool>.filled(100, false);
+  void checkViewDemoList(index)
+  {
+    demoList[index] = !demoList[index];
+    emit(CheckViewDemoListState());
+  }
+  void checkPayment()
+  {
+    isPaid = !isPaid;
+    emit(CheckPaymentState());
+  }
+  bool isFavorite = false;
+  void checkFavorite()
+  {
+    isFavorite =!isFavorite;
+    emit(CheckFavoriteState());
+  }
 }

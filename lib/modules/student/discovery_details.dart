@@ -1,96 +1,182 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/cubit/cubit.dart';
-import 'package:graduation_project/modules/cubit/states.dart';
-import 'package:graduation_project/shared/components.dart';
+import 'package:graduation_project/layout/student/cubit/cubit.dart';
+import 'package:graduation_project/layout/student/cubit/states.dart';
 
 class DiscoveryDetails extends StatelessWidget {
-  const DiscoveryDetails({super.key});
-
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    var cubit = AppCubit.get(context);
-    var theme = Theme.of(context);
-    return BlocConsumer<AppCubit,AppStates>(
+    var cubit = StudentCubit.get(context);
+    return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){},
       builder: (context , state ){
         return Scaffold(
-            appBar: defaultAppBar(
-                context: context,
-                leadingIcon: Icons.arrow_back_ios_outlined,
-                leadingFunction: (){Navigator.pop(context);},
-                title:  const Text('تفاصيل الدورة'),
-                atEndIcon: Icons.favorite_border
+            appBar: AppBar(
+              title: Text('تفاصيل الدورة'),
+              centerTitle: true,
+              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+              actions: [
+                IconButton(onPressed: (){
+                  cubit.checkFavorite();
+                }, icon: cubit.isFavorite? Icon( Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_border)),
+                SizedBox(width: 10.0,)
+              ],
             ),
             body: Column(
               children: [
-                Container(
-                  width: screenWidth,
-                  height: screenHeight/13,
-                  color: Colors.white.withOpacity(0.0),
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 10.0),
-                    child: GestureDetector(
-                      onTap: (){
-                        cubit.checkViewDemoList();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(cubit.isOpened?  Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,size: 35.0,),
-                            const Spacer(),
-                            Text('مقدمة عن المحتوى',style: theme.textTheme.titleMedium,),
-                            const SizedBox(width: 10.0,),
-                            CircleAvatar(
-                              backgroundColor: Theme.of(context).canvasColor,
-                              radius: 15.0,
-                              child: const Text('1',style: TextStyle(fontWeight: FontWeight.bold),),
-                            ),
-                          ],
-                        ),
+                GestureDetector(
+                  onTap: (){
+                    cubit.checkViewDemoList(1);
+                  },
+                  child: Container(
+                    width: screenWidth,
+                    height: screenHeight/13,
+                    color: cubit.demoList[1]? Colors.black26 : Colors.black12,
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.symmetric(horizontal: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(cubit.demoList[1]?  Icons.keyboard_arrow_up : Icons.keyboard_arrow_down),
+                          Spacer(),
+                          Text('مقدمة عن المحتوى',style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),),
+                          SizedBox(width: 10.0,),
+                          CircleAvatar(
+                            child: Text('1',style: TextStyle(fontWeight: FontWeight.bold),),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
                 ConditionalBuilder(
-                  condition: cubit.isOpened,
-                  builder:(context)=> Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 39.0,vertical: 11.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                  condition: cubit.demoList[1],
+                  builder:(context)=> ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index)=>Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Column(
                           children: [
-                            Icon(Icons.play_circle,color: theme.canvasColor,),
-                            const Spacer(),
-                            Text('تعريف بالمدرس',style: theme.textTheme.titleSmall,)
+                            TextButton(
+                              onPressed: (){},
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(Icons.play_circle),
+                                  Spacer(),
+                                  SizedBox(height: 10.0,),
+                                  Text('تعريف بالمدرس',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                        const SizedBox(height: 10.0,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(Icons.play_circle,color: theme.canvasColor,),
-                            const Spacer(),
-                            Text('الدرس الاول',style: theme.textTheme.titleSmall,)
-                          ],
-                        ),
-                        const SizedBox(height: 10.0,),
-                      ],
-                    ),
-                  ),
+                      ),
+                      separatorBuilder: (context, index)=>SizedBox(height: 5.0,),
+                      itemCount: 10),
                   fallback: (context)=>Container(),
                 ),
+                Container(width: double.infinity,height: 5.0,),
+                Flexible(
+                  child: ConditionalBuilder(
+                      condition: true,
+                      builder: (context)=>ListView.separated(
+                          itemBuilder: (context , index)=>buildDemoListItem(context,index),
+                          separatorBuilder: (context , index)=>Container(width: double.infinity,height: 5.0,),
+                          itemCount: 4,
+                      ),
+                      fallback: (context)=>Center(child: CircularProgressIndicator()),
+                  ),
+                ),
+                SizedBox(height: 10.0,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 5.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: ElevatedButton(
+                      onPressed: (){
+                        cubit.checkPayment();
+                      },
+                      child: Center(child: Text('حجز الآن',style: TextStyle(fontSize: 20.0,color: Colors.white))),
+                    ),
+                  ),
+                ),
               ],
-            )
+            ),
         );
       },
+    );
+  }
+  Widget buildDemoListItem(context,index)
+  {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    var cubit = StudentCubit.get(context);
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: (){
+            cubit.checkViewDemoList(index);
+          },
+          child: Container(
+            width: screenWidth,
+            height: screenHeight/13,
+            color: cubit.demoList[index]? Colors.black26 : Colors.black12,
+            child: Padding(
+              padding: EdgeInsetsDirectional.symmetric(horizontal: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Icon(cubit.demoList[index]?  Icons.keyboard_arrow_up : Icons.keyboard_arrow_down),
+                  Spacer(),
+                  Text('مقدمة عن المحتوى',style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),),
+                  SizedBox(width: 10.0,),
+                  CircleAvatar(
+                    child: Text('${index+2}',style: TextStyle(fontWeight: FontWeight.bold),),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        ConditionalBuilder(
+          condition: cubit.demoList[index],
+          builder:(context)=> ListView.separated(
+            shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index)=>Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: cubit.isPaid?(){} : null,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(cubit.isPaid? Icons.play_circle : Icons.lock),
+                          Spacer(),
+                          SizedBox(height: 10.0,),
+                          Text('تعريف بالمدرس',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),)
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              separatorBuilder: (context, index)=>SizedBox(height: 5.0,),
+              itemCount: 10),
+          fallback: (context)=>Container(),
+        ),
+      ],
     );
   }
 }

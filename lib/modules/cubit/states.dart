@@ -8,23 +8,20 @@ class AppChangLanguageState extends AppStates {}
 
 class AppChangeNotificationState extends AppStates {}
 
-class GetSearchDataLoading extends AppStates{}
+class GetSearchDataLoading extends AppStates {}
 
-class GetSearchDataSuccess extends AppStates{}
+class GetSearchDataSuccess extends AppStates {}
 
-class  GetSearchDataError extends AppStates{
+class GetSearchDataError extends AppStates {
   final String error;
 
   GetSearchDataError(this.error);
 }
+
 class SearchFilterOpenState extends AppStates {}
 
 class SearchFilterCloseState extends AppStates {}
 
-class MakeSearchFilter extends AppStates{}
+class MakeSearchFilter extends AppStates {}
 
-class CheckViewDemoListState extends AppStates {
-  final bool isOpened;
 
-  CheckViewDemoListState(this.isOpened);
-}
