@@ -1,7 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/modules/student/discovery_details.dart';
+import 'package:graduation_project/modules/student/discovery_category_list.dart';
 import 'package:graduation_project/shared/components.dart';
+
+import '../../shared/constant.dart';
 
 class StudentDiscovery extends StatefulWidget {
   const StudentDiscovery({super.key});
@@ -13,7 +15,6 @@ class StudentDiscovery extends StatefulWidget {
 class _StudentDiscoveryState extends State<StudentDiscovery> {
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     List<String> categories = [
       'الأكثر تقييماً',
       'الأعلى مبيعاً',
@@ -30,7 +31,7 @@ class _StudentDiscoveryState extends State<StudentDiscovery> {
           children: [
             InkWell(
               onTap: (){
-                navigateTo(context, DiscoveryDetails());
+                navigateTo(context, CategoryList(pageName: categories[index]));
               },
               child: Container(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 10.0),
@@ -60,7 +61,7 @@ class _StudentDiscoveryState extends State<StudentDiscovery> {
                 reverse: true,
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context , index)=>buildDiscoveryItem(context: context, index: index),
+                itemBuilder: (context , index)=> buildDiscoveryItem(context: context, index: index),
                 separatorBuilder: (context , index)=>const SizedBox(width: 5.0,),
                 itemCount: 5,
               ),

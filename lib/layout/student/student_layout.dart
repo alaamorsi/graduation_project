@@ -25,7 +25,7 @@ class StudentLayout extends StatelessWidget {
                 leadingIcon: Icons.search_outlined,
                 leadingFunction: (){navigateTo(context, const SearchScreen());},
                 title: Image(image: AssetImage(appBarLogo)),
-                atEndIcon: Icons.settings,
+                atEndIcon:  Icons.settings,
                 atEndFunction:() {
                   navigateTo(context, const SettingsScreen());
                 },
@@ -41,7 +41,7 @@ class StudentLayout extends StatelessWidget {
               unselectedFontSize: 19.0,
               selectedFontSize: 21.0,
               items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home),label: 'استكشاف'),
+                BottomNavigationBarItem(icon: Icon(Icons.explore_rounded),label: 'استكشاف'),
                 BottomNavigationBarItem(icon: Icon(Icons.dashboard),label: 'كورساتي'),
                 BottomNavigationBarItem(icon: Icon(Icons.person),label: 'البروفايل'),
               ]

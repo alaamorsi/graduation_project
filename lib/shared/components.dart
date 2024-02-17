@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:graduation_project/modules/student/course_demo.dart';
 import 'constant.dart';
 /////////////////////////////////////////////////////
+
 
 Widget usedButton({
   void Function()? onPressed,
@@ -95,41 +97,15 @@ Widget myDropDownMenu({
   required String initialSelectionText,
   required List<DropdownMenuEntry> chooses,
   required void Function(dynamic) onSelect,
-  Color lightColor = Colors.white,
-  Color darkColor = Colors.black,
   double radius = 25.0,
 })
 => DropdownMenu(
-  width: 300.0,
+  width: screenWidth*5/6,
   enableSearch: false,
   label: Text(title,style: Theme.of(context).textTheme.titleMedium,),
   initialSelection: initialSelectionText,
   dropdownMenuEntries: chooses,
   onSelected: onSelect,
-  inputDecorationTheme: InputDecorationTheme(
-    labelStyle: Theme.of(context).textTheme.titleSmall,
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(radius),
-      borderSide: BorderSide(
-          color: mode?darkColor:lightColor,
-          width: 2.0
-      ),
-    ),
-    enabledBorder:OutlineInputBorder(
-      borderRadius: BorderRadius.circular(radius),
-      borderSide: BorderSide(
-        color: mode?darkColor:lightColor,
-        width: 2.0,
-      ),
-    ),
-  ),
-  textStyle: Theme.of(context).textTheme.titleSmall,
-  menuStyle: MenuStyle(
-    backgroundColor: MaterialStateProperty.all(mode?lightColor:darkColor),
-    side: MaterialStateProperty.all(
-      BorderSide(color: mode?darkColor:lightColor,),
-    ),
-  ),
 );
 
 PreferredSizeWidget defaultAppBar({
@@ -170,12 +146,13 @@ PreferredSizeWidget defaultAppBar({
 
 Widget myDivider() => Padding(
       padding: const EdgeInsetsDirectional.only(
-        start: 20.0,
+        top: 10.0,
+        bottom: 10.0,
       ),
       child: Container(
         width: double.infinity,
-        height: 10.0,
-        color: Colors.white,
+        height: 3.0,
+        color: Colors.grey,
       ),
     );
 
@@ -282,11 +259,12 @@ Widget buildDiscoveryItem({
   required int index,
   Color cardItemColor = Colors.white,
 }) {
-  double screenWidth = MediaQuery.of(context).size.width;
   return Padding(
     padding: const EdgeInsetsDirectional.all(10.0),
     child: InkWell(
-      onTap: (){},
+      onTap: (){
+        navigateTo(context, const CourseDemo());
+      },
       child: Container(
         width: screenWidth *5/6,
         color:Colors.grey.withOpacity(0.0),
@@ -298,9 +276,9 @@ Widget buildDiscoveryItem({
               padding: const EdgeInsets.only(top: 20.0,right: 10.0),
               child: Container(
                 width: screenWidth *4/5,
-                decoration: const BoxDecoration(
+                decoration:  const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(21.0)),
-                  color: Colors.grey,
+                  color: Colors.blueGrey,
                 ),
               ),
             ),
@@ -326,8 +304,8 @@ Widget buildDiscoveryItem({
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 92.0,
-                            height: 92.0,
+                            width: 81.0,
+                            height: 81.0,
                             decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(35.0),
@@ -339,8 +317,8 @@ Widget buildDiscoveryItem({
                             ),
                             child: Center(
                               child: Container(
-                                width: 90.0,
-                                height: 90.0,
+                                width: 79.0,
+                                height: 79.0,
                                 decoration: const BoxDecoration(
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(35.0),
@@ -497,115 +475,4 @@ Widget buildDiscoveryItem({
     ),
   );}
 
-OverlayEntry buildSearchFilter({
-  required BuildContext context,
-  required void Function()? filterOff,
-  required void Function()?  filterOn,
-}){
-  double screenHeight = MediaQuery.of(context).size.height;
-  double screenWidth = MediaQuery.of(context).size.width;
-  return OverlayEntry(
-    builder: (context) => Positioned(
-      left: 50.0,
-      top: screenHeight / 6,
-      right: 50.0,
-      bottom: screenHeight / 3,
-      child: Container(
-        height: screenHeight / 2,
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Column(
-          children: [
-            PhysicalModel(
-              color: Colors.grey,
-              shadowColor: Colors.grey,
-              elevation: 7.0,
-              borderRadius: BorderRadius.circular(9.0),
-              child: Container(
-                height: screenHeight / 13,
-                width: screenWidth-100,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.0),
-                  // border: const Border(bottom: BorderSide(color: Colors.grey,)),
-                ),
-                child: Center(
-                  child: Text(
-                    'فلترة البحث ؟',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20.0,),
-            // DropdownButton<String>(
-            //   value: startValue,
-            //   style: const TextStyle(color: Colors.black),
-            //   items: const [
-            //     DropdownMenuItem(value: 'Arabic',child: Text('لغة عربية'),),
-            //     DropdownMenuItem(value: 'English',child: Text('لغة انجليزية'),),
-            //     DropdownMenuItem(value: 'French',child: Text('لغة فرنسية'),),
-            //     DropdownMenuItem(value: 'Math',child: Text('مادة الرياضيات'),),
-            //     DropdownMenuItem(value: 'Science',child: Text('مادة العلوم'),),
-            //   ],
-            //   onChanged: (String? value){
-            //     startValue = value!;
-            //     emit(MakeSearchFilter());}
-            //   ),
-            // const SizedBox(height: 10.0,),
-            //accept and reject buttons
-            const Spacer(),
-            PhysicalModel(
-              color: Colors.grey,
-              shadowColor: Colors.grey,
-              elevation: 7.0,
-              borderRadius: BorderRadius.circular(9.0),
-              child: Container(
-                height: screenHeight / 13,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FilledButton(
-                      onPressed: (){
-                        filterOff!();
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
-                        elevation: MaterialStateProperty.all(2.0),
-                      ),
-                      child: const Text(
-                        'الغاء',
-                        style: TextStyle(color: Colors.white, fontSize: 12.0),
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                    FilledButton(
-                      onPressed: () {
-                        filterOff!();
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                        elevation: MaterialStateProperty.all(2.0), // Adding shadow
-                      ),
-                      child: const Text(
-                        'بحث',
-                        style: TextStyle(color: Colors.white, fontSize: 12.0),
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    ),
-  );
-}
 

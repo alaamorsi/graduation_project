@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
-import 'package:graduation_project/modules/login/login_screen.dart';
-// import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:graduation_project/shared/components.dart';
-// import 'package:graduation_project/shared/constant.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -17,7 +14,7 @@ class SplashState extends State<Splash> {
   void initState() {
     Future.delayed(
         const Duration(seconds:3), (){
-          navigateAndFinish(context, const LoginScreen());
+          navigateAndFinish(context, const StudentLayout());
           // if(uId.isNotEmpty)
           // {
           //   if(uId=='Student')

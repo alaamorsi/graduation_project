@@ -46,7 +46,7 @@ class LoginScreenState extends State<LoginScreen> {
                           Text(
                             'تسجيل الدخول',
                             style:TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).canvasColor),
                           ),
                         ],
                       ),
@@ -136,7 +136,7 @@ class LoginScreenState extends State<LoginScreen> {
                                       builder: (context) => const SecondScreen()));
                             },
                             child: Text("انشاء حساب",
-                                style: TextStyle(color: Theme.of(context).primaryColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                                style: TextStyle(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
                           ),
                           const Text(
                             "ليس لديك حساب ؟",

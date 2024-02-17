@@ -25,8 +25,9 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StudentChangeBottomNavState());
 
   }
+
   bool isPaid = false ;
-  List<bool> demoList = List<bool>.filled(100, false);
+  List<bool> demoList = List<bool>.filled(30, false);
   void checkViewDemoList(index)
   {
     demoList[index] = !demoList[index];

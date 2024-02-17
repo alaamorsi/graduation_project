@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
+import 'package:graduation_project/shared/constant.dart';
 import '../shared/cache_helper.dart';
 import '../shared/components.dart';
 
@@ -19,6 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       listener:(context, state) {},
       builder: (context, state) {
         var appCubit = AppCubit.get(context);
+        String lang = CacheHelper.getData(key: 'ln')??"عربي";
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: defaultAppBar(
@@ -44,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         myDropDownMenu(
                             context: context,
                             title: "اللغة",
-                            initialSelectionText: CacheHelper.getData(key: 'ln')??"عربي",
+                            initialSelectionText: lang,
                             chooses: <DropdownMenuEntry<String>>[
                               DropdownMenuEntry(value: "English", label: "English",
                                 style: ButtonStyle(
@@ -62,10 +64,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             onSelect: (language){
                               switch (language) {
                                 case "Arabic":
-                                  appCubit.changeAppMode("Arabic");
+                                  appCubit.changeAppLanguage("Arabic");
                                   break;
                                 case "English":
-                                  appCubit.changeAppMode("English");
+                                  appCubit.changeAppLanguage("English");
                                   break;
                               }
                             }
@@ -96,46 +98,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   const SizedBox(height: 30.0),
-                  Row(
-                      children: [
-                        const Spacer(),
-                        Text("مظهر التطبيق",style: Theme.of(context).textTheme.titleSmall,),
-                      ]
-                  ),
-                  Row(
-                    children: [
-                      myDropDownMenu(
-                          context: context,
-                          title: "المظهر",
-                          initialSelectionText: CacheHelper.getData(key: 'tm')??"الخاص بالنظام",
-                          chooses: [
-                            DropdownMenuEntry(value: "Light", label: "فاتح",
-                              leadingIcon: Icon(Icons.light_mode,color: Theme.of(context).iconTheme.color),
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
-                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
-                              ),
-                            ),
-                            DropdownMenuEntry(value: "Dark", label: "داكن",
-                              leadingIcon: Icon(Icons.dark_mode,color: Theme.of(context).iconTheme.color),
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
-                                foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
-                              ),
-                            ),
-                          ],
-                          onSelect: (color){
-                            switch (color) {
-                              case "Light":
-                                appCubit.changeAppMode("Light");
-                                break;
-                              case "Dark":
-                                appCubit.changeAppMode("Dark");
-                                break;
-                            }
-                          }
-                      ),
-                    ]
+                  Container(
+                    height: 65.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.0),
+                      border: Border.all(color: Theme.of(context).iconTheme.color!,width: 2.0),
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    child: Row(
+                        children: [
+                          const SizedBox(width: 10.0,),
+                          IconButton(
+                            onPressed: (){
+                              appCubit.changeAppMode();
+                            },
+                            icon:mode?const Icon(Icons.light_mode):const Icon(Icons.dark_mode),
+                            iconSize: 30.0,
+                            color: mode?Colors.yellow:Colors.grey,
+                          ),
+                          const Spacer(),
+                          Text("مظهر التطبيق",style: Theme.of(context).textTheme.titleSmall,),
+                          const SizedBox(width: 10,)
+                        ]
+                    ),
                   ),
                 ]
             ),

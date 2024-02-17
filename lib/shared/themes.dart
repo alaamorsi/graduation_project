@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 ThemeData darkTheme = ThemeData(
   primarySwatch: Colors.blueGrey,
-  scaffoldBackgroundColor: Colors.black,
+  scaffoldBackgroundColor: Colors.black54,
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.black45,
     titleSpacing: 20.0,
@@ -46,7 +46,7 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
     labelSmall: TextStyle(
-      fontSize: 10.0,
+      fontSize: 11.0,
       fontWeight: FontWeight.normal,
       color: Colors.white,
     ),
@@ -57,6 +57,25 @@ ThemeData darkTheme = ThemeData(
     color: Colors.white,
   ),
   cardColor: Colors.blueGrey,
+  dialogBackgroundColor: Colors.white10,
+  dropdownMenuTheme: const DropdownMenuThemeData(
+      inputDecorationTheme:InputDecorationTheme(
+        labelStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300, color: Colors.white,),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          borderSide: BorderSide(color: Colors.white, width: 2.0),
+        ),
+        enabledBorder:OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          borderSide: BorderSide(color: Colors.white, width: 2.0,),
+        ),
+      ),
+      textStyle: TextStyle(color: Colors.white,fontSize: 15.0,fontWeight: FontWeight.w300),
+    menuStyle: MenuStyle(
+      backgroundColor: MaterialStatePropertyAll(Colors.black),
+      side: MaterialStatePropertyAll(BorderSide(color: Colors.white)),
+    ),
+  ),
 );
 
 
@@ -106,16 +125,35 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black,
     ),
     labelSmall: TextStyle(
-      fontSize: 10.0,
+      fontSize: 11.0,
       fontWeight: FontWeight.normal,
       color: Colors.black,
   ),
   ),
-  canvasColor: Colors.blue.shade900,
+  canvasColor: Colors.blue,
   primaryColor: Colors.white,
   iconTheme: const IconThemeData(
     color: Colors.black,
   ),
-  cardColor: Colors.blue.shade900,
+  cardColor: Colors.blue,
+  dialogBackgroundColor: Colors.white,
+  dropdownMenuTheme: const DropdownMenuThemeData(
+      inputDecorationTheme:InputDecorationTheme(
+        labelStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300, color: Colors.black,),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          borderSide: BorderSide(color: Colors.black, width: 2.0),
+        ),
+        enabledBorder:OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          borderSide: BorderSide(color: Colors.black, width: 2.0,),
+        ),
+      ),
+    textStyle: TextStyle(color: Colors.black,fontSize: 15.0,fontWeight: FontWeight.w300),
+    menuStyle: MenuStyle(
+      backgroundColor: MaterialStatePropertyAll(Colors.white),
+      side: MaterialStatePropertyAll(BorderSide(color: Colors.black)),
+    ),
+  ),
 );
 
