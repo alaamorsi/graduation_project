@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
-import 'package:graduation_project/shared/components.dart';
+
+import '../../shared/components.dart';
 
 class CategoryList extends StatelessWidget {
   final String pageName;
@@ -32,25 +33,18 @@ class CategoryList extends StatelessWidget {
             ),
             title: Text(pageName),
             centerTitle: true,
-            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           ),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                Flexible(
-                  child: ConditionalBuilder(
-                    condition: true,
-                    builder: (context)=>ListView.separated(
-                      itemBuilder: (context , index)=>buildDiscoveryItem(context: context, index: index),
-                      separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 5.0,),
-                      itemCount: 5,
-                    ),
-                    fallback: (context)=>const Center(child: CircularProgressIndicator()),
-                  ),
+            child: ConditionalBuilder(
+                condition: true,
+                builder: (context)=>ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (context , index)=> buildDiscoveryItem(context: context, index: index),
+                  separatorBuilder: (context , index)=>const SizedBox(width: 5.0,),
+                  itemCount: 20,
                 ),
-              ],
-            ),
+                fallback: (context)=>const Center(child: CircularProgressIndicator())),
           ),
         );
       },

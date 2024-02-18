@@ -267,6 +267,7 @@ Widget buildDiscoveryItem({
       },
       child: Container(
         width: screenWidth *5/6,
+        height: screenHeight /3,
         color:Colors.grey.withOpacity(0.0),
         child: Stack(
           alignment: AlignmentDirectional.bottomStart,
