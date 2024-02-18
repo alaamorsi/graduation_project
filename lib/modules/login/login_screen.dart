@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
+import 'package:graduation_project/modules/login/logic/logic/cubit/forget_password_screen1.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
 import '../../shared/components.dart';
 import 'cubit/cubit.dart';
@@ -130,10 +131,7 @@ class LoginScreenState extends State<LoginScreen> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const SecondScreen()));
+                              navigateTo(context, SecondScreen());
                             },
                             child: Text("انشاء حساب",
                                 style: TextStyle(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
@@ -141,6 +139,18 @@ class LoginScreenState extends State<LoginScreen> {
                           const Text(
                             "ليس لديك حساب ؟",
                             style: TextStyle(color: Colors.grey,fontSize: 14.0),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              navigateTo(context, ForgetPasswordScreen1());
+                            },
+                            child: Text("هل نسيت كلمة السر؟",
+                                style: TextStyle(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
                           ),
                         ],
                       ),

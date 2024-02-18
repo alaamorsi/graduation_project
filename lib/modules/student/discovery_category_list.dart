@@ -34,23 +34,14 @@ class CategoryList extends StatelessWidget {
             centerTitle: true,
             backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                Flexible(
-                  child: ConditionalBuilder(
-                    condition: true,
-                    builder: (context)=>ListView.separated(
-                      itemBuilder: (context , index)=>buildDiscoveryItem(context: context, index: index),
-                      separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 5.0,),
-                      itemCount: 5,
-                    ),
-                    fallback: (context)=>const Center(child: CircularProgressIndicator()),
-                  ),
-                ),
-              ],
+          body: ConditionalBuilder(
+            condition: true,
+            builder: (context)=>ListView.separated(
+              itemBuilder: (context , index)=>buildDiscoveryItem(context: context, index: index),
+              separatorBuilder: (context , index)=> SizedBox(width: 5.0,),
+              itemCount: 5,
             ),
+            fallback: (context)=>const Center(child: CircularProgressIndicator()),
           ),
         );
       },
