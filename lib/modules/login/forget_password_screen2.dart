@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/login/cubit/cubit.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
-import 'package:graduation_project/modules/login/logic/logic/cubit/reset_password_screen.dart';
+import 'package:graduation_project/modules/login/reset_password_screen.dart';
 import 'package:graduation_project/shared/components.dart';
 import 'package:graduation_project/shared/constant.dart';
 

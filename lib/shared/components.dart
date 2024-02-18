@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graduation_project/modules/student/course_demo.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'constant.dart';
 /////////////////////////////////////////////////////
 
@@ -58,7 +59,7 @@ Widget defaultFormField({
       onFieldSubmitted: onSubmit,
       onChanged: onChanged,
       validator: validate,
-      style: const TextStyle(color: Colors.blue,fontSize: 16.0),
+      style: TextStyle(color: HexColor("#000080"),fontSize: 16.0),
       decoration:InputDecoration(
         filled: true,
         fillColor: Colors.white,
@@ -68,8 +69,8 @@ Widget defaultFormField({
         prefixIcon:therePrefix?IconButton(onPressed: prefixPressed, icon: Icon(prefixIcon)):null,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius),
-          borderSide: const BorderSide(
-              color: Colors.blue,
+          borderSide: BorderSide(
+              color: HexColor("#000080"),
               width: 2.0
           ),
         ),
@@ -121,7 +122,7 @@ PreferredSizeWidget defaultAppBar({
       toolbarHeight: 70.0,
       bottomOpacity: 0.7,
       elevation: 2.0,
-      shadowColor: Colors.grey,
+      shadowColor: HexColor("#666666"),
       shape: const ContinuousRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(70.0),
@@ -152,7 +153,7 @@ Widget myDivider() => Padding(
       child: Container(
         width: double.infinity,
         height: 3.0,
-        color: Colors.grey,
+        color: HexColor("#666666"),
       ),
     );
 
@@ -277,9 +278,9 @@ Widget buildDiscoveryItem({
               padding: const EdgeInsets.only(top: 20.0,right: 10.0),
               child: Container(
                 width: screenWidth *4/5,
-                decoration:  const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(21.0)),
-                  color: Colors.blueGrey,
+                decoration:  BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(21.0)),
+                  color: HexColor("#008080"),
                 ),
               ),
             ),

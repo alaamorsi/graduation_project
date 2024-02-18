@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
-import 'package:graduation_project/modules/login/logic/logic/cubit/forget_password_screen1.dart';
+import 'package:graduation_project/modules/login/forget_password_screen1.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
 import '../../shared/components.dart';
 import 'cubit/cubit.dart';

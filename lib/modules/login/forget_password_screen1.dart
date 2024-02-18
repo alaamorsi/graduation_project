@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/modules/login/logic/logic/cubit/forget_password_screen2.dart';
+import 'package:graduation_project/modules/login/forget_password_screen2.dart';
 import 'package:graduation_project/shared/components.dart';
 import 'package:graduation_project/shared/constant.dart';
 

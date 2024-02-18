@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 ThemeData darkTheme = ThemeData(
-  primarySwatch: Colors.blueGrey,
-  scaffoldBackgroundColor: Colors.black54,
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.black45,
+  scaffoldBackgroundColor: HexColor("#101010"),
+  appBarTheme:  AppBarTheme(
+    backgroundColor: HexColor("#008080"),
     titleSpacing: 20.0,
     iconTheme: IconThemeData(
-      color: Colors.white,
-      size: 30.0
+      color: HexColor("#f5f5f5"),
+      size: 30.0,
     ),
     elevation: 0.0,
     titleTextStyle: TextStyle(
-      color: Colors.white,
+      color: HexColor("#f5f5f5"),
       fontSize: 25.0,
       fontWeight: FontWeight.bold,
     ),
     systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: Colors.black54,
+      statusBarColor: HexColor("#008080"),
       statusBarIconBrightness: Brightness.light,
     ),
   ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Colors.blueGrey,
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: HexColor("#666666"),
     elevation: 20.0,
-    backgroundColor: Colors.black54,
-    unselectedItemColor: Colors.grey,
+    selectedItemColor: HexColor("#008080"),
+    unselectedItemColor: HexColor("#c0c0c0"),
     type: BottomNavigationBarType.fixed,
   ),
   textTheme: const TextTheme(
@@ -51,13 +51,13 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
   ),
-  canvasColor: Colors.white,
-  primaryColor: Colors.black,
+  canvasColor: HexColor("#c0c0c0"),
+  primaryColor: HexColor("#101010"),
   iconTheme: const IconThemeData(
     color: Colors.white,
   ),
-  cardColor: Colors.blueGrey,
-  dialogBackgroundColor: Colors.white10,
+  cardColor: HexColor("#008080"),
+  dialogBackgroundColor: HexColor("#666666"),
   dropdownMenuTheme: const DropdownMenuThemeData(
       inputDecorationTheme:InputDecorationTheme(
         labelStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300, color: Colors.white,),
@@ -81,31 +81,30 @@ ThemeData darkTheme = ThemeData(
 
 ///////////////////light mode
 ThemeData lightTheme = ThemeData(
-  primarySwatch: Colors.blue,
-  scaffoldBackgroundColor: Colors.white,
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.blue,
+  scaffoldBackgroundColor: HexColor("#f5f5f5"),
+  appBarTheme:  AppBarTheme(
+    backgroundColor: HexColor("#000080"),
     titleSpacing: 20.0,
     iconTheme: IconThemeData(
-      color: Colors.black,
+      color: HexColor("#f5f5f5"),
       size: 30.0,
     ),
     elevation: 0.0,
     titleTextStyle: TextStyle(
-      color: Colors.black,
+      color: HexColor("#f5f5f5"),
       fontSize: 25.0,
       fontWeight: FontWeight.bold,
     ),
     systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-      statusBarIconBrightness: Brightness.dark,
+      statusBarColor: HexColor("#000080"),
+      statusBarIconBrightness: Brightness.light,
     ),
   ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Colors.blue,
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: HexColor("#f5f5f5"),
     elevation: 20.0,
-    backgroundColor: Colors.white,
-    unselectedItemColor: Colors.grey,
+    selectedItemColor: HexColor("#000080"),
+    unselectedItemColor: HexColor("#666666"),
     type: BottomNavigationBarType.fixed,
   ),
   textTheme: const TextTheme(
@@ -130,13 +129,13 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black,
   ),
   ),
-  canvasColor: Colors.blue,
-  primaryColor: Colors.white,
+  canvasColor: HexColor("#000080"),
+  primaryColor: HexColor("#f5f5f5"),
   iconTheme: const IconThemeData(
     color: Colors.black,
   ),
-  cardColor: Colors.blue,
-  dialogBackgroundColor: Colors.white,
+  cardColor: HexColor("#000080"),
+  dialogBackgroundColor: HexColor("#f5f5f5"),
   dropdownMenuTheme: const DropdownMenuThemeData(
       inputDecorationTheme:InputDecorationTheme(
         labelStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300, color: Colors.black,),

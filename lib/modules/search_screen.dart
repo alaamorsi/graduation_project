@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import '../shared/components.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
@@ -31,7 +32,6 @@ class SearchScreenState extends State<SearchScreen> {
                 return const MultiSelect();
               }
           );
-
           setState(() {
             selectedItems = results;
           });
@@ -42,7 +42,7 @@ class SearchScreenState extends State<SearchScreen> {
             toolbarHeight: 70.0,
             bottomOpacity: 0.7,
             elevation: 2.0,
-            shadowColor: Colors.grey,
+            shadowColor: HexColor("#666666"),
             shape: const ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(70.0),

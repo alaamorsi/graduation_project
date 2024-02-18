@@ -38,6 +38,13 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   bloc: ^8.1.2
   flutter_bloc: ^8.1.2
+  shared_preferences: ^2.0.5
+  image_picker: ^1.0.2
+  fluttertoast: ^8.2.2
+  intl: ^0.18.1
+  introduction_screen: ^3.1.12
+  hexcolor: ^3.0.1
+###########network########
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
   build_runner: ^2.4.8
@@ -47,12 +54,10 @@ dependencies:
   carp_serializable: ^1.1.1
   retrofit: ^4.0.3
   retrofit_generator: ^8.0.6
-  intl: ^0.18.1
   freezed: ^2.4.6
   freezed_annotation: ^2.4.1
-  shared_preferences: ^2.0.5
-  image_picker: ^1.0.2
-  fluttertoast: ^8.2.2
+
+
 
 dev_dependencies:
   flutter_test:
