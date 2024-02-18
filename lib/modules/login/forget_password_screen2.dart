@@ -7,37 +7,44 @@ import 'package:graduation_project/shared/components.dart';
 import 'package:graduation_project/shared/constant.dart';
 
 class ForgetPasswordScreen2 extends StatelessWidget {
-  TextEditingController codeController = TextEditingController();
+  final TextEditingController codeController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  ForgetPasswordScreen2({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('هل نسيت كلمة السر؟'),
+        title: const Text('هل نسيت كلمة السر؟'),
       ),
       body: BlocConsumer<LoginCubit,LoginStates>(
         listener: (context , state){},
         builder: (context , state){
           return Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Form(
                 key: formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: double.infinity,
-                      height: screenHeight/2,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage('Assets/check_email.png',),fit: BoxFit.fitWidth),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Container(
+                        width: screenWidth*3/4,
+                        height: screenWidth*3/4,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(image: AssetImage('Assets/check_email.png',),fit: BoxFit.cover),
+                        ),
                       ),
                     ),
-                    Text('رجاءاً ادخل رمز التحقق الذي تم ارساله', style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),),
-                    Text('لفد ارسلنا الي البريد الإلكتروني الخاص بك رمز التحقق', style: TextStyle(fontSize: 16.0,),),
-                    SizedBox(height: 20.0,),
+                    const Text('رجاءاً ادخل رمز التحقق الذي تم ارساله',
+                      style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),textDirection: TextDirection.rtl),
+                    const Text('لفد ارسلنا الي البريد الإلكتروني الخاص بك رمز التحقق',
+                      style: TextStyle(fontSize: 16.0,),textDirection: TextDirection.rtl),
+                    const SizedBox(height: 20.0,),
                     defaultFormField(
                       controller: codeController,
                       type: TextInputType.number,
@@ -55,15 +62,19 @@ class ForgetPasswordScreen2 extends StatelessWidget {
                         LoginCubit.get(context).changePasswordVisibility();
                       },
                     ),
-                    SizedBox(height: 20.0,),
-                    Container(
-                        width: double.infinity,
-                        height: 50.0,
-                        child: ElevatedButton(onPressed: (){
-                          if(formKey.currentState!.validate())
-                            navigateTo(context, ResetPasswordScreen());
-                        }, child: Text('التالي'))),
-
+                    const SizedBox(height: 20.0,),
+                    usedButton(
+                      atEnd: false,
+                      paddingSize: 10.0,
+                      text: "التالي",
+                      onPressed: () {
+                        if(formKey.currentState!.validate()) {
+                          navigateTo(context, ResetPasswordScreen());
+                        }
+                      },
+                      context: context,
+                      color: Theme.of(context).canvasColor,
+                    ),
                   ],
                 ),
               ),

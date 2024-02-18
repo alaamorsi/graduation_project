@@ -4,35 +4,41 @@ import 'package:graduation_project/shared/components.dart';
 import 'package:graduation_project/shared/constant.dart';
 
 class ForgetPasswordScreen1 extends StatelessWidget {
-  TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  ForgetPasswordScreen1({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('هل نسيت كلمة السر؟'),
+        title: const Text('هل نسيت كلمة السر؟'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Form(
             key: formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: double.infinity,
-                  height: screenHeight/2,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('Assets/forgetpassword.png',),fit: BoxFit.fitWidth),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Container(
+                    width: screenWidth*3/4,
+                    height: screenWidth*3/4,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(image: AssetImage('Assets/forgetpassword.png',),fit: BoxFit.cover),
+                    ),
                   ),
                 ),
-                Text('رجاءاً ادخل البريد الإلكتروني للحساب الخاص بك', style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),),
-                Text('سوف نرسل الي البريد الإلكتروني الخاص بك رمز التحقق', style: TextStyle(fontSize: 16.0,),),
-                SizedBox(height: 20.0,),
+                const Text('رجاءاً ادخل البريد الإلكتروني للحساب الخاص بك',
+                  style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),textDirection: TextDirection.rtl),
+                const Text('سوف نرسل الي البريد الإلكتروني الخاص بك رمز التحقق',
+                  style: TextStyle(fontSize: 16.0,),textDirection: TextDirection.rtl,),
+                const SizedBox(height: 20.0,),
                 defaultFormField(
                     controller: emailController,
                     type: TextInputType.emailAddress,
@@ -44,15 +50,19 @@ class ForgetPasswordScreen1 extends StatelessWidget {
                     },
                     label: 'البريد الإلكتروني',
                     suffixIcon: Icons.email_outlined),
-                SizedBox(height: 20.0,),
-                Container(
-                  width: double.infinity,
-                    height: 50.0,
-                    child: ElevatedButton(onPressed: (){
-                      if(formKey.currentState!.validate())
+                const SizedBox(height: 20.0,),
+                usedButton(
+                  atEnd: false,
+                  paddingSize: 10.0,
+                  text: "التالي",
+                  onPressed: () {
+                    if(formKey.currentState!.validate()) {
                       navigateTo(context, ForgetPasswordScreen2());
-                    }, child: Text('التالي'))),
-
+                    }
+                  },
+                  context: context,
+                  color: Theme.of(context).canvasColor,
+                ),
               ],
             ),
           ),

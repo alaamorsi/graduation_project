@@ -131,7 +131,7 @@ class LoginScreenState extends State<LoginScreen> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              navigateTo(context, SecondScreen());
+                              navigateTo(context, const SecondScreen());
                             },
                             child: Text("انشاء حساب",
                                 style: TextStyle(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),

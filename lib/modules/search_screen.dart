@@ -61,9 +61,9 @@ class SearchScreenState extends State<SearchScreen> {
             title: TextField(
               controller: searchController,
               textAlign: TextAlign.end,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'ادخل اسم المدرس او المادة',
-                hintStyle: Theme.of(context).textTheme.titleSmall,
+                hintStyle: TextStyle(color: Colors.white,fontSize: 13.0,fontWeight: FontWeight.w300),
                 border: InputBorder.none,
               ),
               keyboardType: TextInputType.text,
@@ -128,7 +128,7 @@ class _MultiSelectState extends State<MultiSelect> {
     'الإعدادي',
     'الإبتدائي',
   ];
-  final subjects=[
+  final primary=[
     'عربي',
     'انجليزي',
     'رياضيات',
@@ -168,6 +168,7 @@ class _MultiSelectState extends State<MultiSelect> {
     false,
   ];
   List<String> selectedItems =[];
+  bool isPrim=true;
 
   void itemChange(String itemValue, bool isSelected) {
     setState(() {
@@ -216,13 +217,11 @@ class _MultiSelectState extends State<MultiSelect> {
             ),
             ConditionalBuilder(
               condition: true,
-              builder:(context)=> Table(
-                children: [
-                  TableRow(children: [
+              builder:(context)=> Wrap(
+                children:[
                     chooses(context, 0, eduLevel, levelSelections),
                     chooses(context, 1, eduLevel, levelSelections),
                     chooses(context, 2, eduLevel, levelSelections),
-                  ]),
                 ],
               ),
               fallback: (context)=>Container(),
@@ -241,36 +240,13 @@ class _MultiSelectState extends State<MultiSelect> {
               ),
             ),
             ConditionalBuilder(
-              condition: true,
-              builder:(context)=> Table(
-                children: [
-                  TableRow(children: [
-                      chooses(context, 0, subjects, subSelections),
-                      chooses(context, 1, subjects, subSelections),
-                      chooses(context, 2, subjects, subSelections),
-                    ]),
-                  TableRow(children: [
-                    chooses(context, 3, subjects, subSelections),
-                    chooses(context, 4, subjects, subSelections),
-                    chooses(context, 5, subjects, subSelections),
-                  ]),
-                  TableRow(children: [
-                    chooses(context, 6, subjects, subSelections),
-                    chooses(context, 7, subjects, subSelections),
-                    chooses(context, 8, subjects, subSelections),
-                  ]),
-                  TableRow(children: [
-                    chooses(context, 9, subjects, subSelections),
-                    chooses(context, 10, subjects, subSelections),
-                    chooses(context, 11, subjects, subSelections),
-                  ]),
-                  TableRow(children: [
-                    chooses(context, 12, subjects, subSelections),
-                    chooses(context, 13, subjects, subSelections),
-                    chooses(context, 14, subjects, subSelections),
-                  ]),
-                ],
-              ),
+              condition: isPrim,
+              builder:(context)=> prim(),
+              fallback: (context)=>Container(),
+            ),
+            ConditionalBuilder(
+              condition: !isPrim,
+              builder:(context)=> second(),
               fallback: (context)=>Container(),
             ),
             const SizedBox(height: 10.0,),
@@ -292,22 +268,72 @@ class _MultiSelectState extends State<MultiSelect> {
         ),],
     );
   }
-
   Widget chooses(BuildContext context,int index,List<String> list,List<bool> isSelect)=>
-      FilterChip(
-          showCheckmark: false,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),),
-          label: Text(list[index]),
-          labelStyle: Theme.of(context).textTheme.titleSmall,
-          selected: isSelect[index],
-          backgroundColor: Colors.grey,
-          selectedColor: Theme.of(context).cardColor,
-          onSelected: (bool select){
-            setState(() {
-              itemChange(list[index], select);
-              isSelect[index] = !isSelect[index];
-            });
-          }
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 3.0),
+        child: FilterChip(
+            showCheckmark: false,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),),
+            label: Text(list[index]),
+            labelStyle: const TextStyle(color: Colors.white,fontSize: 15.0,fontWeight: FontWeight.w300),
+            selected: isSelect[index],
+            backgroundColor: Colors.grey,
+            selectedColor: Theme.of(context).cardColor,
+            onSelected: (bool select){
+              if(list==eduLevel) {
+                  setState(() {
+                    isSelect[index] = !isSelect[index];
+                    itemChange(list[index], select);
+                    if(levelSelections[0]){
+                      isPrim=false;
+                    }
+                    else{
+                      isPrim=true;
+                    }
+                    for(int i=0;i<eduLevel.length;i++) {
+                      if(i==index){
+                        continue;
+                      }
+                      isSelect[i] = false;
+                    }
+                  });
+              }
+              else{
+                setState(() {
+                  itemChange(list[index], select);
+                  isSelect[index] = !isSelect[index];
+                });
+              }
+            }
+        ),
       );
+
+  Widget prim()=>Wrap(
+  children: [
+  chooses(context, 0, primary, subSelections),
+  chooses(context, 1, primary, subSelections),
+  chooses(context, 2, primary, subSelections),
+  chooses(context, 3, primary, subSelections),
+  chooses(context, 4, primary, subSelections),
+
+  ]);
+  Widget second()=>Wrap(
+      children: [
+        chooses(context, 0, primary, subSelections),
+        chooses(context, 1, primary, subSelections),
+        chooses(context, 2, primary, subSelections),
+        chooses(context, 3, primary, subSelections),
+        chooses(context, 4, primary, subSelections),
+        chooses(context, 5, primary, subSelections),
+        chooses(context, 6, primary, subSelections),
+        chooses(context, 7, primary, subSelections),
+        chooses(context, 8, primary, subSelections),
+        chooses(context, 9, primary, subSelections),
+        chooses(context, 10, primary, subSelections),
+        chooses(context, 11, primary, subSelections),
+        chooses(context, 12, primary, subSelections),
+        chooses(context, 13, primary, subSelections),
+        chooses(context, 14, primary, subSelections),
+      ]);
 }

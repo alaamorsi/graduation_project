@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/student/discovery_category_list.dart';
 import 'package:graduation_project/shared/components.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import '../../shared/constant.dart';
 
@@ -38,17 +39,17 @@ class _StudentDiscoveryState extends State<StudentDiscovery> {
                 width: double.infinity,
                 height: screenHeight/13.5,
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: HexColor("#101010").withOpacity(0.1),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(11.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Icon(Icons.arrow_back_outlined,color: Colors.blueGrey,),
+                      Icon(Icons.arrow_back_outlined,color: HexColor("#008080"),),
                       const Spacer(),
                       Text(categories[index],
-                        style: const TextStyle(color: Colors.blueGrey,fontSize: 18.0,fontWeight: FontWeight.w500),),
+                        style: TextStyle(color: HexColor("#008080"),fontSize: 18.0,fontWeight: FontWeight.w500),),
                     ],
                   ),
                 ),
