@@ -27,9 +27,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               context: context,
               leadingIcon: Icons.arrow_back_ios_outlined,
               leadingFunction: (){Navigator.pop(context);},
-              title:Padding(
-                padding: const EdgeInsets.only(left: 60.0),
-                child: Text("الأعدادات",style: Theme.of(context).textTheme.titleLarge,),
+              title:const Padding(
+                padding: EdgeInsets.only(left: 60.0),
+                child: Text("الأعدادات",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.0),),
               ),),
           body: Padding(
             padding:   const EdgeInsets.all(30.0),
