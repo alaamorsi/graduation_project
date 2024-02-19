@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/introduction_screen.dart';
 import 'package:graduation_project/shared/components.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
-
   @override
   State<Splash> createState() =>SplashState();
 }
-
 class SplashState extends State<Splash> {
   @override
   void initState() {
@@ -33,19 +32,18 @@ class SplashState extends State<Splash> {
         });
     super.initState();
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body:  const Center(
+      body:   Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundImage: AssetImage("Assets/logo.png"),
+              backgroundImage: const AssetImage("Assets/logo.png"),
               radius: 111.0,
+              backgroundColor: HexColor("#000080"),
             ),
           ]
         ),

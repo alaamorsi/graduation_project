@@ -12,6 +12,7 @@ class CourseDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = StudentCubit.get(context);
+    cubit.fullPaidList(4);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){},
       builder: (context , state ){
@@ -49,22 +50,22 @@ class CourseDemo extends StatelessWidget {
                     child: ConditionalBuilder(
                         condition: true,
                         builder: (context)=>ListView.separated(
-                            itemBuilder: (context , index)=>buildDemoListItem(context,index),
+                            itemBuilder: (context , index)=>buildDemoItem(context,index,cubit.isPaid[index]),
                             separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 5.0,),
                             itemCount: 4,
                         ),
                         fallback: (context)=>const Center(child: CircularProgressIndicator()),
                     ),
                   ),
-                  const SizedBox(height: 10.0,),
+                  const SizedBox(height: 3.0,),
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: usedButton(
                       atEnd: false,
                       text: 'حجز الآن',
                       color: Theme.of(context).cardColor,
                       context: context,
-                      onPressed:(){cubit.checkPayment();},
+                      onPressed:(){cubit.checkPayment(4);},
                     ),
                   ),
                 ],
@@ -75,7 +76,7 @@ class CourseDemo extends StatelessWidget {
     );
   }
 
-  Widget buildDemoListItem(context,index)
+  Widget buildDemoItem(BuildContext context,int index,bool paid)
   {
     var cubit = StudentCubit.get(context);
     return Padding(
@@ -112,21 +113,16 @@ class CourseDemo extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index)=>Padding(
                   padding: const EdgeInsets.symmetric(horizontal:11.0),
-                  child: Column(
-                    children: [
-                      TextButton(
-                        onPressed: cubit.isPaid?(){} : null,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(cubit.isPaid? Icons.ondemand_video : Icons.lock_rounded,color: Theme.of(context).cardColor,),
-                            const Spacer(),
-                            const SizedBox(height: 6.0,),
-                            Text('${index+1}',style: Theme.of(context).textTheme.titleSmall,)
-                          ],
-                        ),
-                      ),
-                    ],
+                  child: TextButton(
+                    onPressed: paid?(){} : null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(paid? Icons.ondemand_video : Icons.lock_rounded,color: Theme.of(context).cardColor,),
+                        const Spacer(),
+                        Text('${index+1}',style: Theme.of(context).textTheme.titleSmall,)
+                      ],
+                    ),
                   ),
                 ),
                 separatorBuilder: (context, index)=>const SizedBox(height: 3.0,),

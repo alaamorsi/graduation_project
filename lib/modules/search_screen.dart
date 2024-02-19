@@ -22,8 +22,6 @@ class SearchScreenState extends State<SearchScreen> {
       builder: (context, state) {
         var list = AppCubit.get(context).search;
         bool startSearching = false;
-        List<String> selectedItems = [];
-
         void showSearchFilter() async
         {
           final List<String> results = await showDialog(
@@ -33,10 +31,9 @@ class SearchScreenState extends State<SearchScreen> {
               }
           );
           setState(() {
-            selectedItems = results;
+            print(results);
           });
         }
-
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 70.0,
@@ -128,7 +125,7 @@ class _MultiSelectState extends State<MultiSelect> {
     'الإعدادي',
     'الإبتدائي',
   ];
-  final primary=[
+  final subjects=[
     'عربي',
     'انجليزي',
     'رياضيات',
@@ -186,6 +183,7 @@ class _MultiSelectState extends State<MultiSelect> {
   }
   void submit(){
     Navigator.pop(context,selectedItems);
+
   }
 
   @override
@@ -203,51 +201,40 @@ class _MultiSelectState extends State<MultiSelect> {
       content: SingleChildScrollView(
         child: ListBody(
           children: [
-            GestureDetector(
-              onTap: (){},
-              child: Container(
-                color: Colors.transparent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('المرحلة التعليمية',style: Theme.of(context).textTheme.titleMedium,),
-                  ],
-                ),
+            Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('المرحلة التعليمية',style: Theme.of(context).textTheme.titleMedium,),
+                ],
               ),
             ),
             ConditionalBuilder(
               condition: true,
               builder:(context)=> Wrap(
                 children:[
-                    chooses(context, 0, eduLevel, levelSelections),
-                    chooses(context, 1, eduLevel, levelSelections),
-                    chooses(context, 2, eduLevel, levelSelections),
+                    levelChoose(context, 0),
+                    levelChoose(context, 1),
+                    levelChoose(context, 2),
                 ],
               ),
               fallback: (context)=>Container(),
             ),
             const SizedBox(height: 10.0,),
-            GestureDetector(
-              onTap: (){},
-              child: Container(
-                color: Colors.transparent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('المواد الدراسية',style: Theme.of(context).textTheme.titleMedium,),
-                  ],
-                ),
+            Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('المواد الدراسية',style: Theme.of(context).textTheme.titleMedium,),
+                ],
               ),
             ),
             ConditionalBuilder(
               condition: isPrim,
               builder:(context)=> prim(),
-              fallback: (context)=>Container(),
-            ),
-            ConditionalBuilder(
-              condition: !isPrim,
-              builder:(context)=> second(),
-              fallback: (context)=>Container(),
+              fallback: (context)=>second(),
             ),
             const SizedBox(height: 10.0,),
           ]
@@ -268,72 +255,89 @@ class _MultiSelectState extends State<MultiSelect> {
         ),],
     );
   }
-  Widget chooses(BuildContext context,int index,List<String> list,List<bool> isSelect)=>
+
+  Widget levelChoose(BuildContext context,int index)=>
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3.0),
         child: FilterChip(
             showCheckmark: false,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),),
-            label: Text(list[index]),
+            label: Text(eduLevel[index]),
             labelStyle: const TextStyle(color: Colors.white,fontSize: 15.0,fontWeight: FontWeight.w300),
-            selected: isSelect[index],
+            selected: levelSelections[index],
             backgroundColor: Colors.grey,
             selectedColor: Theme.of(context).cardColor,
             onSelected: (bool select){
-              if(list==eduLevel) {
-                  setState(() {
-                    isSelect[index] = !isSelect[index];
-                    itemChange(list[index], select);
-                    if(levelSelections[0]){
-                      isPrim=false;
-                    }
-                    else{
-                      isPrim=true;
-                    }
-                    for(int i=0;i<eduLevel.length;i++) {
-                      if(i==index){
-                        continue;
-                      }
-                      isSelect[i] = false;
-                    }
-                  });
-              }
-              else{
-                setState(() {
-                  itemChange(list[index], select);
-                  isSelect[index] = !isSelect[index];
-                });
-              }
+              setState(() {
+                for(int i=0;i<3;i++) {
+                  if(i==index){
+                    levelSelections[index] = !levelSelections[index];
+                    continue;
+                  }
+                  levelSelections[i] = false;
+                  itemChange(eduLevel[i], false);
+                }
+                if(levelSelections[0]){
+                  isPrim=false;
+                } else if(levelSelections[1]||levelSelections[2]){
+                  isPrim=true;
+                }
+                itemChange(eduLevel[index], select);
+              });
             }
         ),
       );
-
+  Widget chooses(BuildContext context,int index)=>
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 3.0),
+        child: FilterChip(
+            showCheckmark: false,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),),
+            label: Text(subjects[index]),
+            labelStyle: const TextStyle(color: Colors.white,fontSize: 15.0,fontWeight: FontWeight.w300),
+            selected: subSelections[index],
+            backgroundColor: Colors.grey,
+            selectedColor: Theme.of(context).cardColor,
+            onSelected: (bool select){
+              setState(() {
+                itemChange(subjects[index], select);
+                subSelections[index] = !subSelections[index];
+                for(int i=0;i<15;i++) {
+                  if(subSelections[i]){
+                    continue;
+                  }
+                  itemChange(subjects[i], false);
+                }
+              });
+            }
+        ),
+      );
   Widget prim()=>Wrap(
-  children: [
-  chooses(context, 0, primary, subSelections),
-  chooses(context, 1, primary, subSelections),
-  chooses(context, 2, primary, subSelections),
-  chooses(context, 3, primary, subSelections),
-  chooses(context, 4, primary, subSelections),
-
+      children: [
+        chooses(context, 0),
+        chooses(context, 1),
+        chooses(context, 2),
+        chooses(context, 3),
+        chooses(context, 4),
   ]);
   Widget second()=>Wrap(
       children: [
-        chooses(context, 0, primary, subSelections),
-        chooses(context, 1, primary, subSelections),
-        chooses(context, 2, primary, subSelections),
-        chooses(context, 3, primary, subSelections),
-        chooses(context, 4, primary, subSelections),
-        chooses(context, 5, primary, subSelections),
-        chooses(context, 6, primary, subSelections),
-        chooses(context, 7, primary, subSelections),
-        chooses(context, 8, primary, subSelections),
-        chooses(context, 9, primary, subSelections),
-        chooses(context, 10, primary, subSelections),
-        chooses(context, 11, primary, subSelections),
-        chooses(context, 12, primary, subSelections),
-        chooses(context, 13, primary, subSelections),
-        chooses(context, 14, primary, subSelections),
+        chooses(context, 0),
+        chooses(context, 1),
+        chooses(context, 2),
+        chooses(context, 3),
+        chooses(context, 4),
+        chooses(context, 5),
+        chooses(context, 6),
+        chooses(context, 7),
+        chooses(context, 8),
+        chooses(context, 9),
+        chooses(context,10),
+        chooses(context,11),
+        chooses(context,12),
+        chooses(context,13),
+        chooses(context,14),
       ]);
 }

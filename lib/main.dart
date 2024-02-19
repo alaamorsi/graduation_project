@@ -22,7 +22,7 @@ void main() async{
 }
 class MyApp extends StatelessWidget {
   bool appMode;
-  MyApp({
+  MyApp({super.key,
     required this.appMode,
   });
 
