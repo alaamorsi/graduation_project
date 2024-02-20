@@ -17,6 +17,7 @@ class SecondScreenState extends State<SecondScreen> {
     return Scaffold(
       backgroundColor:Theme.of(context).scaffoldBackgroundColor,
      appBar: AppBar(
+       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
        title:InkWell(
          onTap: (){navigateAndFinish(context, const LoginScreen());},
          child: Row(
