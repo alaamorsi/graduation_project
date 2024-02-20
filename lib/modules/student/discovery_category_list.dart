@@ -15,35 +15,38 @@ class CategoryList extends StatelessWidget {
       listener: (context , state ){},
       builder: (context , state ){
         return Scaffold(
-          appBar:AppBar(
-            toolbarHeight: 70.0,
-            bottomOpacity: 0.7,
-            elevation: 2.0,
-            shadowColor: Colors.grey,
-            shape: const ContinuousRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(70.0),
-                bottomRight: Radius.circular(70.0),
-              ),
-            ),
-            leading: IconButton(
-                onPressed: (){Navigator.pop(context);},
-                icon: const Icon(Icons.arrow_back_ios_rounded)
-            ),
-            title: Text(pageName),
-            centerTitle: true,
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ConditionalBuilder(
-                condition: true,
-                builder: (context)=>ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context , index)=> buildDiscoveryItem(context: context, index: index),
-                  separatorBuilder: (context , index)=>const SizedBox(width: 5.0,),
-                  itemCount: 20,
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                toolbarHeight: 70.0,
+                elevation: 2.0,
+                shadowColor: Colors.grey,
+                shape: const ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(70.0),
+                    bottomRight: Radius.circular(70.0),
+                  ),
                 ),
-                fallback: (context)=>const Center(child: CircularProgressIndicator())),
+                leading: IconButton(
+                    onPressed: (){Navigator.pop(context);},
+                    icon: const Icon(Icons.arrow_back_ios_rounded)
+                ),
+                title: Text(pageName),
+                centerTitle: true,
+              ),
+              ConditionalBuilder(
+                condition: true,
+                builder: (context)=>SliverList.builder(
+                  itemBuilder: (BuildContext context, int index)=>Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: buildDiscoveryItem(context: context, index: index),
+                  ),
+                  itemCount: 9,
+                ),
+                fallback: (context)=>const Center(child: CircularProgressIndicator()),
+              ),
+            ],
           ),
         );
       },

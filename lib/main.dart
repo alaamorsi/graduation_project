@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
@@ -19,6 +20,12 @@ void main() async{
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
   runApp(MyApp(appMode: mode));
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor:Colors.transparent,
+    ),
+  );
 }
 class MyApp extends StatelessWidget {
   bool appMode;
@@ -43,6 +50,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
             darkTheme: darkTheme,
+            locale: AppCubit.get(context).language,
             themeMode: AppCubit.get(context).theme,
             home:const Splash(),
           );

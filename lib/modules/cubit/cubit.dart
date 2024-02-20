@@ -32,17 +32,16 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   // Change language by default arabic
-  bool lang = true;
+  Locale language = Locale('ar',);
   void changeAppLanguage(String ln) {
-    if (ln=="English")
+    if (ln=="en")
     {
-      lang = false;
+      language = Locale('en',);
     }
-    else if(ln=="Arabic")
+    else if(ln=="ar")
     {
-      lang = true;
+      language = Locale('ar',);
     }
-    CacheHelper.putBoolean(key: 'appLang', value: lang);
     CacheHelper.saveData(key: 'ln', value: ln);
     emit(AppChangModeState());
   }

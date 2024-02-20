@@ -3,6 +3,7 @@ import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:graduation_project/modules/login/student_register.dart';
 import 'package:graduation_project/modules/login/teacher_register.dart';
 import 'package:graduation_project/shared/components.dart';
+import '../../shared/constant.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});
@@ -24,7 +25,7 @@ class SecondScreenState extends State<SecondScreen> {
                  color: Theme.of(context).canvasColor,size: 35.0,
                ),
                Text("سجل الدخول",
-                 style: TextStyle(color: Theme.of(context).canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
+                 style: font.copyWith(color: Theme.of(context).canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
              ]
          ),
        ),
@@ -39,17 +40,17 @@ class SecondScreenState extends State<SecondScreen> {
              children: [
                Text(
                  'حساب جديد',
-                 style:TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,
+                 style: font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
                      color: Theme.of(context).canvasColor),
                ),
              ],
            ),
-           const Row(
+           Row(
              mainAxisAlignment: MainAxisAlignment.center,
              children: [
                Text(
                  'سجل الأن لتستمتع بخدماتنا الرائعة',
-                 style:TextStyle(fontSize: 13.0, color: Colors.grey),
+                 style: font.copyWith(fontSize: 13.0, color: Colors.grey),
                ),
              ],
            ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
 import '../../shared/components.dart';
+import '../../shared/constant.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 import 'login_screen.dart';
@@ -17,11 +19,11 @@ class StudentScreenState extends State<StudentScreen> {
   late String name, email, phone;
 
   //TextController to read text entered in text field
-  TextEditingController password = TextEditingController();
-  TextEditingController namecontrol = TextEditingController();
-  TextEditingController  emillecontrol = TextEditingController();
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class StudentScreenState extends State<StudentScreen> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SingleChildScrollView(
             child: Form(
-              key: _formkey,
+              key: formKey,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -49,8 +51,8 @@ class StudentScreenState extends State<StudentScreen> {
                                 color: theme.canvasColor,size: 35.0,
                           ),
                           Text("سجل الدخول",
-                            style: TextStyle(color: theme.canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
-                        ]
+                            style: font.copyWith(color: theme.canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
+                        ],
                       ),
                     ),
                     const SizedBox(height: 70.0),
@@ -64,18 +66,18 @@ class StudentScreenState extends State<StudentScreen> {
                         ),
                       ],
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'سجل الأن لتستمتع بخدماتنا الرائعة',
-                          style:TextStyle(fontSize: 13.0, color: Colors.grey),
+                          style: font.copyWith(fontSize: 13.0, color: Colors.grey),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20.0),
                     defaultFormField(
-                        controller: namecontrol,
+                        controller: nameController,
                         type: TextInputType.text,
                         validate: (String? value) {
                           if (value!.isEmpty) {
@@ -87,7 +89,7 @@ class StudentScreenState extends State<StudentScreen> {
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
-                        controller: emillecontrol,
+                        controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
@@ -99,7 +101,7 @@ class StudentScreenState extends State<StudentScreen> {
                         suffixIcon: Icons.email_outlined),
                     const SizedBox(height: 10.0),
                     defaultFormField(
-                      controller: password,
+                      controller: passwordController,
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty) {
@@ -137,7 +139,7 @@ class StudentScreenState extends State<StudentScreen> {
                     usedButton(
                       atEnd: false,
                       text: "إنشاء",
-                      onPressed: () {if (_formkey.currentState!.validate()) {
+                      onPressed: () {if (formKey.currentState!.validate()) {
                         return;
                       } else {
                       }
@@ -157,10 +159,10 @@ class StudentScreenState extends State<StudentScreen> {
                                     builder: (context) => const LoginScreen()));
                           },
                           child: Text("سجل الدخول",
-                              style: TextStyle(color: theme.canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                              style: font.copyWith(color: theme.canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
                         ),
-                        const Text(" لديك حساب بالفعل ؟",
-                          style:TextStyle(fontSize: 14.0, color: Colors.grey),
+                        Text(" لديك حساب بالفعل ؟",
+                          style: font.copyWith(fontSize: 14.0, color: Colors.grey),
                         ),
                       ]
                     ),

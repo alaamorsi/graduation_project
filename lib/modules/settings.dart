@@ -27,9 +27,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               context: context,
               leadingIcon: Icons.arrow_back_ios_outlined,
               leadingFunction: (){Navigator.pop(context);},
-              title:const Padding(
-                padding: EdgeInsets.only(left: 60.0),
-                child: Text("الأعدادات",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.0),),
+              title: Padding(
+                padding: const EdgeInsets.only(left: 60.0),
+                child: Text("الأعدادات",style: font.copyWith(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.0),),
               ),),
           body: Padding(
             padding:   const EdgeInsets.all(30.0),
@@ -48,13 +48,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             title: "اللغة",
                             initialSelectionText: lang,
                             chooses: <DropdownMenuEntry<String>>[
-                              DropdownMenuEntry(value: "English", label: "English",
+                              DropdownMenuEntry(value: "en", label: "English",
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
                                   foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
                                 ),
                               ),
-                              DropdownMenuEntry(value: "Arabic", label: "عربي",
+                              DropdownMenuEntry(value: "ar", label: "عربي",
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
                                   foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
@@ -63,10 +63,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                             onSelect: (language){
                               switch (language) {
-                                case "Arabic":
+                                case "ar":
                                   appCubit.changeAppLanguage("Arabic");
                                   break;
-                                case "English":
+                                case "en":
                                   appCubit.changeAppLanguage("English");
                                   break;
                               }

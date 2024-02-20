@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/modules/student/course_demo.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'constant.dart';
@@ -28,7 +29,7 @@ Widget usedButton({
       children:[
         Text(
           text,
-          style:const TextStyle(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.bold),
+          style: GoogleFonts.changa().copyWith(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.bold),
         ),
       ],
     ));
@@ -173,51 +174,6 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
     );
 
 /////////////////////
-Widget BuiltArticleItem(article, context) => InkWell(
-  onTap: () {
-    // navigateTo(context, WebViewScreen(article['url']));
-  },
-  child: Padding(
-    padding: const EdgeInsets.all(20.0),
-    child: Row(
-      children: [
-        Container(
-          width: 120.0,
-          height: 120.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
-        SizedBox(width: 20.0,),
-        Expanded(
-          child: Container(
-            height: 120.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    '${article['title']}',
-                    style: Theme.of(context).textTheme.titleMedium,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  '${article['publishedAt']}',
-                  style: TextStyle(
-                      fontSize: 10.0, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          ),
-        )
-      ],
-    ),
-  ),
-);
-
 
 void showToast({
   required String text,
@@ -260,16 +216,18 @@ Widget buildDiscoveryItem({
   required int index,
   Color cardItemColor = Colors.white,
 }) {
+  // bool hover = false;
   return Padding(
     padding: const EdgeInsetsDirectional.all(10.0),
     child: InkWell(
       onTap: (){
         navigateTo(context, const CourseDemo());
       },
-      child: Container(
+      child: AnimatedContainer(
         width: screenWidth *5/6,
         height: screenHeight /3,
         color:Colors.grey.withOpacity(0.0),
+        duration: const Duration(seconds: 1),
         child: Stack(
           alignment: AlignmentDirectional.bottomStart,
           children: [

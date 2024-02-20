@@ -56,3 +56,4 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(CheckFavoriteState());
   }
 }
+

@@ -95,7 +95,7 @@ class SearchScreenState extends State<SearchScreen> {
                     builder: (context) => ListView.separated(
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) => BuiltArticleItem(list[index], context),
+                      itemBuilder: (context, index) => const SizedBox(),
                       separatorBuilder: (context, index) => myDivider(),
                       itemCount: list.length,
                     ),
@@ -188,8 +188,6 @@ class _MultiSelectState extends State<MultiSelect> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return AlertDialog(
       backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Row(

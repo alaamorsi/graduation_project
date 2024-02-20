@@ -4,6 +4,8 @@ import 'package:graduation_project/shared/components.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
+import '../shared/constant.dart';
+
 class Introduction extends StatefulWidget {
   const Introduction({super.key});
 
@@ -30,27 +32,39 @@ class _IntroductionState extends State<Introduction> {
       globalFooter: SizedBox(
         width: double.infinity,
         height: 60,
-        child: MaterialButton(
-          color: HexColor("#000080"),
-          child: const Text(
-            'Let\'s go right away!',
-            style: TextStyle(fontSize: 16.0,color: Colors.white, fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: MaterialButton(
+            color: HexColor("#000080"),
+            child: Text(
+              "Let's go right away!",
+              style: font.copyWith(fontSize: 16.0,color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            onPressed: () => onIntroEnd(context),
           ),
-          onPressed: () => onIntroEnd(context),
         ),
       ),
       pages: [
         PageViewModel(
-          title: "اختر بحرية",
-          body: "اختر من بين مئات المدرسين والدروس الاونلاين والمسجلة",
+          titleWidget: Text("اختر بحرية",style: font.copyWith(color: Colors.black,fontSize: 22.0),),
+          bodyWidget: Text(
+            "اختر من بين مئات المدرسين والدروس الاونلاين والمسجلة",
+            style: font.copyWith(color: Colors.black,fontSize: 18.0),
+          ),
           image: Image.asset("Assets/intro1.png",height: 270.0),),
         PageViewModel(
-          title: "تعليم سهل ومسلي",
-          body: "استمتع بمشاهدة مقدمة مجانية من كل المحتويات قبل الشراء , قيم واسأل فى كل درساً على حدا ",
+          titleWidget: Text("تعليم سهل ومسلي",style: font.copyWith(color: Colors.black,fontSize: 22.0),),
+          bodyWidget: Text(
+            "استمتع بمشاهدة مقدمة مجانية من كل المحتويات قبل الشراء , قيم واسأل فى كل درساً على حدا",
+            style: font.copyWith(color: Colors.black,fontSize: 18.0),
+          ),
           image: Image.asset("Assets/intro2.png",height: 270.0),),
         PageViewModel(
-          title: "ارتقي بمستواك",
-          body: "قم بحل المهمة المنزلة على كل درس لإختبار مستواك",
+          titleWidget: Text("ارتقي بمستواك",style: font.copyWith(color: Colors.black,fontSize: 22.0),),
+          bodyWidget: Text(
+            "قم بحل المهمة المنزلة على كل درس لإختبار مستواك",
+            style: font.copyWith(color: Colors.black,fontSize: 18.0),
+          ),
           image: Image.asset("Assets/intro3.png",height: 270.0),),
       ],
       onDone: () => onIntroEnd(context),
@@ -61,9 +75,9 @@ class _IntroductionState extends State<Introduction> {
       showBackButton: false,
       //rtl: true, // Display as right-to-left
       back: const Icon(Icons.arrow_back,color: Colors.white,),
-      skip: const Text('Skip', style: TextStyle(fontWeight: FontWeight.w600,color: Colors.white)),
+      skip: Text('Skip', style: font.copyWith(fontWeight: FontWeight.w600,color: Colors.white)),
       next: const Icon(Icons.arrow_forward,color: Colors.white,),
-      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600,color: Colors.white)),
+      done: Text('Done', style: font.copyWith(fontWeight: FontWeight.w600,color: Colors.white)),
       curve: Curves.fastLinearToSlowEaseIn,
       controlsMargin: const EdgeInsets.all(16),
       dotsDecorator: const DotsDecorator(
@@ -77,7 +91,7 @@ class _IntroductionState extends State<Introduction> {
       dotsContainerDecorator: const ShapeDecoration(
         color: Colors.black87,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderRadius: BorderRadius.all(Radius.circular(9.0)),
         ),
       ),
     );

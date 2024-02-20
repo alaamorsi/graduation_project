@@ -41,8 +41,8 @@ class ResetPasswordScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Text('رجاءاً ادخل كلمة السر الجديدة',
-                      style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),textDirection: TextDirection.rtl),
+                    Text('رجاءاً ادخل كلمة السر الجديدة',
+                      style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold),textDirection: TextDirection.rtl),
                     const SizedBox(height: 20.0,),
                     defaultFormField(
                       controller: passwordController1,

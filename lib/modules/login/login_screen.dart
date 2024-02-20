@@ -4,6 +4,7 @@ import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/modules/login/forget_password_screen1.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
 import '../../shared/components.dart';
+import '../../shared/constant.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
@@ -19,9 +20,9 @@ class LoginScreenState extends State<LoginScreen> {
   late String name, email, phone;
 
   //TextController to read text entered in text field
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmpassword = TextEditingController();
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confPasswordController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class LoginScreenState extends State<LoginScreen> {
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body: SingleChildScrollView(
               child: Form(
-                key: _formkey,
+                key: formKey,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
@@ -46,23 +47,23 @@ class LoginScreenState extends State<LoginScreen> {
                         children: [
                           Text(
                             'تسجيل الدخول',
-                            style:TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,
+                            style: font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
                             color: Theme.of(context).canvasColor),
                           ),
                         ],
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'سجل الأن لتستمتع بخدماتنا الرائعة',
-                            style:TextStyle(fontSize: 13.0, color: Colors.grey),
+                            style:font.copyWith(fontSize: 13.0, color: Colors.grey),
                           ),
                         ],
                       ),
                       const SizedBox(height: 20.0),
                       defaultFormField(
-                          controller: confirmpassword,
+                          controller: confPasswordController,
                           type: TextInputType.emailAddress,
                           validate: (String? value) {
                             if (value!.isEmpty) {
@@ -74,7 +75,7 @@ class LoginScreenState extends State<LoginScreen> {
                           suffixIcon: Icons.email_outlined),
                       const SizedBox(height: 20.0,),
                       defaultFormField(
-                        controller: password,
+                        controller: passwordController,
                         type: TextInputType.visiblePassword,
                         validate: (String? value) {
                           if (value!.isEmpty) {
@@ -113,12 +114,12 @@ class LoginScreenState extends State<LoginScreen> {
                         atEnd: false,
                         paddingSize: 10.0,
                         text: "تسجيل الدخول",
-                        onPressed: () {if (_formkey.currentState!.validate()) {
+                        onPressed: () {if (formKey.currentState!.validate()) {
                             // print("successful");
                             navigateAndFinish(context, const StudentLayout());
                             return;
                           } else {
-                          // print("UnSuccessfull");
+                          // print("UnSuccessful");
                         }
                         },
                         context: context,
@@ -134,11 +135,11 @@ class LoginScreenState extends State<LoginScreen> {
                               navigateTo(context, const SecondScreen());
                             },
                             child: Text("انشاء حساب",
-                                style: TextStyle(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                                style: font.copyWith(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
                           ),
-                          const Text(
+                          Text(
                             "ليس لديك حساب ؟",
-                            style: TextStyle(color: Colors.grey,fontSize: 14.0),
+                            style: font.copyWith(color: Colors.grey,fontSize: 14.0),
                           ),
                         ],
                       ),
@@ -150,7 +151,7 @@ class LoginScreenState extends State<LoginScreen> {
                               navigateTo(context, ForgetPasswordScreen1());
                             },
                             child: Text("هل نسيت كلمة السر؟",
-                                style: TextStyle(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                                style: font.copyWith(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
                           ),
                         ],
                       ),
@@ -168,7 +169,7 @@ class LoginScreenState extends State<LoginScreen> {
                           Text(
                             'أو',
                             style:
-                            TextStyle(fontSize: 15.0,color: Theme.of(context).canvasColor),
+                            font.copyWith(fontSize: 15.0,color: Theme.of(context).canvasColor),
                           ),
                           const SizedBox(width: 5.0,),
                           Expanded(

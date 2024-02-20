@@ -6,6 +6,8 @@ import 'package:graduation_project/modules/search_screen.dart';
 import 'package:graduation_project/modules/settings.dart';
 import 'package:graduation_project/shared/components.dart';
 import '../../shared/constant.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 
 class StudentLayout extends StatelessWidget {
   const StudentLayout({super.key});
@@ -31,20 +33,35 @@ class StudentLayout extends StatelessWidget {
                 },
             ),
             body: cubit.screens[cubit.currentIndex],
-            bottomNavigationBar: BottomNavigationBar(
-              elevation: 5.0,
-              currentIndex: cubit.currentIndex,
-              onTap: (index){
-                cubit.changeBottomNav(index);
-              },
-              iconSize: 30.0,
-              unselectedFontSize: 19.0,
-              selectedFontSize: 21.0,
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.explore_rounded),label: 'استكشاف'),
-                BottomNavigationBarItem(icon: Icon(Icons.dashboard),label: 'كورساتي'),
-                BottomNavigationBarItem(icon: Icon(Icons.person),label: 'البروفايل'),
-              ]
+            bottomNavigationBar: CurvedNavigationBar(
+              height: 81.0,
+                index: cubit.currentIndex,
+                items: [
+                  CurvedNavigationBarItem(
+                      child: const Icon(Icons.explore_rounded,color: Colors.white,),
+                      label: 'استكشاف',
+                    labelStyle: font.copyWith(color: Colors.white,fontSize: 15.0)
+                  ),
+                  CurvedNavigationBarItem(
+                      child: const Icon(Icons.dashboard,color: Colors.white,),
+                      label: 'كورساتي',
+                    labelStyle: font.copyWith(color: Colors.white,fontSize: 15.0)
+                  ),
+                  CurvedNavigationBarItem(
+                      child: const Icon(Icons.person,color: Colors.white,),
+                      label: 'البروفايل',
+                    labelStyle: font.copyWith(color: Colors.white,fontSize: 15.0)
+                  ),
+                ],
+                color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
+                buttonBackgroundColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                animationCurve: Curves.ease,
+                animationDuration: const Duration(milliseconds: 600),
+                onTap: (index) {
+                  cubit.changeBottomNav(index);
+                },
+                letIndexChange: (index) => true,
             ),
           );
         },

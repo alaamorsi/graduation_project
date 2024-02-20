@@ -57,9 +57,12 @@ class ProfileScreenState extends State<ProfileScreen> {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius:63,
-                        backgroundImage: AssetImage("Assets/teacher.png",),
+                      Hero(
+                        tag:"hero",
+                        child: CircleAvatar(
+                          radius:63,
+                          backgroundImage: AssetImage("Assets/teacher.png",),
+                        ),
                       ),
                     ],
                   ),
