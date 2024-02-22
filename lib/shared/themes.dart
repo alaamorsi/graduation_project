@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/shared/constant.dart';
+import 'package:graduation_project/shared/component/constant.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 

@@ -34,13 +34,12 @@ class CourseModel
   late int term;
   late int lunchDate;
   late int videosNumbers;
-  late double price;
-  late double oldPrice;
+  late int price;
   late bool inFavorite;
   late bool reserved;
 
 
-  CourseModel.fromJson(Map<String, dynamic> json)
+  CourseModel.fromJson(Map<dynamic, dynamic> json)
   {
     id = json['Id'];
     teacherImage = json['TeacherImage'];
@@ -52,7 +51,6 @@ class CourseModel
     lunchDate = json['LunchDate'];
     videosNumbers = json['VideosNumbers'];
     price = json['Price'];
-    oldPrice = json['OldPrice'];
     inFavorite = json['InFavorite'];
     reserved = json['reserved'];
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/introduction_screen.dart';
-import 'package:graduation_project/shared/components.dart';
+import 'package:graduation_project/shared/component/components.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class Splash extends StatefulWidget {

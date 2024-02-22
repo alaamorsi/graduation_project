@@ -4,8 +4,8 @@ import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/modules/search_screen.dart';
 import 'package:graduation_project/modules/settings.dart';
-import 'package:graduation_project/shared/components.dart';
-import '../../shared/constant.dart';
+import 'package:graduation_project/shared/component/components.dart';
+import '../../shared/component/constant.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 
@@ -55,7 +55,7 @@ class StudentLayout extends StatelessWidget {
                 ],
                 color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
                 buttonBackgroundColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                backgroundColor: Colors.transparent,
                 animationCurve: Curves.ease,
                 animationDuration: const Duration(milliseconds: 600),
                 onTap: (index) {

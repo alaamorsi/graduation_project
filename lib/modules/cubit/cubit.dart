@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
-import 'package:graduation_project/shared/cache_helper.dart';
-import 'package:graduation_project/shared/dio_helper.dart';
-import '../../shared/constant.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
+import 'package:graduation_project/shared/network/dio_helper.dart';
+import '../../shared/component/constant.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
@@ -32,15 +32,15 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   // Change language by default arabic
-  Locale language = Locale('ar',);
+  Locale language = const Locale('ar',);
   void changeAppLanguage(String ln) {
     if (ln=="en")
     {
-      language = Locale('en',);
+      language = const Locale('en',);
     }
     else if(ln=="ar")
     {
-      language = Locale('ar',);
+      language = const Locale('ar',);
     }
     CacheHelper.saveData(key: 'ln', value: ln);
     emit(AppChangModeState());
@@ -56,7 +56,7 @@ class AppCubit extends Cubit<AppStates> {
   void getSearch(String value) {
     emit(GetSearchDataLoading());
     search = [];
-    Diohelper.getData(Url: 'v2/everything', query: {
+    DioHelper.getData(url: 'v2/everything', query: {
       'q': value,
       'apiKey': '2871845932ca4f2c8e8a8594dada13d4',
     }).then((value) {

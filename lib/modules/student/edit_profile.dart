@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../layout/student/cubit/cubit.dart';
 import '../../layout/student/cubit/states.dart';
-import '../../shared/components.dart';
-import '../../shared/constant.dart';
+import 'package:graduation_project/shared/component/components.dart';
+import '../../shared/component/constant.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});

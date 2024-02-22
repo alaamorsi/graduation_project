@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
-import '../../shared/components.dart';
+import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/component/test.dart';
 
 class CategoryList extends StatelessWidget {
   final String pageName;
@@ -14,6 +15,7 @@ class CategoryList extends StatelessWidget {
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){},
       builder: (context , state ){
+        Color cardColor= Theme.of(context).cardColor;
         return Scaffold(
           body: CustomScrollView(
             slivers: [
@@ -40,7 +42,17 @@ class CategoryList extends StatelessWidget {
                 builder: (context)=>SliverList.builder(
                   itemBuilder: (BuildContext context, int index)=>Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: buildDiscoveryItem(context: context, index: index),
+                    child: buildDiscoveryItem(
+                      context: context,
+                      courseTeacherImage: courses[index].teacherImage,
+                      courseTeacherName: courses[index].teacherName,
+                      courseSubject: courses[index].subject,
+                      courseEduLevel: courses[index].eduLevel,
+                      courseTerm: courses[index].term,
+                      courseYear: courses[index].year,
+                      courseVideosNumber: courses[index].videosNumber,
+                      cardColor: cardColor,
+                    ),
                   ),
                   itemCount: 9,
                 ),

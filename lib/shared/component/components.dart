@@ -213,8 +213,14 @@ Color chooseToastColor(ToastStates state) {
 // Discovery item
 Widget buildDiscoveryItem({
   required BuildContext context,
-  required int index,
-  Color cardItemColor = Colors.white,
+  required String courseTeacherName,
+  required String courseTeacherImage,
+  required String courseSubject,
+  required String courseEduLevel,
+  required int courseTerm,
+  required int courseYear,
+  required int courseVideosNumber,
+  required Color cardColor,
 }) {
   // bool hover = false;
   return Padding(
@@ -225,7 +231,7 @@ Widget buildDiscoveryItem({
       },
       child: AnimatedContainer(
         width: screenWidth *5/6,
-        height: screenHeight /3,
+        height: screenHeight/3,
         color:Colors.grey.withOpacity(0.0),
         duration: const Duration(seconds: 1),
         child: Stack(
@@ -238,7 +244,7 @@ Widget buildDiscoveryItem({
                 width: screenWidth *4/5,
                 decoration:  BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(21.0)),
-                  color: HexColor("#008080"),
+                  color: cardColor,
                 ),
               ),
             ),
@@ -279,15 +285,15 @@ Widget buildDiscoveryItem({
                               child: Container(
                                 width: 79.0,
                                 height: 79.0,
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(35.0),
                                     bottomRight: Radius.circular(35.0),
                                     topRight: Radius.circular(3.0),
                                     bottomLeft: Radius.circular(3.0),
                                   ),
                                   image: DecorationImage(
-                                    image: AssetImage('Assets/teacher.png'),
+                                    image:  NetworkImage(courseTeacherImage),
                                     fit: BoxFit.fill,),
                                 ),
                               ),
@@ -305,10 +311,11 @@ Widget buildDiscoveryItem({
                             //teacher name
                             Expanded(
                               child: Text(
-                                'عبدالرحمن الكيلاني',
-                                style: TextStyle(
-                                    fontSize: 18.0, fontWeight: FontWeight.bold,color: cardItemColor),
+                                courseTeacherName,
+                                style: font.copyWith(
+                                    fontSize: 18.0, fontWeight: FontWeight.bold,color: Colors.white),
                                 overflow: TextOverflow.ellipsis,),),
+                            const SizedBox(height: 10.0,),
                             //subject and eduLevel
                             Expanded(
                               child: Row(
@@ -320,15 +327,15 @@ Widget buildDiscoveryItem({
                                       children: [
                                         Expanded(
                                             child: Text(
-                                              '3 الثانوي',
-                                              style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                              courseEduLevel,
+                                              style: font.copyWith(fontSize: 12.0,color: Colors.white),
                                               textAlign: TextAlign.end,
                                             )),
                                         const SizedBox(width: 5.0),
-                                        Icon(
+                                        const Icon(
                                           Icons.school,
                                           size: 20.0,
-                                          color: cardItemColor,
+                                          color: Colors.white,
                                         ),
                                       ],
                                     ),
@@ -340,15 +347,15 @@ Widget buildDiscoveryItem({
                                       children: [
                                         Expanded(
                                             child: Text(
-                                              'انجليزي',
-                                              style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                              courseSubject,
+                                              style: font.copyWith(fontSize: 12.0,color: Colors.white),
                                               textAlign: TextAlign.end,
                                             )),
                                         const SizedBox(width: 5.0,),
-                                        Icon(
+                                        const Icon(
                                           Icons.book,
                                           size: 20.0,
-                                          color: cardItemColor,
+                                          color: Colors.white,
                                         ),
                                       ],
                                     ),
@@ -367,15 +374,15 @@ Widget buildDiscoveryItem({
                                       children: [
                                         Expanded(
                                             child: Text(
-                                              '2024',
-                                              style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                              '$courseYear',
+                                              style: font.copyWith(fontSize: 12.0,color: Colors.white),
                                               textAlign: TextAlign.end,
                                             )),
                                         const SizedBox(width: 5.0,),
-                                        Icon(
+                                        const Icon(
                                           Icons.hourglass_bottom,
                                           size: 20.0,
-                                          color: cardItemColor,
+                                          color: Colors.white,
                                         ),
                                       ],
                                     ),
@@ -387,15 +394,15 @@ Widget buildDiscoveryItem({
                                       children: [
                                         Expanded(
                                             child: Text(
-                                              'ترم اول',
-                                              style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                              '$courseTerm',
+                                              style: font.copyWith(fontSize: 12.0,color: Colors.white),
                                               textAlign: TextAlign.end,
                                             )),
                                         const SizedBox(width: 5.0,),
-                                        Icon(
+                                        const Icon(
                                           Icons.layers_sharp,
                                           size: 20.0,
-                                          color: cardItemColor,
+                                          color: Colors.white,
                                         ),
                                       ],
                                     ),
@@ -409,14 +416,14 @@ Widget buildDiscoveryItem({
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    '128',
-                                    style: TextStyle(fontSize: 12.0,color: cardItemColor),
+                                    '$courseVideosNumber',
+                                    style: font.copyWith(fontSize: 12.0,color: Colors.white),
                                   ),
                                   const SizedBox(width: 5.0,),
-                                  Icon(
+                                  const Icon(
                                     Icons.play_circle,
                                     size: 20.0,
-                                    color: cardItemColor,
+                                    color: Colors.white,
                                   ),
                                 ],
                               ),

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/login/cubit/cubit.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
-import 'package:graduation_project/shared/components.dart';
-import 'package:graduation_project/shared/constant.dart';
+import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/component/constant.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   final TextEditingController passwordController1 = TextEditingController();

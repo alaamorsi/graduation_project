@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/student/editprofile.dart';
-import 'package:graduation_project/shared/components.dart';
+import 'package:graduation_project/modules/student/edit_profile.dart';
+import 'package:graduation_project/shared/component/components.dart';
 import '../../layout/student/cubit/cubit.dart';
 import '../../layout/student/cubit/states.dart';
 

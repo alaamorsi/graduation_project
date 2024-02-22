@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/login/forget_password_screen2.dart';
-import 'package:graduation_project/shared/components.dart';
-import 'package:graduation_project/shared/constant.dart';
+import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/component/constant.dart';
 
 class ForgetPasswordScreen1 extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();

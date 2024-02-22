@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
-import '../../shared/components.dart';
-import '../../shared/constant.dart';
+import 'package:graduation_project/shared/component/components.dart';
+import '../../shared/component/constant.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 import 'login_screen.dart';

@@ -1,10 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/student/discovery_category_list.dart';
-import 'package:graduation_project/shared/components.dart';
+import 'package:graduation_project/shared/component/components.dart';
 import 'package:hexcolor/hexcolor.dart';
-
-import '../../shared/constant.dart';
+import '../../shared/component/constant.dart';
+import '../../shared/component/test.dart';
 
 class StudentDiscovery extends StatefulWidget {
   const StudentDiscovery({super.key});
@@ -23,6 +23,7 @@ class _StudentDiscoveryState extends State<StudentDiscovery> {
       'محتوي اسبوعي',
       'محتوي مسجل',
     ];
+    Color cardColor= Theme.of(context).cardColor;
     return ConditionalBuilder(
       condition: true,
       builder: (context) => ListView.separated(
@@ -46,25 +47,35 @@ class _StudentDiscoveryState extends State<StudentDiscovery> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Icon(Icons.arrow_back_outlined,color: HexColor("#008080"),),
+                      Icon(Icons.arrow_back_outlined,color: cardColor,),
                       const Spacer(),
                       Text(categories[index],
-                        style: TextStyle(color: HexColor("#008080"),fontSize: 18.0,fontWeight: FontWeight.w500),),
+                        style: TextStyle(color: cardColor,fontSize: 18.0,fontWeight: FontWeight.w500),),
                     ],
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: screenHeight / 4,
+              height: screenHeight/3,
               child: ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 reverse: true,
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context , index)=> buildDiscoveryItem(context: context, index: index),
-                separatorBuilder: (context , index)=>const SizedBox(width: 5.0,),
-                itemCount: 5,
+                itemBuilder: (context , index)=> buildDiscoveryItem(
+                  context: context,
+                  courseTeacherImage: courses[index].teacherImage,
+                  courseTeacherName: courses[index].teacherName,
+                  courseSubject: courses[index].subject,
+                  courseEduLevel: courses[index].eduLevel,
+                  courseTerm: courses[index].term,
+                  courseYear: courses[index].year,
+                  courseVideosNumber: courses[index].videosNumber,
+                  cardColor: cardColor,
+                ),
+                separatorBuilder: (context , index)=>const SizedBox(width: 10.0,),
+                itemCount: courses.length,
               ),
             ),
           ],

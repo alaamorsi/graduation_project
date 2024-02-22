@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
-import 'package:graduation_project/shared/components.dart';
+import 'package:graduation_project/shared/component/components.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-import '../shared/constant.dart';
+import '../shared/component/constant.dart';
 
 class Introduction extends StatefulWidget {
   const Introduction({super.key});

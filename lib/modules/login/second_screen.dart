@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:graduation_project/modules/login/student_register.dart';
 import 'package:graduation_project/modules/login/teacher_register.dart';
-import 'package:graduation_project/shared/components.dart';
-import '../../shared/constant.dart';
+import 'package:graduation_project/shared/component/components.dart';
+import '../../shared/component/constant.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});

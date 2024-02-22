@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
-import 'package:graduation_project/shared/constant.dart';
-import '../shared/cache_helper.dart';
-import '../shared/components.dart';
+import 'package:graduation_project/shared/component/constant.dart';
+import '../shared/network/cache_helper.dart';
+import 'package:graduation_project/shared/component/components.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -48,13 +48,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             title: "اللغة",
                             initialSelectionText: lang,
                             chooses: <DropdownMenuEntry<String>>[
-                              DropdownMenuEntry(value: "en", label: "English",
+                              DropdownMenuEntry(value: "English", label: "English",
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
                                   foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
                                 ),
                               ),
-                              DropdownMenuEntry(value: "ar", label: "عربي",
+                              DropdownMenuEntry(value: "Arabic", label: "عربي",
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
                                   foregroundColor: MaterialStateProperty.all(Theme.of(context).iconTheme.color),
@@ -63,11 +63,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                             onSelect: (language){
                               switch (language) {
-                                case "ar":
-                                  appCubit.changeAppLanguage("Arabic");
+                                case "Arabic":
+                                  appCubit.changeAppLanguage("ar");
                                   break;
-                                case "en":
-                                  appCubit.changeAppLanguage("English");
+                                case "English":
+                                  appCubit.changeAppLanguage("en");
                                   break;
                               }
                             }
