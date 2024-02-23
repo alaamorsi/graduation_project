@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/modules/login/forget_password_screen1.dart';
-import 'package:graduation_project/modules/login/second_screen.dart';
+import 'package:graduation_project/modules/register/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../shared/component/constant.dart';
 import 'cubit/cubit.dart';

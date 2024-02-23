@@ -24,7 +24,6 @@ class DioHelper
   {
     dio.options.headers ={
       'Content-Type':'application/json',
-      'lang':lang,
       'Authorization':token,
     };
     return await dio.get(url ,queryParameters: query);
@@ -34,7 +33,6 @@ class DioHelper
     required String url,
     Map<String,dynamic>? query,
     required Map<String,dynamic> data,
-    String lang ='ar',
     String? token,
   })async
   {

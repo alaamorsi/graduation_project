@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/login_model.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
-import 'package:graduation_project/network/remote/end_points.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
+import 'package:graduation_project/shared/network/end_points.dart';
 
 import '../../../shared/network/cache_helper.dart';
 
@@ -21,7 +21,7 @@ class LoginCubit extends Cubit<LoginStates> {
   void changePasswordVisibility() {
     isPassword = !isPassword;
     prefixIcon =
-        isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(ChangePasswordVisibilityState());
   }
 
@@ -31,6 +31,11 @@ class LoginCubit extends Cubit<LoginStates> {
   void changeAcceptConditions() {
     acceptCondition = !acceptCondition;
     emit(ChangeAcceptOfConditions());
+  }
+  bool isLoading = false;
+  bool checkForNumbers(String input) {
+    RegExp regex = RegExp(r'\w+@\w+\.\w+(\.\w+)*');
+    return regex.hasMatch(input);
   }
 
   late LoginModel loginModel;
@@ -60,7 +65,6 @@ class LoginCubit extends Cubit<LoginStates> {
           CacheHelper.saveData(key: 'role', value: userData.role);
           emit(LoginSuccessState());
         } else if(!loginModel.emailConfirmed){
-          print('gooooooooood');
           emit(LoginNotConfirmedState());
         }
       }
@@ -75,9 +79,5 @@ class LoginCubit extends Cubit<LoginStates> {
       emit(LoginErrorState(error.toString()));
     });
   }
-  bool isLoading = false;
-  bool checkForNumbers(String input) {
-    RegExp regex = RegExp(r'\w+@\w+\.\w+(\.\w+)*');
-    return regex.hasMatch(input);
-  }
+
 }
