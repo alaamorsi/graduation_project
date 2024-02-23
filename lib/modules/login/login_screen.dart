@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/modules/login/forget_password_screen1.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -21,7 +20,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   //TextController to read text entered in text field
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confPasswordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -63,7 +62,7 @@ class LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 20.0),
                       defaultFormField(
-                          controller: confPasswordController,
+                          controller: emailController,
                           type: TextInputType.emailAddress,
                           validate: (String? value) {
                             if (value!.isEmpty) {
@@ -115,8 +114,8 @@ class LoginScreenState extends State<LoginScreen> {
                         paddingSize: 10.0,
                         text: "تسجيل الدخول",
                         onPressed: () {if (formKey.currentState!.validate()) {
-                            // print("successful");
-                            navigateAndFinish(context, const StudentLayout());
+                          LoginCubit.get(context).userLogin(email: emailController.text, password: passwordController.text);
+                            // navigateAndFinish(context, const StudentLayout());
                             return;
                           } else {
                           // print("UnSuccessful");

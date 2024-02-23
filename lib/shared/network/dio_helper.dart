@@ -8,8 +8,8 @@ class DioHelper
   {
     dio = Dio(
       BaseOptions(
-        //'Authorization': 'b676yF4HQTAGtP9bYNM2kjAw3VZ6vd63Ar7dr7jQvhISokVKIK5K3Emr4tiPctOBgBlZhV'
-        baseUrl: 'https://student.valuxapps.com/api/',
+        // 'Authorization': 'b676yF4HQTAGtP9bYNM2kjAw3VZ6vd63Ar7dr7jQvhISokVKIK5K3Emr4tiPctOBgBlZhV'
+        baseUrl: 'http://ahmedad-001-site1.gtempurl.com/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -40,8 +40,7 @@ class DioHelper
   {
     dio.options.headers ={
       'Content-Type':'application/json',
-      'lang':lang,
-      'Authorization':token,
+      'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
     };
     return dio.post(url,queryParameters: query,data: data);
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
+import 'package:graduation_project/network/remote/end_points.dart';
+import 'package:graduation_project/shared/network/dio_helper.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
@@ -19,5 +21,31 @@ class LoginCubit extends Cubit<LoginStates> {
   void changeAcceptConditions(){
     acceptCondition = !acceptCondition;
     emit(ChangeAcceptOfConditions());
+  }
+  void userLogin({
+    required String? email,
+    required String? password,
+  })
+  {
+    emit(LoginLoadingState());
+
+    DioHelper.postData(
+      url: LOGIN,
+      data:
+      {
+        'email': email,
+        'password': password,
+      },
+    ).then((value)
+    {
+      print(value.statusCode);
+      print(value.data);
+      // loginModel = ShopLoginModel.fromJson(value.data);
+      emit(LoginSuccessState());
+    }).catchError((error)
+    {
+      print(error.toString());
+      emit(LoginErrorState(error.toString()));
+    });
   }
 }
