@@ -1,53 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/modules/introduction_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:lottie/lottie.dart';
+import '../shared/component/constant.dart';
+import 'login/login_screen.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
-  State<Splash> createState() =>SplashState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
-class SplashState extends State<Splash> {
+
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(
-        const Duration(seconds:3), (){
-          navigateAndFinish(context, const Introduction());
-          // if(uId.isNotEmpty)
-          // {
-          //   if(uId=='Student')
-          //   {
-          //     navigateAndFinish(context, const StudentLayout());
-          //   }
-          //   else if(uId=='Teacher')
-          //   {
-          //
-          //   }
-          // }
-          // else
-          // {
-          //   navigateAndFinish(context, const LoginScreen());
-          // }
-        });
     super.initState();
+    Future.delayed(const Duration(seconds: 3)).then((value){
+      if(uId.isNotEmpty){
+        if(role == 'student'){
+          navigateTo(context, const StudentLayout());
+        }else if(role == 'teacher'){
+
+        }
+      }else{
+        navigateTo(context, const LoginScreen());
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body:   Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundImage: const AssetImage("Assets/logo.png"),
-              radius: 111.0,
-              backgroundColor: HexColor("#000080"),
-            ),
-          ]
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: LottieBuilder.asset("Assets/splash.json"),
         ),
+        ]
       ),
     );
   }
 }
+

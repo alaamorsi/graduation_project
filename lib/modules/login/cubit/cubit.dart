@@ -7,6 +7,8 @@ import 'package:graduation_project/modules/login/cubit/states.dart';
 import 'package:graduation_project/network/remote/end_points.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 
+import '../../../shared/network/cache_helper.dart';
+
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
 
@@ -54,6 +56,8 @@ class LoginCubit extends Cubit<LoginStates> {
           String decodedString = utf8.decode(base64.decode(payLoad));
           Map<String, dynamic> decodedMap = json.decode(decodedString);
           userData = UserData.fromJson(decodedMap);
+          CacheHelper.saveData(key: 'id', value: loginModel.jwt);
+          CacheHelper.saveData(key: 'role', value: userData.role);
           emit(LoginSuccessState());
         } else if(!loginModel.emailConfirmed){
           print('gooooooooood');

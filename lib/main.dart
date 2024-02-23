@@ -19,6 +19,8 @@ void main() async{
   DioHelper.init();
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
+  uId = CacheHelper.getData(key: 'id')?? '';
+  role = CacheHelper.getData(key: 'role')?? '';
   runApp(MyApp(appMode: mode));
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -27,6 +29,7 @@ void main() async{
     ),
   );
 }
+
 class MyApp extends StatelessWidget {
   bool appMode;
   MyApp({super.key,
@@ -52,7 +55,7 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             locale: AppCubit.get(context).language,
             themeMode: AppCubit.get(context).theme,
-            home:const Splash(),
+            home:const SplashScreen(),
           );
         },
       ),
