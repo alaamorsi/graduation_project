@@ -49,7 +49,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return ' رجاءً ادخل كلمة المرور بشكل صحيح';
+                          return '!'+' رجاءً ادخل كلمة المرور بشكل صحيح';
                         }
                         return null;
                       },
@@ -67,7 +67,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty || value != passwordController1.text) {
-                          return ' رجاءً ادخل كلمة المرور بشكل صحيح';
+                          return '!'+' رجاءً ادخل كلمة المرور بشكل صحيح';
                         }
                         return null;
                       },

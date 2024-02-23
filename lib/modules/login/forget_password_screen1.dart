@@ -44,7 +44,7 @@ class ForgetPasswordScreen1 extends StatelessWidget {
                     type: TextInputType.emailAddress,
                     validate: (String? value) {
                       if (value!.isEmpty) {
-                        return 'رجاءً ادخل البريد الالكتروني الصحيح';
+                        return '!'+'رجاءً ادخل البريد الإلكتروني الصحيح';
                       }
                       return null;
                     },

@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
-import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/components.dart';
+import '../../shared/component/constant.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 import 'login_screen.dart';
 
-class TeacherScreen extends StatefulWidget {
-  const TeacherScreen({super.key});
+class StudentScreen extends StatefulWidget {
+  const StudentScreen({super.key});
 
   @override
-
-  TeacherScreenState createState() => TeacherScreenState();
+  StudentScreenState createState() => StudentScreenState();
 }
 
-class TeacherScreenState extends State<TeacherScreen> {
+class StudentScreenState extends State<StudentScreen> {
   late String name, email, phone;
 
   //TextController to read text entered in text field
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -41,26 +39,27 @@ class TeacherScreenState extends State<TeacherScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 10.0,),
                     InkWell(
                       onTap: (){navigateAndFinish(context, const SecondScreen());},
                       child: Row(
-                          children: [
-                            Icon(Icons.arrow_back_ios_rounded,
-                              color:theme.canvasColor,size: 35.0,
-                            ),
-                            Text("سجل الدخول",
-                              style: font.copyWith(color: theme.canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
-                          ]
+                        children: [
+                          Icon(Icons.arrow_back_ios_rounded,
+                                color: theme.canvasColor,size: 35.0,
+                          ),
+                          Text("سجل الدخول",
+                            style: font.copyWith(color: theme.canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 50.0,),
+                    const SizedBox(height: 70.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'حساب مدرس',
+                          "حساب طالب",
                           style:font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
                               color: theme.canvasColor),
                         ),
@@ -71,7 +70,7 @@ class TeacherScreenState extends State<TeacherScreen> {
                       children: [
                         Text(
                           'سجل الأن لتستمتع بخدماتنا الرائعة',
-                          style:font.copyWith(fontSize: 13.0, color: Colors.grey),
+                          style: font.copyWith(fontSize: 13.0, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -81,7 +80,7 @@ class TeacherScreenState extends State<TeacherScreen> {
                         type: TextInputType.text,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return 'رجاءً ادخل الاسم';
+                            return '!'+'رجاءً ادخل الاسم';
                           }
                           return null;
                         },
@@ -89,23 +88,11 @@ class TeacherScreenState extends State<TeacherScreen> {
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
-                        controller: phoneController,
-                        type: TextInputType.phone,
-                        validate: (String? value) {
-                          if (value!.isEmpty) {
-                            return 'رجاءً ادخل رقم الموبايل';
-                          }
-                          return null;
-                        },
-                        label: 'رقم الموبايل',
-                        suffixIcon: Icons.phone),
-                    const SizedBox(height: 10.0),
-                    defaultFormField(
                         controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return 'رجاءً ادخل البريد الالكتروني الصحيح';
+                            return '!'+'رجاءً ادخل البريد الإلكتروني الصحيح';
                           }
                           return null;
                         },
@@ -117,7 +104,7 @@ class TeacherScreenState extends State<TeacherScreen> {
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return ' رجاءً ادخل كلمة المرور بشكل صحيح';
+                          return '!'+' رجاءً ادخل كلمة المرور بشكل صحيح';
                         }
                         return null;
                       },
@@ -154,7 +141,6 @@ class TeacherScreenState extends State<TeacherScreen> {
                       onPressed: () {if (formKey.currentState!.validate()) {
                         return;
                       } else {
-
                       }
                       },
                       context: context,
@@ -172,10 +158,10 @@ class TeacherScreenState extends State<TeacherScreen> {
                                     builder: (context) => const LoginScreen()));
                           },
                           child: Text("سجل الدخول",
-                              style: font.copyWith(color:theme.cardColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                              style: font.copyWith(color: theme.canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
                         ),
                         Text(" لديك حساب بالفعل ؟",
-                          style:font.copyWith(fontSize: 14.0,color:Colors.grey),
+                          style: font.copyWith(fontSize: 14.0, color: Colors.grey),
                         ),
                       ]
                     ),
