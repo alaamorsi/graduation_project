@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/modules/login/forget_password_screen1.dart';
 import 'package:graduation_project/modules/login/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -28,7 +29,24 @@ class LoginScreenState extends State<LoginScreen> {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is LoginSuccessState)
+            {
+              navigateAndFinish(context, StudentLayout());
+            }
+          else if (state is LoginNotConfirmedState)
+            {
+              showToast(text: 'Email not confirmed!', state: ToastStates.warning);
+            }
+          else if (state is LoginNotFoundState)
+            {
+              showToast(text: 'Email not found!', state: ToastStates.error);
+            }
+          else if (state is LoginFormatErrorState)
+            {
+              showToast(text: 'Warning! you must enter valid format email.', state: ToastStates.warning);
+            }
+        },
         builder: (context, state) {
           return Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -109,17 +127,17 @@ class LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 10.0),
                       //login button
+                      if(state is LoginLoadingState)
+                        Center(child: CircularProgressIndicator()),
                       usedButton(
                         atEnd: false,
                         paddingSize: 10.0,
                         text: "تسجيل الدخول",
-                        onPressed: () {if (formKey.currentState!.validate()) {
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
                           LoginCubit.get(context).userLogin(email: emailController.text, password: passwordController.text);
-                            // navigateAndFinish(context, const StudentLayout());
-                            return;
-                          } else {
-                          // print("UnSuccessful");
-                        }
+                          return;
+                          }
                         },
                         context: context,
                         color: Theme.of(context).canvasColor,

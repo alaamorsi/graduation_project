@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/models/login_model.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
 import 'package:graduation_project/network/remote/end_points.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
@@ -22,13 +25,14 @@ class LoginCubit extends Cubit<LoginStates> {
     acceptCondition = !acceptCondition;
     emit(ChangeAcceptOfConditions());
   }
+  late LoginModel loginModel;
+  late UserData userData;
   void userLogin({
     required String? email,
     required String? password,
   })
   {
     emit(LoginLoadingState());
-
     DioHelper.postData(
       url: LOGIN,
       data:
@@ -39,9 +43,28 @@ class LoginCubit extends Cubit<LoginStates> {
     ).then((value)
     {
       print(value.statusCode);
-      print(value.data);
-      // loginModel = ShopLoginModel.fromJson(value.data);
-      emit(LoginSuccessState());
+      if (value.statusCode == 200)
+        {
+          loginModel = LoginModel.fromJson(value.data);
+          if(loginModel.emailConfirmed)
+            {
+              String payLoad = loginModel.jwt.split('.')[1];
+              String decodedData = utf8.decode(base64.decode(payLoad));
+              userData = UserData.fromJson(decodedData);
+              emit(LoginSuccessState());
+            }
+          else {
+            emit(LoginNotConfirmedState());
+          }
+        }
+      if(value.statusCode == 404)
+        {
+          emit(LoginNotFoundState());
+        }
+      if(value.statusCode == 400)
+      {
+        emit(LoginFormatErrorState());
+      }
     }).catchError((error)
     {
       print(error.toString());
