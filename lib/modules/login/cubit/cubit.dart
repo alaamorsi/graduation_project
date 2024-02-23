@@ -9,66 +9,71 @@ import 'package:graduation_project/shared/network/dio_helper.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
+
   static LoginCubit get(context) => BlocProvider.of(context);
 
- // Control to visible or invisible password
+  // Control to visible or invisible password
   IconData prefixIcon = Icons.visibility_outlined;
   bool isPassword = true;
+
   void changePasswordVisibility() {
     isPassword = !isPassword;
-    prefixIcon = isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    prefixIcon =
+        isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(ChangePasswordVisibilityState());
   }
+
   // Change accept conditions
   bool acceptCondition = false;
-  void changeAcceptConditions(){
+
+  void changeAcceptConditions() {
     acceptCondition = !acceptCondition;
     emit(ChangeAcceptOfConditions());
   }
+
   late LoginModel loginModel;
   late UserData userData;
+
   void userLogin({
     required String? email,
     required String? password,
-  })
-  {
+  }) {
     emit(LoginLoadingState());
     DioHelper.postData(
       url: LOGIN,
-      data:
-      {
+      data: {
         'email': email,
         'password': password,
       },
-    ).then((value)
-    {
+    ).then((value) {
       print(value.statusCode);
-      if (value.statusCode == 200)
-        {
-          loginModel = LoginModel.fromJson(value.data);
-          if(loginModel.emailConfirmed)
-            {
-              String payLoad = loginModel.jwt.split('.')[1];
-              String decodedData = utf8.decode(base64.decode(payLoad));
-              userData = UserData.fromJson(decodedData);
-              emit(LoginSuccessState());
-            }
-          else {
-            emit(LoginNotConfirmedState());
-          }
+      if (value.statusCode == 200) {
+        loginModel = LoginModel.fromJson(value.data);
+        if (loginModel.emailConfirmed) {
+          String payLoad = loginModel.jwt!.split('.')[1];
+          String decodedString = utf8.decode(base64.decode(payLoad));
+          Map<String, dynamic> decodedMap = json.decode(decodedString);
+          userData = UserData.fromJson(decodedMap);
+          emit(LoginSuccessState());
+        } else if(!loginModel.emailConfirmed){
+          print('gooooooooood');
+          emit(LoginNotConfirmedState());
         }
-      if(value.statusCode == 404)
-        {
-          emit(LoginNotFoundState());
-        }
-      if(value.statusCode == 400)
-      {
+      }
+    }).catchError((error) {
+      if (error.toString().contains('404')) {
+        emit(LoginNotFoundState());
+      }
+      if (error.toString().contains('400')) {
         emit(LoginFormatErrorState());
       }
-    }).catchError((error)
-    {
       print(error.toString());
       emit(LoginErrorState(error.toString()));
     });
+  }
+  bool isLoading = false;
+  bool checkForNumbers(String input) {
+    RegExp regex = RegExp(r'\w+@\w+\.\w+(\.\w+)*');
+    return regex.hasMatch(input);
   }
 }

@@ -1,9 +1,9 @@
 class LoginModel
 {
-  late String jwt;
-  late String refreshToken;
-  late String expirationOfJwt;
-  late String expirationOfRefreshToken;
+  late String? jwt;
+  late String? refreshToken;
+  late String? expirationOfJwt;
+  late String? expirationOfRefreshToken;
   late bool success;
   late bool emailConfirmed;
 
@@ -15,7 +15,6 @@ class LoginModel
     expirationOfRefreshToken = json['expirationOfRefreshToken'];
     success = json['success'];
     emailConfirmed = json['emailConfirmed'];
-    // data = (json['Data'] != null ? UserData.fromJson(json['Data']) : null)!;
   }
 }
 

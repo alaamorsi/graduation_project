@@ -9,6 +9,8 @@ import 'constant.dart';
 
 Widget usedButton({
   void Function()? onPressed,
+  Widget loading = const CircularProgressIndicator(),
+  bool isLoading = false,
   required String text,
   required Color color,
   required BuildContext context,
@@ -27,7 +29,7 @@ Widget usedButton({
     child: Row(
       mainAxisAlignment: atEnd?MainAxisAlignment.end:MainAxisAlignment.center,
       children:[
-        Text(
+        isLoading? loading: Text(
           text,
           style: GoogleFonts.changa().copyWith(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.bold),
         ),

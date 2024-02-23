@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
@@ -24,6 +25,7 @@ class LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -36,18 +38,19 @@ class LoginScreenState extends State<LoginScreen> {
             }
           else if (state is LoginNotConfirmedState)
             {
-              showToast(text: 'Email not confirmed!', state: ToastStates.warning);
+              // showToast(text: 'Email is not confirmed!', state: ToastStates.warning);
             }
           else if (state is LoginNotFoundState)
             {
-              showToast(text: 'Email not found!', state: ToastStates.error);
+              showToast(text: 'Invalid email or password!', state: ToastStates.error);
             }
-          else if (state is LoginFormatErrorState)
-            {
-              showToast(text: 'Warning! you must enter valid format email.', state: ToastStates.warning);
-            }
+          else if (state is LoginLoadingState)
+          {
+            LoginCubit.get(context).isLoading = true;
+          }
         },
         builder: (context, state) {
+          var cubit = LoginCubit.get(context);
           return Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body: SingleChildScrollView(
@@ -83,10 +86,10 @@ class LoginScreenState extends State<LoginScreen> {
                           controller: emailController,
                           type: TextInputType.emailAddress,
                           validate: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'رجاءً ادخل البريد الالكتروني الصحيح';
-                            }
-                            return null;
+                            if(value!.isEmpty ||!cubit.checkForNumbers(value))
+                              {
+                                return '!'+' رجاءً ادخل البريد الإلكتروني الصحيح';
+                              }
                           },
                           label: 'البريد الإلكتروني',
                           suffixIcon: Icons.email_outlined),
@@ -96,7 +99,7 @@ class LoginScreenState extends State<LoginScreen> {
                         type: TextInputType.visiblePassword,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return ' رجاءً ادخل كلمة المرور بشكل صحيح';
+                            return '!'+' رجاءً ادخل كلمة المرور بشكل صحيح';
                           }
                           return null;
                         },
@@ -109,34 +112,17 @@ class LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       const SizedBox(height: 10.0),
-                      //شروط الاستخدام
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'شروط الاستخدام',
-                            style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
-                          Checkbox(
-                            side: BorderSide(color: Theme.of(context).iconTheme.color!),
-                            value: LoginCubit.get(context).acceptCondition,
-                            onChanged: (value) {
-                              LoginCubit.get(context).changeAcceptConditions();
-                            },
-                          ),
-                        ],
-                      ),
                       const SizedBox(height: 10.0),
                       //login button
-                      if(state is LoginLoadingState)
-                        Center(child: CircularProgressIndicator()),
                       usedButton(
                         atEnd: false,
                         paddingSize: 10.0,
+                        isLoading: LoginCubit.get(context).isLoading,
                         text: "تسجيل الدخول",
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                          LoginCubit.get(context).userLogin(email: emailController.text, password: passwordController.text);
-                          return;
+                            LoginCubit.get(context).userLogin(email: emailController.text, password: passwordController.text);
+                            return;
                           }
                         },
                         context: context,
