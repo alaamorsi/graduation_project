@@ -24,7 +24,6 @@ class UserData
   late String email;
   late String role;
 
-  // named constructor
   UserData.fromJson(Map<String, dynamic> json)
   {
     name = json['name'];

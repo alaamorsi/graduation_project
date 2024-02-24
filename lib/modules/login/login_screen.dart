@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/modules/login/cubit/cubit.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
-import 'package:graduation_project/modules/login/forget_password_screen1.dart';
+import 'package:graduation_project/modules/register/Confirm_Screen.dart';
+import 'package:graduation_project/modules/reset/forget_password_screen1.dart';
 import 'package:graduation_project/modules/register/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../shared/component/constant.dart';
-
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,18 +26,20 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {
-        if(state is LoginSuccessState)
-          {
-            navigateAndFinish(context, const StudentLayout());
+        role = CacheHelper.getData(key: 'role');
+        if (state is LoginSuccessState) {
+          if (role == 'student') {
+            navigateAndFinish(context, StudentLayout());
+          } else if (role == 'instructor') {
+            navigateAndFinish(context, StudentLayout());
+            print('معلش عشان لسه معملناش الصفحة');
           }
-        // else if (state is LoginNotConfirmedState)
-        //   {
-        //     // showToast(text: 'Email is not confirmed!', state: ToastStates.warning);
-        //   }
-        // else if (state is LoginNotFoundState)
-        //   {
-        //     showToast(text: 'Invalid email or password!', state: ToastStates.error);
-        //   }
+        }
+        if(state is LoginNotConfirmedState)
+          {
+            LoginCubit.get(context).sendConfirm(email: emailController.text);
+            navigateAndFinish(context, ConfirmScreen(email: emailController.text));
+          }
       },
       builder: (context, state) {
         var cubit = LoginCubit.get(context);
@@ -57,8 +59,10 @@ class LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           'تسجيل الدخول',
-                          style: font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
-                          color: Theme.of(context).canvasColor),
+                          style: font.copyWith(
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).canvasColor),
                         ),
                       ],
                     ),
@@ -67,7 +71,8 @@ class LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           'سجل الأن لتستمتع بخدماتنا الرائعة',
-                          style:font.copyWith(fontSize: 13.0, color: Colors.grey),
+                          style:
+                              font.copyWith(fontSize: 13.0, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -76,20 +81,23 @@ class LoginScreenState extends State<LoginScreen> {
                         controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
-                          if(value!.isEmpty ||!cubit.checkForNumbers(value))
-                            {
-                              return '!'' رجاءً ادخل البريد الإلكتروني الصحيح';
-                            }
+                          if (value!.isEmpty) {
+                            return '!' ' لا يمكن ترك هذه الخانة فارغة';
+                          } else if (!cubit.checkForNumbers(value)) {
+                            return '!' ' البريد الإلكتروني غير صالح';
+                          }
                         },
                         label: 'البريد الإلكتروني',
                         suffixIcon: Icons.email_outlined),
-                    const SizedBox(height: 20.0,),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
                     defaultFormField(
                       controller: passwordController,
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
-                        if (value!.isEmpty) {
-                          return '!''رجاءً ادخل كلمة المرور بشكل صحيح';
+                        if (value!.isEmpty || value.length < 8) {
+                          return '!' ' كلمة المرور يجب ان لا تقل عن ٨ احرف';
                         }
                       },
                       label: 'كلمة المرور',
@@ -109,7 +117,9 @@ class LoginScreenState extends State<LoginScreen> {
                       text: "تسجيل الدخول",
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          cubit.userLogin(email: emailController.text, password: passwordController.text);
+                          cubit.userLogin(
+                              email: emailController.text,
+                              password: passwordController.text);
                         }
                       },
                       context: context,
@@ -125,11 +135,15 @@ class LoginScreenState extends State<LoginScreen> {
                             navigateTo(context, const SecondScreen());
                           },
                           child: Text("انشاء حساب",
-                              style: font.copyWith(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                              style: font.copyWith(
+                                  color: Theme.of(context).canvasColor,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold)),
                         ),
                         Text(
                           "ليس لديك حساب ؟",
-                          style: font.copyWith(color: Colors.grey,fontSize: 14.0),
+                          style:
+                              font.copyWith(color: Colors.grey, fontSize: 14.0),
                         ),
                       ],
                     ),
@@ -141,7 +155,10 @@ class LoginScreenState extends State<LoginScreen> {
                             navigateTo(context, ForgetPasswordScreen1());
                           },
                           child: Text("هل نسيت كلمة السر؟",
-                              style: font.copyWith(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                              style: font.copyWith(
+                                  color: Theme.of(context).canvasColor,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold)),
                         ),
                       ],
                     ),
@@ -155,13 +172,18 @@ class LoginScreenState extends State<LoginScreen> {
                             color: Theme.of(context).iconTheme.color,
                           ),
                         ),
-                        const SizedBox(width: 5.0,),
+                        const SizedBox(
+                          width: 5.0,
+                        ),
                         Text(
                           'أو',
-                          style:
-                          font.copyWith(fontSize: 15.0,color: Theme.of(context).canvasColor),
+                          style: font.copyWith(
+                              fontSize: 15.0,
+                              color: Theme.of(context).canvasColor),
                         ),
-                        const SizedBox(width: 5.0,),
+                        const SizedBox(
+                          width: 5.0,
+                        ),
                         Expanded(
                           child: Container(
                             height: 1,
@@ -181,7 +203,9 @@ class LoginScreenState extends State<LoginScreen> {
                             backgroundColor: Colors.white,
                             radius: 20.0,
                             foregroundImage: const AssetImage("Assets/G.jpg"),
-                            child: InkWell(onTap: (){},),
+                            child: InkWell(
+                              onTap: () {},
+                            ),
                           ),
                         ),
                       ],

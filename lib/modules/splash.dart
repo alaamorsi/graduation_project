@@ -17,10 +17,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 6,milliseconds: 600)).then((value){
-      if(uId.isNotEmpty){
+      if(jwt.isNotEmpty){
         if(role == 'student'){
           navigateAndFinish(context, const StudentLayout());
-        }else if(role == 'teacher'){
+        }else if(role == 'instructor'){
         }
       }else{
         navigateAndFinish(context, const LoginScreen());

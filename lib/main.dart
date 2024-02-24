@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/login/cubit/cubit.dart';
+import 'package:graduation_project/modules/register/cubit/cubit.dart';
 import 'package:graduation_project/modules/splash.dart';
 import 'package:graduation_project/shared/bloc_observer.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
@@ -17,7 +18,7 @@ void main() async{
   DioHelper.init();
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
-  uId = CacheHelper.getData(key: 'id')??uId;
+  jwt = CacheHelper.getData(key: 'id')??jwt;
   role = CacheHelper.getData(key: 'role')??role;
   runApp(MyApp(appMode: mode));
   SystemChrome.setSystemUIOverlayStyle(
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context)=>AppCubit()),
         BlocProvider(create: (context)=>LoginCubit()),
+        BlocProvider(create: (context)=>RegisterCubit()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},

@@ -38,12 +38,12 @@ class RegisterCubit extends Cubit<RegisterStates>{
     required String lastName,
     required String email,
     required String password,
-    required var role,
+    required String role,
   }) {
     isLoading = true;
     emit(RegisterLoadingState());
     DioHelper.postData(
-      url: REGISTER,
+      url: signUp,
       data: {
         'firstName': firstName,
         'lastName': lastName,
@@ -65,7 +65,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
     required String email,
   }) {
     DioHelper.postData(
-      url: SEND,
+      url: sendCode,
       data: {
         'email': email,
       },
@@ -84,7 +84,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
   }) {
     emit(CheckCodeConfirmLoadingState());
     DioHelper.postData(
-      url: VALIDATE,
+      url: validateEmail,
       data: {
         'email': email,
         'code': code,
