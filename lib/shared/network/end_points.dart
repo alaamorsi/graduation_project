@@ -1,4 +1,4 @@
-String LOGIN='Acount/Login';
-String REGISTER='Acount/SignUp';
-String SEND='Acount/SendCode';
-String VALIDATE='Acount/ValidateEmailVerificationCode';
+String LOGIN='Account/Login';
+String REGISTER='Account/SignUp';
+String SEND='Account/SendCode';
+String VALIDATE='Account/ValidateEmailVerificationCode';

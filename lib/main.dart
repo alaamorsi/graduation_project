@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
+import 'package:graduation_project/modules/login/cubit/cubit.dart';
 import 'package:graduation_project/modules/splash.dart';
 import 'package:graduation_project/shared/bloc_observer.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
@@ -37,8 +38,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
-    return BlocProvider(
-      create: (BuildContext context) => AppCubit(),
+    return MultiBlocProvider(
+
+      providers: [
+        BlocProvider(create: (context)=>AppCubit()),
+        BlocProvider(create: (context)=>LoginCubit()),
+      ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
         builder: (context,state){

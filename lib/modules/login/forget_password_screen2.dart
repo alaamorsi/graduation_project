@@ -50,7 +50,7 @@ class ForgetPasswordScreen2 extends StatelessWidget {
                       type: TextInputType.number,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return '!'+'رجاءً ادخل رمز التحقق الصحيح';
+                          return '!''رجاءً ادخل رمز التحقق الصحيح';
                         }
                         return null;
                       },

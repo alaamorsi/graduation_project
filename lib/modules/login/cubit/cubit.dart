@@ -1,17 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/login_model.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 
-import '../../../shared/network/cache_helper.dart';
-
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
-
   static LoginCubit get(context) => BlocProvider.of(context);
 
   // Control to visible or invisible password
@@ -25,13 +22,6 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(ChangePasswordVisibilityState());
   }
 
-  // Change accept conditions
-  bool acceptCondition = false;
-
-  void changeAcceptConditions() {
-    acceptCondition = !acceptCondition;
-    emit(ChangeAcceptOfConditions());
-  }
   bool checkForNumbers(String input) {
     RegExp regex = RegExp(r'\w+@\w+\.\w+(\.\w+)*');
     return regex.hasMatch(input);
@@ -44,8 +34,8 @@ class LoginCubit extends Cubit<LoginStates> {
     required String? email,
     required String? password,
   }) {
-    isLoading = true;
     emit(LoginLoadingState());
+    isLoading = true;
     DioHelper.postData(
       url: LOGIN,
       data: {
@@ -70,15 +60,19 @@ class LoginCubit extends Cubit<LoginStates> {
         }
       }
     }).catchError((error) {
+      print(error.toString());
       isLoading = false;
       if (error.toString().contains('404')) {
         emit(LoginNotFoundState());
       }
-      if (error.toString().contains('400')) {
+     else if (error.toString().contains('400')) {
         emit(LoginFormatErrorState());
       }
-      print(error.toString());
-      emit(LoginErrorState(error.toString()));
+     else
+       {
+         emit(LoginErrorState(error.toString()));
+       }
+
     });
   }
 

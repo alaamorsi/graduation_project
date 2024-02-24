@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:graduation_project/shared/component/constant.dart';
 
 class DioHelper
 {
@@ -18,7 +19,6 @@ class DioHelper
   static Future<Response> getData ({
     required String url,
     Map<String,dynamic>? query,
-    String lang ='en',
     String? token,
   })async
   {
@@ -31,7 +31,6 @@ class DioHelper
 
   static Future<Response> postData ({
     required String url,
-    Map<String,dynamic>? query,
     required Map<String,dynamic> data,
     String? token,
   })async
@@ -40,6 +39,6 @@ class DioHelper
       'Content-Type':'application/json',
       'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
     };
-    return dio.post(url,queryParameters: query,data: data);
+    return dio.post(url,data: data,);
   }
 }

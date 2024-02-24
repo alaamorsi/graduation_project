@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
+import 'package:graduation_project/modules/login/cubit/cubit.dart';
+import 'package:graduation_project/modules/login/cubit/states.dart';
 import 'package:graduation_project/modules/login/forget_password_screen1.dart';
 import 'package:graduation_project/modules/register/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../shared/component/constant.dart';
-import 'cubit/cubit.dart';
-import 'cubit/states.dart';
+
 
 
 class LoginScreen extends StatefulWidget {
@@ -17,195 +18,181 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  late String name, email, phone;
-
-  //TextController to read text entered in text field
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit, LoginStates>(
-        listener: (context, state) {
-          if(state is LoginSuccessState)
-            {
-              navigateAndFinish(context, const StudentLayout());
-            }
-          else if (state is LoginNotConfirmedState)
-            {
-              // showToast(text: 'Email is not confirmed!', state: ToastStates.warning);
-            }
-          else if (state is LoginNotFoundState)
-            {
-              showToast(text: 'Invalid email or password!', state: ToastStates.error);
-            }
-          else if (state is LoginLoadingState)
+    return BlocConsumer<LoginCubit, LoginStates>(
+      listener: (context, state) {
+        if(state is LoginSuccessState)
           {
-            LoginCubit.get(context).isLoading = true;
+            navigateAndFinish(context, const StudentLayout());
           }
-        },
-        builder: (context, state) {
-          var cubit = LoginCubit.get(context);
-          return Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            body: SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 100.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'تسجيل الدخول',
-                            style: font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
-                            color: Theme.of(context).canvasColor),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'سجل الأن لتستمتع بخدماتنا الرائعة',
-                            style:font.copyWith(fontSize: 13.0, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20.0),
-                      defaultFormField(
-                          controller: emailController,
-                          type: TextInputType.emailAddress,
-                          validate: (String? value) {
-                            if(value!.isEmpty ||!cubit.checkForNumbers(value))
-                              {
-                                return '!'+' رجاءً ادخل البريد الإلكتروني الصحيح';
-                              }
-                            return null;
-                          },
-                          label: 'البريد الإلكتروني',
-                          suffixIcon: Icons.email_outlined),
-                      const SizedBox(height: 20.0,),
-                      defaultFormField(
-                        controller: passwordController,
-                        type: TextInputType.visiblePassword,
+        // else if (state is LoginNotConfirmedState)
+        //   {
+        //     // showToast(text: 'Email is not confirmed!', state: ToastStates.warning);
+        //   }
+        // else if (state is LoginNotFoundState)
+        //   {
+        //     showToast(text: 'Invalid email or password!', state: ToastStates.error);
+        //   }
+      },
+      builder: (context, state) {
+        var cubit = LoginCubit.get(context);
+        return Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 100.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'تسجيل الدخول',
+                          style: font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
+                          color: Theme.of(context).canvasColor),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'سجل الأن لتستمتع بخدماتنا الرائعة',
+                          style:font.copyWith(fontSize: 13.0, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                    defaultFormField(
+                        controller: emailController,
+                        type: TextInputType.emailAddress,
                         validate: (String? value) {
-                          if (value!.length<8) {
-                            return '!'+'رجاءً ادخل كلمة المرور بشكل صحيح';
-                          }
-                          return null;
+                          if(value!.isEmpty ||!cubit.checkForNumbers(value))
+                            {
+                              return '!'' رجاءً ادخل البريد الإلكتروني الصحيح';
+                            }
                         },
-                        label: 'كلمة المرور',
-                        suffixIcon: Icons.lock_outline,
-                        prefixIcon: LoginCubit.get(context).prefixIcon,
-                        isPassword: LoginCubit.get(context).isPassword,
-                        prefixPressed: () {
-                          LoginCubit.get(context).changePasswordVisibility();
-                        },
-                      ),
-                      const SizedBox(height: 30.0),
-                      //login button
-                      usedButton(
-                        atEnd: false,
-                        paddingSize: 13.0,
-                        isLoading: LoginCubit.get(context).isLoading,
-                        text: "تسجيل الدخول",
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            LoginCubit.get(context).userLogin(email: emailController.text, password: passwordController.text);
-                            return;
-                          }
-                        },
-                        context: context,
-                        color: Theme.of(context).canvasColor,
-                      ),
-                      const SizedBox(height: 10.0),
-                      //didn't have an account?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              navigateTo(context, const SecondScreen());
-                            },
-                            child: Text("انشاء حساب",
-                                style: font.copyWith(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                        label: 'البريد الإلكتروني',
+                        suffixIcon: Icons.email_outlined),
+                    const SizedBox(height: 20.0,),
+                    defaultFormField(
+                      controller: passwordController,
+                      type: TextInputType.visiblePassword,
+                      validate: (String? value) {
+                        if (value!.isEmpty) {
+                          return '!''رجاءً ادخل كلمة المرور بشكل صحيح';
+                        }
+                      },
+                      label: 'كلمة المرور',
+                      suffixIcon: Icons.lock_outline,
+                      prefixIcon: LoginCubit.get(context).prefixIcon,
+                      isPassword: LoginCubit.get(context).isPassword,
+                      prefixPressed: () {
+                        cubit.changePasswordVisibility();
+                      },
+                    ),
+                    const SizedBox(height: 30.0),
+                    //login button
+                    usedButton(
+                      atEnd: false,
+                      paddingSize: 13.0,
+                      isLoading: cubit.isLoading,
+                      text: "تسجيل الدخول",
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          cubit.userLogin(email: emailController.text, password: passwordController.text);
+                        }
+                      },
+                      context: context,
+                      color: Theme.of(context).canvasColor,
+                    ),
+                    const SizedBox(height: 10.0),
+                    //didn't have an account?
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            navigateTo(context, const SecondScreen());
+                          },
+                          child: Text("انشاء حساب",
+                              style: font.copyWith(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                        ),
+                        Text(
+                          "ليس لديك حساب ؟",
+                          style: font.copyWith(color: Colors.grey,fontSize: 14.0),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            navigateTo(context, ForgetPasswordScreen1());
+                          },
+                          child: Text("هل نسيت كلمة السر؟",
+                              style: font.copyWith(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30.0),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 1,
+                            width: double.infinity,
+                            color: Theme.of(context).iconTheme.color,
                           ),
-                          Text(
-                            "ليس لديك حساب ؟",
-                            style: font.copyWith(color: Colors.grey,fontSize: 14.0),
+                        ),
+                        const SizedBox(width: 5.0,),
+                        Text(
+                          'أو',
+                          style:
+                          font.copyWith(fontSize: 15.0,color: Theme.of(context).canvasColor),
+                        ),
+                        const SizedBox(width: 5.0,),
+                        Expanded(
+                          child: Container(
+                            height: 1,
+                            width: double.infinity,
+                            color: Theme.of(context).iconTheme.color,
                           ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              navigateTo(context, ForgetPasswordScreen1());
-                            },
-                            child: Text("هل نسيت كلمة السر؟",
-                                style: font.copyWith(color: Theme.of(context).canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30.0),
+                    //google logo
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 20.0,
+                            foregroundImage: const AssetImage("Assets/G.jpg"),
+                            child: InkWell(onTap: (){},),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 30.0),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 1,
-                              width: double.infinity,
-                              color: Theme.of(context).iconTheme.color,
-                            ),
-                          ),
-                          const SizedBox(width: 5.0,),
-                          Text(
-                            'أو',
-                            style:
-                            font.copyWith(fontSize: 15.0,color: Theme.of(context).canvasColor),
-                          ),
-                          const SizedBox(width: 5.0,),
-                          Expanded(
-                            child: Container(
-                              height: 1,
-                              width: double.infinity,
-                              color: Theme.of(context).iconTheme.color,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 30.0),
-                      //google logo
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 20.0,
-                              foregroundImage: const AssetImage("Assets/G.jpg"),
-                              child: InkWell(onTap: (){},),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

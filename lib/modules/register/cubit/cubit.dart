@@ -38,7 +38,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
     required String lastName,
     required String email,
     required String password,
-    required String role,
+    required var role,
   }) {
     isLoading = true;
     emit(RegisterLoadingState());

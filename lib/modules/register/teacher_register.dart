@@ -84,7 +84,7 @@ class TeacherScreenState extends State<TeacherScreen> {
                           type: TextInputType.text,
                           validate: (String? value) {
                             if (value!.isEmpty) {
-                              return '!'+'رجاءً ادخل الاسم';
+                              return '!''رجاءً ادخل الاسم';
                             }
                             return null;
                           },
@@ -96,7 +96,7 @@ class TeacherScreenState extends State<TeacherScreen> {
                           type: TextInputType.phone,
                           validate: (String? value) {
                             if (value!.isEmpty) {
-                              return '!'+'رجاءً ادخل رقم الموبايل';
+                              return '!''رجاءً ادخل رقم الموبايل';
                             }
                             return null;
                           },
@@ -108,7 +108,7 @@ class TeacherScreenState extends State<TeacherScreen> {
                           type: TextInputType.emailAddress,
                           validate: (String? value) {
                             if (value!.isEmpty) {
-                              return '!'+'رجاءً ادخل البريد الإلكتروني الصحيح';
+                              return '!''رجاءً ادخل البريد الإلكتروني الصحيح';
                             }
                             return null;
                           },
@@ -120,7 +120,7 @@ class TeacherScreenState extends State<TeacherScreen> {
                         type: TextInputType.visiblePassword,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return '!'+' رجاءً ادخل كلمة المرور بشكل صحيح';
+                            return '!'' رجاءً ادخل كلمة المرور بشكل صحيح';
                           }
                           return null;
                         },

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:graduation_project/modules/register/Confirm_Screen.dart';
+import 'package:graduation_project/modules/register/cubit/cubit.dart';
+import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/modules/register/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../shared/component/constant.dart';
-import 'cubit/cubit.dart';
-import 'cubit/states.dart';
 
 class StudentScreen extends StatefulWidget {
   const StudentScreen({super.key});
@@ -37,10 +37,6 @@ class StudentScreenState extends State<StudentScreen> {
               RegisterCubit.get(context).sendConfirm(email: emailController.text);
               navigateTo(context, ConfirmScreen(email: emailController.text,));
             }
-          else if(state is RegisterLoadingState)
-          {
-            RegisterCubit.get(context).isLoading=true;
-          }
         },
         builder: (context, state) {
           var theme = Theme.of(context);
@@ -95,7 +91,7 @@ class StudentScreenState extends State<StudentScreen> {
                           type: TextInputType.text,
                           validate: (String? value) {
                             if (value!.isEmpty) {
-                              return '!'+' لا يمكن ترك هذه الخانة فارغة';
+                              return '!'' لا يمكن ترك هذه الخانة فارغة';
                             }
                             return null;
                           },
@@ -107,7 +103,7 @@ class StudentScreenState extends State<StudentScreen> {
                           type: TextInputType.text,
                           validate: (String? value) {
                             if (value!.isEmpty) {
-                              return '!'+' لا يمكن ترك هذه الخانة فارغة';
+                              return '!'' لا يمكن ترك هذه الخانة فارغة';
                             }
                             return null;
                           },
@@ -119,7 +115,7 @@ class StudentScreenState extends State<StudentScreen> {
                           type: TextInputType.emailAddress,
                           validate: (String? value) {
                             if (value!.isEmpty) {
-                              return '!'+' لا يمكن ترك هذه الخانة فارغة';
+                              return '!'' لا يمكن ترك هذه الخانة فارغة';
                             }
                             return null;
                           },
@@ -131,7 +127,7 @@ class StudentScreenState extends State<StudentScreen> {
                         type: TextInputType.visiblePassword,
                         validate: (String? value) {
                           if (value!.isEmpty || value.length<8) {
-                            return '!'+' كلمة المرور يجب ان لا تقل عن ٨ احرف';
+                            return '!'' كلمة المرور يجب ان لا تقل عن ٨ احرف';
                           }
                           return null;
                         },
@@ -168,7 +164,11 @@ class StudentScreenState extends State<StudentScreen> {
                         text: "إنشاء",
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                          cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 'Student');
+                            print(emailController.text);
+                            print(nameController1.text);
+                            print(nameController2.text);
+                            print(passwordController.text);
+                          cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 0);
                         }
                         },
                         context: context,
