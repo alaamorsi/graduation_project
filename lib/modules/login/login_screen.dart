@@ -1,4 +1,3 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
@@ -34,7 +33,7 @@ class LoginScreenState extends State<LoginScreen> {
         listener: (context, state) {
           if(state is LoginSuccessState)
             {
-              navigateAndFinish(context, StudentLayout());
+              navigateAndFinish(context, const StudentLayout());
             }
           else if (state is LoginNotConfirmedState)
             {
@@ -90,6 +89,7 @@ class LoginScreenState extends State<LoginScreen> {
                               {
                                 return '!'+' رجاءً ادخل البريد الإلكتروني الصحيح';
                               }
+                            return null;
                           },
                           label: 'البريد الإلكتروني',
                           suffixIcon: Icons.email_outlined),
@@ -98,8 +98,8 @@ class LoginScreenState extends State<LoginScreen> {
                         controller: passwordController,
                         type: TextInputType.visiblePassword,
                         validate: (String? value) {
-                          if (value!.isEmpty) {
-                            return '!'+' رجاءً ادخل كلمة المرور بشكل صحيح';
+                          if (value!.length<8) {
+                            return '!'+'رجاءً ادخل كلمة المرور بشكل صحيح';
                           }
                           return null;
                         },
@@ -111,12 +111,11 @@ class LoginScreenState extends State<LoginScreen> {
                           LoginCubit.get(context).changePasswordVisibility();
                         },
                       ),
-                      const SizedBox(height: 10.0),
-                      const SizedBox(height: 10.0),
+                      const SizedBox(height: 30.0),
                       //login button
                       usedButton(
                         atEnd: false,
-                        paddingSize: 10.0,
+                        paddingSize: 13.0,
                         isLoading: LoginCubit.get(context).isLoading,
                         text: "تسجيل الدخول",
                         onPressed: () {

@@ -167,12 +167,11 @@ void navigateTo(context, widget) => Navigator.push(
       ),
     );
 
-void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
+void navigateAndFinish(context, widget) => Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => widget,
       ),
-      (Route<dynamic> rout) => false,
     );
 
 /////////////////////

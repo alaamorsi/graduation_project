@@ -180,10 +180,7 @@ class StudentScreenState extends State<StudentScreen> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginScreen()));
+                              navigateAndFinish(context,const LoginScreen());
                             },
                             child: Text("سجل الدخول",
                                 style: font.copyWith(color: theme.canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),

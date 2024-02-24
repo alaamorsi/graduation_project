@@ -32,7 +32,6 @@ class LoginCubit extends Cubit<LoginStates> {
     acceptCondition = !acceptCondition;
     emit(ChangeAcceptOfConditions());
   }
-  bool isLoading = false;
   bool checkForNumbers(String input) {
     RegExp regex = RegExp(r'\w+@\w+\.\w+(\.\w+)*');
     return regex.hasMatch(input);
@@ -40,11 +39,12 @@ class LoginCubit extends Cubit<LoginStates> {
 
   late LoginModel loginModel;
   late UserData userData;
-
+  bool isLoading = false;
   void userLogin({
     required String? email,
     required String? password,
   }) {
+    isLoading = true;
     emit(LoginLoadingState());
     DioHelper.postData(
       url: LOGIN,
@@ -53,6 +53,7 @@ class LoginCubit extends Cubit<LoginStates> {
         'password': password,
       },
     ).then((value) {
+      isLoading = false;
       print(value.statusCode);
       if (value.statusCode == 200) {
         loginModel = LoginModel.fromJson(value.data);
@@ -69,6 +70,7 @@ class LoginCubit extends Cubit<LoginStates> {
         }
       }
     }).catchError((error) {
+      isLoading = false;
       if (error.toString().contains('404')) {
         emit(LoginNotFoundState());
       }

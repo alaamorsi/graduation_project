@@ -11,14 +11,13 @@ import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/themes.dart';
 
 void main() async{
-
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
-  uId = CacheHelper.getData(key: 'id')?? '';
-  role = CacheHelper.getData(key: 'role')?? '';
+  uId = CacheHelper.getData(key: 'id')??uId;
+  role = CacheHelper.getData(key: 'role')??role;
   runApp(MyApp(appMode: mode));
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -29,8 +28,8 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-  bool appMode;
-  MyApp({super.key,
+  final bool appMode;
+  const MyApp({super.key,
     required this.appMode,
   });
 

@@ -12,8 +12,6 @@ class RegisterCubit extends Cubit<RegisterStates>{
   // Control to visible or invisible password
   IconData prefixIcon = Icons.visibility_outlined;
   bool isPassword = true;
-  bool isLoading = false;
-
   void changePasswordVisibility() {
     isPassword = !isPassword;
     prefixIcon =
@@ -23,7 +21,6 @@ class RegisterCubit extends Cubit<RegisterStates>{
 
   // Change accept conditions
   bool acceptCondition = false;
-
   void changeAcceptConditions() {
     acceptCondition = !acceptCondition;
     emit(ChangeAcceptOfConditions());
@@ -35,7 +32,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
 
   late LoginModel loginModel;
   late UserData userData;
-
+  bool isLoading = false;
   void userRegister({
     required String firstName,
     required String lastName,
@@ -43,6 +40,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
     required String password,
     required String role,
   }) {
+    isLoading = true;
     emit(RegisterLoadingState());
     DioHelper.postData(
       url: REGISTER,
@@ -55,11 +53,11 @@ class RegisterCubit extends Cubit<RegisterStates>{
       },
     ).then((value) {
       print(value.statusCode);
-      if (value.statusCode == 200) {
-        emit(RegisterSuccessState());
-      }
+      isLoading = false;
+      emit(RegisterSuccessState());
     }).catchError((error) {
       print(error.toString());
+      isLoading = false;
       emit(RegisterErrorState(error.toString()));
     });
   }
@@ -73,9 +71,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
       },
     ).then((value) {
       print(value.statusCode);
-      if (value.statusCode == 200) {
-        emit(SendConfirmSuccessState());
-      }
+      emit(SendConfirmSuccessState());
     }).catchError((error) {
       print(error.toString());
       emit(SendConfirmErrorState(error.toString()));
@@ -95,9 +91,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
       },
     ).then((value) {
       print(value.statusCode);
-      if (value.statusCode == 200) {
-        emit(CheckCodeConfirmSuccessState());
-      }
+      emit(CheckCodeConfirmSuccessState());
     }).catchError((error) {
       print(error.toString());
       emit(CheckCodeConfirmErrorState(error.toString()));
