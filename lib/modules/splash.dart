@@ -19,11 +19,11 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 6,milliseconds: 600)).then((value){
       if(uId.isNotEmpty){
         if(role == 'student'){
-          navigateTo(context, const StudentLayout());
+          navigateAndFinish(context, const StudentLayout());
         }else if(role == 'teacher'){
         }
       }else{
-        navigateTo(context, const LoginScreen());
+        navigateAndFinish(context, const LoginScreen());
       }
     });
   }
