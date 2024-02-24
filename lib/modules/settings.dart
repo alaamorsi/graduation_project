@@ -154,6 +154,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               TextButton(
                   onPressed: () {
+                    CacheHelper.removeData(key: 'jwt');
+                    CacheHelper.removeData(key: 'role');
+                    jwt = '';
+                    role = '';
                     navigateAndFinish(context, LoginScreen());
                   },
                   child: Text('تسجيل الخروج'))

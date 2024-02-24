@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/modules/login/cubit/cubit.dart';
+import 'package:graduation_project/modules/login/cubit/states.dart';
 import 'package:graduation_project/modules/student/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../layout/student/cubit/cubit.dart';
@@ -15,10 +17,9 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-     return BlocConsumer<StudentCubit,StudentStates>(
+     return BlocConsumer<LoginCubit,LoginStates>(
       listener: (context,state) {},
       builder:(context,state){
-        // var cubit = StudentCubit.get(context);
         var theme  = Theme.of(context);
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -35,7 +36,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                         height: 40.0,
                         width: 40.0,
                         decoration: BoxDecoration(
-                            color: theme.cardColor,
+                            color: theme.appBarTheme.backgroundColor,
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(15.0),
                               bottomRight: Radius.circular(15.0),
@@ -68,25 +69,28 @@ class ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(height: 30,),
                   //data
-                  const Card(
+                   Card(
+                     color: theme.appBarTheme.backgroundColor,
                     elevation: 4,
                     child: ListTile(
-                      trailing: Text("احمد معبد عيسي",
+                      trailing: Text(LoginCubit.get(context).userData.name,
                         style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
                       ),
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  const Card(
-                    elevation: 4,
+                   Card(
+                     color: theme.appBarTheme.backgroundColor,
+                     elevation: 4,
                     child: ListTile(
-                      trailing: Text("am5790@fayoum.edu.eg",
+                      trailing: Text(LoginCubit.get(context).userData.email,
                         style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
                       ),
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  const Card(
+                   Card(
+                     color: theme.appBarTheme.backgroundColor,
                     elevation: 4.0,
                     child: ListTile(
                       trailing: Text("الصف الثالث الاعدادي",

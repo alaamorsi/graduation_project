@@ -58,7 +58,7 @@ class ForgetPasswordScreen1 extends StatelessWidget {
                           if (value!.isEmpty) {
                             return '!'' لا يمكن ترك هذه الخانة فارغة';
                           }
-                          else if (cubit.checkForNumbers(value))
+                          else if (!cubit.checkForNumbers(value))
                             {
                               return '!'' البريد الإلكتروني غير صالح';
                             }

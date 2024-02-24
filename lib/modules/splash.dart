@@ -17,15 +17,21 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 6,milliseconds: 600)).then((value){
-      if(jwt.isNotEmpty){
+      if(jwt!.isNotEmpty){
         if(role == 'student'){
           navigateAndFinish(context, const StudentLayout());
         }else if(role == 'instructor'){
+          navigateAndFinish(context, const StudentLayout());
         }
       }else{
         navigateAndFinish(context, const LoginScreen());
       }
     });
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {

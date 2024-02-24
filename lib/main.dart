@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/login/cubit/cubit.dart';
@@ -18,7 +19,7 @@ void main() async{
   DioHelper.init();
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
-  jwt = CacheHelper.getData(key: 'id')??jwt;
+  jwt = CacheHelper.getData(key: 'jwt')??jwt;
   role = CacheHelper.getData(key: 'role')??role;
   runApp(MyApp(appMode: mode));
   SystemChrome.setSystemUIOverlayStyle(
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>AppCubit()),
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit()),
+        BlocProvider(create: (context)=>StudentCubit()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
