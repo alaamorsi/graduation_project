@@ -1,6 +1,7 @@
 class LoginModel
 {
   late String? jwt;
+  late String? profilePicture;
   late String? refreshToken;
   late String? expirationOfJwt;
   late String? expirationOfRefreshToken;
@@ -10,6 +11,7 @@ class LoginModel
   LoginModel.fromJson(Map<String, dynamic> json)
   {
     jwt = json['jwt'];
+    profilePicture = json['profilePicture'];
     refreshToken = json['refreshToken'];
     expirationOfJwt = json['expirationOfJwt'];
     expirationOfRefreshToken = json['expirationOfRefreshToken'];
@@ -20,13 +22,15 @@ class LoginModel
 
 class UserData
 {
-  late String name;
+  late String firstName;
+  late String lastName;
   late String email;
   late String role;
 
   UserData.fromJson(Map<String, dynamic> json)
   {
-    name = json['name'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
     email = json['email'];
     role = json['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
   }

@@ -4,8 +4,6 @@ import 'package:graduation_project/modules/login/cubit/cubit.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
 import 'package:graduation_project/modules/student/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import '../../layout/student/cubit/cubit.dart';
-import '../../layout/student/cubit/states.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -73,8 +71,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                      color: theme.appBarTheme.backgroundColor,
                     elevation: 4,
                     child: ListTile(
-                      trailing: Text(LoginCubit.get(context).userData.name,
-                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
+                      trailing: Text(LoginCubit.get(context).userData.firstName,
+                        style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
                       ),
                     ),
                   ),
@@ -84,7 +82,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                      elevation: 4,
                     child: ListTile(
                       trailing: Text(LoginCubit.get(context).userData.email,
-                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
+                        style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
                       ),
                     ),
                   ),
@@ -92,7 +90,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                    Card(
                      color: theme.appBarTheme.backgroundColor,
                     elevation: 4.0,
-                    child: ListTile(
+                    child: const ListTile(
                       trailing: Text("الصف الثالث الاعدادي",
                         style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
                       ),

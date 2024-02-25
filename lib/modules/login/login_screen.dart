@@ -29,9 +29,9 @@ class LoginScreenState extends State<LoginScreen> {
         role = CacheHelper.getData(key: 'role');
         if (state is LoginSuccessState) {
           if (role == 'student') {
-            navigateAndFinish(context, StudentLayout());
+            navigateAndFinish(context, const StudentLayout());
           } else if (role == 'instructor') {
-            navigateAndFinish(context, StudentLayout());
+            navigateAndFinish(context, const StudentLayout());
             print('معلش عشان لسه معملناش الصفحة');
           }
         }
@@ -86,6 +86,7 @@ class LoginScreenState extends State<LoginScreen> {
                           } else if (!cubit.checkForNumbers(value)) {
                             return '!' ' البريد الإلكتروني غير صالح';
                           }
+                          return null;
                         },
                         label: 'البريد الإلكتروني',
                         suffixIcon: Icons.email_outlined),
@@ -99,6 +100,7 @@ class LoginScreenState extends State<LoginScreen> {
                         if (value!.isEmpty || value.length < 8) {
                           return '!' ' كلمة المرور يجب ان لا تقل عن ٨ احرف';
                         }
+                        return null;
                       },
                       label: 'كلمة المرور',
                       suffixIcon: Icons.lock_outline,

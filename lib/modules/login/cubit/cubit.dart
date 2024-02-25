@@ -58,9 +58,6 @@ class LoginCubit extends Cubit<LoginStates> {
           userData = UserData.fromJson(decodedMap);
           CacheHelper.saveData(key: 'jwt', value: loginModel.jwt);
           CacheHelper.saveData(key: 'role', value: userData.role.toLowerCase());
-          print(userData.name);
-          print(userData.email);
-          print(userData.role);
           emit(LoginSuccessState());
         } else if(!loginModel.emailConfirmed){
           emit(LoginNotConfirmedState());

@@ -23,7 +23,7 @@ class ResetPasswordScreen extends StatelessWidget {
         listener: (context , state){
           if(state is ResetPasswordSuccessState)
             {
-              navigateAndFinish(context, LoginScreen());
+              navigateAndFinish(context, const LoginScreen());
             }
         },
         builder: (context , state ){

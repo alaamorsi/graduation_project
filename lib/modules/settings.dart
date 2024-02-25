@@ -149,7 +149,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   )
                 ]),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
               TextButton(
@@ -158,9 +158,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     CacheHelper.removeData(key: 'role');
                     jwt = '';
                     role = '';
-                    navigateAndFinish(context, LoginScreen());
+                    navigateAndFinish(context, const LoginScreen());
                   },
-                  child: Text('تسجيل الخروج'))
+                  child: const Text('تسجيل الخروج'))
             ]),
           ),
         );

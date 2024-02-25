@@ -60,6 +60,10 @@ dependencies:
   retrofit_generator: ^8.0.6
   freezed: ^2.4.6
   freezed_annotation: ^2.4.1
+  appinio_video_player: ^1.2.2
+  video_player: 2.7.2
+
+
 
 
 

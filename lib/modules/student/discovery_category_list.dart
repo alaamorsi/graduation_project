@@ -18,7 +18,7 @@ class CategoryList extends StatelessWidget {
         Color cardColor= Theme.of(context).cardColor;
         return Scaffold(
           body: CustomScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
                 floating: true,
