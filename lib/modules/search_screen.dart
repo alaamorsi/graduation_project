@@ -59,6 +59,7 @@ class SearchScreenState extends State<SearchScreen> {
               controller: searchController,
               textAlign: TextAlign.end,
               decoration: const InputDecoration(
+                labelStyle: TextStyle(color:Colors.white),
                 hintText: 'ادخل اسم المدرس او المادة',
                 hintStyle: TextStyle(color: Colors.white,fontSize: 13.0,fontWeight: FontWeight.w300),
                 border: InputBorder.none,
