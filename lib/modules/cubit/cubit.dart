@@ -11,40 +11,46 @@ class AppCubit extends Cubit<AppStates> {
 
  // Control to visible or invisible password
   ThemeMode theme = ThemeMode.light;
+  bool notification = true;
+  String langTitle = 'العربية';
+  Locale language = const Locale('ar',);
+
+  void getSettings(){
+    String ln = CacheHelper.getData(key: 'ln')??'ar';
+    mode = CacheHelper.getData(key: 'appMode')??mode;
+    notification = CacheHelper.getData(key: 'notification')??notification;
+    language = Locale(ln,);
+    theme = mode?ThemeMode.light:ThemeMode.dark;
+    langTitle=(ln=='ar')?'العربية':'English';
+    CacheHelper.saveData(key: 'ln', value: ln);
+    CacheHelper.putBoolean(key: 'appMode', value: mode);
+    CacheHelper.putBoolean(key: 'notification', value: notification);
+    emit(AppGetSettingsState());
+  }
+  // Change language by default arabic
+  void changeAppLanguage(String ln) {
+    langTitle=(ln=='ar')?'العربية':'English';
+    language = Locale(ln,);
+    CacheHelper.saveData(key: 'ln', value: ln);
+    emit(AppChangModeState());
+  }
+
+  // Change application mode state
   void changeAppMode() {
     mode=!mode;
-    if(mode){
-      theme = ThemeMode.light;
-    }
-    else{
-      theme =ThemeMode.dark;
-    }
+    theme = mode?ThemeMode.light:ThemeMode.dark;
     CacheHelper.putBoolean(key: 'appMode', value: mode);
     emit(AppChangModeState());
   }
 
   // Change notification state
-  bool notification = true;
   void changeNotificationState() {
     notification = !notification;
     CacheHelper.putBoolean(key: 'notification', value: notification);
     emit(AppChangeNotificationState());
   }
 
-  // Change language by default arabic
-  Locale language = const Locale('ar',);
-  void changeAppLanguage(String ln) {
-    if (ln=="en")
-    {
-      language = const Locale('en',);
-    }
-    else if(ln=="ar")
-    {
-      language = const Locale('ar',);
-    }
-    CacheHelper.saveData(key: 'ln', value: ln);
-    emit(AppChangModeState());
-  }
+
 
   bool isFilterOpen = false ;
   List<String> selectedItems = [];

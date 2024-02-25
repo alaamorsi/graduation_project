@@ -21,7 +21,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       listener: (context, state) {},
       builder: (context, state) {
         var appCubit = AppCubit.get(context);
-        String lang = CacheHelper.getData(key: 'ln') ?? "عربي";
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: defaultAppBar(
@@ -55,10 +54,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 myDropDownMenu(
                     context: context,
                     title: "اللغة",
-                    initialSelectionText: lang,
+                    initialSelectionText: appCubit.langTitle,
                     chooses: <DropdownMenuEntry<String>>[
                       DropdownMenuEntry(
-                        value: "English",
+                        value: "en",
                         label: "English",
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
@@ -68,7 +67,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       DropdownMenuEntry(
-                        value: "Arabic",
+                        value: "ar",
                         label: "عربي",
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
@@ -80,16 +79,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ],
                     onSelect: (language) {
                       switch (language) {
-                        case "Arabic":
+                        case "ar":
                           appCubit.changeAppLanguage("ar");
                           break;
-                        case "English":
+                        case "en":
                           appCubit.changeAppLanguage("en");
                           break;
                       }
                     }),
               ]),
               const SizedBox(height: 30.0),
+              //notifications setting
               Container(
                 height: 65.0,
                 decoration: BoxDecoration(
@@ -117,6 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ]),
               ),
               const SizedBox(height: 30.0),
+              //mode setting
               Container(
                 height: 65.0,
                 decoration: BoxDecoration(
@@ -149,18 +150,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   )
                 ]),
               ),
-              SizedBox(
-                height: 30.0,
-              ),
+              const SizedBox(height: 30.0,),
               TextButton(
-                  onPressed: () {
-                    CacheHelper.removeData(key: 'jwt');
-                    CacheHelper.removeData(key: 'role');
-                    jwt = '';
-                    role = '';
-                    navigateAndFinish(context, LoginScreen());
-                  },
-                  child: Text('تسجيل الخروج'))
+                onPressed: () {
+                  CacheHelper.removeData(key: 'jwt');
+                  CacheHelper.removeData(key: 'role');
+                  jwt = '';
+                  role = '';
+                  navigateAndFinish(context, const LoginScreen());
+                },
+                child: const Text('تسجيل الخروج'))
             ]),
           ),
         );

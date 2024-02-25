@@ -1,8 +1,9 @@
 class LoginModel
 {
   late String? jwt;
+  late String? profilePicture;
   late String? refreshToken;
-  late String? expirationOfJwt;
+  late String? expirationData;
   late String? expirationOfRefreshToken;
   late bool success;
   late bool emailConfirmed;
@@ -10,8 +11,9 @@ class LoginModel
   LoginModel.fromJson(Map<String, dynamic> json)
   {
     jwt = json['jwt'];
+    profilePicture = json['profilePicture'];
     refreshToken = json['refreshToken'];
-    expirationOfJwt = json['expirationOfJwt'];
+    expirationData = json['expirationOfJwt'];
     expirationOfRefreshToken = json['expirationOfRefreshToken'];
     success = json['success'];
     emailConfirmed = json['emailConfirmed'];

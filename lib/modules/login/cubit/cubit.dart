@@ -50,12 +50,12 @@ class LoginCubit extends Cubit<LoginStates> {
         loginModel = LoginModel.fromJson(value.data);
         if (loginModel.emailConfirmed) {
           String payLoad = loginModel.jwt!.split('.')[1];
-          // Add padding if necessary
           int padLength = (4 - payLoad.length % 4) % 4;
           String paddedPayload= payLoad.padRight(payLoad.length + padLength, '=');
           String decodedString = utf8.decode(base64.decode(paddedPayload));
           Map<String, dynamic> decodedMap = json.decode(decodedString);
           userData = UserData.fromJson(decodedMap);
+          CacheHelper.saveData(key: 'profilePicture', value: loginModel.profilePicture);
           CacheHelper.saveData(key: 'jwt', value: loginModel.jwt);
           CacheHelper.saveData(key: 'role', value: userData.role.toLowerCase());
           print(userData.name);
