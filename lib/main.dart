@@ -7,7 +7,6 @@ import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/login/cubit/cubit.dart';
 import 'package:graduation_project/modules/register/cubit/cubit.dart';
 import 'package:graduation_project/modules/splash.dart';
-import 'package:graduation_project/modules/student/assignments.dart';
 import 'package:graduation_project/shared/bloc_observer.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/component/constant.dart';
@@ -58,7 +57,7 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             locale: AppCubit.get(context).language,
             themeMode: AppCubit.get(context).theme,
-            home:const assignmentScreen(),
+            home:const SplashScreen(),
           );
         },
       ),

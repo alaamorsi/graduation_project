@@ -58,7 +58,8 @@ class LoginCubit extends Cubit<LoginStates> {
           CacheHelper.saveData(key: 'profilePicture', value: loginModel.profilePicture);
           CacheHelper.saveData(key: 'jwt', value: loginModel.jwt);
           CacheHelper.saveData(key: 'role', value: userData.role.toLowerCase());
-          print(userData.name);
+          print(userData.firstName);
+          print(userData.lastName);
           print(userData.email);
           print(userData.role);
           emit(LoginSuccessState());
