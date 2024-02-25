@@ -1,7 +1,7 @@
-import 'package:appinio_video_player/appinio_video_player.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
-enum Source { Asset, Network }
 
 class ViewVideoScreen extends StatefulWidget {
   const ViewVideoScreen({super.key});
@@ -11,17 +11,17 @@ class ViewVideoScreen extends StatefulWidget {
 }
 
 class _ViewVideoScreenState extends State<ViewVideoScreen> {
-  late CustomVideoPlayerController customVideoPlayerController;
-  Source currentSource = Source.Asset;
-  String videoAsset = "Assets/menshawy.mp4";
-  Uri videoLink = Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-
+  late FlickManager flickManager1;
+  late FlickManager flickManager2;
+  Uri videoLink = Uri.parse(
+      "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4");
+  // String videoAsset = "Assets/menshawy.mp4";
   @override
   void initState() {
     super.initState();
-    initializeVideoPlayer(currentSource);
+    flickManager1 = FlickManager(videoPlayerController: VideoPlayerController.networkUrl(videoLink));
+    // flickManager2 = FlickManager(videoPlayerController: VideoPlayerController.asset(videoAsset));
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,75 +29,13 @@ class _ViewVideoScreenState extends State<ViewVideoScreen> {
         title: const Text('Video Player'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          CustomVideoPlayer(
-            customVideoPlayerController: customVideoPlayerController,
-          ),
-          sourceButtons(),
-        ],
-      ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                FlickVideoPlayer(flickManager: flickManager1),
+              ],
+            ),
     );
-  }
-
-  Widget sourceButtons() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        MaterialButton(
-          onPressed: () {
-            setState(() {
-              currentSource = Source.Network;
-              initializeVideoPlayer(currentSource);
-            });
-          },
-          color: Colors.red,
-          child: const Text(
-            'Network',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-        MaterialButton(
-          onPressed: () {
-            currentSource = Source.Asset;
-            initializeVideoPlayer(currentSource);
-          },
-          color: Colors.red,
-          child: const Text(
-            'Asset',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void initializeVideoPlayer(Source source) {
-    VideoPlayerController videoPlayerController;
-    if (source == Source.Network)
-      {
-        videoPlayerController = VideoPlayerController.networkUrl(videoLink)
-          ..initialize().then((value) => () {
-            setState(() {});
-          });
-      }
-    else if (source == Source.Asset)
-      {
-        videoPlayerController = VideoPlayerController.asset(videoAsset)
-          ..initialize().then((value) => () {
-            setState(() {});
-          });
-
-      } else
-        {
-          return;
-        }
-
-    customVideoPlayerController = CustomVideoPlayerController(
-        context: context, videoPlayerController: videoPlayerController);
   }
 }

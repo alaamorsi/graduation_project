@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     return MultiBlocProvider(
-
       providers: [
         BlocProvider(create: (context)=>AppCubit()),
         BlocProvider(create: (context)=>LoginCubit()),
@@ -51,6 +50,7 @@ class MyApp extends StatelessWidget {
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
         builder: (context,state){
+          // AppCubit.get(context).getSettings();
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: lightTheme,

@@ -19,6 +19,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       listener: (context,state) {},
       builder:(context,state){
         var theme  = Theme.of(context);
+        var cubit = LoginCubit.get(context);
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SingleChildScrollView(
@@ -71,7 +72,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                      color: theme.appBarTheme.backgroundColor,
                     elevation: 4,
                     child: ListTile(
-                      trailing: Text(LoginCubit.get(context).userData.firstName,
+                      trailing: Text(cubit.userData.firstName+cubit.userData.lastName,
                         style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
                       ),
                     ),
@@ -81,7 +82,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                      color: theme.appBarTheme.backgroundColor,
                      elevation: 4,
                     child: ListTile(
-                      trailing: Text(LoginCubit.get(context).userData.email,
+                      trailing: Text(cubit.userData.email,
                         style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
                       ),
                     ),
