@@ -24,21 +24,29 @@ class _ViewVideoScreenState extends State<ViewVideoScreen> {
   void initState() {
     super.initState();
     flickManager = FlickManager(
-      videoPlayerController: VideoPlayerController.networkUrl(
-        Uri.parse(videoUrls[currentVideoIndex]),
-      ),
-    );
+        videoPlayerController: VideoPlayerController.networkUrl(
+      Uri.parse(videoUrls[currentVideoIndex]),
+    ));
+    flickManager.flickVideoManager!.addListener(_videoListener);
+  }
+
+  void _videoListener() {
+    if (flickManager.flickVideoManager!.videoPlayerController!.value.position >=
+        flickManager.flickVideoManager!.videoPlayerController!.value.duration) {
+      // Video has ended, switch to the next video
+      playNextVideo();
+    }
   }
 
   void playNextVideo() {
     // Increment the index to switch to the next video
     currentVideoIndex = (currentVideoIndex + 1) % videoUrls.length;
     flickManager.handleChangeVideo(
-      VideoPlayerController.networkUrl(
-        Uri.parse(videoUrls[currentVideoIndex]),
+      VideoPlayerController.networkUrl(Uri.parse(videoUrls[currentVideoIndex]),
       ),
     );
   }
+
   void playPreviousVideo() {
     // Increment the index to switch to the next video
     currentVideoIndex = (currentVideoIndex - 1) % videoUrls.length;
@@ -76,8 +84,8 @@ class _ViewVideoScreenState extends State<ViewVideoScreen> {
                     ),
                     Spacer(),
                     ElevatedButton(
-                      onPressed: playNextVideo,
-                      child: const Text('Play Next Video'),
+                      onPressed: playPreviousVideo,
+                      child: const Text('Play Previous Video'),
                     ),
                   ],
                 ),
