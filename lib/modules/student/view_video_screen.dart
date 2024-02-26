@@ -1,27 +1,60 @@
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 
-
 class ViewVideoScreen extends StatefulWidget {
-  const ViewVideoScreen({super.key});
+  const ViewVideoScreen({Key? key}) : super(key: key);
 
   @override
   State<ViewVideoScreen> createState() => _ViewVideoScreenState();
 }
 
 class _ViewVideoScreenState extends State<ViewVideoScreen> {
-  late FlickManager flickManager1;
-  late FlickManager flickManager2;
-  Uri videoLink = Uri.parse(
-      "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4");
-  // String videoAsset = "Assets/menshawy.mp4";
+  late FlickManager flickManager;
+  List<String> videoUrls = [
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    // Add more video URLs here if needed
+  ];
+  int currentVideoIndex = 0;
+
   @override
   void initState() {
     super.initState();
-    flickManager1 = FlickManager(videoPlayerController: VideoPlayerController.networkUrl(videoLink));
-    // flickManager2 = FlickManager(videoPlayerController: VideoPlayerController.asset(videoAsset));
+    flickManager = FlickManager(
+      videoPlayerController: VideoPlayerController.networkUrl(
+        Uri.parse(videoUrls[currentVideoIndex]),
+      ),
+    );
   }
+
+  void playNextVideo() {
+    // Increment the index to switch to the next video
+    currentVideoIndex = (currentVideoIndex + 1) % videoUrls.length;
+    flickManager.handleChangeVideo(
+      VideoPlayerController.networkUrl(
+        Uri.parse(videoUrls[currentVideoIndex]),
+      ),
+    );
+  }
+  void playPreviousVideo() {
+    // Increment the index to switch to the next video
+    currentVideoIndex = (currentVideoIndex - 1) % videoUrls.length;
+    flickManager.handleChangeVideo(
+      VideoPlayerController.networkUrl(
+        Uri.parse(videoUrls[currentVideoIndex]),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    flickManager.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +62,30 @@ class _ViewVideoScreenState extends State<ViewVideoScreen> {
         title: const Text('Video Player'),
       ),
       body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
+        children: [
+          FlickVideoPlayer(flickManager: flickManager),
+          Visibility(
+            visible: !flickManager.flickControlManager!.isFullscreen,
+            child: Column(
               children: [
-                FlickVideoPlayer(flickManager: flickManager1),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: playNextVideo,
+                      child: const Text('Play Next Video'),
+                    ),
+                    Spacer(),
+                    ElevatedButton(
+                      onPressed: playNextVideo,
+                      child: const Text('Play Next Video'),
+                    ),
+                  ],
+                ),
               ],
             ),
+          ),
+        ],
+      ),
     );
   }
 }
