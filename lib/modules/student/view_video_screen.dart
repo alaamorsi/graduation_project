@@ -5,15 +5,16 @@ import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 
 class ViewVideoScreen extends StatefulWidget {
-  const ViewVideoScreen({Key? key}) : super(key: key);
+  const ViewVideoScreen({super.key});
 
   @override
-  State<ViewVideoScreen> createState() => _ViewVideoScreenState();
+  _ViewVideoScreenState createState() =>_ViewVideoScreenState();
 }
 
 class _ViewVideoScreenState extends State<ViewVideoScreen> {
   late FlickManager flickManager;
   List<String> videoUrls = [
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
     // Add more video URLs here if needed
@@ -23,73 +24,101 @@ class _ViewVideoScreenState extends State<ViewVideoScreen> {
   @override
   void initState() {
     super.initState();
-    flickManager = FlickManager(
-        videoPlayerController: VideoPlayerController.networkUrl(
-      Uri.parse(videoUrls[currentVideoIndex]),
-    ));
-    flickManager.flickVideoManager!.addListener(_videoListener);
+    initializeFlickManager();
   }
 
-  void _videoListener() {
-    if (flickManager.flickVideoManager!.videoPlayerController!.value.position >=
-        flickManager.flickVideoManager!.videoPlayerController!.value.duration) {
-      // Video has ended, switch to the next video
-      playNextVideo();
-    }
+  void initializeFlickManager() {
+    flickManager = FlickManager(
+      videoPlayerController: VideoPlayerController.networkUrl(Uri.parse(videoUrls[currentVideoIndex]),
+      ),
+      autoPlay: true, // Automatically start playing the video
+      onVideoEnd: () {
+        // When the video ends, play the next video
+        playNextVideo();
+      },
+    );
   }
 
   void playNextVideo() {
-    // Increment the index to switch to the next video
-    currentVideoIndex = (currentVideoIndex + 1) % videoUrls.length;
-    flickManager.handleChangeVideo(
-      VideoPlayerController.networkUrl(Uri.parse(videoUrls[currentVideoIndex]),
-      ),
-    );
+    setState(() {
+      currentVideoIndex = (currentVideoIndex + 1) % videoUrls.length;
+      flickManager.handleChangeVideo(
+        VideoPlayerController.networkUrl(Uri.parse(videoUrls[currentVideoIndex])),
+      );
+    });
   }
 
   void playPreviousVideo() {
-    // Increment the index to switch to the next video
-    currentVideoIndex = (currentVideoIndex - 1) % videoUrls.length;
-    flickManager.handleChangeVideo(
-      VideoPlayerController.networkUrl(
-        Uri.parse(videoUrls[currentVideoIndex]),
-      ),
-    );
+    setState(() {
+      currentVideoIndex = (currentVideoIndex - 1) % videoUrls.length;
+      flickManager.handleChangeVideo(
+        VideoPlayerController.networkUrl(Uri.parse(videoUrls[currentVideoIndex])),
+      );
+    });
   }
 
   @override
   void dispose() {
-    flickManager.dispose();
+    flickManager.dispose(); // Dispose of the flick manager when the screen is disposed
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Video Player'),
+        toolbarHeight: 70.0,
+        bottomOpacity: 0.7,
+        elevation: 2.0,
+        shadowColor: Colors.grey,
+        shape: const ContinuousRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(70.0),
+            bottomRight: Radius.circular(70.0),
+          ),
+        ),
+        leading: IconButton(
+            onPressed: (){Navigator.pop(context);},
+            icon: const Icon(Icons.arrow_back_ios_rounded)
+        ),
+        title: const Text('ابو عمر السوري'),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: Column(
         children: [
           FlickVideoPlayer(flickManager: flickManager),
           Visibility(
             visible: !flickManager.flickControlManager!.isFullscreen,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: playNextVideo,
-                      child: const Text('Play Next Video'),
-                    ),
-                    Spacer(),
-                    ElevatedButton(
-                      onPressed: playPreviousVideo,
-                      child: const Text('Play Previous Video'),
-                    ),
-                  ],
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(),
+                        onPressed: playPreviousVideo,
+                        child: const Row(
+                          children: [
+                            Icon(Icons.navigate_before),
+                             Text('الدرس السابق'),
+                          ],
+                        ),
+                      ),
+                      Spacer(),
+                      ElevatedButton(
+                        onPressed: playNextVideo,
+                        child: const Row(
+                          children: [
+                             Text('الدرس التالي'),
+                            Icon(Icons.navigate_next),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
