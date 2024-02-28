@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/modules/student/paid_course/assignments.dart';
+import 'package:graduation_project/modules/student/paid_course/video_and_chat.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../shared/component/constant.dart';
 
-class CourseDemo extends StatelessWidget {
-  const CourseDemo({super.key});
-
+class ClassMaterial extends StatelessWidget {
+  const ClassMaterial({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +60,19 @@ class CourseDemo extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 3.0,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child:  FloatingActionButton(
-                    elevation: 2.0,
-                    splashColor: Colors.black,
-                    onPressed: (){
-                      navigateTo(context, const AssignmentScreen());
-                    },
-                    child: const Icon(Icons.assignment,color: Colors.white,size: 45.0),
-
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      backgroundColor: Theme.of(context).cardColor,
+                      elevation: 2.0,
+                      splashColor: Colors.black,
+                      onPressed: (){
+                        navigateTo(context, const AssignmentScreen());
+                      },
+                      child: const Icon(Icons.assignment,color: Colors.white,size: 35.0),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -118,11 +120,13 @@ class CourseDemo extends StatelessWidget {
                 itemBuilder: (context, index)=>Padding(
                   padding: const EdgeInsets.symmetric(horizontal:11.0),
                   child: TextButton(
-                    onPressed: paid?(){} : null,
+                    onPressed: (){
+                      navigateTo(context, const VideoAndChatScreen());
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Icon(paid? Icons.ondemand_video : Icons.lock_rounded,color: Theme.of(context).cardColor,),
+                        Icon(Icons.ondemand_video,color: Theme.of(context).cardColor,),
                         const Spacer(),
                         Text('${index+1}',style: Theme.of(context).textTheme.titleSmall,)
                       ],

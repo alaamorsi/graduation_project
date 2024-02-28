@@ -1,10 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/modules/student/discovery_category_list.dart';
+import 'package:graduation_project/modules/student/discovery/discovery_category_list.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:hexcolor/hexcolor.dart';
-import '../../shared/component/constant.dart';
-import '../../shared/component/test.dart';
+import '../../../shared/component/constant.dart';
+import '../../../shared/component/test.dart';
 
 class StudentDiscovery extends StatefulWidget {
   const StudentDiscovery({super.key});

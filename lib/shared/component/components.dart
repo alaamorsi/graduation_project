@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
+import 'package:graduation_project/modules/student/paid_course/class_material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'constant.dart';
 /////////////////////////////////////////////////////
@@ -222,14 +223,15 @@ Widget buildDiscoveryItem({
   required int courseYear,
   required int courseVideosNumber,
   required Color cardColor,
+  bool isReserved =false,
 }) {
   // bool hover = false;
   return Padding(
     padding: const EdgeInsetsDirectional.all(10.0),
     child: InkWell(
-      onTap: (){
-        navigateTo(context, const CourseDemo());
-      },
+      onTap: isReserved?
+          (){navigateTo(context, const ClassMaterial());}:
+          (){navigateTo(context, const CourseDemo());},
       child: AnimatedContainer(
         width: screenWidth *5/6,
         height: screenHeight/3,

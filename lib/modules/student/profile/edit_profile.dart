@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../layout/student/cubit/cubit.dart';
-import '../../layout/student/cubit/states.dart';
+import '../../../layout/student/cubit/cubit.dart';
+import '../../../layout/student/cubit/states.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import '../../shared/component/constant.dart';
+import '../../../shared/component/constant.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});

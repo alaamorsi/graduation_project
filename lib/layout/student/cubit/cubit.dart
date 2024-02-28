@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
-import 'package:graduation_project/modules/student/profile.dart';
-import 'package:graduation_project/modules/student/student_discovery.dart';
+import 'package:graduation_project/modules/student/profile/profile.dart';
+import 'package:graduation_project/modules/student/discovery/student_discovery.dart';
+import 'package:graduation_project/modules/student/reserved/reserved_screen.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
   StudentCubit() : super(StudentInitialStates());
@@ -12,6 +13,7 @@ class StudentCubit extends Cubit<StudentStates> {
   int currentIndex = 0;
   List<Widget> screens = [
     const StudentDiscovery(),
+    const ReservedScreen(),
     const ProfileScreen(),
   ];
   List<String> titles = [
