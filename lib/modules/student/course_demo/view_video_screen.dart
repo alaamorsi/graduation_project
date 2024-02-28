@@ -1,17 +1,15 @@
 import 'package:flick_video_player/flick_video_player.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 
 class ViewVideoScreen extends StatefulWidget {
   const ViewVideoScreen({super.key});
 
   @override
-  _ViewVideoScreenState createState() =>_ViewVideoScreenState();
+  ViewVideoScreenState createState() =>ViewVideoScreenState();
 }
 
-class _ViewVideoScreenState extends State<ViewVideoScreen> {
+class ViewVideoScreenState extends State<ViewVideoScreen> {
   late FlickManager flickManager;
   List<String> videoUrls = [
     "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
@@ -86,40 +84,34 @@ class _ViewVideoScreenState extends State<ViewVideoScreen> {
       ),
       body: Column(
         children: [
-          FlickVideoPlayer(flickManager: flickManager),
-          Visibility(
-            visible: !flickManager.flickControlManager!.isFullscreen,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Row(
+          Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              FlickVideoPlayer(flickManager: flickManager),
+              Visibility(
+                visible: !flickManager.flickControlManager!.isFullscreen,
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
                     children: [
-                      ElevatedButton(
-                        style: ButtonStyle(),
-                        onPressed: playPreviousVideo,
-                        child: const Row(
-                          children: [
-                            Icon(Icons.navigate_before),
-                             Text('الدرس السابق'),
-                          ],
-                        ),
-                      ),
-                      Spacer(),
-                      ElevatedButton(
-                        onPressed: playNextVideo,
-                        child: const Row(
-                          children: [
-                             Text('الدرس التالي'),
-                            Icon(Icons.navigate_next),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: playPreviousVideo,
+                            icon: const Icon(Icons.skip_previous_rounded),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: playNextVideo,
+                            icon: const Icon(Icons.skip_next_rounded),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),

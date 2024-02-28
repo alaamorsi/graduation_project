@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graduation_project/modules/student/course_demo.dart';
+import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'constant.dart';
 /////////////////////////////////////////////////////

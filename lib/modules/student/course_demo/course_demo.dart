@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
+import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import '../../shared/component/constant.dart';
+import '../../../shared/component/constant.dart';
 
 class CourseDemo extends StatelessWidget {
   const CourseDemo({super.key});
@@ -114,7 +115,9 @@ class CourseDemo extends StatelessWidget {
                 itemBuilder: (context, index)=>Padding(
                   padding: const EdgeInsets.symmetric(horizontal:11.0),
                   child: TextButton(
-                    onPressed: paid?(){} : null,
+                    onPressed: paid?(){
+                      navigateTo(context, const ViewVideoScreen());
+                    } : null,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
