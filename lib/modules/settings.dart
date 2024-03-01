@@ -54,7 +54,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 myDropDownMenu(
                     context: context,
                     title: "اللغة",
-                    initialSelectionText: appCubit.langTitle,
+                    initialSelectionText: langTitle,
                     chooses: <DropdownMenuEntry<String>>[
                       DropdownMenuEntry(
                         value: "en",
@@ -100,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 child: Row(children: [
                   Switch(
-                      value: appCubit.notification,
+                      value: notification,
                       inactiveThumbColor: Colors.blueGrey,
                       activeColor: Colors.blue,
                       onChanged: (value) {

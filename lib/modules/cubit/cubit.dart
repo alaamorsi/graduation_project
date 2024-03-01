@@ -11,8 +11,6 @@ class AppCubit extends Cubit<AppStates> {
 
  // Control to visible or invisible password
   ThemeMode theme = ThemeMode.light;
-  bool notification = true;
-  String langTitle = 'العربية';
   Locale language = const Locale('ar',);
 
   void getSettings(){
@@ -29,7 +27,7 @@ class AppCubit extends Cubit<AppStates> {
   }
   // Change language by default arabic
   void changeAppLanguage(String ln) {
-    langTitle=(ln=='ar')?'العربية':'English';
+    langTitle=(ln=="ar")?'العربية':'English';
     language = Locale(ln,);
     CacheHelper.saveData(key: 'ln', value: ln);
     emit(AppChangModeState());
