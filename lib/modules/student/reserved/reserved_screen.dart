@@ -12,11 +12,11 @@ class ReservedScreen extends StatelessWidget {
     return ConditionalBuilder(
       condition: courses.isNotEmpty,
       builder: (context) => Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(10.0),
         child: ListView.separated(
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
-          itemBuilder: (context , index)=> buildDiscoveryItem(
+          itemBuilder: (context , index)=> discoveryItem(
             context: context,
             courseTeacherImage: courses[index].teacherImage,
             courseTeacherName: courses[index].teacherName,
@@ -29,7 +29,7 @@ class ReservedScreen extends StatelessWidget {
             cardColor: cardColor,
           ),
           separatorBuilder: (context , index)=>const SizedBox(width: 10.0,),
-          itemCount: 1,
+          itemCount: 2,
         ),
       ),
       fallback: (context) => const Center(child: Text('You are not in class yet')),

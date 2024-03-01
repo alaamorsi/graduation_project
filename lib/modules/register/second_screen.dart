@@ -31,10 +31,10 @@ class SecondScreenState extends State<SecondScreen> {
                     child: Row(
                         children: [
                           Icon(Icons.arrow_back_ios_rounded,
-                            color: Theme.of(context).canvasColor,size: 35.0,
+                            color: Theme.of(context).primaryColor,size: 36.0,
                           ),
-                          Text("سجل الدخول",
-                            style: font.copyWith(color: Theme.of(context).canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
+                          Text("login",
+                            style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 27.0,fontWeight: FontWeight.bold),)
                         ]
                     ),
                   ),
@@ -45,9 +45,9 @@ class SecondScreenState extends State<SecondScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                      Text(
-                       'حساب جديد',
+                       'new account',
                        style: font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
-                           color: Theme.of(context).canvasColor),
+                           color: Theme.of(context).primaryColor),
                      ),
                     ],
                     ),
@@ -55,7 +55,7 @@ class SecondScreenState extends State<SecondScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                      Text(
-                       'سجل الأن لتستمتع بخدماتنا الرائعة',
+                       'Register now to enjoy our great services',
                        style: font.copyWith(fontSize: 13.0, color: Colors.grey),
                      ),
                     ],
@@ -64,23 +64,23 @@ class SecondScreenState extends State<SecondScreen> {
                     SizedBox(
                     width: double.infinity,
                     child: usedButton(
-                       text: 'مدرس',
+                       text: 'teacher',
                        onPressed: () {
                          navigateAndFinish(context, const TeacherScreen());
                        },
                        context: context,
-                       color: Theme.of(context).cardColor),
+                       color: Theme.of(context).primaryColor),
                     ),
                     const SizedBox(height: 20.0),
                     SizedBox(
                     width: double.infinity,
                     child: usedButton(
-                       text: 'طالب',
+                       text: 'student',
                        onPressed: () {
                          navigateAndFinish(context, const StudentScreen());
                        },
                        context: context,
-                       color: Theme.of(context).cardColor),
+                       color: Theme.of(context).primaryColor),
                     ),
                     ],
                    ),

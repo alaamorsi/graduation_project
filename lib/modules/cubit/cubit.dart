@@ -11,26 +11,10 @@ class AppCubit extends Cubit<AppStates> {
 
  // Control to visible or invisible password
   ThemeMode theme = ThemeMode.light;
-  bool notification = true;
-  String langTitle = 'العربية';
-  Locale language = const Locale('ar',);
 
-  void getSettings(){
-    String ln = CacheHelper.getData(key: 'ln')??'ar';
-    mode = CacheHelper.getData(key: 'appMode')??mode;
-    notification = CacheHelper.getData(key: 'notification')??notification;
-    language = Locale(ln,);
-    theme = mode?ThemeMode.light:ThemeMode.dark;
-    langTitle=(ln=='ar')?'العربية':'English';
-    CacheHelper.saveData(key: 'ln', value: ln);
-    CacheHelper.putBoolean(key: 'appMode', value: mode);
-    CacheHelper.putBoolean(key: 'notification', value: notification);
-    emit(AppGetSettingsState());
-  }
   // Change language by default arabic
-  void changeAppLanguage(String ln) {
-    langTitle=(ln=='ar')?'العربية':'English';
-    language = Locale(ln,);
+  void changeAppLanguage(context,String ln) {
+    langTitle=(ln=="ar")?'Arabic':'English';
     CacheHelper.saveData(key: 'ln', value: ln);
     emit(AppChangModeState());
   }
@@ -50,13 +34,9 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppChangeNotificationState());
   }
 
-
-
-  bool isFilterOpen = false ;
   List<String> selectedItems = [];
   List<dynamic> search = [];
 
-  late OverlayEntry entry;
   String startValue ='Arabic';
 
   void getSearch(String value) {

@@ -1,117 +1,40 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:graduation_project/layout/student/cubit/cubit.dart';
+import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import 'cubit/cubit.dart';
-import 'cubit/states.dart';
 
-class SearchScreen extends StatefulWidget {
+
+class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
   @override
-  SearchScreenState createState() => SearchScreenState();
-}
-
-class SearchScreenState extends State<SearchScreen> {
-  TextEditingController searchController = TextEditingController();
-  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppStates>(
-      listener:(context, state) {},
-      builder: (context, state) {
-        var list = AppCubit.get(context).search;
-        bool startSearching = false;
-        void showSearchFilter() async
-        {
-          final List<String> results = await showDialog(
-              context: context,
-              builder: (BuildContext context){
-                return const MultiSelect();
-              }
-          );
-          setState(() {
-            print(results);
-          });
-        }
-        return Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 70.0,
-            bottomOpacity: 0.7,
-            elevation: 2.0,
-            shadowColor: HexColor("#666666"),
-            shape: const ContinuousRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(70.0),
-                bottomRight: Radius.circular(70.0),
-              ),
-            ),
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 11.0),
-              child: IconButton(
-                  onPressed: (){
-                    Navigator.pop(context);
-                    },
-                  icon: const Icon(Icons.arrow_back_ios_rounded,size:30.0,)
-              ),
-            ),
-            title: TextField(
-              controller: searchController,
-              textAlign: TextAlign.end,
-              decoration: const InputDecoration(
-                labelStyle: TextStyle(color:Colors.white),
-                hintText: 'ادخل اسم المدرس او المادة',
-                hintStyle: TextStyle(color: Colors.white,fontSize: 13.0,fontWeight: FontWeight.w300),
-                border: InputBorder.none,
-              ),
-              keyboardType: TextInputType.text,
-              onChanged: (value){
-                setState(() {
-                  startSearching = true;
-                });
-              },
-              onSubmitted: (value) {
-                AppCubit.get(context).getSearch(value);
-              },
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right:11.0),
-                child: IconButton(
-                    onPressed: (){
-                      showSearchFilter();
-                    },
-                    icon: const Icon(Icons.filter_alt_outlined,size:30.0,)
+    var cubit = StudentCubit.get(context);
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              ConditionalBuilder(
+                condition: false,
+                builder: (context) => ListView.separated(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => const SizedBox(),
+                  separatorBuilder: (context, index) => myDivider(),
+                  itemCount: 4,
                 ),
+                fallback: (context) =>cubit.startSearching?const Center(child: CircularProgressIndicator()):Container(),
               ),
             ],
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  ConditionalBuilder(
-                    condition: list.isNotEmpty,
-                    builder: (context) => ListView.separated(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) => const SizedBox(),
-                      separatorBuilder: (context, index) => myDivider(),
-                      itemCount: list.length,
-                    ),
-                    fallback: (context) =>startSearching?const Center(child: CircularProgressIndicator()):Container(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
-
 
 class MultiSelect extends StatefulWidget {
   const MultiSelect({super.key});
@@ -119,7 +42,6 @@ class MultiSelect extends StatefulWidget {
   @override
   State<MultiSelect> createState() => _MultiSelectState();
 }
-
 class _MultiSelectState extends State<MultiSelect> {
   final eduLevel=[
     'الثانوي',
@@ -184,17 +106,17 @@ class _MultiSelectState extends State<MultiSelect> {
   }
   void submit(){
     Navigator.pop(context,selectedItems);
-
   }
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return AlertDialog(
-      backgroundColor: Theme.of(context).dialogBackgroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       title: Row(
-        mainAxisAlignment:MainAxisAlignment.end,
+        mainAxisAlignment:MainAxisAlignment.center,
         children: [
-          Text('فلترة البحث ؟',style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),),
+          Text('Search filter',style: font.copyWith(color: theme.primaryColorDark,fontSize: 16.0,fontWeight: FontWeight.w600),),
         ],
       ),
       content: SingleChildScrollView(
@@ -203,9 +125,9 @@ class _MultiSelectState extends State<MultiSelect> {
             Container(
               color: Colors.transparent,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('المرحلة التعليمية',style: Theme.of(context).textTheme.titleMedium,),
+                  Text('Education level',style: font.copyWith(color: theme.primaryColorDark,fontSize: 16.0,fontWeight: FontWeight.w900)),
                 ],
               ),
             ),
@@ -213,9 +135,9 @@ class _MultiSelectState extends State<MultiSelect> {
               condition: true,
               builder:(context)=> Wrap(
                 children:[
-                    levelChoose(context, 0),
-                    levelChoose(context, 1),
-                    levelChoose(context, 2),
+                    levelChoose(context, 0,theme),
+                    levelChoose(context, 1,theme),
+                    levelChoose(context, 2,theme),
                 ],
               ),
               fallback: (context)=>Container(),
@@ -224,49 +146,80 @@ class _MultiSelectState extends State<MultiSelect> {
             Container(
               color: Colors.transparent,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('المواد الدراسية',style: Theme.of(context).textTheme.titleMedium,),
+                  Text('Subjects',style: font.copyWith(color: theme.primaryColorDark,fontSize: 16.0,fontWeight: FontWeight.w900)),
                 ],
               ),
             ),
             ConditionalBuilder(
               condition: isPrim,
-              builder:(context)=> prim(),
-              fallback: (context)=>second(),
+              builder:(context)=> Wrap(
+                  children: [
+                    chooses(context, 0,theme),
+                    chooses(context, 1,theme),
+                    chooses(context, 2,theme),
+                    chooses(context, 3,theme),
+                    chooses(context, 4,theme),
+                  ]),
+              fallback: (context)=>Wrap(
+                  children: [
+                    chooses(context, 0,theme),
+                    chooses(context, 1,theme),
+                    chooses(context, 2,theme),
+                    chooses(context, 3,theme),
+                    chooses(context, 4,theme),
+                    chooses(context, 5,theme),
+                    chooses(context, 6,theme),
+                    chooses(context, 7,theme),
+                    chooses(context, 8,theme),
+                    chooses(context, 9,theme),
+                    chooses(context, 10,theme),
+                    chooses(context, 11,theme),
+                    chooses(context, 12,theme),
+                    chooses(context, 13,theme),
+                    chooses(context, 14,theme),
+                  ]),
             ),
             const SizedBox(height: 10.0,),
           ]
         ),
       ),
       actions: [Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
+            ElevatedButton(
+              style:  ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(theme.primaryColorLight)
+              ),
               onPressed: cansel,
-              child: const Text('الغاء')
+              child: Text('Clear',style: font.copyWith(color: theme.primaryColor,fontSize: 16.0,fontWeight: FontWeight.w600),)
             ),
             ElevatedButton(
+              style:  ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(theme.primaryColor)
+              ),
               onPressed: submit,
-              child: const Text('تطبيق')
+              child: Text('Apply filter',style: font.copyWith(color: theme.primaryColorLight,fontSize: 17.0,fontWeight: FontWeight.w600),)
             ),
           ],
         ),],
     );
   }
 
-  Widget levelChoose(BuildContext context,int index)=>
+  Widget levelChoose(BuildContext context,int index,theme)=>
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3.0),
         child: FilterChip(
             showCheckmark: false,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),),
+              borderRadius: BorderRadius.circular(25.0),),
+            side: BorderSide(color: theme.primaryColor),
             label: Text(eduLevel[index]),
-            labelStyle: const TextStyle(color: Colors.white,fontSize: 15.0,fontWeight: FontWeight.w300),
+            labelStyle: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300),
             selected: levelSelections[index],
-            backgroundColor: Colors.grey,
-            selectedColor: Theme.of(context).cardColor,
+            backgroundColor: Colors.transparent,
+            selectedColor: Theme.of(context).primaryColor,
             onSelected: (bool select){
               setState(() {
                 for(int i=0;i<3;i++) {
@@ -287,17 +240,18 @@ class _MultiSelectState extends State<MultiSelect> {
             }
         ),
       );
-  Widget chooses(BuildContext context,int index)=>
+  Widget chooses(BuildContext context,int index,theme)=>
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3.0),
         child: FilterChip(
             showCheckmark: false,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),),
+              borderRadius: BorderRadius.circular(25.0),),
+            side: BorderSide(color: theme.primaryColor),
             label: Text(subjects[index]),
-            labelStyle: const TextStyle(color: Colors.white,fontSize: 15.0,fontWeight: FontWeight.w300),
+            labelStyle: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300),
             selected: subSelections[index],
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.transparent,
             selectedColor: Theme.of(context).cardColor,
             onSelected: (bool select){
               setState(() {
@@ -313,30 +267,4 @@ class _MultiSelectState extends State<MultiSelect> {
             }
         ),
       );
-  Widget prim()=>Wrap(
-      children: [
-        chooses(context, 0),
-        chooses(context, 1),
-        chooses(context, 2),
-        chooses(context, 3),
-        chooses(context, 4),
-  ]);
-  Widget second()=>Wrap(
-      children: [
-        chooses(context, 0),
-        chooses(context, 1),
-        chooses(context, 2),
-        chooses(context, 3),
-        chooses(context, 4),
-        chooses(context, 5),
-        chooses(context, 6),
-        chooses(context, 7),
-        chooses(context, 8),
-        chooses(context, 9),
-        chooses(context,10),
-        chooses(context,11),
-        chooses(context,12),
-        chooses(context,13),
-        chooses(context,14),
-      ]);
 }

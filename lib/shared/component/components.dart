@@ -28,7 +28,7 @@ Widget usedButton({
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
     ),
     child: Row(
-      mainAxisAlignment: atEnd?MainAxisAlignment.end:MainAxisAlignment.center,
+      mainAxisAlignment: atEnd?MainAxisAlignment.start:MainAxisAlignment.center,
       children:[
         isLoading? loading: Text(
           text,
@@ -59,18 +59,18 @@ Widget defaultFormField({
       obscureText: isPassword,
       enabled: isClickable,
       cursorColor: Colors.black,
-      textAlign: TextAlign.end,
+      textAlign: TextAlign.start,
       onFieldSubmitted: onSubmit,
       onChanged: onChanged,
       validator: validate,
-      style: TextStyle(color: HexColor("#000080"),fontSize: 16.0),
+      style: const TextStyle(color: Colors.black87,fontSize: 16.0),
       decoration:InputDecoration(
         filled: true,
         fillColor: Colors.white,
         hintText: label,
-        hintStyle: const TextStyle(color: Colors.black26, fontSize: 13.0),
-        suffixIcon:thereSuffix?Icon(suffixIcon):null,
-        prefixIcon:therePrefix?IconButton(onPressed: prefixPressed, icon: Icon(prefixIcon)):null,
+        hintStyle: const TextStyle(color: Colors.grey, fontSize: 13.0),
+        prefixIcon:thereSuffix?Icon(suffixIcon):null,
+        suffixIcon:therePrefix?IconButton(onPressed: prefixPressed, icon: Icon(prefixIcon)):null,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius),
           borderSide: BorderSide(
@@ -113,32 +113,34 @@ Widget myDropDownMenu({
   onSelected: onSelect,
 );
 
+
+
 PreferredSizeWidget defaultAppBar({
   required BuildContext context,
-  required IconData leadingIcon,
-  required void Function() leadingFunction,
+  IconData? leadingIcon,
+  void Function()? leadingFunction,
   required Widget title,
   IconData? atEndIcon,
   void Function()? atEndFunction,
   bool atEnd = true,
+  bool hasLeading = false,
+  bool titleInCenter = false,
 }) =>
     AppBar(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       toolbarHeight: 70.0,
-      bottomOpacity: 0.7,
-      elevation: 2.0,
-      shadowColor: HexColor("#666666"),
-      shape: const ContinuousRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(70.0),
-          bottomRight: Radius.circular(70.0),
+          bottomLeft: Radius.circular(11.0),
+          bottomRight: Radius.circular(11.0),
         ),
       ),
-      iconTheme: Theme.of(context).appBarTheme.iconTheme,
-      titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
-      leading: Padding(padding: const EdgeInsets.only(left: 10.0),
-        child: IconButton(onPressed: leadingFunction, icon: Icon(leadingIcon)),
-      ),
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
+      titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
+      leading: hasLeading? Padding(padding: const EdgeInsets.only(left: 10.0),
+          child: IconButton(onPressed: leadingFunction, icon: Icon(leadingIcon))):null,
       title: title,
+      centerTitle: titleInCenter,
       actions: atEnd?[Padding(padding: const EdgeInsets.only(right: 10.0),
           child: IconButton(
               onPressed: atEndFunction,
@@ -147,6 +149,45 @@ PreferredSizeWidget defaultAppBar({
         ),]:[],
   );
 
+PreferredSizeWidget secondAppbar({
+  required BuildContext context,
+  required String title,
+  Widget? actionIcon,
+  bool hasAction=false,
+}) =>
+    AppBar(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      toolbarHeight: 70.0,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(11.0),
+          bottomRight: Radius.circular(11.0),
+        ),
+      ),
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
+      titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
+      leading:Padding(
+        padding: const EdgeInsets.only(
+            left: 11.0,top: 11.0,bottom: 11.0
+        ),
+        child: Container(
+          padding: const EdgeInsets.only(left: 6.0),
+          height: 30,
+          width: 30,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor.withOpacity(0.3),
+            borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+          ),
+          child: IconButton(
+            onPressed: (){Navigator.pop(context);},
+            icon: Icon(Icons.arrow_back_ios,size: 25,color: Theme.of(context).primaryColor,),
+          ),
+        ),
+      ),
+      title: Text(title),
+      actions: hasAction?[Padding(padding: const EdgeInsets.only(right: 10.0),
+        child: actionIcon)]:[],
+    );
 
 
 Widget myDivider() => Padding(
@@ -445,4 +486,118 @@ Widget buildDiscoveryItem({
     ),
   );}
 
+// Discovery item
+Widget discoveryItem({
+  required BuildContext context,
+  required String courseTeacherName,
+  required String courseTeacherImage,
+  required String courseSubject,
+  required String courseEduLevel,
+  required int courseTerm,
+  required int courseYear,
+  required int courseVideosNumber,
+  required Color cardColor,
+  bool isReserved =false,
+}) {
+  return Padding(
+    padding: const EdgeInsetsDirectional.all(10.0),
+    child: InkWell(
+      onTap: isReserved?
+          (){navigateTo(context, const ClassMaterial());}:
+          (){navigateTo(context, const CourseDemo());},
+      child: Container(
+        width: screenWidth,
+        height: screenHeight/4+50,
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(23.0)),
+          color: cardColor,
+        ),
+        child:Stack(
+          alignment: AlignmentDirectional.topEnd,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Spacer(),
+                      //teacher name
+                      Expanded(
+                        child: Text(
+                          courseTeacherName,
+                          style: font.copyWith(
+                              fontSize: 18.0, fontWeight: FontWeight.bold,color: Colors.white),
+                          overflow: TextOverflow.ellipsis,),
+                      ),
+                      item(Icons.school, courseEduLevel),
+                      item(Icons.book, courseSubject),
+                      item(Icons.hourglass_bottom, '$courseYear'),
+                      item(Icons.layers_sharp, '$courseTerm term'),
+                      item(Icons.video_collection, '$courseVideosNumber video'),
+                    ],
+                  ),
+                  const Spacer(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Spacer(),
+                      Container(
+                        height:110,
+                        width: 110,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+                          color: Colors.transparent,
+                          image: DecorationImage(
+                              image: NetworkImage(courseTeacherImage),
+                              fit: BoxFit.cover),
+                          ),
+                        ),
+                      const SizedBox(height: 15,),
+                      Container(
+                        padding: const EdgeInsets.all(5.0),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          color: Colors.orange,
+                        ), child: const Text("Check Now")
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                const Icon(Icons.sell,color: Colors.orange,size: 66.0,),
+                Text("200 EP",style: font.copyWith(fontSize: 12.0,color: Theme.of(context).primaryColorLight,),)
+              ],
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget item(IconData icon,String text){
+  return Expanded(
+    child: Row(
+      children: [
+        Icon(
+          icon,
+          size: 20.0,
+          color: Colors.white,
+        ),
+        const SizedBox(width: 5.0,),
+        Text(
+          text,
+          style: font.copyWith(fontSize: 12.0,color: Colors.white),
+          textAlign: TextAlign.end,
+        ),
+      ],
+    ),
+  );
+}
 

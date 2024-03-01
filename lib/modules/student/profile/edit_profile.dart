@@ -46,13 +46,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         }
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          appBar: defaultAppBar(
-              context: context,
-              leadingIcon: Icons.arrow_back_ios_new_rounded,
-              leadingFunction: (){Navigator.pop(context);},
-              title: Text("تعديل الملف الشخصي",style: font.copyWith(color: Colors.white,fontSize: 20.0),),
-              atEnd: false,
-          ),
+          appBar: secondAppbar(context: context, title: 'edit profile'),
           body: SingleChildScrollView(
             child: Form(
               key: formKey,
@@ -75,10 +69,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               onPressed: (){
                                 Navigator.pop(context);
                               },
-                              child: Text("حفظ",style: font.copyWith(color: Colors.white,fontSize: 16.0),)),
+                              child: Text("save",style: font.copyWith(color: Colors.white,fontSize: 16.0),)),
                         ),
                         const Spacer(),
-                        Text("تعديل الملف الشخصي",style: font.copyWith(color: theme.cardColor,fontSize: 18.0),)
+                        Text("edit profile",style: font.copyWith(color: theme.cardColor,fontSize: 18.0),)
                       ],
                     ),
                     const SizedBox(height: 21.0,),
@@ -104,7 +98,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                 onPressed: () {
                                   imageFromGallery();
                                 },
-                                icon: const Icon(Icons.add_a_photo_rounded,color: Colors.white,size: 33),),
+                                icon: CircleAvatar(
+                                  backgroundColor: theme.cardColor,
+                                    child: const Icon(Icons.add_a_photo_rounded,color: Colors.white,size: 25)),
+                              ),
                             ],
                           ),
                         ),

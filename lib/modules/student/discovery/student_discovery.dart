@@ -2,18 +2,12 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/student/discovery/discovery_category_list.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import 'package:hexcolor/hexcolor.dart';
 import '../../../shared/component/constant.dart';
 import '../../../shared/component/test.dart';
 
-class StudentDiscovery extends StatefulWidget {
+class StudentDiscovery extends StatelessWidget {
   const StudentDiscovery({super.key});
 
-  @override
-  State<StudentDiscovery> createState() => _StudentDiscoveryState();
-}
-
-class _StudentDiscoveryState extends State<StudentDiscovery> {
   @override
   Widget build(BuildContext context) {
     List<String> categories = [
@@ -23,7 +17,7 @@ class _StudentDiscoveryState extends State<StudentDiscovery> {
       'محتوي اسبوعي',
       'محتوي مسجل',
     ];
-    Color cardColor= Theme.of(context).cardColor;
+    var theme = Theme.of(context);
     return ConditionalBuilder(
       condition: true,
       builder: (context) => ListView.separated(
@@ -39,18 +33,18 @@ class _StudentDiscoveryState extends State<StudentDiscovery> {
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 10.0),
                 width: double.infinity,
                 height: screenHeight/13.5,
-                decoration: BoxDecoration(
-                  color: HexColor("#101010").withOpacity(0.1),
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(11.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Icon(Icons.arrow_back_outlined,color: cardColor,),
+                      Icon(Icons.arrow_back_outlined,color: theme.primaryColor,),
                       const Spacer(),
                       Text(categories[index],
-                        style: TextStyle(color: cardColor,fontSize: 18.0,fontWeight: FontWeight.w500),),
+                        style: TextStyle(color: theme.primaryColor,fontSize: 18.0,fontWeight: FontWeight.w500),),
                     ],
                   ),
                 ),
@@ -72,7 +66,7 @@ class _StudentDiscoveryState extends State<StudentDiscovery> {
                   courseTerm: courses[index].term,
                   courseYear: courses[index].year,
                   courseVideosNumber: courses[index].videosNumber,
-                  cardColor: cardColor,
+                  cardColor: theme.primaryColor,
                 ),
                 separatorBuilder: (context , index)=>const SizedBox(width: 10.0,),
                 itemCount: courses.length,

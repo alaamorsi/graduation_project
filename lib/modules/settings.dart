@@ -54,7 +54,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 myDropDownMenu(
                     context: context,
                     title: "اللغة",
-                    initialSelectionText: appCubit.langTitle,
+                    initialSelectionText: langTitle,
                     chooses: <DropdownMenuEntry<String>>[
                       DropdownMenuEntry(
                         value: "en",
@@ -80,10 +80,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onSelect: (language) {
                       switch (language) {
                         case "ar":
-                          appCubit.changeAppLanguage("ar");
+                          appCubit.changeAppLanguage(context,'ar');
                           break;
                         case "en":
-                          appCubit.changeAppLanguage("en");
+                          appCubit.changeAppLanguage(context,'en');
                           break;
                       }
                     }),
@@ -100,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 child: Row(children: [
                   Switch(
-                      value: appCubit.notification,
+                      value: notification,
                       inactiveThumbColor: Colors.blueGrey,
                       activeColor: Colors.blue,
                       onChanged: (value) {

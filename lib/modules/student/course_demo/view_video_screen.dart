@@ -5,6 +5,8 @@ import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../shared/component/components.dart';
+
 class ViewVideoScreen extends StatefulWidget {
   const ViewVideoScreen({super.key});
 
@@ -70,42 +72,26 @@ class ViewVideoScreenState extends State<ViewVideoScreen> {
         listener: (context , state ){},
         builder: (context , state ){
           return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 70.0,
-          bottomOpacity: 0.7,
-          elevation: 2.0,
-          shadowColor: Colors.grey,
-          shape: const ContinuousRectangleBorder(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(70.0),
-              bottomRight: Radius.circular(70.0),
-            ),
+            appBar:secondAppbar(
+            context: context,
+            title: 'Course title',
+            hasAction: true,
+            actionIcon: IconButton(
+                onPressed: (){
+                  cubit.checkFavorite();
+                },
+                icon: cubit.isFavorite? const Icon( Icons.favorite,color: Colors.red,) : const Icon(Icons.favorite_border)),),
+            body: Column(
+            children: [
+              Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  FlickVideoPlayer(flickManager: flickManager),
+                  nextAndPrevious(),
+                ],
+              ),
+            ],
           ),
-          leading: IconButton(
-              onPressed: (){Navigator.pop(context);},
-              icon: const Icon(Icons.arrow_back_ios_rounded)
-          ),
-          title: const Text('تفاصيل الدورة'),
-          centerTitle: true,
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          actions: [
-            IconButton(onPressed: (){
-              cubit.checkFavorite();
-            }, icon: cubit.isFavorite? const Icon( Icons.favorite,color: Colors.red,) : const Icon(Icons.favorite_border)),
-            const SizedBox(width: 10.0,)
-          ],
-        ),
-        body: Column(
-          children: [
-            Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                FlickVideoPlayer(flickManager: flickManager),
-                nextAndPrevious(),
-              ],
-            ),
-          ],
-        ),
       );
         }
     );

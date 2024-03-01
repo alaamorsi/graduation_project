@@ -10,20 +10,14 @@ import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../shared/component/constant.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  LoginScreenState createState() => LoginScreenState();
-}
-
-class LoginScreenState extends State<LoginScreen> {
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  @override
   Widget build(BuildContext context) {
+    TextEditingController passwordController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {
         role = CacheHelper.getData(key: 'role');
@@ -32,7 +26,6 @@ class LoginScreenState extends State<LoginScreen> {
             navigateAndFinish(context, const StudentLayout());
           } else if (role == 'instructor') {
             navigateAndFinish(context, const StudentLayout());
-            print('معلش عشان لسه معملناش الصفحة');
           }
         }
         if(state is LoginNotConfirmedState)
@@ -58,11 +51,11 @@ class LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'تسجيل الدخول',
+                          'login',
                           style: font.copyWith(
-                              fontSize: 25.0,
+                              fontSize: 29.0,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).canvasColor),
+                              color: Theme.of(context).primaryColor),
                         ),
                       ],
                     ),
@@ -70,7 +63,7 @@ class LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'سجل الأن لتستمتع بخدماتنا الرائعة',
+                          'Register now to enjoy our great services',
                           style:
                               font.copyWith(fontSize: 13.0, color: Colors.grey),
                         ),
@@ -82,13 +75,13 @@ class LoginScreenState extends State<LoginScreen> {
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return '!' ' لا يمكن ترك هذه الخانة فارغة';
+                            return 'This field cannot be empty !';
                           } else if (!cubit.checkForNumbers(value)) {
-                            return '!' ' البريد الإلكتروني غير صالح';
+                            return 'Invalid Email !';
                           }
                           return null;
                         },
-                        label: 'البريد الإلكتروني',
+                        label: 'Email address',
                         suffixIcon: Icons.email_outlined),
                     const SizedBox(
                       height: 20.0,
@@ -98,11 +91,11 @@ class LoginScreenState extends State<LoginScreen> {
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty || value.length < 8) {
-                          return '!' ' كلمة المرور يجب ان لا تقل عن ٨ احرف';
+                          return 'Password must be at least 8 characters !';
                         }
                         return null;
                       },
-                      label: 'كلمة المرور',
+                      label: 'password',
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: LoginCubit.get(context).prefixIcon,
                       isPassword: LoginCubit.get(context).isPassword,
@@ -116,7 +109,7 @@ class LoginScreenState extends State<LoginScreen> {
                       atEnd: false,
                       paddingSize: 13.0,
                       isLoading: cubit.isLoading,
-                      text: "تسجيل الدخول",
+                      text: "login",
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           cubit.userLogin(
@@ -125,27 +118,27 @@ class LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       context: context,
-                      color: Theme.of(context).canvasColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                     const SizedBox(height: 10.0),
                     //didn't have an account?
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Text(
+                          "Don't have an account ?",
+                          style:
+                          font.copyWith(color: Colors.grey, fontSize: 12.0),
+                        ),
                         TextButton(
                           onPressed: () {
                             navigateTo(context, const SecondScreen());
                           },
-                          child: Text("انشاء حساب",
+                          child: Text("Create now",
                               style: font.copyWith(
-                                  color: Theme.of(context).canvasColor,
-                                  fontSize: 15.0,
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 14.0,
                                   fontWeight: FontWeight.bold)),
-                        ),
-                        Text(
-                          "ليس لديك حساب ؟",
-                          style:
-                              font.copyWith(color: Colors.grey, fontSize: 14.0),
                         ),
                       ],
                     ),
@@ -156,9 +149,9 @@ class LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             navigateTo(context, ForgetPasswordScreen1());
                           },
-                          child: Text("هل نسيت كلمة السر؟",
+                          child: Text("Forgot your password ?",
                               style: font.copyWith(
-                                  color: Theme.of(context).canvasColor,
+                                  color: Theme.of(context).primaryColor,
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.bold)),
                         ),
@@ -171,17 +164,17 @@ class LoginScreenState extends State<LoginScreen> {
                           child: Container(
                             height: 1,
                             width: double.infinity,
-                            color: Theme.of(context).iconTheme.color,
+                            color: Theme.of(context).primaryColorDark,
                           ),
                         ),
                         const SizedBox(
                           width: 5.0,
                         ),
                         Text(
-                          'أو',
+                          'or',
                           style: font.copyWith(
                               fontSize: 15.0,
-                              color: Theme.of(context).canvasColor),
+                              color: Theme.of(context).primaryColor),
                         ),
                         const SizedBox(
                           width: 5.0,
@@ -190,7 +183,7 @@ class LoginScreenState extends State<LoginScreen> {
                           child: Container(
                             height: 1,
                             width: double.infinity,
-                            color: Theme.of(context).iconTheme.color,
+                            color: Theme.of(context).primaryColorDark,
                           ),
                         ),
                       ],
@@ -202,7 +195,7 @@ class LoginScreenState extends State<LoginScreen> {
                       children: [
                         Center(
                           child: CircleAvatar(
-                            backgroundColor: Colors.white,
+                            backgroundColor: Colors.transparent,
                             radius: 20.0,
                             foregroundImage: const AssetImage("Assets/G.jpg"),
                             child: InkWell(

@@ -28,26 +28,38 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
           child: Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             appBar: AppBar(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               toolbarHeight: 70.0,
-              shadowColor: Colors.transparent,
-              shape: const ContinuousRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(70.0),
-                  bottomRight: Radius.circular(70.0),
+                  bottomLeft: Radius.circular(11.0),
+                  bottomRight: Radius.circular(11.0),
                 ),
               ),
-              leading: IconButton(
-                  onPressed: (){Navigator.pop(context);},
-                  icon: const Icon(Icons.arrow_back_ios_rounded)
+              iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
+              titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
+              leading:Padding(
+                padding: const EdgeInsets.only(
+                    left: 11.0,top: 11.0,bottom: 11.0
+                ),
+                child: Container(
+                  padding: const EdgeInsets.only(left: 6.0),
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.3),
+                    borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                  ),
+                  child: IconButton(
+                    onPressed: (){Navigator.pop(context);},
+                    icon: Icon(Icons.arrow_back_ios,size: 25,color: Theme.of(context).primaryColor,),
+                  ),
+                ),
               ),
-              title: const Text('اختبار على الدرس'),
-              centerTitle: true,
-              actions: [
-                IconButton(onPressed: (){
-                  cubit.checkFavorite();
-                }, icon: cubit.isFavorite? const Icon( Icons.favorite,color: Colors.red,) : const Icon(Icons.favorite_border)),
-                const SizedBox(width: 10.0,)
-              ],
+              title: const Text('Course title'),
+              actions:[Padding(padding: const EdgeInsets.only(right: 10.0),
+                child:IconButton(onPressed: (){cubit.checkFavorite();},
+                    icon: cubit.isFavorite? const Icon( Icons.favorite,color: Colors.red,) : const Icon(Icons.favorite_border)),),],
               bottom: TabBar(
                 indicatorColor: Colors.white,
                 labelStyle: font.copyWith(color: Colors.white,fontSize: 16.0),

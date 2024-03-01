@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
+import 'package:graduation_project/modules/search_screen.dart';
+import 'package:graduation_project/modules/student/discovery/home_screen.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
-import 'package:graduation_project/modules/student/discovery/student_discovery.dart';
 import 'package:graduation_project/modules/student/reserved/reserved_screen.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
@@ -12,20 +13,20 @@ class StudentCubit extends Cubit<StudentStates> {
 
   int currentIndex = 0;
   List<Widget> screens = [
-    const StudentDiscovery(),
+    const HomeScreen(),
     const ReservedScreen(),
+    const SearchScreen(),
     const ProfileScreen(),
   ];
   List<String> titles = [
-    'استكشاف',
-    'كورساتي',
-    'البروفايل'
+    'discovery',
+    'my courses',
+    'notifications',
+    'profile'
   ];
-
   void changeBottomNav(int index) {
     currentIndex = index;
     emit(StudentChangeBottomNavState());
-
   }
 
   List<bool> isPaid = [] ;
@@ -57,5 +58,17 @@ class StudentCubit extends Cubit<StudentStates> {
     isFavorite =!isFavorite;
     emit(CheckFavoriteState());
   }
-}
 
+  bool startSearching = false;
+  void showSearchFilter(context) async
+  {
+    final List<String> results = await showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return const MultiSelect();
+        }
+    );
+    emit(StartSearchState());
+    print(results);
+  }
+}

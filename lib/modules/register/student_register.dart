@@ -8,25 +8,18 @@ import 'package:graduation_project/modules/register/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../shared/component/constant.dart';
 
-class StudentScreen extends StatefulWidget {
+class StudentScreen extends StatelessWidget {
   const StudentScreen({super.key});
 
-  @override
-  StudentScreenState createState() => StudentScreenState();
-}
-
-class StudentScreenState extends State<StudentScreen> {
-
-  //TextController to read text entered in text field
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController nameController1 = TextEditingController();
-  TextEditingController nameController2 = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    //TextController to read text entered in text field
+    TextEditingController passwordController = TextEditingController();
+    TextEditingController nameController1 = TextEditingController();
+    TextEditingController nameController2 = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
         if(state is RegisterSuccessState)
@@ -55,10 +48,10 @@ class StudentScreenState extends State<StudentScreen> {
                       child: Row(
                         children: [
                           Icon(Icons.arrow_back_ios_rounded,
-                                color: theme.canvasColor,size: 35.0,
+                                color: theme.primaryColor,size: 36.0,
                           ),
-                          Text("سجل الدخول",
-                            style: font.copyWith(color: theme.canvasColor,fontSize: 25.0,fontWeight: FontWeight.bold),)
+                          Text("login",
+                            style: font.copyWith(color: theme.primaryColor,fontSize: 27.0,fontWeight: FontWeight.bold),)
                         ],
                       ),
                     ),
@@ -67,9 +60,9 @@ class StudentScreenState extends State<StudentScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "حساب طالب",
+                          "student account",
                           style:font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
-                              color: theme.canvasColor),
+                              color: theme.primaryColor),
                         ),
                       ],
                     ),
@@ -77,7 +70,7 @@ class StudentScreenState extends State<StudentScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'سجل الأن لتستمتع بخدماتنا الرائعة',
+                          'Register now to enjoy our great services',
                           style: font.copyWith(fontSize: 13.0, color: Colors.grey),
                         ),
                       ],
@@ -88,11 +81,11 @@ class StudentScreenState extends State<StudentScreen> {
                         type: TextInputType.text,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return '!'' لا يمكن ترك هذه الخانة فارغة';
+                            return 'This field cannot be empty !';
                           }
                           return null;
                         },
-                        label: 'الاسم الاول',
+                        label: 'First name',
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
@@ -100,11 +93,11 @@ class StudentScreenState extends State<StudentScreen> {
                         type: TextInputType.text,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return '!'' لا يمكن ترك هذه الخانة فارغة';
+                            return 'This field cannot be empty !';
                           }
                           return null;
                         },
-                        label: 'الاسم الاخير',
+                        label: 'last name',
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
@@ -112,15 +105,15 @@ class StudentScreenState extends State<StudentScreen> {
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return '!'' لا يمكن ترك هذه الخانة فارغة';
+                            return 'This field cannot be empty !';
                           }
                           else if (!cubit.checkForNumbers(value))
                           {
-                            return '!'' البريد الإلكتروني غير صالح';
+                            return 'Invalid Email !';
                           }
                           return null;
                         },
-                        label: 'البريد الإلكتروني',
+                        label: 'Email address',
                         suffixIcon: Icons.email_outlined),
                     const SizedBox(height: 10.0),
                     defaultFormField(
@@ -128,11 +121,11 @@ class StudentScreenState extends State<StudentScreen> {
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty || value.length<8) {
-                          return '!'' كلمة المرور يجب ان لا تقل عن ٨ احرف';
+                          return 'Password must be at least 8 characters !';
                         }
                         return null;
                       },
-                      label: 'كلمة المرور',
+                      label: 'password',
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: cubit.prefixIcon,
                       isPassword: cubit.isPassword,
@@ -141,13 +134,9 @@ class StudentScreenState extends State<StudentScreen> {
                       },
                     ),
                     const SizedBox(height: 10.0),
-                    //شروط الاستخدام
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                            'شروط الاستخدام',
-                            style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
                         Checkbox(
                           side: BorderSide(color: theme.iconTheme.color!),
                           value: cubit.acceptCondition,
@@ -155,6 +144,9 @@ class StudentScreenState extends State<StudentScreen> {
                             cubit.changeAcceptConditions();
                           },
                         ),
+                        Text(
+                            'terms of use',
+                            style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
                       ],
                     ),
                     const SizedBox(height: 10.0),
@@ -162,7 +154,7 @@ class StudentScreenState extends State<StudentScreen> {
                     usedButton(
                       atEnd: false,
                       isLoading: cubit.isLoading,
-                      text: "إنشاء",
+                      text: "create",
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                         cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 'student');
@@ -175,17 +167,22 @@ class StudentScreenState extends State<StudentScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Text(
+                          "Have an account already ?",
+                          style:
+                          font.copyWith(color: Colors.grey, fontSize: 12.0),
+                        ),
                         TextButton(
                           onPressed: () {
-                            navigateAndFinish(context,const LoginScreen());
+                            navigateTo(context, const LoginScreen());
                           },
-                          child: Text("سجل الدخول",
-                              style: font.copyWith(color: theme.canvasColor,fontSize:15.0,fontWeight: FontWeight.bold)),
+                          child: Text("login now",
+                              style: font.copyWith(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold)),
                         ),
-                        Text(" لديك حساب بالفعل ؟",
-                          style: font.copyWith(fontSize: 14.0, color: Colors.grey),
-                        ),
-                      ]
+                      ],
                     ),
                   ],
                 ),

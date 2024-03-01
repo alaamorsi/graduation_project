@@ -7,7 +7,6 @@ import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/login/cubit/cubit.dart';
 import 'package:graduation_project/modules/opening.dart';
 import 'package:graduation_project/modules/register/cubit/cubit.dart';
-import 'package:graduation_project/modules/splash.dart';
 import 'package:graduation_project/shared/bloc_observer.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/component/constant.dart';
@@ -20,6 +19,8 @@ void main() async{
   DioHelper.init();
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
+  langTitle = CacheHelper.getData(key: 'ln')??langTitle;
+  notification = CacheHelper.getData(key: 'notification')??notification;
   jwt = CacheHelper.getData(key: 'jwt')??jwt;
   role = CacheHelper.getData(key: 'role')??role;
   runApp(MyApp(appMode: mode));
@@ -51,12 +52,10 @@ class MyApp extends StatelessWidget {
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
         builder: (context,state){
-          // AppCubit.get(context).getSettings();
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
             darkTheme: darkTheme,
-            locale: AppCubit.get(context).language,
             themeMode: AppCubit.get(context).theme,
             home:const OpeningScreen(),
           );

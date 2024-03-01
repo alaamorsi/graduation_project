@@ -3,9 +3,79 @@ import 'package:graduation_project/shared/component/constant.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 
+ThemeData orangeTheme = ThemeData(
+  scaffoldBackgroundColor: HexColor("#fbfbf9"), //Cotton
+  primaryColor: HexColor("#ff6700"),  //Neon Orange //for first items
+  cardColor: HexColor("#fdbd01"), //Neon Gold //for second items
+  canvasColor: HexColor("#fed8b1"), //Light Orange // for third items
+  primaryColorDark: Colors.black,
+  primaryColorLight: Colors.white,
+);
+
+ThemeData greenTheme = ThemeData(
+  scaffoldBackgroundColor: HexColor("#fbfbf9"), //Cotton
+  primaryColor: HexColor("#16f529"),  //Neon Green //for first items
+  cardColor: HexColor("#3ea055"), //Clover Green //for second items
+  canvasColor: HexColor("#54c571"), //Zombie Green // for third items
+  primaryColorDark: Colors.black,
+  primaryColorLight: Colors.white,
+
+);
+
+///////////////////light mode
+ThemeData lightTheme = ThemeData(
+  scaffoldBackgroundColor: HexColor("#fbfbf9"), //Cotton
+  primaryColor: HexColor("#008080"),
+  cardColor: HexColor("#008080"),
+  canvasColor: HexColor("#f5f5f5"),
+  primaryColorDark: Colors.black,
+  primaryColorLight: Colors.white,
+  appBarTheme:  AppBarTheme(
+    backgroundColor: HexColor("#000080"),
+    titleSpacing: 20.0,
+    iconTheme: IconThemeData(
+      color: HexColor("#f5f5f5"),
+      size: 30.0,
+    ),
+    elevation: 0.0,
+    titleTextStyle: font.copyWith(
+      color: HexColor("#f5f5f5"),
+      fontSize: 25.0,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  textTheme: TextTheme(
+    titleLarge: font.copyWith(
+      fontSize: 25.0,
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+    ),
+    titleMedium: font.copyWith(
+      fontSize: 20.0,
+      fontWeight: FontWeight.w500,
+      color: Colors.black,
+    ),
+    titleSmall: font.copyWith(
+      fontSize: 15.0,
+      fontWeight: FontWeight.w300,
+      color: Colors.black,
+    ),
+    labelSmall: font.copyWith(
+      fontSize: 11.0,
+      fontWeight: FontWeight.normal,
+      color: Colors.black,
+    ),
+  ),
+);
+
 ////////////////////dark mode
 ThemeData darkTheme = ThemeData(
-  scaffoldBackgroundColor: HexColor("#101010"),
+  scaffoldBackgroundColor: HexColor("#101010"), //black
+  primaryColor: HexColor("#000080"),
+  cardColor: HexColor("#000080"),
+  canvasColor: HexColor("#3d3635"), //Gray Brown
+  primaryColorDark: Colors.white,
+  primaryColorLight: Colors.black,
   appBarTheme:  AppBarTheme(
     backgroundColor: HexColor("#008080"),
     titleSpacing: 20.0,
@@ -20,13 +90,6 @@ ThemeData darkTheme = ThemeData(
       fontWeight: FontWeight.bold
     ),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: HexColor("#008080"),
-    elevation: 20.0,
-    selectedItemColor: HexColor("#008080"),
-    unselectedItemColor: HexColor("#c0c0c0"),
-    type: BottomNavigationBarType.fixed,
-  ),
   textTheme: TextTheme(
     titleLarge: font.copyWith(
       fontSize: 25.0,
@@ -49,104 +112,8 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
   ),
-  canvasColor: HexColor("#c0c0c0"),
-  primaryColor: HexColor("#101010"),
-  iconTheme: const IconThemeData(
-    color: Colors.white,
-  ),
-  cardColor: HexColor("#008080"),
-  dialogBackgroundColor: HexColor("#666666"),
-  dropdownMenuTheme: DropdownMenuThemeData(
-      inputDecorationTheme:InputDecorationTheme(
-        labelStyle: font.copyWith(fontSize: 15.0, fontWeight: FontWeight.w300, color: Colors.white,),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide(color: Colors.white, width: 2.0),
-        ),
-        enabledBorder:const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide(color: Colors.white, width: 2.0,),
-        ),
-      ),
-      textStyle: font.copyWith(color: Colors.white,fontSize: 15.0,fontWeight: FontWeight.w300),
-    menuStyle: const MenuStyle(
-      backgroundColor: MaterialStatePropertyAll(Colors.black),
-      side: MaterialStatePropertyAll(BorderSide(color: Colors.white)),
-    ),
-  ),
 );
 
 
-///////////////////light mode
-ThemeData lightTheme = ThemeData(
-  scaffoldBackgroundColor: HexColor("#f5f5f5"),
-  appBarTheme:  AppBarTheme(
-    backgroundColor: HexColor("#000080"),
-    titleSpacing: 20.0,
-    iconTheme: IconThemeData(
-      color: HexColor("#f5f5f5"),
-      size: 30.0,
-    ),
-    elevation: 0.0,
-    titleTextStyle: font.copyWith(
-      color: HexColor("#f5f5f5"),
-      fontSize: 25.0,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: HexColor("#000080"),
-    elevation: 20.0,
-    selectedItemColor: HexColor("#000080"),
-    unselectedItemColor: HexColor("#666666"),
-    type: BottomNavigationBarType.fixed,
-  ),
-  textTheme: TextTheme(
-    titleLarge: font.copyWith(
-      fontSize: 25.0,
-      fontWeight: FontWeight.bold,
-      color: Colors.black,
-    ),
-    titleMedium: font.copyWith(
-      fontSize: 20.0,
-      fontWeight: FontWeight.w500,
-      color: Colors.black,
-    ),
-    titleSmall: font.copyWith(
-      fontSize: 15.0,
-      fontWeight: FontWeight.w300,
-      color: Colors.black,
-    ),
-    labelSmall: font.copyWith(
-      fontSize: 11.0,
-      fontWeight: FontWeight.normal,
-      color: Colors.black,
-  ),
-  ),
-  canvasColor: HexColor("#000080"),
-  primaryColor: HexColor("#f5f5f5"),
-  iconTheme: const IconThemeData(
-    color: Colors.black,
-  ),
-  cardColor: HexColor("#000080"),
-  dialogBackgroundColor: HexColor("#f5f5f5"),
-  dropdownMenuTheme: DropdownMenuThemeData(
-      inputDecorationTheme:InputDecorationTheme(
-        labelStyle: font.copyWith(fontSize: 15.0, fontWeight: FontWeight.w300, color: Colors.black,),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide(color: Colors.black, width: 2.0),
-        ),
-        enabledBorder:const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide(color: Colors.black, width: 2.0,),
-        ),
-      ),
-    textStyle: font.copyWith(color: Colors.black,fontSize: 15.0,fontWeight: FontWeight.w300),
-    menuStyle: const MenuStyle(
-      backgroundColor: MaterialStatePropertyAll(Colors.white),
-      side: MaterialStatePropertyAll(BorderSide(color: Colors.black)),
-    ),
-  ),
-);
+
 

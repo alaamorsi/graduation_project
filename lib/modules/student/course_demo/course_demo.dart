@@ -18,31 +18,15 @@ class CourseDemo extends StatelessWidget {
       listener: (context , state ){},
       builder: (context , state ){
         return Scaffold(
-            appBar:AppBar(
-              toolbarHeight: 70.0,
-              bottomOpacity: 0.7,
-              elevation: 2.0,
-              shadowColor: Colors.grey,
-              shape: const ContinuousRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(70.0),
-                  bottomRight: Radius.circular(70.0),
-                ),
-              ),
-              leading: IconButton(
-                  onPressed: (){Navigator.pop(context);},
-                  icon: const Icon(Icons.arrow_back_ios_rounded)
-              ),
-              title: const Text('تفاصيل الدورة'),
-              centerTitle: true,
-              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-              actions: [
-                IconButton(onPressed: (){
-                  cubit.checkFavorite();
-                }, icon: cubit.isFavorite? const Icon( Icons.favorite,color: Colors.red,) : const Icon(Icons.favorite_border)),
-                const SizedBox(width: 10.0,)
-              ],
-            ),
+            appBar:secondAppbar(
+              context: context,
+              title: 'تفاصيل الدورة',
+              hasAction: true,
+              actionIcon: IconButton(
+                  onPressed: (){
+              cubit.checkFavorite();
+            },
+                  icon: cubit.isFavorite? const Icon( Icons.favorite,color: Colors.red,) : const Icon(Icons.favorite_border)),),
             body: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(

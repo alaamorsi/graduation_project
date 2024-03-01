@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/student/profile/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  @override
-  ProfileScreenState createState() => ProfileScreenState();
-}
-
-class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var theme  = Theme.of(context);
@@ -22,99 +17,60 @@ class ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                height: 40.0,
-                width: 40.0,
+                height: 40,
+                width: 40,
                 decoration: BoxDecoration(
-                  color: theme.appBarTheme.backgroundColor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15.0),
-                    bottomRight: Radius.circular(15.0),
-                    topRight: Radius.circular(3.0),
-                    bottomLeft: Radius.circular(3.0),
-                  ),
+                  color: Theme.of(context).primaryColor.withOpacity(0.3),
+                  borderRadius: const BorderRadius.all(Radius.circular(9.0)),
                 ),
                 child: IconButton(
-                    onPressed: (){
-                      navigateTo(context,const EditProfileScreen());
-                    },
-                    icon:const Icon(Icons.edit_rounded,color: Colors.white,)
+                  onPressed: (){navigateTo(context,const EditProfileScreen());},
+                  icon: Icon(Icons.edit_rounded,size: 25,color: Theme.of(context).primaryColor),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 3.0,),
           //Student Image
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Hero(
-                tag:"hero",
-                child: CircleAvatar(
-                  radius: 67,
-                  backgroundColor: theme.appBarTheme.backgroundColor,
-                  child: const CircleAvatar(
-                    radius:63,
-                    backgroundImage: AssetImage("Assets/teacher.png",),
-                  ),
-                ),
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius:63,
+                backgroundImage: AssetImage("Assets/avatar1.png",),
               ),
             ],
           ),
           const SizedBox(height: 30,),
           //data
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text('user name',style: TextStyle(fontSize: 10.0,color: Colors.grey),),
-              SizedBox(width: 10.0,)
-            ],
-          ),
-          Card(
-            color: theme.appBarTheme.backgroundColor,
-            elevation: 4,
-            child: const ListTile(
-              trailing: Text('user name',
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
-              ),
-            ),
-          ),
+          dataLabel('first name', 'first name', theme.primaryColor),
           const SizedBox(height: 10,),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text('email',style: TextStyle(fontSize: 10.0,color: Colors.grey),),
-              SizedBox(width: 10.0,)
-
-            ],
-          ),
-          Card(
-            color: theme.appBarTheme.backgroundColor,
-            elevation: 4,
-            child: const ListTile(
-              leading: Text('user@gmail.com',
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
-              ),
-            ),
-          ),
+          dataLabel('email', 'user@gmail.com', theme.primaryColor),
           const SizedBox(height: 10,),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text('educational states',style: TextStyle(fontSize: 10.0,color: Colors.grey),),
-              SizedBox(width: 10.0,)
-            ],
-          ),
-          Card(
-            color: theme.appBarTheme.backgroundColor,
-            elevation: 4.0,
-            child: const ListTile(
-              trailing: Text("الصف الثالث الاعدادي",
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
-              ),
-            ),
-          ),
+          dataLabel('bio', 'if you fight you will win', theme.primaryColor),
         ],
       ),
+    );
+  }
+  Widget dataLabel(String title,String name,Color color){
+    return Column(
+      children: [
+         Row(
+          children: [
+            Text(title,style: const TextStyle(fontSize: 10.0,color: Colors.grey),),
+          ],
+        ),
+        Card(
+          color: color,
+          elevation: 4,
+          child: ListTile(
+            leading: Text(name,
+              style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

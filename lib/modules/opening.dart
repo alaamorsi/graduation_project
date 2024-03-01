@@ -65,10 +65,11 @@ class _OpeningScreenState extends State<OpeningScreen> {
               Flexible(
                 child: AnimatedSlide(
                   duration:const Duration(milliseconds: 700),
-                  offset: Offset(0,text1Move ),
-                  child: const Text("Very easy funny and helpfull app",
+                  offset: Offset(text1Move,0),
+                  curve: Curves.fastOutSlowIn,
+                  child: const Text("very easy ,entertaining and useful application",
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w600),),
+                    style: TextStyle(color: Colors.white,fontSize: 23,fontWeight: FontWeight.w600),),
                 ),
               ),
             ],

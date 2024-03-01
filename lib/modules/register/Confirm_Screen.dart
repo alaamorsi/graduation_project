@@ -24,9 +24,7 @@ class ConfirmScreen extends StatelessWidget {
       builder: (context , state){
         var cubit = RegisterCubit.get(context);
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('تأكيد الحساب'),
-          ),
+          appBar: defaultAppBar(context: context, title: const Text('Email confirm'),atEnd: false),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
