@@ -5,6 +5,7 @@ import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/login/cubit/cubit.dart';
+import 'package:graduation_project/modules/opening.dart';
 import 'package:graduation_project/modules/register/cubit/cubit.dart';
 import 'package:graduation_project/modules/splash.dart';
 import 'package:graduation_project/shared/bloc_observer.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             locale: AppCubit.get(context).language,
             themeMode: AppCubit.get(context).theme,
-            home:const SplashScreen(),
+            home:const OpeningScreen(),
           );
         },
       ),

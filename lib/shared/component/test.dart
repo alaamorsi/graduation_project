@@ -84,3 +84,70 @@ List<Course> courses=[
   ),
 
 ];
+//              Stack(
+//                 children: [
+//                   AnimatedOpacity(
+//                     duration: const Duration(milliseconds: 700),
+//                     opacity: buttonOp2,
+//                     onEnd: (){
+//                       setState(() {
+//                         if(buttonOp2==0)
+//                           {
+//                             buttonOp2=1;
+//                           }else{
+//                           buttonOp2=0;
+//                         }
+//                       });
+//                     },
+//                     child: IntrinsicWidth(
+//                       child: Container(
+//                           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+//                           margin: const EdgeInsets.all(20),
+//                           decoration: BoxDecoration(
+//                             boxShadow: const [
+//                               BoxShadow(
+//                                 color: Colors.blueAccent,
+//                                 blurRadius: 20,
+//                                 spreadRadius: 1,
+//                               )
+//                             ],
+//                             color: Theme.of(context).cardColor,
+//                             borderRadius: BorderRadius.circular(70),
+//                           ),
+//                           child:const Text("Welcome",
+//                             style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),
+//                           ),
+//                       ),
+//                     ),
+//                   ),
+//                   AnimatedOpacity(
+//                     duration: const Duration(milliseconds: 700),
+//                     opacity: buttonOp1,
+//                     onEnd: (){
+//                       setState(() {
+//                         buttonOp1=1;
+//                       });
+//                     },
+//                     child: IntrinsicWidth(
+//                       child: Container(
+//                         padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+//                         margin: const EdgeInsets.all(20),
+//                         decoration: BoxDecoration(
+//                           boxShadow: const [
+//                             BoxShadow(
+//                               color: Colors.blueAccent,
+//                               blurRadius: 10,
+//                               spreadRadius: 1,
+//                             )
+//                           ],
+//                           color: Theme.of(context).cardColor,
+//                           borderRadius: BorderRadius.circular(70),
+//                         ),
+//                         child:const Text("Welcome",
+//                           style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
