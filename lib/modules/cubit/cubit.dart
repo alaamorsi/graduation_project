@@ -56,3 +56,4 @@ class AppCubit extends Cubit<AppStates> {
     emit(MakeSearchFilter());
   }
 }
+
