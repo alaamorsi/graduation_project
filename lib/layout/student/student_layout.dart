@@ -92,7 +92,7 @@ class StudentLayout extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(9.0)),
             ),
             child: IconButton(
-              onPressed: (){},
+              onPressed: (){navigateTo(context, const NotificationsScreen());},
               icon: Icon(Icons.notifications,size: 25,color: Theme.of(context).primaryColor,),
             ),
           ),
@@ -105,7 +105,7 @@ class StudentLayout extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(9.0)),
               ),
               child: IconButton(
-                onPressed: (){navigateTo(context, const NotificationsScreen());},
+                onPressed: (){},
                 icon: Icon(Icons.favorite,size: 25,color: Theme.of(context).primaryColor),
               ),
             ),

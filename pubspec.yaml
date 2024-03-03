@@ -50,6 +50,7 @@ dependencies:
   animated_splash_screen: ^1.3.0
   animations: ^2.0.11
   flutter_locales: ^3.0.1
+  carousel_slider: ^4.2.1
   ###########network########
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
