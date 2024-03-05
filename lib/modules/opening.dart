@@ -64,8 +64,8 @@ class _OpeningScreenState extends State<OpeningScreen> {
                   });
                 },
                 child: Container(
-                  height: ((screenHeight/5)),
-                  width: screenWidth,
+                  height: ((screenHeight/3)),
+                  width: screenWidth-100,
                   decoration: const BoxDecoration(
                     image: DecorationImage(image: AssetImage("Assets/icon.png"),fit: BoxFit.cover),
                   ),
