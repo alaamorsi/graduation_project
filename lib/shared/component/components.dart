@@ -168,19 +168,19 @@ PreferredSizeWidget secondAppbar({
       titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
       leading:Padding(
         padding: const EdgeInsets.only(
-            left: 11.0,top: 11.0,bottom: 11.0
+            left: 14.0,top: 14.0,bottom: 14.0
         ),
         child: Container(
-          padding: const EdgeInsets.only(left: 6.0),
-          height: 30,
-          width: 30,
+          padding: const EdgeInsets.only(left: 7.0),
+          height: 25,
+          width: 25,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.3),
             borderRadius: const BorderRadius.all(Radius.circular(9.0)),
           ),
           child: IconButton(
             onPressed: (){Navigator.pop(context);},
-            icon: Icon(Icons.arrow_back_ios,size: 25,color: Theme.of(context).primaryColor,),
+            icon: Icon(Icons.arrow_back_ios,size: 20,color: Theme.of(context).primaryColor,),
           ),
         ),
       ),
@@ -201,6 +201,15 @@ Widget myDivider() => Padding(
         color: HexColor("#666666"),
       ),
     );
+
+Widget newDivider() => Padding(
+  padding: const EdgeInsetsDirectional.symmetric(horizontal: 10,vertical: 15),
+  child: Container(
+    width: double.infinity,
+    height: 0.3,
+    color: Colors.grey,
+  ),
+);
 
 void navigateTo(context, widget) => Navigator.push(
       context,

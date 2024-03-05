@@ -54,8 +54,10 @@ class MyApp extends StatelessWidget {
         builder: (context,state){
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-            darkTheme: darkTheme,
+            theme: blueTheme,
+            darkTheme: purpleTheme,
+            highContrastTheme: orangeTheme,
+            highContrastDarkTheme: greenTheme,
             themeMode: AppCubit.get(context).theme,
             home:const OpeningScreen(),
           );

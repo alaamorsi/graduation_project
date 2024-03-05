@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     imageUrl: courses[index].teacherImage,
                                     title: courses[index].subject,
                                     subTitle: courses[index].eduLevel,
-                                    cardColor: theme.primaryColor,
+                                    cardColor: theme.cardColor,
                                     rate: 4.5,
                                     timer: courses[index].year,
                                     price: 450,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
+import 'package:graduation_project/modules/student/profile/settings.dart';
 import 'package:graduation_project/modules/student/notification/notification.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
@@ -48,8 +49,8 @@ class StudentLayout extends StatelessWidget {
                       labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
                   ),
                 ],
-                color: theme.primaryColor,
-                buttonBackgroundColor: theme.primaryColor,
+                color: theme.canvasColor,
+                buttonBackgroundColor: theme.canvasColor,
                 backgroundColor: Colors.transparent,
                 animationCurve: Curves.ease,
                 animationDuration: const Duration(milliseconds: 600),
@@ -112,6 +113,10 @@ class StudentLayout extends StatelessWidget {
           ),
         ],
       );
+    } else if(index==1){
+      return defaultAppBar(context: context,title: Text(cubit.titles[cubit.currentIndex],
+          style: font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColorDark,),
+      ),);
     } else if(index==2){
       TextEditingController searchController = TextEditingController();
       return AppBar(
@@ -158,9 +163,35 @@ class StudentLayout extends StatelessWidget {
         ],
       );
     } else{
-      return defaultAppBar(context: context,title: Text(cubit.titles[cubit.currentIndex],
-        style: font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColorDark,),
-      ),);
+      return AppBar(
+        backgroundColor: theme.scaffoldBackgroundColor,
+        toolbarHeight: 70.0,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10),
+            )
+        ),
+        title: Text(cubit.titles[cubit.currentIndex],
+          style: font.copyWith(fontSize: 24.0,color: Theme.of(context).primaryColorDark),
+        ),
+        actions:[
+          Padding(padding: const EdgeInsets.only(right:20.0),
+            child:Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withOpacity(0.3),
+                borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+              ),
+              child: IconButton(
+                onPressed: (){navigateTo(context, const SettingsScreen());},
+                icon: Icon(Icons.settings,size: 25,color: Theme.of(context).primaryColor),
+              ),
+            ),
+          ),
+        ],
+      );
     }
   }
 }
