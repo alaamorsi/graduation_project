@@ -605,4 +605,48 @@ Widget item(IconData icon,String text){
   );
 }
 
+Widget rate({
+  required double rate,
+}){
+  bool s1,s2,s3,s4,s5=false;
+  if(rate<5){
+    s1=(rate%5)>=1;
+    s2=(rate%5)>=2;
+    s3=(rate%5)>=3;
+    s4=(rate%5)>=4;
+  }
+  else{
+    s1=s2=s3=s4=s5=true;
+  }
+  return Wrap(
+    children: [
+      Icon(
+        Icons.star_rate_rounded,
+        size: 20.0,
+        color:s1?HexColor("FDBD01"):Colors.grey,
+      ),
+      Icon(
+        Icons.star_rate_rounded,
+        size: 20.0,
+        color:s2?HexColor("FDBD01"):Colors.grey,
+      ),
+      Icon(
+        Icons.star_rate_rounded,
+        size: 20.0,
+        color:s3?HexColor("FDBD01"):Colors.grey,
+      ),
+      Icon(
+        Icons.star_rate_rounded,
+        size: 20.0,
+        color:s4?HexColor("FDBD01"):Colors.grey,
+      ),
+      Icon(
+        Icons.star_rate_rounded,
+        size: 20.0,
+        color:s5?HexColor("FDBD01"):Colors.grey,
+      ),
+    ],
+  );
+}
+
 

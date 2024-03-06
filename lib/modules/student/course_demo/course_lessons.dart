@@ -40,7 +40,7 @@ class CourseLessons extends StatelessWidget {
                               color: theme.primaryColor
                           ),
                       separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 10.0,),
-                      itemCount: 10,
+                      itemCount: course.videosNumber,
                     ),
                     fallback: (context)=>const Center(child: CircularProgressIndicator()),
                   ),

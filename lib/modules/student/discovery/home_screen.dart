@@ -88,12 +88,20 @@ class HomeScreen extends StatelessWidget {
                             children: categories.map((e) => ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: categories.length,
-                                itemBuilder: (context ,index)=> courseItem(
-                                    context: context,
-                                    course: courses[index],
-                                    color: theme.cardColor,
-                                )
-                            )).toList()
+                                itemBuilder: (context ,index){
+                                  int rate = 0;
+                                  for (var element in courses[index].preview) {
+                                    rate = rate + element.rate;
+                                  }
+                                  rate = rate~/(courses[index].preview.length);
+                                  return courseItem(
+                                      context: context,
+                                      course: courses[index],
+                                      rate: rate,
+                                      color: theme.cardColor
+                                  );
+                                })
+                            ).toList()
                         ),
                       ),
                     ],
@@ -170,6 +178,7 @@ Widget courseItem({
   required BuildContext context,
   required Course course,
   required Color color,
+  required int rate,
   bool isReserved =false,
   bool isFavourite = false,
 }) {
@@ -227,8 +236,7 @@ Widget courseItem({
                           size: 20.0,
                           color: HexColor("FDBD01"),
                         ),
-                        Text(
-                          '${course.rate}',
+                        Text('${rate.toDouble()}',
                           style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
                         ),
                       ],

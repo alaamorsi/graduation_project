@@ -8,7 +8,7 @@ class Course {
   final int year;
   final int videosNumber;
   final int price;
-  final double rate;
+  final List<Preview> preview;
 
   Course({
     required this.category,
@@ -20,10 +20,23 @@ class Course {
     required this.year,
     required this.videosNumber,
     required this.price,
-    required this.rate,
-
+    required this.preview,
   });
 
+}
+
+class Preview{
+  final String name;
+  final int rate;
+  String? image;
+  final String dateTime;
+  final String comment;
+  Preview({
+    required this.name,
+    required this.dateTime,
+    required this.comment,
+    required this.rate,
+  });
 }
 
 List<Course> courses=[
@@ -37,7 +50,12 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 28,
     price: 300,
-    rate: 4.0,
+    preview: [
+      Preview(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Preview(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    ],
+
   ),
   Course(
     category: 1,
@@ -49,7 +67,11 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 17,
     price: 300,
-    rate: 4.0,
+    preview: [
+      Preview(rate: 4,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Preview(rate: 3,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Preview(rate: 1,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    ],
   ),
   Course(
     category: 1,
@@ -61,7 +83,11 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 16,
     price: 300,
-    rate: 4.0,
+    preview: [
+      Preview(rate: 3,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Preview(rate: 2,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    ],
   ),
   Course(
     category: 1,
@@ -73,7 +99,11 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 28,
     price: 300,
-    rate: 4.0,
+    preview: [
+      Preview(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Preview(rate: 2,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    ],
   ),
   Course(
     category: 1,
@@ -85,7 +115,11 @@ List<Course> courses=[
     year: 2024,
     videosNumber: 33,
     price: 300,
-    rate: 4.0,
+    preview: [
+      Preview(rate: 1,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Preview(rate: 0,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Preview(rate: 2,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    ],
   ),
   Course(
     category: 1,
@@ -97,74 +131,10 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 18,
     price: 300,
-    rate: 4.0,
+    preview: [
+      Preview(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Preview(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    ],
   ),
-
 ];
-//              Stack(
-//                 children: [
-//                   AnimatedOpacity(
-//                     duration: const Duration(milliseconds: 700),
-//                     opacity: buttonOp2,
-//                     onEnd: (){
-//                       setState(() {
-//                         if(buttonOp2==0)
-//                           {
-//                             buttonOp2=1;
-//                           }else{
-//                           buttonOp2=0;
-//                         }
-//                       });
-//                     },
-//                     child: IntrinsicWidth(
-//                       child: Container(
-//                           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-//                           margin: const EdgeInsets.all(20),
-//                           decoration: BoxDecoration(
-//                             boxShadow: const [
-//                               BoxShadow(
-//                                 color: Colors.blueAccent,
-//                                 blurRadius: 20,
-//                                 spreadRadius: 1,
-//                               )
-//                             ],
-//                             color: Theme.of(context).cardColor,
-//                             borderRadius: BorderRadius.circular(70),
-//                           ),
-//                           child:const Text("Welcome",
-//                             style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),
-//                           ),
-//                       ),
-//                     ),
-//                   ),
-//                   AnimatedOpacity(
-//                     duration: const Duration(milliseconds: 700),
-//                     opacity: buttonOp1,
-//                     onEnd: (){
-//                       setState(() {
-//                         buttonOp1=1;
-//                       });
-//                     },
-//                     child: IntrinsicWidth(
-//                       child: Container(
-//                         padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-//                         margin: const EdgeInsets.all(20),
-//                         decoration: BoxDecoration(
-//                           boxShadow: const [
-//                             BoxShadow(
-//                               color: Colors.blueAccent,
-//                               blurRadius: 10,
-//                               spreadRadius: 1,
-//                             )
-//                           ],
-//                           color: Theme.of(context).cardColor,
-//                           borderRadius: BorderRadius.circular(70),
-//                         ),
-//                         child:const Text("Welcome",
-//                           style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
