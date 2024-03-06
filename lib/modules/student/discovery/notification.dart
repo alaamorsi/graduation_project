@@ -6,10 +6,8 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
-      child: Scaffold(
-        appBar: secondAppbar(context: context, title: 'Notifications'),
-      ),
+    return  Scaffold(
+      appBar: secondAppbar(context: context, title: 'Notifications'),
     );
   }
 }

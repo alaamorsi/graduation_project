@@ -6,9 +6,44 @@ import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import '../../../shared/component/components.dart';
 
-
-List<bool> isOpen=List.filled(assignments.length, false);
-
+List<Question> questions=[
+  Question(
+      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
+      isMultiChoose: true,
+      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
+      correctAnswer: 1),
+  Question(
+      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
+      isMultiChoose: false,
+      answers: ['أ - صح','ب - خظأ'],
+      correctAnswer: 1),
+  Question(
+      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
+      isMultiChoose: true,
+      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
+      correctAnswer: 2),
+  Question(
+      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
+      isMultiChoose: true,
+      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
+      correctAnswer: 3),
+  Question(
+      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
+      isMultiChoose: true,
+      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
+      correctAnswer: 4),
+  Question(
+      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
+      isMultiChoose: false,
+      answers: ['أ - صح','ب - خظأ'],
+      correctAnswer: 1),
+  Question(
+      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
+      isMultiChoose: false,
+      answers: ['أ - صح','ب - خظأ'],
+      correctAnswer: 1),
+];
+late List<int> studentAnswers;
 class AssignmentScreen extends StatefulWidget {
   const AssignmentScreen({super.key});
 
@@ -22,122 +57,135 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
     return BlocConsumer<StudentCubit, StudentStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = StudentCubit.get(context);
-        return DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              toolbarHeight: 70.0,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(11.0),
-                  bottomRight: Radius.circular(11.0),
-                ),
-              ),
-              iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
-              titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
-              leading:Padding(
-                padding: const EdgeInsets.only(
-                    left: 11.0,top: 11.0,bottom: 11.0
-                ),
-                child: Container(
-                  padding: const EdgeInsets.only(left: 6.0),
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.3),
-                    borderRadius: const BorderRadius.all(Radius.circular(9.0)),
-                  ),
-                  child: IconButton(
-                    onPressed: (){Navigator.pop(context);},
-                    icon: Icon(Icons.arrow_back_ios,size: 25,color: Theme.of(context).primaryColor,),
-                  ),
-                ),
-              ),
-              title: const Text('Course title'),
-              actions:[Padding(padding: const EdgeInsets.only(right: 10.0),
-                child:IconButton(onPressed: (){cubit.checkFavorite();},
-                    icon: cubit.isFavorite? const Icon( Icons.favorite,color: Colors.red,) : const Icon(Icons.favorite_border)),),],
-              bottom: TabBar(
-                indicatorColor: Colors.white,
-                labelStyle: font.copyWith(color: Colors.white,fontSize: 16.0),
-                unselectedLabelStyle: font.copyWith(color: Colors.grey,fontSize: 14),
-                tabs: const [
-                  Tab(text: 'الواجبات'),
-                  Tab(text: 'تم تسليمه'),
-                ],
-              ),
-            ),
-            body:   Container(
-              padding: const EdgeInsets.all(25.0),
-              width: double.infinity,
-              child: TabBarView(
+        // var cubit = StudentCubit.get(context);
+        var theme = Theme.of(context);
+        return Scaffold(
+          backgroundColor: theme.scaffoldBackgroundColor,
+          appBar: secondAppbar(
+              context: context,
+              title: "Assignments"),
+          body: SingleChildScrollView(
+            child: DefaultTabController(
+              length: 2,
+              child: Column(
                 children: [
-                  //
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text("Assignment 1",style: font.copyWith(
-                            color: Theme.of(context).cardColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0),
-                          ),
-                          const Spacer(),
-                          Text("23 نوفمبر 11.59م",style: font.copyWith(
-                            color: Colors.black38,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13.0),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text("In legal terms, an assignment refers to the transfer of a right or liability from one party to another. It can involve property, financial agreements, or other legal matters",
-                        maxLines: 10,
-                        overflow: TextOverflow.ellipsis,
-                        style: font.copyWith(
-                          color: Colors.black,
-                          fontSize: 16.0,),
-                      ),
-                      const SizedBox(height: 20.0),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              height: 150,
-                              width: 150,
-                              child: Image(image: AssetImage('Assets/teacher.png'),fit: BoxFit.cover,)),
-                        ],
-                      ),
-                      const Spacer(),
-                      usedButton(
-                        paddingSize: 10,
-                        radius: 5,
-                        atEnd: false,
-                        text: 'اضافة عمل',
-                        color: Theme.of(context).cardColor,
-                        context: context,
-                        onPressed:(){},
-                      ),
-                      const SizedBox(height: 15.0),
-                      usedButton(
-                        paddingSize: 10,
-                        radius: 5,
-                        atEnd: false,
-                        text: 'تسليم',
-                        color: Colors.black38,
-                        context: context,
-                        onPressed:(){},
-                      ),
+                  TabBar(
+                    indicatorColor: theme.primaryColor,
+                    labelStyle: font.copyWith(color: theme.primaryColor,fontSize: 19.0),
+                    unselectedLabelStyle: font.copyWith(color: Colors.grey,fontSize: 16.0),
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    dividerColor: Colors.transparent,
+                    tabs: const [
+                      Tab(text: 'Lesson Test'),
+                      Tab(text: 'Assignment'),
                     ],
                   ),
-                  //تم تسليمه
-                  ListView.builder(
-                    itemBuilder: (context,index)=>buildAssignmentsList(context, index, assignments,isOpen),
-                    itemCount: assignments.length,
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      height: 700,
+                      child: TabBarView(
+                        children: [
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text("Assignment 1",style: font.copyWith(
+                                    color: Theme.of(context).cardColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0),
+                                  ),
+                                  const Spacer(),
+                                  Text("23 نوفمبر 11.59م",style: font.copyWith(
+                                    color: Colors.black38,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13.0),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10.0),
+                              Text("In legal terms, an assignment refers to the transfer of a right or liability from one party to another. It can involve property, financial agreements, or other legal matters",
+                                maxLines: 10,
+                                overflow: TextOverflow.ellipsis,
+                                style: font.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 16.0,),
+                              ),
+                              const SizedBox(height: 20.0),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                      height: 150,
+                                      width: 150,
+                                      child: Image(image: AssetImage('Assets/teacher.png'),fit: BoxFit.cover,)),
+                                ],
+                              ),
+                              const Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: usedButton(
+                                  paddingSize: 10,
+                                  radius: 5,
+                                  atEnd: false,
+                                  text: 'اضافة عمل',
+                                  color: Theme.of(context).cardColor,
+                                  context: context,
+                                  onPressed:(){},
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: usedButton(
+                                  paddingSize: 10,
+                                  radius: 5,
+                                  atEnd: false,
+                                  text: 'تسليم',
+                                  color: Colors.black38,
+                                  context: context,
+                                  onPressed:(){},
+                                ),
+                              ),
+                            ],
+                          ),
+                          //Test
+                          ConditionalBuilder(
+                            condition: false,
+                            builder: (BuildContext context) =>
+                                Column(
+                              children: [
+                                Flexible(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemBuilder: (context,index)=>questionItem(context, index, questions[index]),
+                                    itemCount:questions.length,
+                                  ),
+                                ),
+                                const SizedBox(height: 15.0),
+                                usedButton(
+                                  paddingSize: 10,
+                                  radius: 5,
+                                  atEnd: false,
+                                  text: 'تسليم',
+                                  color: Colors.black38,
+                                  context: context,
+                                  onPressed:(){},
+                                ),
+                              ],
+                            ),
+                            fallback: (BuildContext context) =>
+                                Center(
+                                  child:Text(
+                                    "There is no Quiz's",
+                                    style: font.copyWith(color: theme.primaryColor,fontSize: 19.0),
+                                  ),
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -148,67 +196,94 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
     );
   }
 
-  Widget buildAssignmentsList(
+  Widget questionItem(
       BuildContext context,
-      int index,
-      List<Assignment> assignments,
-      List<bool> isOpen,
-  )
+      int qNumber,
+      Question question,)
   {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: (){
-            setState(() {
-              isOpen[index]=!isOpen[index];
-            });
-          },
-          child: Container(
-            width: screenWidth,
-            height: screenHeight/13,
-            color: Colors.transparent,
-            child: Row(
+    List<bool> answered = List.filled(question.answers.length, false);
+    return Card(
+      color: Colors.white70,
+      shadowColor: Colors.black87,
+      elevation: 10.0,
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          children: [
+            //question
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(isOpen[index]?  Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,size: 45.0,),
-                const Spacer(),
-                Text(assignments[index].name,style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),),
-                const SizedBox(width: 10.0,),
+                CircleAvatar(
+                  radius: 25.0,
+                  backgroundColor: Theme.of(context).cardColor,
+                  child: Text('${qNumber+1}''س',style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+                ),
               ],
             ),
-          ),
+            Text(question.question,
+              textDirection: TextDirection.rtl,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: font.copyWith(
+                  color: Theme.of(context).cardColor,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 18.0),
+            ),
+            const SizedBox(height: 10.0),
+            ConditionalBuilder(
+              condition: question.isMultiChoose,
+              builder: (context)=>Wrap(
+                children: [
+                  chooseItem(context, question.answers[0], answered[0]),
+                  chooseItem(context, question.answers[1], answered[1]),
+                  chooseItem(context, question.answers[2], answered[2]),
+                  chooseItem(context, question.answers[3], answered[3]),
+                ],
+              ),
+              fallback: (context)=>Wrap(
+                children: [
+                  chooseItem(context, question.answers[0], answered[0]),
+                  chooseItem(context, question.answers[1], answered[1]),
+                ],
+              ),
+            ),
+          ],
         ),
-        ConditionalBuilder(
-          condition: isOpen[index],
-          builder:(context)=>Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(assignments[index].details,style: font.copyWith(color: Colors.black38, fontWeight: FontWeight.bold, fontSize: 13.0),),
-            ],
-          ),
-          fallback: (context)=>Container(),
-        ),
-      ],
+      ),
+    );
+  }
+
+  Widget chooseItem(BuildContext context,String answer,bool answered){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 3.0),
+      child: FilterChip(
+          showCheckmark: false,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),),
+          label: Text(answer,style: font.copyWith(color: Colors.white,fontSize: 14.0),),
+          selected: answered,
+          backgroundColor: Colors.grey,
+          selectedColor: Theme.of(context).cardColor,
+          onSelected: (bool select){
+            setState(() {
+              answered = !answered;
+            });
+          }
+      ),
     );
   }
 }
+class Question{
+  late String question;
+  late bool isMultiChoose;
+  late List<String> answers;
+  late int correctAnswer;
 
-class Assignment{
-  late String name;
-  // late DateTime time;
-  late String details;
-  late String other;
-
-  Assignment({
-    required this.name,
-    // required this.time,
-    required this.details,
-    required this.other,
+  Question({
+    required this.question,
+    required this.isMultiChoose,
+    required this.answers,
+    required this.correctAnswer,
   });
 }
-
-List<Assignment> assignments=[
-  Assignment(name: 'A1', details: 'ppppppppppppppppppppppppppp', other: 'other'),
-  Assignment(name: 'A2', details: 'ccccccccccccccccccccccccccc', other: 'other'),
-  Assignment(name: 'A3', details: 'ggggggggggggggggggggggggggg', other: 'other'),
-];

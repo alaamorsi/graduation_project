@@ -1,13 +1,13 @@
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
+import 'package:graduation_project/modules/student/discovery/wish_list.dart';
 import 'package:graduation_project/modules/student/profile/settings.dart';
-import 'package:graduation_project/modules/student/notification/notification.dart';
+import 'package:graduation_project/modules/student/discovery/notification.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class StudentLayout extends StatelessWidget {
   const StudentLayout({super.key});
@@ -24,40 +24,56 @@ class StudentLayout extends StatelessWidget {
             backgroundColor: theme.scaffoldBackgroundColor,
             appBar: studentAppBar(context: context, index: cubit.currentIndex, cubit: cubit, firstName: 'omer'),
             body: cubit.screens[cubit.currentIndex],
-            bottomNavigationBar:CurvedNavigationBar(
-              height: 81.0,
-                index: cubit.currentIndex,
-                items: [
-                  CurvedNavigationBarItem(
-                      child: const Icon(Icons.explore_rounded,color: Colors.white,),
-                      label: 'discovery',
-                      labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
-                  ),
-                  CurvedNavigationBarItem(
-                      child: const Icon(Icons.auto_awesome_mosaic,color: Colors.white,),
-                      label: 'my courses',
-                      labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
-                  ),
-                  CurvedNavigationBarItem(
-                      child: const Icon(Icons.search,color: Colors.white,),
-                      label: 'Search',
-                      labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
-                  ),
-                  CurvedNavigationBarItem(
-                      child: const Icon(Icons.person,color: Colors.white,),
-                      label: 'profile',
-                      labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
-                  ),
+            bottomNavigationBar:Container(
+              padding: const EdgeInsets.only(left: 15,right: 15,bottom: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 15,
+                    color: Colors.black.withOpacity(.3),
+                    offset: const Offset(0, -5),
+                  )
                 ],
-                color: theme.canvasColor,
-                buttonBackgroundColor: theme.canvasColor,
-                backgroundColor: Colors.transparent,
-                animationCurve: Curves.ease,
-                animationDuration: const Duration(milliseconds: 600),
-                onTap: (index) {
-                  cubit.changeBottomNav(index);
-                },
-                letIndexChange: (index) => true,
+              ),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical:10),
+                  child: GNav(
+                    hoverColor: theme.canvasColor,
+                    gap: 3,
+                    iconSize: 25,
+                    padding: const EdgeInsets.all(9),
+                    duration: const Duration(milliseconds: 500),
+                    color: Colors.black.withOpacity(0.3),//the unselected items
+                    tabBackgroundColor: theme.primaryColor.withOpacity(0.2),//the tabbed item
+                    tabBorderRadius: 15,
+                    activeColor: theme.primaryColor,
+                    tabs: const [
+                      GButton(
+                        icon: Icons.home_outlined,
+                        text: 'Home',
+                      ),
+                      GButton(
+                        icon: Icons.dashboard_outlined,
+                        text: 'Courses',
+                      ),
+                      GButton(
+                        icon: Icons.search,
+                        text: 'Search',
+                      ),
+                      GButton(
+                        icon: Icons.person_outline,
+                        text: 'Profile',
+                      ),
+                    ],
+                    selectedIndex: cubit.currentIndex,
+                    onTabChange: (index){
+                      cubit.changeBottomNav(index);
+                      },
+                  ),
+                ),
+              ),
             ),
           );
         },
@@ -82,7 +98,7 @@ class StudentLayout extends StatelessWidget {
             )
         ),
         title: Text('Hello,$firstName!',
-            style: font.copyWith(fontSize: 24.0,color: Theme.of(context).primaryColorDark),
+            style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
         ),
         actions:[
           Container(
@@ -106,7 +122,7 @@ class StudentLayout extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(9.0)),
               ),
               child: IconButton(
-                onPressed: (){},
+                onPressed: (){navigateTo(context, const WishListScreen());},
                 icon: Icon(Icons.favorite,size: 25,color: Theme.of(context).primaryColor),
               ),
             ),
@@ -115,7 +131,7 @@ class StudentLayout extends StatelessWidget {
       );
     } else if(index==1){
       return defaultAppBar(context: context,title: Text(cubit.titles[cubit.currentIndex],
-          style: font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColorDark,),
+          style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
       ),);
     } else if(index==2){
       TextEditingController searchController = TextEditingController();
@@ -173,7 +189,7 @@ class StudentLayout extends StatelessWidget {
             )
         ),
         title: Text(cubit.titles[cubit.currentIndex],
-          style: font.copyWith(fontSize: 24.0,color: Theme.of(context).primaryColorDark),
+          style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
         ),
         actions:[
           Padding(padding: const EdgeInsets.only(right:20.0),
@@ -195,43 +211,38 @@ class StudentLayout extends StatelessWidget {
     }
   }
 }
-// menu_book
-
-//            bottomNavigationBar: BottomNavigationBar(
-//               backgroundColor:theme.canvasColor,
-//               selectedIconTheme: const IconThemeData(
-//                   color: Colors.white,
-//                   size: 35,
-//               ),
-//               unselectedIconTheme: const IconThemeData(
-//                   color: Colors.grey,
-//                   size: 30,
-//               ),
-//               selectedLabelStyle: TextStyle(color: Colors.white,),
-//               items: const [
-//                 BottomNavigationBarItem(
-//                     icon: Icon(Icons.explore_rounded),
-//                     label: 'discovery',
-//                     tooltip: 'discovery',
-//                 ),
-//                 BottomNavigationBarItem(
-//                     icon: Icon(Icons.auto_awesome_mosaic),
-//                     label: 'my courses',
-//                     tooltip: 'my courses',
-//                 ),
-//                 BottomNavigationBarItem(
-//                     icon: Icon(Icons.message),
-//                     label: 'notifications',
-//                     tooltip: 'notifications',
-//                 ),
-//                 BottomNavigationBarItem(
-//                     icon: Icon(Icons.person),
-//                     label: 'profile',
-//                     tooltip: 'profile',
-//                 ),
-//               ],
-//               currentIndex: cubit.currentIndex,
-//               onTap: (index) {
-//                 cubit.changeBottomNav(index);
-//               },
+//            CurvedNavigationBar(
+//               height: 81.0,
+//                 index: cubit.currentIndex,
+//                 items: [
+//                   CurvedNavigationBarItem(
+//                       child: const Icon(Icons.explore_rounded,color: Colors.white,),
+//                       label: 'discovery',
+//                       labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
+//                   ),
+//                   CurvedNavigationBarItem(
+//                       child: const Icon(Icons.auto_awesome_mosaic,color: Colors.white,),
+//                       label: 'my courses',
+//                       labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
+//                   ),
+//                   CurvedNavigationBarItem(
+//                       child: const Icon(Icons.search,color: Colors.white,),
+//                       label: 'Search',
+//                       labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
+//                   ),
+//                   CurvedNavigationBarItem(
+//                       child: const Icon(Icons.person,color: Colors.white,),
+//                       label: 'profile',
+//                       labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
+//                   ),
+//                 ],
+//                 color: theme.canvasColor,
+//                 buttonBackgroundColor: theme.canvasColor,
+//                 backgroundColor: Colors.transparent,
+//                 animationCurve: Curves.ease,
+//                 animationDuration: const Duration(milliseconds: 600),
+//                 onTap: (index) {
+//                   cubit.changeBottomNav(index);
+//                 },
+//                 letIndexChange: (index) => true,
 //             ),

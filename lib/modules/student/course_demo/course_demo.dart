@@ -1,18 +1,21 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
+import 'package:graduation_project/modules/student/course_demo/course_lessons.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/component/test.dart';
 import '../../../shared/component/constant.dart';
 
 class CourseDemo extends StatelessWidget {
-  const CourseDemo({super.key});
+  final Course course;
+  const CourseDemo({super.key,required this.course});
 
   @override
   Widget build(BuildContext context) {
     var cubit = StudentCubit.get(context);
+    var theme =Theme.of(context);
     cubit.fullPaidList(4);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){},
@@ -20,104 +23,209 @@ class CourseDemo extends StatelessWidget {
         return Scaffold(
             appBar:secondAppbar(
               context: context,
-              title: 'تفاصيل الدورة',
-              hasAction: true,
-              actionIcon: IconButton(
-                  onPressed: (){
-              cubit.checkFavorite();
-            },
-                  icon: cubit.isFavorite? const Icon( Icons.favorite,color: Colors.red,) : const Icon(Icons.favorite_border)),),
+              title: "${course.subject} course",
+            ),
             body: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Flexible(
-                    child: ConditionalBuilder(
-                        condition: true,
-                        builder: (context)=>ListView.separated(
-                            itemBuilder: (context , index)=>buildDemoItem(context,index,cubit.isPaid[index]),
-                            separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 5.0,),
-                            itemCount: 4,
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${course.subject} course",
+                      style: font.copyWith(fontSize: 22.0,color: theme.primaryColorDark),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text("Instructor : ", style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark),),
+                        Text(course.teacherName,style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
                         ),
-                        fallback: (context)=>const Center(child: CircularProgressIndicator()),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        //   child: Container(
+                        //     width: screenHeight/10,
+                        //     height: screenHeight/10,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(15),
+                        //       image: DecorationImage(
+                        //         image:  NetworkImage(course.teacherImage),
+                        //         fit: BoxFit.cover,),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 3.0,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: usedButton(
-                      atEnd: false,
-                      text: 'حجز الآن',
-                      color: Theme.of(context).cardColor,
-                      context: context,
-                      onPressed:(){cubit.checkPayment(4);},
+                    const SizedBox(height: 10),
+                    Text("for level ${course.eduLevel} ",
+                      style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark.withOpacity(.7)),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('${course.videosNumber} Lessons', style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
+                            const Spacer(),
+                            TextButton(onPressed: () {navigateTo(context, CourseLessons(course: course));},
+                              child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
+                    ),
+                    const SizedBox(height: 10,),
+                    InkWell(
+                      onTap: (){navigateTo(context, const ViewVideoScreen());},
+                      child: Container(
+                        width: screenWidth,
+                        height: screenHeight/8,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.all(Radius.circular(23.0),),
+                          border: Border.all(color: Colors.grey,width: .1),
+                        ),
+                        child:Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: [
+                              //Teacher image
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: Container(
+                                  width: screenHeight/10,
+                                  height: screenHeight/10,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image:  NetworkImage(course.teacherImage),
+                                      fit: BoxFit.cover,),
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text("1. introduction ",
+                                      style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5,),
+                                  Expanded(
+                                    child: Text(
+                                      '20 mints',
+                                      style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Spacer(),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child:
+                                    Icon( Icons.ondemand_video,color: theme.primaryColor,size: 30,),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 15,),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('${course.videosNumber} Lessons', style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
+                            const Spacer(),
+                            TextButton(onPressed: () {navigateTo(context, CourseLessons(course: course));},
+                              child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
+                    ),
+                    const SizedBox(height: 10,),
+                    InkWell(
+                      onTap: (){navigateTo(context, const ViewVideoScreen());},
+                      child: Container(
+                        width: screenWidth,
+                        height: screenHeight/8,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.all(Radius.circular(23.0),),
+                          border: Border.all(color: Colors.grey,width: .1),
+                        ),
+                        child:Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: [
+                              //Teacher image
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: Container(
+                                  width: screenHeight/10,
+                                  height: screenHeight/10,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image:  NetworkImage(course.teacherImage),
+                                      fit: BoxFit.cover,),
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text("1. introduction ",
+                                      style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5,),
+                                  Expanded(
+                                    child: Text(
+                                      '20 mints',
+                                      style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Spacer(),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child:
+                                    Icon( Icons.ondemand_video,color: theme.primaryColor,size: 30,),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 15,),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: usedButton(
+                        atEnd: false,
+                        text: "Enroll - EP${course.price}",
+                        color: theme.cardColor,
+                        radius: 50,
+                        paddingSize: 10,
+                        context: context,
+                        onPressed:(){cubit.checkPayment(4);},
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
         );
       },
-    );
-  }
-
-  Widget buildDemoItem(BuildContext context,int index,bool paid)
-  {
-    var cubit = StudentCubit.get(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: (){
-              cubit.checkViewDemoList(index);
-            },
-            child: Container(
-              width: screenWidth,
-              height: screenHeight/13,
-              color: Colors.transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Icon(cubit.demoList[index]?  Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,size: 45.0,),
-                  const Spacer(),
-                  Text('مقدمة عن المحتوى',style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),),
-                  const SizedBox(width: 10.0,),
-                  CircleAvatar(
-                    backgroundColor: Theme.of(context).cardColor,
-                    child: Text('${index+1}',style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          ConditionalBuilder(
-            condition: cubit.demoList[index],
-            builder:(context)=> ListView.separated(
-              shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index)=>Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:11.0),
-                  child: TextButton(
-                    onPressed: paid?(){
-                      navigateTo(context, const ViewVideoScreen());
-                    } : null,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(paid? Icons.ondemand_video : Icons.lock_rounded,color: Theme.of(context).cardColor,),
-                        const Spacer(),
-                        Text('${index+1}',style: Theme.of(context).textTheme.titleSmall,)
-                      ],
-                    ),
-                  ),
-                ),
-                separatorBuilder: (context, index)=>const SizedBox(height: 3.0,),
-                itemCount: 5),
-            fallback: (context)=>Container(),
-          ),
-        ],
-      ),
     );
   }
 }

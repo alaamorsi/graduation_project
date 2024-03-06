@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:graduation_project/modules/student/paid_course/class_material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'constant.dart';
@@ -279,9 +278,7 @@ Widget buildDiscoveryItem({
   return Padding(
     padding: const EdgeInsetsDirectional.all(10.0),
     child: InkWell(
-      onTap: isReserved?
-          (){navigateTo(context, const ClassMaterial());}:
-          (){navigateTo(context, const CourseDemo());},
+      onTap: (){navigateTo(context, const ClassMaterial());},
       child: AnimatedContainer(
         width: screenWidth *5/6,
         height: screenHeight/3,
@@ -511,9 +508,7 @@ Widget discoveryItem({
   return Padding(
     padding: const EdgeInsetsDirectional.all(10.0),
     child: InkWell(
-      onTap: isReserved?
-          (){navigateTo(context, const ClassMaterial());}:
-          (){navigateTo(context, const CourseDemo());},
+      onTap:(){navigateTo(context, const ClassMaterial());},
       child: Container(
         width: screenWidth,
         height: screenHeight/4+50,
@@ -610,124 +605,4 @@ Widget item(IconData icon,String text){
   );
 }
 
-Widget courseItem({
-  required BuildContext context,
-  required String imageUrl,
-  required String title,
-  required String subTitle,
-  required Color cardColor,
-  required int lessonsNum,
-  required double rate,
-  required int timer,
-  required double price,
-  bool isReserved =false,
-  bool isFavourite = false,
-}) {
-  return Padding(
-    padding: const EdgeInsets.all(9.0),
-    child: InkWell(
-      onTap: isReserved?
-          (){navigateTo(context, const ClassMaterial());}:
-          (){navigateTo(context, const CourseDemo());},
-      child: Container(
-        width: screenWidth,
-        height: screenHeight/7,
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: const BorderRadius.all(Radius.circular(23.0),),
-        ),
-        child:Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            children: [
-              //Teacher image
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Container(
-                  width: screenHeight/10,
-                  height: screenHeight/10,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image:  NetworkImage(imageUrl),
-                      fit: BoxFit.cover,),
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Text(
-                          title,
-                          style: font.copyWith(fontSize: 13.0,color: Colors.white),
-                        ),
-                        const SizedBox(width: 10.0),
-                        Text(
-                          subTitle,
-                          style: font.copyWith(fontSize: 13.0,color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      '$lessonsNum lessons',
-                      style: font.copyWith(fontSize: 12.0,color: Colors.white),
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.star_rate_rounded,
-                          size: 25.0,
-                          color: Colors.yellowAccent,
-                        ),
-                        Text(
-                          '$rate',
-                          style: font.copyWith(fontSize: 12.0,color: Colors.grey),
-                        ),
-                        const SizedBox(width: 10.0),
-                        const Icon(
-                          Icons.access_time,
-                          size: 25.0,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(width: 3.0),
-                        Text(
-                          '$timer',
-                          style: font.copyWith(fontSize: 12.0,color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                ],
-              ),
-              const Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {  },
-                    icon: isFavourite? Icon( Icons.favorite,color: cardColor,) : const Icon(Icons.favorite_border,color: Colors.grey,)
-                  ),
-                  Text(
-                    'EP $price',
-                    style: font.copyWith(fontSize: 14.0,color: Colors.white),
-                  ),
-                  const SizedBox(height: 15,),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-}
 

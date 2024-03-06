@@ -5,17 +5,13 @@ import 'package:graduation_project/modules/student/discovery/discovery_category_
 import 'package:graduation_project/modules/student/paid_course/class_material.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
+import 'package:hexcolor/hexcolor.dart';
 import '../../../shared/component/constant.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final List<String> categories = [
@@ -47,10 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(categories[1], style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w600),),
+                      Text("New courses", style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
                       const Spacer(),
                       TextButton(onPressed: () {navigateTo(context, CategoryList(pageName: categories[0]));},
-                        child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.bold)),)]),
+                        child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                 ),
                 CarouselSlider(
                   items:slides.map((e) => slideItem(
@@ -70,18 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     autoPlayAnimationDuration: const Duration(seconds: 1),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('Courses', style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w600),),
-                        const Spacer(),
-                        TextButton(onPressed: () {navigateTo(context, CategoryList(pageName: categories[0]));},
-                          child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.bold)),)
-                      ]
-                  ),
-                ),
+                newDivider(),
                 DefaultTabController(
                   length: categories.length,
                   child: Column(
@@ -105,14 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemCount: categories.length,
                                 itemBuilder: (context ,index)=> courseItem(
                                     context: context,
-                                    imageUrl: courses[index].teacherImage,
-                                    title: courses[index].subject,
-                                    subTitle: courses[index].eduLevel,
-                                    cardColor: theme.cardColor,
-                                    rate: 4.5,
-                                    timer: courses[index].year,
-                                    price: 450,
-                                    lessonsNum: courses[index].videosNumber
+                                    course: courses[index],
+                                    color: theme.cardColor,
                                 )
                             )).toList()
                         ),
@@ -135,14 +114,11 @@ Widget slideItem({
   required String title,
   required String subTitle,
   required Color cardColor,
-  bool isReserved =false,
 }) {
   return Padding(
     padding: const EdgeInsets.all(9.0),
     child: InkWell(
-      onTap: isReserved?
-          (){navigateTo(context, const ClassMaterial());}:
-          (){navigateTo(context, const CourseDemo());},
+      onTap:(){navigateTo(context, const ClassMaterial());},
       child: Container(
         width: screenWidth,
         height: screenHeight/4,
@@ -171,14 +147,113 @@ Widget slideItem({
               ),
               Row(
                 children: [
-                  const SizedBox(width: 30.0),
+                  const SizedBox(width: 15.0),
                   Container(
                       padding: const EdgeInsets.all(9.0),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                        color: Colors.orange,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                        color: Colors.grey.withOpacity(.7),
                       ), child: Text("See Class",style: font.copyWith(fontSize: 16.0,color: Colors.white),)
                   ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+
+Widget courseItem({
+  required BuildContext context,
+  required Course course,
+  required Color color,
+  bool isReserved =false,
+  bool isFavourite = false,
+}) {
+  return Padding(
+    padding: const EdgeInsets.all(9.0),
+    child: InkWell(
+      onTap: (){navigateTo(context, CourseDemo(course: course,));},
+      child: Container(
+        width: screenWidth,
+        height: screenHeight/7,
+        decoration: BoxDecoration(
+          color: color.withOpacity(.1),
+          borderRadius: const BorderRadius.all(Radius.circular(23.0),),
+        ),
+        child:Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              //Teacher image
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Container(
+                  width: screenHeight/10,
+                  height: screenHeight/10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image:  NetworkImage(course.teacherImage),
+                      fit: BoxFit.cover,),
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      course.subject,
+                      style: font.copyWith(fontSize: 16.0,color: color),
+                    ),
+                  ),
+                  const SizedBox(height: 5,),
+                  Expanded(
+                    child: Text(
+                      '${course.videosNumber} lesson',
+                      style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.star_rate_rounded,
+                          size: 20.0,
+                          color: HexColor("FDBD01"),
+                        ),
+                        Text(
+                          '${course.rate}',
+                          style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                ],
+              ),
+              const Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: IconButton(
+                        onPressed: () {isFavourite=!isFavourite;},
+                        icon: isFavourite? const Icon(Icons.favorite) : const Icon(Icons.favorite_border)
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'EP${course.price}',
+                      style: font.copyWith(fontSize: 14.0,color: color),
+                    ),
+                  ),
+                  const SizedBox(height: 15,),
                 ],
               ),
             ],

@@ -22,9 +22,9 @@ class ProfileScreen extends StatelessWidget {
                   alignment: AlignmentDirectional.bottomEnd,
                   children: [
                     CircleAvatar(
-                      backgroundColor: theme.canvasColor,
+                      backgroundColor: theme.canvasColor.withOpacity(.3),
                       radius:50.0,
-                      backgroundImage: const AssetImage("Assets/avatar1.png",),
+                      backgroundImage: const AssetImage("Assets/profile_icon_S.png",),
                     ),
                     InkWell(
                       onTap: (){navigateTo(context,const EditProfileScreen());},
