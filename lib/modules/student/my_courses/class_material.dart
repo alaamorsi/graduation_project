@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
-import 'package:graduation_project/modules/student/paid_course/assignments.dart';
-import 'package:graduation_project/modules/student/paid_course/video_and_chat.dart';
+import 'package:graduation_project/modules/student/my_courses/assignments.dart';
+import 'package:graduation_project/modules/student/my_courses/video_and_chat.dart';
 import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/component/test.dart';
 import '../../../shared/component/constant.dart';
 
 class ClassMaterial extends StatelessWidget {
-  const ClassMaterial({super.key});
+  final Course course;
+  const ClassMaterial({super.key,required this.course});
 
   @override
   Widget build(BuildContext context) {

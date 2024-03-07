@@ -17,9 +17,9 @@ class CourseDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     var cubit = StudentCubit.get(context);
     var theme =Theme.of(context);
-    cubit.fullPaidList(4);
     return BlocConsumer<StudentCubit,StudentStates>(
-      listener: (context , state ){},
+      listener: (context , state ){
+      },
       builder: (context , state ){
         return Scaffold(
             appBar:secondAppbar(
@@ -137,7 +137,7 @@ class CourseDemo extends StatelessWidget {
                           height: screenHeight/8,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: const BorderRadius.all(Radius.circular(23.0),),
+                            borderRadius: const BorderRadius.all(Radius.circular(15.0),),
                             border: Border.all(color: Colors.grey,width: .1),
                           ),
                           child:Padding(
@@ -177,12 +177,13 @@ class CourseDemo extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        course.preview[0].comment,
+                                        "${course.preview[0].comment}!",
                                         style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
                                       ),
                                     ),
                                   ],
                                 ),
+                                const Spacer(),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

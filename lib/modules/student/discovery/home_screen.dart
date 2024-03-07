@@ -1,11 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:graduation_project/modules/student/discovery/discovery_category_list.dart';
-import 'package:graduation_project/modules/student/paid_course/class_material.dart';
+import 'package:graduation_project/modules/student/my_courses/class_material.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
-import 'package:hexcolor/hexcolor.dart';
 import '../../../shared/component/constant.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -126,7 +124,7 @@ Widget slideItem({
   return Padding(
     padding: const EdgeInsets.all(9.0),
     child: InkWell(
-      onTap:(){navigateTo(context, const ClassMaterial());},
+      onTap:(){},
       child: Container(
         width: screenWidth,
         height: screenHeight/4,
@@ -172,104 +170,3 @@ Widget slideItem({
     ),
   );
 }
-
-
-Widget courseItem({
-  required BuildContext context,
-  required Course course,
-  required Color color,
-  required int rate,
-  bool isReserved =false,
-  bool isFavourite = false,
-}) {
-  return Padding(
-    padding: const EdgeInsets.all(9.0),
-    child: InkWell(
-      onTap: (){navigateTo(context, CourseDemo(course: course,));},
-      child: Container(
-        width: screenWidth,
-        height: screenHeight/7,
-        decoration: BoxDecoration(
-          color: color.withOpacity(.1),
-          borderRadius: const BorderRadius.all(Radius.circular(23.0),),
-        ),
-        child:Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            children: [
-              //Teacher image
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Container(
-                  width: screenHeight/10,
-                  height: screenHeight/10,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image:  NetworkImage(course.teacherImage),
-                      fit: BoxFit.cover,),
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      course.subject,
-                      style: font.copyWith(fontSize: 16.0,color: color),
-                    ),
-                  ),
-                  const SizedBox(height: 5,),
-                  Expanded(
-                    child: Text(
-                      '${course.videosNumber} lesson',
-                      style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.star_rate_rounded,
-                          size: 20.0,
-                          color: HexColor("FDBD01"),
-                        ),
-                        Text('${rate.toDouble()}',
-                          style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                ],
-              ),
-              const Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: IconButton(
-                        onPressed: () {isFavourite=!isFavourite;},
-                        icon: isFavourite? const Icon(Icons.favorite) : const Icon(Icons.favorite_border)
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'EP${course.price}',
-                      style: font.copyWith(fontSize: 14.0,color: color),
-                    ),
-                  ),
-                  const SizedBox(height: 15,),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-//List.generate(categories.length, (index) => null);

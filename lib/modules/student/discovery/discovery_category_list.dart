@@ -15,7 +15,7 @@ class CategoryList extends StatelessWidget {
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){},
       builder: (context , state ){
-        Color cardColor= Theme.of(context).cardColor;
+        var theme= Theme.of(context);
         return Scaffold(
           body: CustomScrollView(
             physics: const BouncingScrollPhysics(),
@@ -43,16 +43,10 @@ class CategoryList extends StatelessWidget {
                 builder: (context)=>SliverList.builder(
                   itemBuilder: (BuildContext context, int index)=>Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: buildDiscoveryItem(
-                      context: context,
-                      courseTeacherImage: courses[index].teacherImage,
-                      courseTeacherName: courses[index].teacherName,
-                      courseSubject: courses[index].subject,
-                      courseEduLevel: courses[index].eduLevel,
-                      courseTerm: courses[index].term,
-                      courseYear: courses[index].year,
-                      courseVideosNumber: courses[index].videosNumber,
-                      cardColor: cardColor,
+                    child: paidCourse(
+                        context: context,
+                        course: courses[index],
+                        color: theme.cardColor,
                     ),
                   ),
                   itemCount: courses.length,

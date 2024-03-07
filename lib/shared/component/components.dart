@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graduation_project/modules/student/paid_course/class_material.dart';
+import 'package:graduation_project/modules/student/my_courses/class_material.dart';
+import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
+import 'package:graduation_project/shared/component/test.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'constant.dart';
 /////////////////////////////////////////////////////
@@ -245,7 +247,6 @@ enum ToastStates { success, error, warning }
 
 Color chooseToastColor(ToastStates state) {
   Color color;
-
   switch (state) {
     case ToastStates.success:
       color = Colors.green;
@@ -257,328 +258,181 @@ Color chooseToastColor(ToastStates state) {
       color = Colors.amber;
       break;
   }
-
   return color;
 }
 
 // Discovery item
-Widget buildDiscoveryItem({
+Widget courseItem({
   required BuildContext context,
-  required String courseTeacherName,
-  required String courseTeacherImage,
-  required String courseSubject,
-  required String courseEduLevel,
-  required int courseTerm,
-  required int courseYear,
-  required int courseVideosNumber,
-  required Color cardColor,
+  required Course course,
+  required Color color,
+  required int rate,
   bool isReserved =false,
+  bool isFavourite = false,
 }) {
-  // bool hover = false;
   return Padding(
-    padding: const EdgeInsetsDirectional.all(10.0),
+    padding: const EdgeInsets.all(9.0),
     child: InkWell(
-      onTap: (){navigateTo(context, const ClassMaterial());},
-      child: AnimatedContainer(
-        width: screenWidth *5/6,
-        height: screenHeight/3,
-        color:Colors.grey.withOpacity(0.0),
-        duration: const Duration(seconds: 1),
-        child: Stack(
-          alignment: AlignmentDirectional.bottomStart,
-          children: [
-            //for the gray backLayer
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0,right: 10.0),
-              child: Container(
-                width: screenWidth *4/5,
-                decoration:  BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(21.0)),
-                  color: cardColor,
+      onTap: (){navigateTo(context, CourseDemo(course: course,));},
+      child: Container(
+        width: screenWidth,
+        height: screenHeight/7,
+        decoration: BoxDecoration(
+          color: color.withOpacity(.1),
+          borderRadius: const BorderRadius.all(Radius.circular(23.0),),
+        ),
+        child:Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              //Teacher image
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Container(
+                  width: screenHeight/10,
+                  height: screenHeight/10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image:  NetworkImage(course.teacherImage),
+                      fit: BoxFit.cover,),
+                  ),
                 ),
               ),
-            ),
-            //for the first one
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0,bottom: 20.0),
-              child: Container(
-                width: screenWidth *4/5,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(21.0)),
-                  image: DecorationImage(
-                      image: AssetImage("Assets/cardBack1.png"),
-                      fit: BoxFit.fill
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      course.subject,
+                      style: font.copyWith(fontSize: 16.0,color: color),
+                    ),
                   ),
-                  // color: Colors.grey,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(13.0,),
-                  child: Row(
-                    children: [
-                      //teacher Image
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 81.0,
-                            height: 81.0,
-                            decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(35.0),
-                                  bottomRight: Radius.circular(35.0),
-                                  topRight: Radius.circular(3.0),
-                                  bottomLeft: Radius.circular(3.0),
-                                ),
-                                color: Colors.white
-                            ),
-                            child: Center(
-                              child: Container(
-                                width: 79.0,
-                                height: 79.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(35.0),
-                                    bottomRight: Radius.circular(35.0),
-                                    topRight: Radius.circular(3.0),
-                                    bottomLeft: Radius.circular(3.0),
-                                  ),
-                                  image: DecorationImage(
-                                    image:  NetworkImage(courseTeacherImage),
-                                    fit: BoxFit.fill,),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20.0),
-                        ],
-                      ),
-                      const SizedBox(width: 5.0,),
-                      //teacher and course data
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            //teacher name
-                            Expanded(
-                              child: Text(
-                                courseTeacherName,
-                                style: font.copyWith(
-                                    fontSize: 18.0, fontWeight: FontWeight.bold,color: Colors.white),
-                                overflow: TextOverflow.ellipsis,),),
-                            const SizedBox(height: 10.0,),
-                            //subject and eduLevel
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                              courseEduLevel,
-                                              style: font.copyWith(fontSize: 12.0,color: Colors.white),
-                                              textAlign: TextAlign.end,
-                                            )),
-                                        const SizedBox(width: 5.0),
-                                        const Icon(
-                                          Icons.school,
-                                          size: 20.0,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5.0,),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                              courseSubject,
-                                              style: font.copyWith(fontSize: 12.0,color: Colors.white),
-                                              textAlign: TextAlign.end,
-                                            )),
-                                        const SizedBox(width: 5.0,),
-                                        const Icon(
-                                          Icons.book,
-                                          size: 20.0,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //term and year of course
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                              '$courseYear',
-                                              style: font.copyWith(fontSize: 12.0,color: Colors.white),
-                                              textAlign: TextAlign.end,
-                                            )),
-                                        const SizedBox(width: 5.0,),
-                                        const Icon(
-                                          Icons.hourglass_bottom,
-                                          size: 20.0,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5.0,),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                              '$courseTerm',
-                                              style: font.copyWith(fontSize: 12.0,color: Colors.white),
-                                              textAlign: TextAlign.end,
-                                            )),
-                                        const SizedBox(width: 5.0,),
-                                        const Icon(
-                                          Icons.layers_sharp,
-                                          size: 20.0,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //number of videos
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    '$courseVideosNumber',
-                                    style: font.copyWith(fontSize: 12.0,color: Colors.white),
-                                  ),
-                                  const SizedBox(width: 5.0,),
-                                  const Icon(
-                                    Icons.play_circle,
-                                    size: 20.0,
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                  const SizedBox(height: 5,),
+                  Expanded(
+                    child: Text(
+                      '${course.videosNumber} lesson',
+                      style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.star_rate_rounded,
+                          size: 20.0,
+                          color: HexColor("FDBD01"),
                         ),
-                      ),
-                    ],
+                        Text('${rate.toDouble()}',
+                          style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  const Spacer(),
+                ],
               ),
-            ),
-          ],
+              const Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: IconButton(
+                        onPressed: () {isFavourite=!isFavourite;},
+                        icon: isFavourite? const Icon(Icons.favorite) : const Icon(Icons.favorite_border)
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'EP${course.price}',
+                      style: font.copyWith(fontSize: 14.0,color: color),
+                    ),
+                  ),
+                  const SizedBox(height: 15,),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     ),
-  );}
+  );
+}
 
-// Discovery item
-Widget discoveryItem({
+// paid course item
+Widget paidCourse({
   required BuildContext context,
-  required String courseTeacherName,
-  required String courseTeacherImage,
-  required String courseSubject,
-  required String courseEduLevel,
-  required int courseTerm,
-  required int courseYear,
-  required int courseVideosNumber,
-  required Color cardColor,
+  required Course course,
+  required Color color,
   bool isReserved =false,
+  bool isFavourite = false,
 }) {
   return Padding(
-    padding: const EdgeInsetsDirectional.all(10.0),
+    padding: const EdgeInsets.all(9.0),
     child: InkWell(
-      onTap:(){navigateTo(context, const ClassMaterial());},
+      onTap: (){navigateTo(context, ClassMaterial(course: course,));},
       child: Container(
         width: screenWidth,
-        height: screenHeight/4+50,
+        height: screenHeight/7,
         decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(23.0)),
-          color: cardColor,
+          color: color.withOpacity(.1),
+          borderRadius: const BorderRadius.all(Radius.circular(23.0),),
         ),
-        child:Stack(
-          alignment: AlignmentDirectional.topEnd,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Spacer(),
-                      //teacher name
-                      Expanded(
-                        child: Text(
-                          courseTeacherName,
-                          style: font.copyWith(
-                              fontSize: 18.0, fontWeight: FontWeight.bold,color: Colors.white),
-                          overflow: TextOverflow.ellipsis,),
-                      ),
-                      item(Icons.school, courseEduLevel),
-                      item(Icons.book, courseSubject),
-                      item(Icons.hourglass_bottom, '$courseYear'),
-                      item(Icons.layers_sharp, '$courseTerm term'),
-                      item(Icons.video_collection, '$courseVideosNumber video'),
-                    ],
+        child:Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              //Teacher image
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Container(
+                  width: screenHeight/10,
+                  height: screenHeight/10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image:  NetworkImage(course.teacherImage),
+                      fit: BoxFit.cover,),
                   ),
-                  const Spacer(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Spacer(),
-                      Container(
-                        height:110,
-                        width: 110,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-                          color: Colors.transparent,
-                          image: DecorationImage(
-                              image: NetworkImage(courseTeacherImage),
-                              fit: BoxFit.cover),
-                          ),
-                        ),
-                      const SizedBox(height: 15,),
-                      Container(
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                          color: Colors.orange,
-                        ), child: const Text("Check Now")
-                      ),
-                    ],
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    course.subject,
+                    style: font.copyWith(fontSize: 18.0,color: color),
+                  ),
+                  const SizedBox(height: 5,),
+                  Text(
+                    '${course.videosNumber} lesson',
+                    style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
                   ),
                 ],
               ),
-            ),
-            Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                const Icon(Icons.sell,color: Colors.orange,size: 66.0,),
-                Text("200 EP",style: font.copyWith(fontSize: 12.0,color: Theme.of(context).primaryColorLight,),)
-              ],
-            )
-          ],
+              const Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: screenHeight/10,
+                    height: screenHeight/10,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(color: color,width: 5)
+                    ),
+                    child: Center(
+                        child: Text("25%",
+                          style: font.copyWith(fontSize: 16.0,color: color),
+                        ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     ),

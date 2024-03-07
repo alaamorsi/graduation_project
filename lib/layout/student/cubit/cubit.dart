@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
-import 'package:graduation_project/modules/search_screen.dart';
+import 'package:graduation_project/modules/student/search/search_screen.dart';
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
-import 'package:graduation_project/modules/student/reserved/reserved_screen.dart';
+import '../../../modules/student/my_courses/reserved_screen.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
   StudentCubit() : super(StudentInitialStates());
@@ -62,7 +62,8 @@ class StudentCubit extends Cubit<StudentStates> {
   bool startSearching = false;
   void showSearchFilter(context) async
   {
-    final List<String> results = await showDialog(
+    final List<String> results = await showModalBottomSheet(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         context: context,
         builder: (BuildContext context){
           return const MultiSelect();

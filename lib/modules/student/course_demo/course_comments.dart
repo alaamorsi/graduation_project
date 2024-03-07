@@ -83,7 +83,7 @@ class CourseComments extends StatelessWidget {
       height: screenHeight/8,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.all(Radius.circular(23.0),),
+        borderRadius: const BorderRadius.all(Radius.circular(15.0),),
         border: Border.all(color: Colors.grey,width: .1),
       ),
       child:Padding(
@@ -91,7 +91,7 @@ class CourseComments extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 7.0),
+              padding: const EdgeInsets.only(right: 7.0),
               child: Container(
                 width: 55,
                 height: 55,
@@ -123,7 +123,7 @@ class CourseComments extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    course.preview[index].comment,
+                    '${course.preview[index].comment}!',
                     style: font.copyWith(fontSize: 14.0,color: Colors.black.withOpacity(.7)),
                   ),
                 ),
