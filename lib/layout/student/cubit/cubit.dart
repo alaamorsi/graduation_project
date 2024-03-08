@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
+import 'package:graduation_project/models/login_and_user_data_model.dart';
+import 'package:graduation_project/modules/student/paymob_manager/paymob_manager.dart';
 import 'package:graduation_project/modules/student/search/search_screen.dart';
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
 import 'package:graduation_project/shared/component/test.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
@@ -85,4 +91,41 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StartSearchState());
     print(results);
   }
+  Future<void> payManager(int coursePrice) async{
+    emit(PaymentManagerLoadingState());
+    PaymobManager().getPaymentKey(
+        coursePrice,"EGP"
+    ).then((String paymentKey) {
+      launchUrl(
+        Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
+      );
+      emit(PaymentManagerSuccessState());
+    }).catchError((error){
+      emit(PaymentManagerErrorState(error));
+      print(error.toString());
+    });
+
+  }
+
+  File? profileImage;
+  var picker = ImagePicker();
+  Future<void> getProfileImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      profileImage = File(pickedFile.path);
+      emit(ProfileImagePickedSuccessState());
+    } else {
+      print('No image selected.');
+      emit(ProfileImagePickedErrorState());
+    }
+  }
+// Get User Data
+  LoginModel? model;
+  void getUserData() {
+    emit(GetUserDataLoadingState());
+
+    emit(GetUserDataSuccessState());
+  }
+
+
 }

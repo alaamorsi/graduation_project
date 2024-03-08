@@ -120,7 +120,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                                   SizedBox(
                                       height: 150,
                                       width: 150,
-                                      child: Image(image: AssetImage('Assets/teacher.png'),fit: BoxFit.cover,)),
+                                      child: Image(image: AssetImage('Assets/fading.jpg'),fit: BoxFit.cover,)),
                                 ],
                               ),
                               const Spacer(),

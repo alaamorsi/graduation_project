@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/models/login_model.dart';
+import 'package:graduation_project/models/login_and_user_data_model.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
@@ -55,13 +55,13 @@ class LoginCubit extends Cubit<LoginStates> {
           String decodedString = utf8.decode(base64.decode(paddedPayload));
           Map<String, dynamic> decodedMap = json.decode(decodedString);
           userData = UserData.fromJson(decodedMap);
-          CacheHelper.saveData(key: 'profilePicture', value: loginModel.profilePicture);
           CacheHelper.saveData(key: 'jwt', value: loginModel.jwt);
           CacheHelper.saveData(key: 'role', value: userData.role.toLowerCase());
-          print(userData.firstName);
-          print(userData.lastName);
-          print(userData.email);
-          print(userData.role);
+          CacheHelper.saveData(key: 'firstName', value: userData.firstName);
+          CacheHelper.saveData(key: 'lastName', value: userData.lastName);
+          CacheHelper.saveData(key: 'email', value: userData.email);
+          CacheHelper.saveData(key: 'biography', value: loginModel.biography);
+          CacheHelper.saveData(key: 'profilePicture', value: loginModel.profilePicture);
           emit(LoginSuccessState());
         } else if(!loginModel.emailConfirmed){
           emit(LoginNotConfirmedState());

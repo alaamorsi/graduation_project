@@ -66,6 +66,11 @@ dependencies:
 #  appinio_video_player:
   video_player: 2.8.2
   flick_video_player: ^0.7.0
+#  flutter_stripe: ^9.3.0
+  webview_flutter: ^2.0.6
+  url_launcher: ^6.1.14
+
+
 
 
 

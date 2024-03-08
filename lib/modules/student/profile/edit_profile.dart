@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import '../../../layout/student/cubit/cubit.dart';
 import '../../../layout/student/cubit/states.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -18,32 +16,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController  statusController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context,state) {},
       builder:(context,state){
         var theme = Theme.of(context);
-        File? imageFile;
-        imageFromGallery() async {
-          final getImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-          setState(() {
-            if(getImage != null){
-              imageFile = File(getImage.path);
-            }
-          });
-        }
-
-        imageFromCamera() async {
-          final getImage = await ImagePicker().pickImage(source: ImageSource.camera);
-          setState(() {
-            if(getImage != null){
-              imageFile = File(getImage.path);
-            }
-          });
-        }
+        var cubit = StudentCubit.get(context);
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: secondAppbar(context: context, title: 'edit profile'),
@@ -85,9 +64,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           width: 120.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: imageFile != null?
-                                FileImage(imageFile!):
-                                const AssetImage('Assets/teacher.png') as ImageProvider ,fit: BoxFit.cover,
+                                image: cubit.profileImage != null?
+                                FileImage(cubit.profileImage!):
+                                const AssetImage('Assets/profile_icon_S.png') as ImageProvider ,fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.circular(15.0),
                           ),
@@ -96,7 +75,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  imageFromGallery();
+                                  cubit.getProfileImage();
                                 },
                                 icon: CircleAvatar(
                                   backgroundColor: theme.cardColor,

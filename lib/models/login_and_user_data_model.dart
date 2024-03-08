@@ -7,6 +7,7 @@ class LoginModel
   late String? expirationOfRefreshToken;
   late bool success;
   late bool emailConfirmed;
+  late String? biography;
 
   LoginModel.fromJson(Map<String, dynamic> json)
   {
@@ -17,9 +18,9 @@ class LoginModel
     expirationOfRefreshToken = json['expirationOfRefreshToken'];
     success = json['success'];
     emailConfirmed = json['emailConfirmed'];
+    biography = json['biography'];
   }
 }
-
 class UserData
 {
   late String firstName;

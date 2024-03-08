@@ -220,12 +220,15 @@ class CourseDemo extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: usedButton(
                       atEnd: false,
+                      isLoading: state is PaymentManagerLoadingState,
                       text: "Enroll - EP${course.price}",
                       color: theme.cardColor,
                       radius: 30,
                       paddingSize: 10,
                       context: context,
-                      onPressed:(){cubit.checkPayment(4);},
+                      onPressed:(){
+                        cubit.payManager(course.price);
+                        },
                     ),
                   ),
                 ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/models/login_model.dart';
+import 'package:graduation_project/models/login_and_user_data_model.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
