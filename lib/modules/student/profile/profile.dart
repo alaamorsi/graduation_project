@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
                         CircleAvatar(
                           backgroundColor: theme.canvasColor.withOpacity(.3),
                           radius:50.0,
-                          backgroundImage: CacheHelper.getData(key: 'profilePicture')!=null? NetworkImage(CacheHelper.getData(key: 'profilePicture')) as ImageProvider<Object> :  AssetImage("Assets/profile_icon_S.png",),
+                          backgroundImage: CacheHelper.getData(key: 'profilePicture')!=null? NetworkImage(CacheHelper.getData(key: 'profilePicture')) as ImageProvider<Object> :  const AssetImage("Assets/profile_icon_S.png",),
                         ),
                         InkWell(
                           onTap: (){navigateTo(context,const EditProfileScreen());},
@@ -86,46 +86,24 @@ class ProfileScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title,style: const TextStyle(fontSize: 13.0,color: Colors.grey),),
-        TextFormField(
-          readOnly: true,
-          textAlign: TextAlign.start,
-          decoration:InputDecoration(
-            filled: true,
-            label: Text(data,style:  TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold,color: theme.primaryColor),),
-            fillColor: theme.primaryColorLight.withOpacity(.7),
-            suffixIcon:noIcon?null:Icon(icon,size: 30,color: theme.primaryColor,),
-            enabledBorder:OutlineInputBorder(
+        Text(title,style: font.copyWith(fontSize: 13.0,color: Colors.grey),),
+        Card(
+          child: ListTile(
+            leading: Text(data,
+              style: font.copyWith(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
+            ),
+            trailing:noIcon?null:Icon(icon,size: 30,color: theme.primaryColor,),
+            shape:OutlineInputBorder(
               borderRadius: BorderRadius.circular(50),
               borderSide: const BorderSide(
                 color: Colors.grey,
                 width: 0.3,
               ),
             ),
+            textColor: theme.primaryColorLight.withOpacity(.4),
           ),
         ),
       ],
     );
   }
 }
-
-//  Widget dataLabel(String title,String name,Color color){
-//     return Column(
-//       children: [
-//          Row(
-//           children: [
-//             Text(title,style: const TextStyle(fontSize: 10.0,color: Colors.grey),),
-//           ],
-//         ),
-//         Card(
-//           color: color,
-//           elevation: 4,
-//           child: ListTile(
-//             leading: Text(name,
-//               style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0,color: Colors.white),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
