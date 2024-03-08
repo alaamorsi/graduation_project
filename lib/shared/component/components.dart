@@ -219,6 +219,7 @@ void navigateTo(context, widget) => Navigator.push(
       ),
     );
 
+
 void navigateAndFinish(context, widget) => Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -268,7 +269,7 @@ Widget courseItem({
   required Color color,
   required int rate,
   bool isReserved =false,
-  bool isFavourite = false,
+  required void Function() addToWishList,
 }) {
   return Padding(
     padding: const EdgeInsets.all(9.0),
@@ -339,8 +340,8 @@ Widget courseItem({
                 children: [
                   Expanded(
                     child: IconButton(
-                        onPressed: () {isFavourite=!isFavourite;},
-                        icon: isFavourite? const Icon(Icons.favorite) : const Icon(Icons.favorite_border)
+                        onPressed: addToWishList,
+                        icon: course.inFavourite?  Icon(Icons.favorite,color: color,) : Icon(Icons.favorite_border,color: color,)
                     ),
                   ),
                   Expanded(
@@ -391,9 +392,7 @@ Widget paidCourse({
                   height: screenHeight/10,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image:  NetworkImage(course.teacherImage),
-                      fit: BoxFit.cover,),
+                    image: DecorationImage(image: NetworkImage(course.teacherImage),fit: BoxFit.cover)
                   ),
                 ),
               ),
@@ -459,6 +458,7 @@ Widget item(IconData icon,String text){
   );
 }
 
+//to show the rate as stars from 1 to 5
 Widget rate({
   required double rate,
 }){

@@ -1,4 +1,3 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
@@ -7,8 +6,7 @@ import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
 
 class CategoryList extends StatelessWidget {
-  final String pageName;
-  const CategoryList({super.key, required this.pageName});
+  const CategoryList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,43 +15,15 @@ class CategoryList extends StatelessWidget {
       builder: (context , state ){
         var theme= Theme.of(context);
         return Scaffold(
-          body: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                floating: true,
-                toolbarHeight: 70.0,
-                elevation: 2.0,
-                shadowColor: Colors.grey,
-                shape: const ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(70.0),
-                    bottomRight: Radius.circular(70.0),
-                  ),
-                ),
-                leading: IconButton(
-                    onPressed: (){Navigator.pop(context);},
-                    icon: const Icon(Icons.arrow_back_ios_rounded)
-                ),
-                title: Text(pageName),
-                centerTitle: true,
-              ),
-              ConditionalBuilder(
-                condition: true,
-                builder: (context)=>SliverList.builder(
-                  itemBuilder: (BuildContext context, int index)=>Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: paidCourse(
-                        context: context,
-                        course: courses[index],
-                        color: theme.cardColor,
-                    ),
-                  ),
-                  itemCount: courses.length,
-                ),
-                fallback: (context)=>const Center(child: CircularProgressIndicator()),
-              ),
-            ],
+          appBar: secondAppbar(context: context, title: "New Courses"),
+          body: SingleChildScrollView(
+            child: Column(
+                children: courses.map((e) => paidCourse(
+                    context: context,
+                    course: e,
+                    color: theme.cardColor
+                )).toList()
+            ),
           ),
         );
       },

@@ -9,6 +9,7 @@ class Course {
   final int videosNumber;
   final int price;
   final List<Preview> preview;
+  bool inFavourite;
 
   Course({
     required this.category,
@@ -21,6 +22,7 @@ class Course {
     required this.videosNumber,
     required this.price,
     required this.preview,
+    required this.inFavourite,
   });
 
 }
@@ -55,7 +57,7 @@ List<Course> courses=[
       Preview(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
       Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
-
+    inFavourite: false,
   ),
   Course(
     category: 1,
@@ -72,6 +74,7 @@ List<Course> courses=[
       Preview(rate: 3,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
       Preview(rate: 1,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
+    inFavourite: false,
   ),
   Course(
     category: 1,
@@ -88,6 +91,7 @@ List<Course> courses=[
       Preview(rate: 2,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
       Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
+    inFavourite: false,
   ),
   Course(
     category: 1,
@@ -104,6 +108,7 @@ List<Course> courses=[
       Preview(rate: 2,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
       Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
+    inFavourite: false,
   ),
   Course(
     category: 1,
@@ -120,6 +125,7 @@ List<Course> courses=[
       Preview(rate: 0,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
       Preview(rate: 2,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
+    inFavourite: false,
   ),
   Course(
     category: 1,
@@ -136,5 +142,6 @@ List<Course> courses=[
       Preview(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
       Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
+    inFavourite: false,
   ),
 ];

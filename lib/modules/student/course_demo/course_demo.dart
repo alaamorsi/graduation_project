@@ -48,7 +48,7 @@ class CourseDemo extends StatelessWidget {
                         Text("Description", style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
                         Text(
                           "Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description ",
-                          style: font.copyWith(fontSize: 13.0,color: Colors.black.withOpacity(.3)),
+                          style: font.copyWith(fontSize: 13.0,color: theme.primaryColorDark.withOpacity(.5)),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                         ),
@@ -67,9 +67,8 @@ class CourseDemo extends StatelessWidget {
                             width: screenWidth,
                             height: screenHeight/8,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: theme.primaryColorLight.withOpacity(.2),
                               borderRadius: const BorderRadius.all(Radius.circular(23.0),),
-                              border: Border.all(color: Colors.grey,width: .1),
                             ),
                             child:Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -102,7 +101,7 @@ class CourseDemo extends StatelessWidget {
                                       Expanded(
                                         child: Text(
                                           '20 mints',
-                                          style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
+                                          style: font.copyWith(fontSize: 12.0,color: Colors.grey),
                                         ),
                                       ),
                                     ],
@@ -136,9 +135,8 @@ class CourseDemo extends StatelessWidget {
                           width: screenWidth,
                           height: screenHeight/8,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: theme.primaryColorLight.withOpacity(.2),
                             borderRadius: const BorderRadius.all(Radius.circular(15.0),),
-                            border: Border.all(color: Colors.grey,width: .1),
                           ),
                           child:Padding(
                             padding: const EdgeInsets.all(10.0),

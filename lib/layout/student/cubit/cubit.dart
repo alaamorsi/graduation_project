@@ -4,6 +4,7 @@ import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/modules/student/search/search_screen.dart';
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
+import 'package:graduation_project/shared/component/test.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
@@ -52,6 +53,19 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(CheckPaymentState());
   }
 
+  List<Course> wishList=[];
+  void addToWishList(Course course)
+  {
+    course.inFavourite = !course.inFavourite;
+    if(course.inFavourite){
+      wishList.add(course);
+    }
+    else if (!course.inFavourite){
+      wishList.remove(course);
+    }
+    emit(CheckFavoriteState());
+  }
+
   bool isFavorite = false;
   void checkFavorite()
   {
@@ -62,8 +76,7 @@ class StudentCubit extends Cubit<StudentStates> {
   bool startSearching = false;
   void showSearchFilter(context) async
   {
-    final List<String> results = await showModalBottomSheet(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    final List<String> results = await showAdaptiveDialog(
         context: context,
         builder: (BuildContext context){
           return const MultiSelect();

@@ -37,7 +37,8 @@ class CourseLessons extends StatelessWidget {
                               index: index,
                               title: "lesson",
                               course: course,
-                              color: theme.primaryColor
+                              color: theme.primaryColor,
+                              theme: theme
                           ),
                       separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 10.0,),
                       itemCount: course.videosNumber,
@@ -50,7 +51,7 @@ class CourseLessons extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: (){Navigator.pop(context);},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: theme.scaffoldBackgroundColor,
                         padding: const EdgeInsets.all(10),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                         side: BorderSide(color: theme.primaryColor)
@@ -79,6 +80,7 @@ class CourseLessons extends StatelessWidget {
     required String title,
     required Course course,
     required Color color,
+    required ThemeData theme,
   })
   {
     return InkWell(
@@ -87,9 +89,8 @@ class CourseLessons extends StatelessWidget {
         width: screenWidth,
         height: screenHeight/8,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.primaryColorLight.withOpacity(.2),
           borderRadius: const BorderRadius.all(Radius.circular(23.0),),
-          border: Border.all(color: Colors.grey,width: .1),
         ),
         child:Padding(
           padding: const EdgeInsets.all(10.0),
@@ -115,14 +116,14 @@ class CourseLessons extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(index==0?"1. introduction":"${index+1}. $title",
-                      style: font.copyWith(fontSize: 16.0,color: color),
+                      style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
                     ),
                   ),
                   const SizedBox(height: 5,),
                   Expanded(
                     child: Text(
                       '45 mints',
-                      style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
+                      style: font.copyWith(fontSize: 12.0,color: theme.primaryColorDark.withOpacity(.5)),
                     ),
                   ),
                 ],

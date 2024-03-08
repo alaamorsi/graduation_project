@@ -197,7 +197,7 @@ class LoginScreen extends StatelessWidget {
                           child: CircleAvatar(
                             backgroundColor: Colors.transparent,
                             radius: 20.0,
-                            foregroundImage: const AssetImage("Assets/G.jpg"),
+                            foregroundImage: const AssetImage("Assets/google.png"),
                             child: InkWell(
                               onTap: () {},
                             ),

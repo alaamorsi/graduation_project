@@ -180,21 +180,3 @@ class _OpeningScreenState extends State<OpeningScreen> {
     );
   }
 }
-class Char {
-  late double opacity;
-  late String char;
-  Char({
-    required this.opacity,required this.char
-});
-}
-
-//Flexible(
-//                 child: AnimatedSlide(
-//                   duration:const Duration(milliseconds: 700),
-//                   offset: Offset(text1Move,0),
-//                   curve: Curves.fastOutSlowIn,
-//                   child: const Text("very easy ,entertaining and useful application",
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(color: Colors.white,fontSize: 23,fontWeight: FontWeight.w600),),
-//                 ),
-//               ),

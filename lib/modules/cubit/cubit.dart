@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
+import 'package:graduation_project/shared/themes.dart';
 import '../../shared/component/constant.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -10,7 +11,9 @@ class AppCubit extends Cubit<AppStates> {
   static AppCubit get(context) => BlocProvider.of(context);
 
  // Control to visible or invisible password
-  ThemeMode theme = ThemeMode.light;
+  ThemeMode appMode = mode?ThemeMode.light:ThemeMode.dark;
+  ThemeData theme = blueTheme;
+  ThemeData darkTheme = blueDarkTheme;
 
   // Change language by default arabic
   void changeAppLanguage(context,String ln) {
@@ -22,9 +25,30 @@ class AppCubit extends Cubit<AppStates> {
   // Change application mode state
   void changeAppMode() {
     mode=!mode;
-    theme = mode?ThemeMode.light:ThemeMode.dark;
+    appMode = mode?ThemeMode.light:ThemeMode.dark;
     CacheHelper.putBoolean(key: 'appMode', value: mode);
     emit(AppChangModeState());
+  }
+
+  void changeTheme(int themeId) {
+    if(themeId==1){
+      theme = orangeTheme;
+      darkTheme = orangeDarkTheme;
+    }
+    else if(themeId==2){
+      theme = greenTheme;
+      darkTheme =greenDarkTheme;
+    }
+    else if(themeId==3){
+      theme = blueTheme;
+      darkTheme =blueDarkTheme;
+    }
+    else if(themeId==4){
+      theme = purpleTheme;
+      darkTheme = purpleDarkTheme;
+    }
+    CacheHelper.saveData(key: 'themeId', value: themeId);
+    emit(AppChangThemeState());
   }
 
   // Change notification state

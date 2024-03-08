@@ -11,7 +11,6 @@ import 'package:graduation_project/shared/bloc_observer.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
-import 'package:graduation_project/shared/themes.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,9 +53,9 @@ class MyApp extends StatelessWidget {
         builder: (context,state){
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: greenTheme,
-            darkTheme: purpleTheme,
-            themeMode: AppCubit.get(context).theme,
+            theme: AppCubit.get(context).theme,
+            darkTheme: AppCubit.get(context).darkTheme,
+            themeMode: AppCubit.get(context).appMode,
             home:const OpeningScreen(),
           );
         },

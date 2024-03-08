@@ -3,18 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
+import 'package:graduation_project/modules/student/profile/theme_screen.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import '../../../shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/component/components.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
 
-class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -24,10 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         var theme = Theme.of(context);
         return Scaffold(
           backgroundColor: theme.scaffoldBackgroundColor,
-          appBar: secondAppbar(
-            context: context,
-            title:"Settings",
-          ),
+          appBar: secondAppbar(context: context, title:"Settings",),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -87,7 +81,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       const Spacer(),
                       IconButton(
                         onPressed: (){
-                          appCubit.changeAppMode();
                         },
                         icon: Icon(Icons.arrow_forward_ios_outlined,size: 18,color:theme.primaryColor),)
                     ],
@@ -110,7 +103,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       const Spacer(),
                       IconButton(
                         onPressed: (){
-                          appCubit.changeAppMode();
+                          navigateTo(context, const ThemeScreen());
                         },
                         icon: Icon(Icons.arrow_forward_ios_outlined,size: 18,color:theme.primaryColor),)
                     ],

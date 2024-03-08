@@ -1,7 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layout/student/cubit/cubit.dart';
+import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/modules/student/discovery/discovery_category_list.dart';
-import 'package:graduation_project/modules/student/my_courses/class_material.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
 import '../../../shared/component/constant.dart';
@@ -27,90 +29,95 @@ class HomeScreen extends StatelessWidget {
       'Weekly content',
       'Recorded Content',
     ];
+    var cubit = StudentCubit.get(context);
     var theme = Theme.of(context);
-    return SafeArea(
-      child: ConditionalBuilder(
-        condition: true,
-        builder: (context) => SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("New courses", style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
-                      const Spacer(),
-                      TextButton(onPressed: () {navigateTo(context, CategoryList(pageName: categories[0]));},
-                        child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
-                ),
-                CarouselSlider(
-                  items:slides.map((e) => slideItem(
-                      context: context,
-                      title: 'New Course!',
-                      subTitle: e,
-                      cardColor: theme.primaryColor,
-                  )).toList(),
-                  options: CarouselOptions(
-                    height: screenHeight/4,
-                    initialPage: 0,
-                    viewportFraction: 1,
-                    enableInfiniteScroll: true,
-                    reverse: false,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 3),
-                    autoPlayAnimationDuration: const Duration(seconds: 1),
+    return BlocConsumer<StudentCubit, StudentStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+        return ConditionalBuilder(
+          condition: true,
+          builder: (context) => SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("New courses", style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
+                        const Spacer(),
+                        TextButton(onPressed: () {navigateTo(context, const CategoryList());},
+                          child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                   ),
-                ),
-                newDivider(),
-                DefaultTabController(
-                  length: categories.length,
-                  child: Column(
-                    children: [
-                      TabBar(
-                          indicatorColor: Colors.transparent,
-                          tabAlignment: TabAlignment.start,
-                          isScrollable: true,
-                          labelStyle: font.copyWith(color: theme.primaryColor,fontSize: 19.0),
-                          unselectedLabelStyle: font.copyWith(color: Colors.grey,fontSize: 16.0),
-                          labelPadding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          dividerColor: Colors.transparent,
-                          tabs: categories.map((e) => Tab(text: e)).toList()
-                      ),
-                      SizedBox(
-                        width: double.maxFinite,
-                        height: ((screenHeight/7)*(categories.length)+100),
-                        child: TabBarView(
-                            children: categories.map((e) => ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: categories.length,
-                                itemBuilder: (context ,index){
-                                  int rate = 0;
-                                  for (var element in courses[index].preview) {
-                                    rate = rate + element.rate;
-                                  }
-                                  rate = rate~/(courses[index].preview.length);
-                                  return courseItem(
-                                      context: context,
-                                      course: courses[index],
-                                      rate: rate,
-                                      color: theme.cardColor
-                                  );
-                                })
-                            ).toList()
+                  CarouselSlider(
+                    items:slides.map((e) => slideItem(
+                        context: context,
+                        title: 'New Course!',
+                        subTitle: e,
+                        cardColor: theme.primaryColor,
+                    )).toList(),
+                    options: CarouselOptions(
+                      height: screenHeight/4,
+                      initialPage: 0,
+                      viewportFraction: 1,
+                      enableInfiniteScroll: true,
+                      reverse: false,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      autoPlayAnimationDuration: const Duration(seconds: 1),
+                    ),
+                  ),
+                  newDivider(),
+                  DefaultTabController(
+                    length: categories.length,
+                    child: Column(
+                      children: [
+                        TabBar(
+                            indicatorColor: Colors.transparent,
+                            tabAlignment: TabAlignment.start,
+                            isScrollable: true,
+                            labelStyle: font.copyWith(color: theme.primaryColor,fontSize: 19.0),
+                            unselectedLabelStyle: font.copyWith(color: Colors.grey,fontSize: 16.0),
+                            labelPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            dividerColor: Colors.transparent,
+                            tabs: categories.map((e) => Tab(text: e)).toList()
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: double.maxFinite,
+                          height: ((screenHeight/7)*(categories.length)+100),
+                          child: TabBarView(
+                              children: categories.map((e) => ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: categories.length,
+                                  itemBuilder: (context ,index){
+                                    int rate = 0;
+                                    for (var element in courses[index].preview) {
+                                      rate = rate + element.rate;
+                                    }
+                                    rate = rate~/(courses[index].preview.length);
+                                    return courseItem(
+                                        context: context,
+                                        course: courses[index],
+                                        rate: rate,
+                                        color: theme.cardColor,
+                                        addToWishList:(){cubit.addToWishList(courses[index]);}
+                                    );
+                                  })
+                              ).toList()
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ]
+                ]
+              ),
             ),
           ),
-        ),
-        fallback: (context) => const Center(child: CircularProgressIndicator()),
-      ),
+          fallback: (context) => const Center(child: CircularProgressIndicator()),
+        );
+      }
     );
   }
 }

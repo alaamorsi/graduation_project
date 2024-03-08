@@ -45,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("first name",
-                    style: font.copyWith(fontWeight: FontWeight.w800,fontSize: 18.0,color: Colors.black),
+                    style: font.copyWith(fontWeight: FontWeight.w800,fontSize: 18.0,color: theme.primaryColorDark),
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text("useremail@gmail.com",
@@ -57,13 +57,13 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
           newDivider(),
-          userdata(title: 'First name', data: 'Sameh'),
+          userdata(title: 'First name', data: 'Sameh', theme: theme),
           const SizedBox(height: 10,),
-          userdata(title: 'Last name', data: 'Ahmed'),
+          userdata(title: 'Last name', data: 'Ahmed', theme: theme),
           const SizedBox(height: 10,),
-          userdata(title: 'Email', data: 'useremail@gmail.com',noIcon: false,icon: Icons.email_rounded),
+          userdata(title: 'Email', data: 'useremail@gmail.com',noIcon: false,icon: Icons.email_rounded, theme: theme),
           const SizedBox(height: 10,),
-          userdata(title: 'bio', data: 'there is no battle without lose'),
+          userdata(title: 'bio', data: 'there is no battle without lose', theme: theme),
         ],
       ),
     );
@@ -73,6 +73,7 @@ class ProfileScreen extends StatelessWidget {
     required String data,
     IconData? icon,
     bool noIcon = true,
+    required ThemeData theme,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,9 +84,9 @@ class ProfileScreen extends StatelessWidget {
           textAlign: TextAlign.start,
           decoration:InputDecoration(
             filled: true,
-            label: Text(data,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold,color: Colors.black),),
-            fillColor: Colors.white,
-            suffixIcon:noIcon?null:Icon(icon,size: 30,color: Colors.grey,),
+            label: Text(data,style:  TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold,color: theme.primaryColor),),
+            fillColor: theme.primaryColorLight.withOpacity(.7),
+            suffixIcon:noIcon?null:Icon(icon,size: 30,color: theme.primaryColor,),
             enabledBorder:OutlineInputBorder(
               borderRadius: BorderRadius.circular(50),
               borderSide: const BorderSide(

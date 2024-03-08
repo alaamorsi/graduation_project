@@ -25,52 +25,58 @@ class StudentLayout extends StatelessWidget {
             appBar: studentAppBar(context: context, index: cubit.currentIndex, cubit: cubit, firstName: 'omer'),
             body: cubit.screens[cubit.currentIndex],
             bottomNavigationBar:Container(
-              padding: const EdgeInsets.only(left: 15,right: 15,bottom: 20),
               decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 15,
-                    color: Colors.black.withOpacity(.3),
-                    offset: const Offset(0, -5),
-                  )
-                ],
+                color: theme.scaffoldBackgroundColor,
               ),
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical:10),
-                  child: GNav(
-                    hoverColor: theme.canvasColor,
-                    gap: 3,
-                    iconSize: 25,
+                  padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                  child: Container(
                     padding: const EdgeInsets.all(9),
-                    duration: const Duration(milliseconds: 500),
-                    color: Colors.black.withOpacity(0.3),//the unselected items
-                    tabBackgroundColor: theme.primaryColor.withOpacity(0.2),//the tabbed item
-                    tabBorderRadius: 15,
-                    activeColor: theme.primaryColor,
-                    tabs: const [
-                      GButton(
-                        icon: Icons.home_outlined,
-                        text: 'Home',
-                      ),
-                      GButton(
-                        icon: Icons.dashboard_outlined,
-                        text: 'Courses',
-                      ),
-                      GButton(
-                        icon: Icons.search,
-                        text: 'Search',
-                      ),
-                      GButton(
-                        icon: Icons.person_outline,
-                        text: 'Profile',
-                      ),
-                    ],
-                    selectedIndex: cubit.currentIndex,
-                    onTabChange: (index){
-                      cubit.changeBottomNav(index);
-                      },
+                    decoration: BoxDecoration(
+                      color: theme.primaryColorLight,
+                      borderRadius: const BorderRadius.all(Radius.circular(18)),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 15,
+                          color: theme.primaryColorDark.withOpacity(.1),
+                          offset: const Offset(0, -5),
+                        )
+                      ],
+                    ),
+                    child: GNav(
+                      hoverColor: theme.canvasColor,
+                      gap: 3,
+                      iconSize: 25,
+                      padding: const EdgeInsets.all(9),
+                      duration: const Duration(milliseconds: 500),
+                      color: theme.primaryColorDark.withOpacity(0.3),//the unselected items
+                      tabBackgroundColor: theme.primaryColor.withOpacity(0.2),//the tabbed item
+                      tabBorderRadius: 15,
+                      activeColor: theme.primaryColor,
+                      tabs: const [
+                        GButton(
+                          icon: Icons.home_outlined,
+                          text: 'Home',
+                        ),
+                        GButton(
+                          icon: Icons.dashboard_outlined,
+                          text: 'Courses',
+                        ),
+                        GButton(
+                          icon: Icons.search,
+                          text: 'Search',
+                        ),
+                        GButton(
+                          icon: Icons.person_outline,
+                          text: 'Profile',
+                        ),
+                      ],
+                      selectedIndex: cubit.currentIndex,
+                      onTabChange: (index){
+                        cubit.changeBottomNav(index);
+                        },
+                    ),
                   ),
                 ),
               ),
@@ -211,38 +217,3 @@ class StudentLayout extends StatelessWidget {
     }
   }
 }
-//            CurvedNavigationBar(
-//               height: 81.0,
-//                 index: cubit.currentIndex,
-//                 items: [
-//                   CurvedNavigationBarItem(
-//                       child: const Icon(Icons.explore_rounded,color: Colors.white,),
-//                       label: 'discovery',
-//                       labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
-//                   ),
-//                   CurvedNavigationBarItem(
-//                       child: const Icon(Icons.auto_awesome_mosaic,color: Colors.white,),
-//                       label: 'my courses',
-//                       labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
-//                   ),
-//                   CurvedNavigationBarItem(
-//                       child: const Icon(Icons.search,color: Colors.white,),
-//                       label: 'Search',
-//                       labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
-//                   ),
-//                   CurvedNavigationBarItem(
-//                       child: const Icon(Icons.person,color: Colors.white,),
-//                       label: 'profile',
-//                       labelStyle: font.copyWith(color: Colors.white,fontSize: 12.0)
-//                   ),
-//                 ],
-//                 color: theme.canvasColor,
-//                 buttonBackgroundColor: theme.canvasColor,
-//                 backgroundColor: Colors.transparent,
-//                 animationCurve: Curves.ease,
-//                 animationDuration: const Duration(milliseconds: 600),
-//                 onTap: (index) {
-//                   cubit.changeBottomNav(index);
-//                 },
-//                 letIndexChange: (index) => true,
-//             ),
