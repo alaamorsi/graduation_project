@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/login_and_user_data_model.dart';
@@ -60,8 +61,14 @@ class LoginCubit extends Cubit<LoginStates> {
           CacheHelper.saveData(key: 'firstName', value: userData.firstName);
           CacheHelper.saveData(key: 'lastName', value: userData.lastName);
           CacheHelper.saveData(key: 'email', value: userData.email);
-          CacheHelper.saveData(key: 'biography', value: loginModel.biography);
-          CacheHelper.saveData(key: 'profilePicture', value: loginModel.profilePicture);
+          if ( loginModel.biography != null)
+            CacheHelper.saveData(key: 'biography', value: loginModel.biography);
+          if ( loginModel.profilePicture != null)
+            {
+              Uint8List bytes = base64Decode(loginModel.profilePicture!);
+              String pictureStr = base64Encode(bytes);
+              CacheHelper.saveData(key: 'profilePicture', value: pictureStr);
+            }
           emit(LoginSuccessState());
         } else if(!loginModel.emailConfirmed){
           emit(LoginNotConfirmedState());

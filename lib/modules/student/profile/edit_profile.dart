@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/cubit/cubit.dart';
 import '../../../layout/student/cubit/states.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -13,8 +16,9 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class EditProfileScreenState extends State<EditProfileScreen> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController  statusController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //edit button
                     Row(
@@ -45,8 +49,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: TextButton(
-                              onPressed: (){
-                                Navigator.pop(context);
+                              onPressed: ()async{
+                                // List<int> imageBytes = await cubit.profileImage!.readAsBytes();
+                                // String base64Image = base64Encode(imageBytes);
+                                // CacheHelper.saveData(key: 'profilePicture', value: base64Image);
+                                if(formKey.currentState!.validate())
+                                  {
+                                    cubit.updateUserData(firstName: firstNameController.text,lastName: lastNameController.text,bio: bioController.text);
+                                  }
                               },
                               child: Text("save",style: font.copyWith(color: Colors.white,fontSize: 16.0),)),
                         ),
@@ -66,7 +76,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             image: DecorationImage(
                                 image: cubit.profileImage != null?
                                 FileImage(cubit.profileImage!):
-                                const AssetImage('Assets/profile_icon_S.png') as ImageProvider ,fit: BoxFit.cover,
+                                imageProvider ,fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.circular(15.0),
                           ),
@@ -88,9 +98,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     const SizedBox(height: 21.0,),
                     //data
-                    Text("الأسم الكامل",style: font.copyWith(color: Colors.grey,fontSize: 10.0),),
+                    Text("First Name",style: font.copyWith(color: Colors.grey,fontSize: 10.0),),
                     defaultFormField(
-                      controller: nameController,
+                      controller: firstNameController,
                       type: TextInputType.text,
                       therePrefix: false,
                       thereSuffix: false,
@@ -101,11 +111,38 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         }
                         return null;
                       },
-                      label: 'الاسم',),
-                    const SizedBox(height: 10.0),
-                    Text("الحالة الدراسية",style: font.copyWith(color: Colors.grey,fontSize: 10.0),),
+                      label: 'First Name',
+                    onSubmit: (String? value)
+                        {
+                              cubit.updateFirstName = CacheHelper.getData(key: 'firstName') != value.toString();
+                        }
+
+                    ),
+                    const SizedBox(height: 10.0,),
+                    //data
+                    Text("Last Name",style: font.copyWith(color: Colors.grey,fontSize: 10.0),),
                     defaultFormField(
-                        controller: statusController,
+                      controller: lastNameController,
+                      type: TextInputType.text,
+                      therePrefix: false,
+                      thereSuffix: false,
+                      radius: 10.0,
+                      validate: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'رجاءً ادخل الاسم';
+                        }
+                        return null;
+                      },
+                      label: 'Last Name',
+                        onSubmit: (String? value)
+                        {
+                          cubit.updateLastName = CacheHelper.getData(key: 'lastName') != value.toString();
+                        }
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text("Bio",style: font.copyWith(color: Colors.grey,fontSize: 10.0),),
+                    defaultFormField(
+                        controller: bioController,
                         type: TextInputType.emailAddress,
                         therePrefix: false,
                         thereSuffix: false,
@@ -116,7 +153,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           }
                           return null;
                         },
-                        label: 'المستوي الدراسي',),
+                        label: 'Bio',
+                        onSubmit: (String? value)
+                        {
+                          cubit.updateBio = CacheHelper.getData(key: 'biography') != value.toString();
+                        }
+                    ),
                   ],
                 ),
               ),

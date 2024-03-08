@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 bool mode = true;
 bool notification = true;
@@ -8,4 +9,4 @@ String? role = '';
 late double screenHeight;
 late double screenWidth;
 var font= GoogleFonts.changa();
-
+late ImageProvider<Object> imageProvider;

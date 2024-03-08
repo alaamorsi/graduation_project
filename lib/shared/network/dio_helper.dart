@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 
 class DioHelper
 {
@@ -37,6 +38,20 @@ class DioHelper
     dio.options.headers ={
       'Content-Type':'application/json',
       'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
+    };
+    return dio.post(url,data: data,);
+  }
+
+  static Future<Response> patchData ({
+    required String url,
+    required List<Map<String,dynamic>>  data,
+    String? token,
+  })async
+  {
+    dio.options.headers ={
+      'Content-Type':'application/json',
+      'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
+      'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     return dio.post(url,data: data,);
   }

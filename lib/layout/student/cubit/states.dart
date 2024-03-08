@@ -28,12 +28,12 @@ class ProfileImagePickedSuccessState extends StudentStates {}
 class ProfileImagePickedErrorState extends StudentStates {}
 
 // Get user states
-class GetUserDataLoadingState extends StudentStates {}
+class UpdateUserDataLoadingState extends StudentStates {}
 
-class GetUserDataSuccessState extends StudentStates {}
+class UpdateUserDataSuccessState extends StudentStates {}
 
-class GetUserDataErrorState extends StudentStates {
+class UpdateUserDataErrorState extends StudentStates {
   final String error;
 
-  GetUserDataErrorState(this.error);
+  UpdateUserDataErrorState(this.error);
 }

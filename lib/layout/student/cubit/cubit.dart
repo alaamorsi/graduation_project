@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ import 'package:graduation_project/modules/student/search/search_screen.dart';
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
 import 'package:graduation_project/shared/component/test.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
+import 'package:graduation_project/shared/network/dio_helper.dart';
+import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
@@ -119,12 +123,58 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(ProfileImagePickedErrorState());
     }
   }
-// Get User Data
-  LoginModel? model;
-  void getUserData() {
-    emit(GetUserDataLoadingState());
-
-    emit(GetUserDataSuccessState());
+// update User Data
+   bool updateFirstName = false;
+   bool updateLastName = false;
+   bool updateBio = false;
+  void updateUserData({
+     String? firstName,
+     String? lastName,
+     String? bio,
+  }) {
+    emit(UpdateUserDataLoadingState());
+    List<Map<String,dynamic>> updateData=  List<Map<String,dynamic>>.empty(growable: true);
+    if(updateFirstName)
+      {
+        updateData.add({
+          'path' : 'firstName',
+          'op' : 'replace',
+          'value' : firstName,
+        });
+      }
+    if(updateLastName)
+    {
+      updateData.add({
+        'path' : 'lastName',
+        'op' : 'replace',
+        'value' : lastName,
+      });
+    }
+    if(updateBio)
+    {
+      updateData.add({
+        'path' : 'biography',
+        'op' : 'replace',
+        'value' : bio,
+      });
+    }
+    DioHelper.patchData(url: updateDataPatch, data: updateData).then((value){
+      print(value.statusCode);
+      if(value.statusCode == 200)
+        {
+          if(updateFirstName)
+            CacheHelper.saveData(key: 'firstName', value: firstName);
+          if(updateLastName)
+            CacheHelper.saveData(key: 'lastName', value: lastName);
+          if(updateBio)
+            CacheHelper.saveData(key: 'biography', value: bio);
+          emit(UpdateUserDataSuccessState());
+        }
+    }).catchError((error){
+      print(error.toString());
+      emit(UpdateUserDataErrorState(error.toString()));
+    });
+    
   }
 
 
