@@ -40,3 +40,5 @@ class UpdateUserDataErrorState extends StudentStates {
 
   UpdateUserDataErrorState(this.error);
 }
+
+class GetUserDataSuccessState extends StudentStates {}

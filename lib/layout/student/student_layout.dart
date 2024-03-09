@@ -8,6 +8,7 @@ import 'package:graduation_project/modules/student/discovery/notification.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 
 class StudentLayout extends StatelessWidget {
   const StudentLayout({super.key});
@@ -102,7 +103,7 @@ class StudentLayout extends StatelessWidget {
               bottomRight: Radius.circular(10),
             )
         ),
-        title: Text('Hello,$firstName!',
+        title: Text('Hello,${CacheHelper.getData(key: 'firstName')}!',
             style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
         ),
         actions:[

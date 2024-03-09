@@ -22,10 +22,6 @@ void main() async{
   notification = CacheHelper.getData(key: 'notification')??notification;
   jwt = CacheHelper.getData(key: 'jwt')??jwt;
   role = CacheHelper.getData(key: 'role')??role;
-  firstName = CacheHelper.getData(key: 'firstName');
-  lastName = CacheHelper.getData(key: 'lastName');
-  bio = CacheHelper.getData(key: 'biography');
-  email = CacheHelper.getData(key: 'email');
   runApp(MyApp(appMode: mode));
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(

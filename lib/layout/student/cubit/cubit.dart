@@ -28,7 +28,7 @@ class StudentCubit extends Cubit<StudentStates> {
     const HomeScreen(),
     const ReservedScreen(),
     const SearchScreen(),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
   List<String> titles = [
     'discovery',
@@ -211,15 +211,12 @@ class StudentCubit extends Cubit<StudentStates> {
         {
           if(updateFirstName) {
             CacheHelper.saveData(key: 'firstName', value: newFirstName);
-            firstName = newFirstName!;
           }
           if(updateLastName) {
-            CacheHelper.saveData(key: 'lastName', value: lastName);
-            lastName = newLastName!;
+            CacheHelper.saveData(key: 'lastName', value: newLastName);
           }
           if(updateBio) {
-            CacheHelper.saveData(key: 'biography', value: bio);
-            bio = newBio!;
+            CacheHelper.saveData(key: 'biography', value: newBio);
           }
           emit(UpdateUserDataSuccessState());
         }
@@ -230,4 +227,11 @@ class StudentCubit extends Cubit<StudentStates> {
     
   }
 
+
+}
+class StudentData{
+  late final String? firstName;
+  late final String? lastName;
+  late final String? bio;
+  StudentData({this.lastName, this.bio, this.firstName});
 }

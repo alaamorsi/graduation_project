@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/modules/student/profile/profile.dart';
 import '../../../layout/student/cubit/cubit.dart';
 import '../../../layout/student/cubit/states.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -48,6 +49,7 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                           child: TextButton(
                               onPressed: ()async{
+                                StudentData student = StudentData(firstName: firstNameController.text,lastName: lastNameController.text,bio: bioController.text);
                                 if(wci){
                                   List<int> imageBytes = await cubit.profileImage!.readAsBytes();
                                   String base64Image = base64Encode(imageBytes);
@@ -64,7 +66,8 @@ class EditProfileScreen extends StatelessWidget {
                                       newBio: bioController.text,
                                     );
                                   }
-                                Navigator.pop(context);
+                                // navigateTo(context, ProfileScreen(firstName: firstNameController.text,lastName: lastNameController.text, bio: bioController.text));
+                                Navigator.pop(context,student);
                               },
                               child: Text("save",style: font.copyWith(color: Colors.white,fontSize: 16.0),)),
                         ),
@@ -114,7 +117,7 @@ class EditProfileScreen extends StatelessWidget {
                       thereSuffix: false,
                       radius: 30,
                       validate: (String? value) {
-                        ch1 = firstName!= value.toString();
+                        ch1 = CacheHelper.getData(key: 'firstName')!= value.toString();
                         return null;
                       },
                       label: 'First Name',
@@ -129,7 +132,7 @@ class EditProfileScreen extends StatelessWidget {
                       thereSuffix: false,
                       radius: 30,
                       validate: (String? value) {
-                        ch2 = lastName!=value.toString();
+                        ch2 = CacheHelper.getData(key: 'lastName')!=value.toString();
                         return null;
                       },
                       label: 'Last Name',
@@ -143,7 +146,7 @@ class EditProfileScreen extends StatelessWidget {
                         thereSuffix: false,
                         radius: 30,
                         validate: (String? value) {
-                          ch3 = bio!=value.toString();
+                          ch3 = CacheHelper.getData(key: 'biography')!=value.toString();
                           return null;
                         },
                         label: 'Bio',
