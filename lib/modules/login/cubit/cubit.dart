@@ -61,14 +61,15 @@ class LoginCubit extends Cubit<LoginStates> {
           CacheHelper.saveData(key: 'firstName', value: userData.firstName);
           CacheHelper.saveData(key: 'lastName', value: userData.lastName);
           CacheHelper.saveData(key: 'email', value: userData.email);
-          if ( loginModel.biography != null)
+          if ( loginModel.biography != null) {
             CacheHelper.saveData(key: 'biography', value: loginModel.biography);
+          }
           if ( loginModel.profilePicture != null)
-            {
-              Uint8List bytes = base64Decode(loginModel.profilePicture!);
-              String pictureStr = base64Encode(bytes);
-              CacheHelper.saveData(key: 'profilePicture', value: pictureStr);
-            }
+          {
+            Uint8List bytes = base64Decode(loginModel.profilePicture!);
+            String pictureStr = base64Encode(bytes);
+            CacheHelper.saveData(key: 'profileStr', value: pictureStr);
+          }
           emit(LoginSuccessState());
         } else if(!loginModel.emailConfirmed){
           emit(LoginNotConfirmedState());

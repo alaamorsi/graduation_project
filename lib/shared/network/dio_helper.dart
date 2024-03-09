@@ -53,6 +53,6 @@ class DioHelper
       'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
       'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
-    return dio.post(url,data: data,);
+    return dio.patch(url,data: data,);
   }
 }

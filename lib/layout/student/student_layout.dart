@@ -22,7 +22,7 @@ class StudentLayout extends StatelessWidget {
           var theme = Theme.of(context);
           return Scaffold(
             backgroundColor: theme.scaffoldBackgroundColor,
-            appBar: studentAppBar(context: context, index: cubit.currentIndex, cubit: cubit, firstName: 'omer'),
+            appBar: studentAppBar(context: context, index: cubit.currentIndex, cubit: cubit,),
             body: cubit.screens[cubit.currentIndex],
             bottomNavigationBar:Container(
               decoration: BoxDecoration(
@@ -90,7 +90,6 @@ class StudentLayout extends StatelessWidget {
     required BuildContext context,
     required int index,
     required var cubit,
-    required String firstName,
   }){
     var theme = Theme.of(context);
     if(index==0){

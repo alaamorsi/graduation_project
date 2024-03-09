@@ -22,6 +22,9 @@ class PaymentManagerErrorState extends StudentStates {
   PaymentManagerErrorState(this.error);
 }
 
+
+
+class StudentHasImageState extends StudentStates {}
 // pick image
 class ProfileImagePickedSuccessState extends StudentStates {}
 

@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
-import 'package:graduation_project/models/login_and_user_data_model.dart';
 import 'package:graduation_project/modules/student/paymob_manager/paymob_manager.dart';
 import 'package:graduation_project/modules/student/search/search_screen.dart';
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
@@ -16,6 +15,7 @@ import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
+import '../../../shared/component/constant.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
   StudentCubit() : super(StudentInitialStates());
@@ -123,14 +123,24 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(ProfileImagePickedErrorState());
     }
   }
-// update User Data
-   bool updateFirstName = false;
-   bool updateLastName = false;
-   bool updateBio = false;
+
+  void hasImage(){
+    if( CacheHelper.getData(key: 'profileStr')!=null){
+      Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
+      imageProvider = MemoryImage(picture);
+    }else{
+      imageProvider = AssetImage("Assets/profile_icon_S.png");
+    }
+    emit(StudentHasImageState());
+  }
+  //update User Data
   void updateUserData({
-     String? firstName,
-     String? lastName,
-     String? bio,
+    required bool updateFirstName ,
+    required bool updateLastName ,
+    required bool updateBio ,
+     String? newFirstName,
+     String? newLastName,
+     String? newBio,
   }) {
     emit(UpdateUserDataLoadingState());
     List<Map<String,dynamic>> updateData=  List<Map<String,dynamic>>.empty(growable: true);
@@ -139,7 +149,7 @@ class StudentCubit extends Cubit<StudentStates> {
         updateData.add({
           'path' : 'firstName',
           'op' : 'replace',
-          'value' : firstName,
+          'value' : newFirstName,
         });
       }
     if(updateLastName)
@@ -147,7 +157,7 @@ class StudentCubit extends Cubit<StudentStates> {
       updateData.add({
         'path' : 'lastName',
         'op' : 'replace',
-        'value' : lastName,
+        'value' : newLastName,
       });
     }
     if(updateBio)
@@ -155,19 +165,25 @@ class StudentCubit extends Cubit<StudentStates> {
       updateData.add({
         'path' : 'biography',
         'op' : 'replace',
-        'value' : bio,
+        'value' : newBio,
       });
     }
     DioHelper.patchData(url: updateDataPatch, data: updateData).then((value){
       print(value.statusCode);
       if(value.statusCode == 200)
         {
-          if(updateFirstName)
-            CacheHelper.saveData(key: 'firstName', value: firstName);
-          if(updateLastName)
+          if(updateFirstName) {
+            CacheHelper.saveData(key: 'firstName', value: newFirstName);
+            firstName = newFirstName!;
+          }
+          if(updateLastName) {
             CacheHelper.saveData(key: 'lastName', value: lastName);
-          if(updateBio)
+            lastName = newLastName!;
+          }
+          if(updateBio) {
             CacheHelper.saveData(key: 'biography', value: bio);
+            bio = newBio!;
+          }
           emit(UpdateUserDataSuccessState());
         }
     }).catchError((error){
