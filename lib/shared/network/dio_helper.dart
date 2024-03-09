@@ -55,4 +55,17 @@ class DioHelper
     };
     return dio.patch(url,data: data,);
   }
+
+  static Future<Response> updateImage ({
+    required String url,
+    required MultipartFile data,
+  })async
+  {
+    dio.options.headers ={
+      'Content-Type':'application/json',
+      'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
+      'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
+    };
+    return dio.post(url,data: data,);
+  }
 }

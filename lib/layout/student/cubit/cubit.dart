@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
@@ -133,25 +134,33 @@ class StudentCubit extends Cubit<StudentStates> {
     }
     emit(StudentHasImageState());
   }
+
+  FormData formData= FormData();
   //update User image
   void updateUserProfileImage({
     required String name,
-    required String imageFileName,
-    required int length,
-  }) {
+    required File? imageFile,
+  }) async{
     emit(UpdateUserDataLoadingState());
 
-    DioHelper.postData(
+    // formData.fields.addAll({
+    //   'name':name,
+    // } as Iterable<MapEntry<String, String>>);
+
+    if(imageFile != null){
+      formData.files.add(MapEntry(
+        'profileImage',
+        (await MultipartFile.fromFile(imageFile.path,
+            filename: imageFile.path.split('/').last)),
+      ));
+    }
+    DioHelper.updateImage(
         url: updateDataPatch,
-        data: {
-          'Length' : length,
-          'Name' : name,
-          'FileName' : imageFileName,
-        }).then((value){
+        data: formData.files.last.value
+    ).then((value){
       print(value.statusCode);
       if(value.statusCode == 200)
       {
-
         emit(UpdateUserDataSuccessState());
       }
     }).catchError((error){
@@ -220,6 +229,5 @@ class StudentCubit extends Cubit<StudentStates> {
     });
     
   }
-
 
 }
