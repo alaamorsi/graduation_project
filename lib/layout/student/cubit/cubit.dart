@@ -129,10 +129,38 @@ class StudentCubit extends Cubit<StudentStates> {
       Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
       imageProvider = MemoryImage(picture);
     }else{
-      imageProvider = AssetImage("Assets/profile_icon_S.png");
+      imageProvider = const AssetImage("Assets/profile_icon_S.png");
     }
     emit(StudentHasImageState());
   }
+  //update User image
+  void updateUserProfileImage({
+    required String name,
+    required String imageFileName,
+    required int length,
+  }) {
+    emit(UpdateUserDataLoadingState());
+
+    DioHelper.postData(
+        url: updateDataPatch,
+        data: {
+          'Length' : length,
+          'Name' : name,
+          'FileName' : imageFileName,
+        }).then((value){
+      print(value.statusCode);
+      if(value.statusCode == 200)
+      {
+
+        emit(UpdateUserDataSuccessState());
+      }
+    }).catchError((error){
+      emit(UpdateUserDataErrorState(error.toString()));
+    });
+
+  }
+
+
   //update User Data
   void updateUserData({
     required bool updateFirstName ,

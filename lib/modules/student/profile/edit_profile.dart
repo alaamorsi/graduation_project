@@ -18,7 +18,7 @@ class EditProfileScreen extends StatelessWidget {
     TextEditingController lastNameController = TextEditingController();
     TextEditingController bioController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    late bool ch1,ch2,ch3;
+    late bool ch1,ch2,ch3,wci =false;
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context,state) {},
       builder:(context,state){
@@ -48,9 +48,11 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                           child: TextButton(
                               onPressed: ()async{
-                                List<int> imageBytes = await cubit.profileImage!.readAsBytes();
-                                String base64Image = base64Encode(imageBytes);
-                                CacheHelper.saveData(key: 'profileStr', value: base64Image);
+                                if(wci){
+                                  List<int> imageBytes = await cubit.profileImage!.readAsBytes();
+                                  String base64Image = base64Encode(imageBytes);
+                                  CacheHelper.saveData(key: 'profileStr', value: base64Image);
+                                }
                                 if(formKey.currentState!.validate())
                                   {
                                     cubit.updateUserData(
@@ -78,6 +80,7 @@ class EditProfileScreen extends StatelessWidget {
                           height: 120.0,
                           width: 120.0,
                           decoration: BoxDecoration(
+                            color:theme.canvasColor.withOpacity(.4),
                             image: DecorationImage(
                                 image: cubit.profileImage != null?
                                 FileImage(cubit.profileImage!):imageProvider,fit: BoxFit.cover,
@@ -89,6 +92,7 @@ class EditProfileScreen extends StatelessWidget {
                             children: [
                               IconButton(
                                 onPressed: () {
+                                  wci=true;
                                   cubit.getProfileImage();
                                 },
                                 icon: CircleAvatar(
