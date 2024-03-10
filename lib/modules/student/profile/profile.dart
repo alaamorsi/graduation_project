@@ -10,7 +10,7 @@ import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../shared/component/constant.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key,});
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +19,16 @@ class ProfileScreen extends StatelessWidget {
       listener: (BuildContext context, StudentStates state) {},
       builder: (context, state) {
         var cubit = StudentCubit.get(context);
-        Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
-        cubit.imageProvider = MemoryImage(picture);
+       if(CacheHelper.getData(key: 'profileStr')!=null){
+         Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr') ?? "");
+         cubit.imageProvider = MemoryImage(picture);
+       }
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                //Student data
+                // Student data
                 Row(
                   children: [
                     Padding(
@@ -80,7 +82,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                newDivider(),
+                const Divider(),
                 userdata(title: 'First name', data: cubit.firstName, theme: theme),
                 const SizedBox(
                   height: 10,
@@ -91,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 userdata(
                     title: 'Email',
-                    data: CacheHelper.getData(key: 'email'),
+                    data: CacheHelper.getData(key: 'email') ?? "",
                     noIcon: false,
                     icon: Icons.email_rounded,
                     theme: theme),
