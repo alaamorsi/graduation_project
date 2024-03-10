@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layout/instructor/instructor_cubit/instructor_cubit.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit()),
         BlocProvider(create: (context)=>StudentCubit()..getImage()),
+        BlocProvider(create: (context)=>InstructorCubit()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
