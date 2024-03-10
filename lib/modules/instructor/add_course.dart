@@ -1,79 +1,40 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
-
-import '../../modules/cubit/cubit.dart';
-import '../../modules/cubit/states.dart';
+import '../cubit/cubit.dart';
+import '../cubit/states.dart';
 import '../../shared/component/components.dart';
 
-class add_cours extends StatelessWidget {
-  add_cours({super.key});
-  TextEditingController nameController = TextEditingController();
-  TextEditingController name22Controller = TextEditingController();
-  TextEditingController name222Controller = TextEditingController();
-  TextEditingController name2222Controller = TextEditingController();
+class AddCourse extends StatelessWidget {
+  const AddCourse({super.key});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController nameController = TextEditingController();
+    TextEditingController name22Controller = TextEditingController();
+    TextEditingController name222Controller = TextEditingController();
+    TextEditingController name2222Controller = TextEditingController();
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 70.0,
-            bottomOpacity: 0.7,
-            elevation: 2.0,
-            shadowColor: HexColor("#666666"),
-            shape: const ContinuousRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(70.0),
-                bottomRight: Radius.circular(70.0),
-              ),
-            ),
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 11.0),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 30.0,
-                  )),
-            ),
-            title: Center(
-              child: Text(
-                'إنشاء صـــف',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
+          appBar: secondAppbar(context: context, title: "Add New Course"),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Column(
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            "نوع الصـــــف",
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.0),
-                          ),
-                        ],
+                      Text(
+                        "Course Type",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20.0),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -88,11 +49,9 @@ class add_cours extends StatelessWidget {
                           radius: 10.0,
                           label: '',
                           validate: null,
-
-
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
                       Expanded(
@@ -108,25 +67,24 @@ class add_cours extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Column(
+                  const Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "نوع الماده",
+                            "Subject",
                             textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.0),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
@@ -141,7 +99,7 @@ class add_cours extends StatelessWidget {
                             therePrefix: false,
                             thereSuffix: false,
                             radius: 10.0,
-                            label: 'الدخل اسم الماده',
+                            label: 'enter subject name',
                             validate: (String? value) {
                               if (value!.isEmpty) {
                                 return ' رجاء ادخل اسم الماده!';
@@ -153,10 +111,10 @@ class add_cours extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Column(
+                  const Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -171,7 +129,7 @@ class add_cours extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
@@ -198,10 +156,10 @@ class add_cours extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Column(
+                  const Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -216,7 +174,7 @@ class add_cours extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -224,25 +182,21 @@ class add_cours extends StatelessWidget {
                     children: [
                       ElevatedButton.icon(
                           onPressed: () {},
-                          icon: Icon(Icons.arrow_upward_outlined),
-                          label: Text('اضـف فديوا'),
+                          icon: const Icon(Icons.arrow_upward_outlined),
+                          label: const Text('اضـف فديوا'),
                         style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                          textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            
                           backgroundColor: Colors.blue,
                           alignment: Alignment.centerRight,
-            
-            
                         ),
-            
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Column (
+                  const Column (
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -257,7 +211,7 @@ class add_cours extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -265,18 +219,14 @@ class add_cours extends StatelessWidget {
                     children: [
                       ElevatedButton.icon(
                         onPressed: () {},
-                        icon: Icon(Icons.arrow_upward_outlined),
-                        label: Text('اضـف فديوا'),
+                        icon: const Icon(Icons.arrow_upward_outlined),
+                        label: const Text('اضـف فديوا'),
                         style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                          textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            
                           backgroundColor: Colors.blue,
                           alignment: Alignment.centerRight,
-            
-            
                         ),
-            
                       ),
                     ],
                   ),

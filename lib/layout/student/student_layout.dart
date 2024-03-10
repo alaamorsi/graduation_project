@@ -14,9 +14,7 @@ class StudentLayout extends StatelessWidget {
   const StudentLayout({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: ( context) => StudentCubit(),
-      child: BlocConsumer<StudentCubit,StudentStates>(
+    return BlocConsumer<StudentCubit,StudentStates>(
         listener: (context,state) {},
         builder:(context,state){
           var cubit = StudentCubit.get(context);
@@ -62,7 +60,7 @@ class StudentLayout extends StatelessWidget {
                         ),
                         GButton(
                           icon: Icons.dashboard_outlined,
-                          text: 'Courses',
+                          text: 'Course',
                         ),
                         GButton(
                           icon: Icons.search,
@@ -84,8 +82,7 @@ class StudentLayout extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
+      );
   }
   PreferredSizeWidget studentAppBar({
     required BuildContext context,
@@ -135,11 +132,14 @@ class StudentLayout extends StatelessWidget {
           ),
         ],
       );
-    } else if(index==1){
-      return defaultAppBar(context: context,title: Text(cubit.titles[cubit.currentIndex],
+    }
+    else if(index==1){
+      return
+        defaultAppBar(context: context,title: Text(cubit.titles[cubit.currentIndex],
           style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
       ),);
-    } else if(index==2){
+    }
+    else if(index==2){
       TextEditingController searchController = TextEditingController();
       return AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -184,7 +184,8 @@ class StudentLayout extends StatelessWidget {
           ),
         ],
       );
-    } else{
+    }
+    else{
       return AppBar(
         backgroundColor: theme.scaffoldBackgroundColor,
         toolbarHeight: 70.0,

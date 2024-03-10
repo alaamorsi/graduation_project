@@ -5,3 +5,4 @@ String validateEmail='Account/ValidateEmailVerificationCode';
 String resetPassword='Account/ResetPassword';
 String validateReset='Account/ValidateResetPasswordCode';
 String updateDataPatch='Account/UpdateInsensitveData';
+String updateImage='Account/UpdatePicture';

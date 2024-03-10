@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/student/profile/profile.dart';
 import '../../../layout/student/cubit/cubit.dart';
 import '../../../layout/student/cubit/states.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -25,6 +23,9 @@ class EditProfileScreen extends StatelessWidget {
       builder:(context,state){
         var theme = Theme.of(context);
         var cubit = StudentCubit.get(context);
+        firstNameController.text = cubit.firstName;
+        lastNameController.text = cubit.lastName;
+        bioController.text = cubit.bio;
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: secondAppbar(context: context, title: 'edit profile'),
@@ -49,11 +50,11 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                           child: TextButton(
                               onPressed: ()async{
-                                StudentData student = StudentData(firstName: firstNameController.text,lastName: lastNameController.text,bio: bioController.text);
                                 if(wci){
                                   List<int> imageBytes = await cubit.profileImage!.readAsBytes();
                                   String base64Image = base64Encode(imageBytes);
                                   CacheHelper.saveData(key: 'profileStr', value: base64Image);
+                                  await cubit.updateUserProfileImage(imageFile: cubit.profileImage);
                                 }
                                 if(formKey.currentState!.validate())
                                   {
@@ -66,8 +67,7 @@ class EditProfileScreen extends StatelessWidget {
                                       newBio: bioController.text,
                                     );
                                   }
-                                // navigateTo(context, ProfileScreen(firstName: firstNameController.text,lastName: lastNameController.text, bio: bioController.text));
-                                Navigator.pop(context,student);
+                                Navigator.pop(context);
                               },
                               child: Text("save",style: font.copyWith(color: Colors.white,fontSize: 16.0),)),
                         ),
@@ -86,7 +86,8 @@ class EditProfileScreen extends StatelessWidget {
                             color:theme.canvasColor.withOpacity(.4),
                             image: DecorationImage(
                                 image: cubit.profileImage != null?
-                                FileImage(cubit.profileImage!):imageProvider,fit: BoxFit.cover,
+                                FileImage(cubit.profileImage!):
+                                cubit.imageProvider,fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.circular(15.0),
                           ),

@@ -13,8 +13,3 @@ var font= GoogleFonts.changa();
 //user data
 String? jwt = '';
 String? role = '';
-late ImageProvider<Object> imageProvider;
-// String firstName = CacheHelper.getData(key: 'firstName');
-// String lastName = CacheHelper.getData(key: 'lastName');
-// String? bio = CacheHelper.getData(key: 'biography');
-// String email = CacheHelper.getData(key: 'email');

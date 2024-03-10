@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graduation_project/modules/student/my_courses/class_material.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:graduation_project/shared/component/test.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../../modules/student/my_courses/screens/course_leader.dart';
 import 'constant.dart';
 /////////////////////////////////////////////////////
 
@@ -364,7 +364,7 @@ Widget courseItem({
 // paid course item
 Widget paidCourse({
   required BuildContext context,
-  required Course course,
+  required MyCourse course,
   required Color color,
   bool isReserved =false,
   bool isFavourite = false,
@@ -372,7 +372,7 @@ Widget paidCourse({
   return Padding(
     padding: const EdgeInsets.all(9.0),
     child: InkWell(
-      onTap: (){navigateTo(context, ClassMaterial(course: course,));},
+      onTap: (){navigateTo(context, ClassLeader(course: course,));},
       child: Container(
         width: screenWidth,
         height: screenHeight/7,
@@ -502,5 +502,7 @@ Widget rate({
     ],
   );
 }
+
+
 
 

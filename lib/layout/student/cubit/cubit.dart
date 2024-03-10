@@ -16,7 +16,6 @@ import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
-import '../../../shared/component/constant.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
   StudentCubit() : super(StudentInitialStates());
@@ -28,13 +27,13 @@ class StudentCubit extends Cubit<StudentStates> {
     const HomeScreen(),
     const ReservedScreen(),
     const SearchScreen(),
-    ProfileScreen(),
+    const ProfileScreen(),
   ];
   List<String> titles = [
-    'discovery',
-    'my courses',
-    'notifications',
-    'profile'
+    'Discovery',
+    'My Enrolled Courses',
+    'Search',
+    'My Profile'
   ];
   void changeBottomNav(int index) {
     currentIndex = index;
@@ -109,7 +108,17 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(PaymentManagerErrorState(error));
       print(error.toString());
     });
+  }
 
+  //student data
+  String firstName=CacheHelper.getData(key: 'firstName');
+  String lastName=CacheHelper.getData(key: 'lastName');
+  String bio=CacheHelper.getData(key: 'biography')??"";
+  late ImageProvider<Object> imageProvider;
+
+  getImage(){
+    Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
+    imageProvider = MemoryImage(picture);
   }
 
   File? profileImage;
@@ -125,24 +134,13 @@ class StudentCubit extends Cubit<StudentStates> {
     }
   }
 
-  void hasImage(){
-    if( CacheHelper.getData(key: 'profileStr')!=null){
-      Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
-      imageProvider = MemoryImage(picture);
-    }else{
-      imageProvider = const AssetImage("Assets/profile_icon_S.png");
-    }
-    emit(StudentHasImageState());
-  }
-
-  FormData formData= FormData();
   //update User image
-  void updateUserProfileImage({
-    required String name,
+  FormData formData= FormData();
+  Future<void> updateUserProfileImage({
+    // required String name,
     required File? imageFile,
   }) async{
     emit(UpdateUserDataLoadingState());
-
     // formData.fields.addAll({
     //   'name':name,
     // } as Iterable<MapEntry<String, String>>);
@@ -155,20 +153,19 @@ class StudentCubit extends Cubit<StudentStates> {
       ));
     }
     DioHelper.updateImage(
-        url: updateDataPatch,
+        url: updateImage,
         data: formData.files.last.value
     ).then((value){
       print(value.statusCode);
       if(value.statusCode == 200)
       {
-        emit(UpdateUserDataSuccessState());
+        emit(UpdateProfileImageSuccessState());
+
       }
     }).catchError((error){
       emit(UpdateUserDataErrorState(error.toString()));
     });
-
   }
-
 
   //update User Data
   void updateUserData({
@@ -182,13 +179,13 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(UpdateUserDataLoadingState());
     List<Map<String,dynamic>> updateData=  List<Map<String,dynamic>>.empty(growable: true);
     if(updateFirstName)
-      {
-        updateData.add({
-          'path' : 'firstName',
-          'op' : 'replace',
-          'value' : newFirstName,
-        });
-      }
+    {
+      updateData.add({
+        'path' : 'firstName',
+        'op' : 'replace',
+        'value' : newFirstName,
+      });
+    }
     if(updateLastName)
     {
       updateData.add({
@@ -211,27 +208,23 @@ class StudentCubit extends Cubit<StudentStates> {
         {
           if(updateFirstName) {
             CacheHelper.saveData(key: 'firstName', value: newFirstName);
+            firstName=newFirstName!;
+            emit(UpdateFirstNameSuccessState());
           }
           if(updateLastName) {
             CacheHelper.saveData(key: 'lastName', value: newLastName);
+            lastName=newLastName!;
+            emit(UpdateLastNameSuccessState());
           }
           if(updateBio) {
             CacheHelper.saveData(key: 'biography', value: newBio);
+            bio=newBio!;
+            emit(UpdateBioSuccessState());
           }
-          emit(UpdateUserDataSuccessState());
         }
     }).catchError((error){
       print(error.toString());
       emit(UpdateUserDataErrorState(error.toString()));
     });
-    
   }
-
-
-}
-class StudentData{
-  late final String? firstName;
-  late final String? lastName;
-  late final String? bio;
-  StudentData({this.lastName, this.bio, this.firstName});
 }
