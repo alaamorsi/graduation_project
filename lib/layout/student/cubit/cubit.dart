@@ -17,7 +17,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
 import '../../../shared/component/constant.dart';
-import 'package:http_parser/http_parser.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
   StudentCubit() : super(StudentInitialStates());
@@ -139,9 +138,9 @@ class StudentCubit extends Cubit<StudentStates> {
     FormData formData= FormData();
     if(imageFile != null){
       formData = FormData.fromMap({
-        'profileImage':
+        'newPicture':
         await MultipartFile.fromFile(imageFile.path, filename: imageFile.path.split('/').last,
-          contentType: MediaType('image', 'png'),),
+        ),
       });
     }
     DioHelper.updateImage(
