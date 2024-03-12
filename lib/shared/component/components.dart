@@ -262,6 +262,56 @@ Color chooseToastColor(ToastStates state) {
   return color;
 }
 
+Widget slideItem({
+  required BuildContext context,
+  required String title,
+  required int id,
+  required String image,
+}) {
+  return Padding(
+    padding: const EdgeInsets.all(9.0),
+    child: InkWell(
+      onTap:(){},
+      child: Container(
+        padding: const EdgeInsets.all(20.0),
+        width: screenWidth,
+        height: screenHeight/4,
+        decoration: BoxDecoration(
+          color: id==1?Colors.indigoAccent:Colors.orangeAccent,
+          borderRadius: const BorderRadius.all(Radius.circular(23.0)), // color: cardColor,
+        ),
+        child:Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image(image: AssetImage(image),fit:BoxFit.cover,),
+            const SizedBox(width: 9),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width:140,
+                  child:Text(title,
+                    style: font.copyWith(fontSize: 20.0, fontWeight: FontWeight.bold,color: Colors.white),
+                    maxLines: 3,
+                  ),
+                ),
+                const SizedBox(height: 9),
+                Container(
+                    padding: const EdgeInsets.all(6.0),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                      color: id==2?Colors.indigoAccent:Colors.orangeAccent,
+                    ), child: Text("Check Now !",style: font.copyWith(fontSize: 16.0,color: Colors.white),)
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 // Discovery item
 Widget courseItem({
   required BuildContext context,

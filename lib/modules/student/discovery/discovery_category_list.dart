@@ -12,10 +12,15 @@ class CategoryList extends StatelessWidget {
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){},
       builder: (context , state ){
-        var theme= Theme.of(context);
         return Scaffold(
           appBar: secondAppbar(context: context, title: "New Courses"),
-          body:  Center(child: Text("I work on it",style: TextStyle(color: theme.primaryColor,fontSize: 25),)),
+          body:  ListView(
+            shrinkWrap: true,
+            children: [
+              slideItem(context: context, title: "Learn English Easy", id: 1, image: "Assets/subjects_icon/alphabet.png"),
+              slideItem(context: context, title: "Know more about History", id: 2, image: "Assets/subjects_icon/history.png"),
+            ],
+          ),
         );
       },
     );

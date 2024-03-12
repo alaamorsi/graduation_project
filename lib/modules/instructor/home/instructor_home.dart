@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/instructor/home/add_course.dart';
+import 'package:graduation_project/modules/student/discovery/notification.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../layout/instructor/instructor_cubit/instructor_cubit.dart';
 import '../../../layout/instructor/instructor_cubit/instructor_states.dart';
@@ -29,6 +30,23 @@ class TeacherHomeScreen extends StatelessWidget {
             title: Text('Hello,Mr ${CacheHelper.getData(key: 'firstName')}!',
               style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
             ),
+            actions:[
+
+              Padding(padding: const EdgeInsets.symmetric(horizontal:10.0),
+                child:Container(
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.3),
+                    borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                  ),
+                  child: IconButton(
+                    onPressed: (){navigateTo(context, const NotificationsScreen());},
+                    icon: Icon(Icons.notifications,size: 25,color: Theme.of(context).primaryColor,),
+                  ),
+                ),
+              ),
+            ],
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),

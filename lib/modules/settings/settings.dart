@@ -65,48 +65,51 @@ class SettingsScreen extends StatelessWidget {
                   //     }),
                   // ]),
                   //app language
-                  Row(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: theme.primaryColor.withOpacity(0.2),
-                          borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                  InkWell(
+                    onTap: (){
+                      navigateTo(context, const ThemeScreen());
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: theme.primaryColor.withOpacity(0.2),
+                            borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                          ),
+                          child: Icon(Icons.language_outlined,size: 25,color:theme.primaryColor),
                         ),
-                        child: Icon(Icons.language_outlined,size: 25,color:theme.primaryColor),
-                      ),
-                      const SizedBox(width: 20,),
-                      Text("language",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: (){
-                        },
-                        icon: Icon(Icons.arrow_forward_ios_outlined,size: 18,color:theme.primaryColor),)
-                    ],
+                        const SizedBox(width: 20,),
+                        Text("language",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                        const Spacer(),
+                        Icon(Icons.arrow_forward_ios_outlined,size: 18,color:theme.primaryColor),
+                      ],
+                    ),
                   ),
                   newDivider(),
                   //app theme
-                  Row(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: theme.primaryColor.withOpacity(0.2),
-                          borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                  InkWell(
+                    onTap: (){
+                      navigateTo(context, const ThemeScreen());
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: theme.primaryColor.withOpacity(0.2),
+                            borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                          ),
+                          child: Icon(Icons.imagesearch_roller_rounded,size: 25,color:theme.primaryColor),
                         ),
-                        child: Icon(Icons.imagesearch_roller_rounded,size: 25,color:theme.primaryColor),
-                      ),
-                      const SizedBox(width: 20,),
-                      Text("Theme",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: (){
-                          navigateTo(context, const ThemeScreen());
-                        },
-                        icon: Icon(Icons.arrow_forward_ios_outlined,size: 18,color:theme.primaryColor),)
-                    ],
+                        const SizedBox(width: 20,),
+                        Text("Theme",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                        const Spacer(),
+                        Icon(Icons.arrow_forward_ios_outlined,size: 18,color:theme.primaryColor),
+                      ],
+                    ),
                   ),
                   newDivider(),
                   //notifications
@@ -139,8 +142,8 @@ class SettingsScreen extends StatelessWidget {
                     onTap: (){
                       CacheHelper.removeData(key: 'jwt');
                       CacheHelper.removeData(key: 'role');
-                      jwt = '';
-                      role = '';
+                      jwt = 'null';
+                      role = 'null';
                       navigateAndFinish(context, const LoginScreen());
                     },
                     child: Row(

@@ -26,13 +26,7 @@ class HomeScreen extends StatelessWidget {
       'Weekly content',
       'Recorded Content',
     ];
-    final List<String> slides = [
-      'Most Ratified',
-      'Top Seller',
-      'may interest you',
-      'Weekly content',
-      'Recorded Content',
-    ];
+
     var cubit = StudentCubit.get(context);
     var theme = Theme.of(context);
     return BlocConsumer<StudentCubit, StudentStates>(
@@ -92,18 +86,16 @@ class HomeScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("New courses", style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
+                          Text("Special", style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
                           const Spacer(),
                           TextButton(onPressed: () {navigateTo(context, const CategoryList());},
                             child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                     ),
                     CarouselSlider(
-                      items:slides.map((e) => slideItem(
-                          context: context,
-                          title: 'New Course!',
-                          subTitle: e,
-                          cardColor: theme.primaryColor,
-                      )).toList(),
+                      items:[
+                        slideItem(context: context, title: "Learn English Easy", id: 1, image: "Assets/subjects_icon/alphabet.png"),
+                        slideItem(context: context, title: "Know more about History", id: 2, image: "Assets/subjects_icon/history.png"),
+                      ],
                       options: CarouselOptions(
                         height: screenHeight/4,
                         initialPage: 0,
@@ -167,60 +159,4 @@ class HomeScreen extends StatelessWidget {
       }
     );
   }
-}
-
-Widget slideItem({
-  required BuildContext context,
-  required String title,
-  required String subTitle,
-  required Color cardColor,
-}) {
-  return Padding(
-    padding: const EdgeInsets.all(9.0),
-    child: InkWell(
-      onTap:(){},
-      child: Container(
-        width: screenWidth,
-        height: screenHeight/4,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(23.0)),
-          gradient: LinearGradient(colors: [cardColor,cardColor.withOpacity(0.5)]),
-          // color: cardColor,
-        ),
-        child:Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //teacher name
-              Expanded(
-                child: Text(title,
-                  style: font.copyWith(
-                      fontSize: 23.0, fontWeight: FontWeight.bold,color: Colors.white),
-                  overflow: TextOverflow.ellipsis,),
-              ),
-              Expanded(
-                child: Text(subTitle,
-                  style: font.copyWith(
-                      fontSize: 16.0,color: Colors.white),
-                  overflow: TextOverflow.ellipsis,),
-              ),
-              Row(
-                children: [
-                  const SizedBox(width: 15.0),
-                  Container(
-                      padding: const EdgeInsets.all(9.0),
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-                        color: Colors.grey.withOpacity(.7),
-                      ), child: Text("See Class",style: font.copyWith(fontSize: 16.0,color: Colors.white),)
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
 }
