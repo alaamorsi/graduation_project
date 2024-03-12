@@ -17,7 +17,7 @@ class EditProfileScreen extends StatelessWidget {
     TextEditingController lastNameController = TextEditingController();
     TextEditingController bioController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    late bool ch1,ch2,ch3,wci =false;
+    bool ch1=false,ch2=false,ch3=false,wci =false;
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context,state) {},
       builder:(context,state){
@@ -51,12 +51,12 @@ class EditProfileScreen extends StatelessWidget {
                           child: TextButton(
                               onPressed: ()async{
                                 if(wci){
+                                  await cubit.updateUserProfileImage(imageFile: cubit.profileImage);
                                   List<int> imageBytes = await cubit.profileImage!.readAsBytes();
                                   String base64Image = base64Encode(imageBytes);
                                   CacheHelper.saveData(key: 'profileStr', value: base64Image);
-                                  await cubit.updateUserProfileImage(imageFile: cubit.profileImage);
                                 }
-                                if(formKey.currentState!.validate())
+                                if(ch1||ch2||ch3)
                                   {
                                     cubit.updateUserData(
                                       updateFirstName: ch1,

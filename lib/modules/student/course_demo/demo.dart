@@ -16,7 +16,6 @@ class Demo extends StatelessWidget {
   Widget build(BuildContext context) {
     var cubit = StudentCubit.get(context);
     var theme =Theme.of(context);
-    cubit.fullPaidList(4);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){},
       builder: (context , state ){
@@ -197,7 +196,7 @@ class Demo extends StatelessWidget {
                                 radius: 10,
                                 paddingSize: 10,
                                 context: context,
-                                onPressed:(){cubit.checkPayment(4);},
+                                onPressed:(){},
                               ),
                             ),
                           ],

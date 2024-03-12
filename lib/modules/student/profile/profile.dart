@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
@@ -20,10 +18,6 @@ class ProfileScreen extends StatelessWidget {
       listener: (BuildContext context, StudentStates state) {},
       builder: (context, state) {
         var cubit = StudentCubit.get(context);
-       if(CacheHelper.getData(key: 'profileStr')!=null){
-         Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr') ?? "");
-         cubit.imageProvider = MemoryImage(picture);
-       }
         return Scaffold(
           appBar: AppBar(
             backgroundColor: theme.scaffoldBackgroundColor,
@@ -114,11 +108,11 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   const Divider(),
-                  userdata(title: 'First name', data: cubit.firstName, theme: theme),
+                  userdata(title: 'First name', data: CacheHelper.getData(key: 'firstName'), theme: theme),
                   const SizedBox(
                     height: 10,
                   ),
-                  userdata(title: 'Last name', data: cubit.lastName, theme: theme),
+                  userdata(title: 'Last name', data:CacheHelper.getData(key: 'lastName'), theme: theme),
                   const SizedBox(
                     height: 10,
                   ),
@@ -131,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  userdata(title: 'bio', data: cubit.bio, theme: theme),
+                  userdata(title: 'bio',data: CacheHelper.getData(key: 'biography')??"", theme: theme),
                 ],
               ),
             ),

@@ -29,6 +29,8 @@ class _OpeningScreenState extends State<OpeningScreen> {
           navigateAndFinish(context, const StudentLayout());
         }else if(role == 'instructor'){
           navigateAndFinish(context, const InstructorLayout());
+        }else{
+          navigateAndFinish(context, const InstructorLayout());
         }
       }else{
         navigateTo(context, const Introduction());

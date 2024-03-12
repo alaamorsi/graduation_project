@@ -16,6 +16,8 @@ import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
+import '../../../shared/component/constant.dart';
+import 'package:http_parser/http_parser.dart';
 
 class StudentCubit extends Cubit<StudentStates> {
   StudentCubit() : super(StudentInitialStates());
@@ -38,29 +40,6 @@ class StudentCubit extends Cubit<StudentStates> {
   void changeBottomNav(int index) {
     currentIndex = index;
     emit(StudentChangeBottomNavState());
-  }
-
-  List<bool> isPaid = [] ;
-  List<bool> demoList = List<bool>.filled(30, false);
-  void checkViewDemoList(index)
-  {
-    demoList[index] = !demoList[index];
-    emit(CheckViewDemoListState());
-  }
-
-  void fullPaidList(int n)
-  {
-    isPaid = List<bool>.filled(n, false);
-    isPaid[0]=true;
-    emit(CheckPaymentState());
-  }
-
-  void checkPayment(int n)
-  {
-    for(int i=1;i<n;i++){
-      isPaid[i] =! isPaid[i];
-    }
-    emit(CheckPaymentState());
   }
 
   List<Course> wishList=[];
@@ -114,13 +93,31 @@ class StudentCubit extends Cubit<StudentStates> {
   String firstName=CacheHelper.getData(key: 'firstName');
   String lastName=CacheHelper.getData(key: 'lastName');
   String bio=CacheHelper.getData(key: 'biography')??"";
-   ImageProvider<Object> imageProvider=const AssetImage("Assets/profile_icon_S.png");
+  ImageProvider<Object> imageProvider=const AssetImage("Assets/profile_icon_S.png");
 
-  getImage(){
-    Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
-    imageProvider = MemoryImage(picture);
+  void getImage(){
+    if(CacheHelper.getData(key: 'profileStr')!=null){
+      Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
+      imageProvider = MemoryImage(picture);
+    }else{
+      imageProvider = const AssetImage("Assets/profile_icon_S.png");
+    }
+    emit(StudentHasImageState());
   }
 
+  void clearCache(){
+    CacheHelper.removeData(key: 'jwt');
+    CacheHelper.removeData(key: 'role');
+    jwt = 'null';
+    role = 'null';
+    CacheHelper.removeData(key: 'firstName');
+    CacheHelper.removeData(key: 'lastName');
+    CacheHelper.removeData(key: 'biography');
+    CacheHelper.removeData(key: 'profileStr');
+    firstName = '';
+    lastName = '';
+    bio = '';
+  }
   File? profileImage;
   var picker = ImagePicker();
   Future<void> getProfileImage() async {
@@ -135,35 +132,30 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
   //update User image
-  FormData formData= FormData();
   Future<void> updateUserProfileImage({
-    // required String name,
     required File? imageFile,
   }) async{
-    emit(UpdateUserDataLoadingState());
-    // formData.fields.addAll({
-    //   'name':name,
-    // } as Iterable<MapEntry<String, String>>);
-
+    emit(UpdateProfileImageLoadingState());
+    FormData formData= FormData();
     if(imageFile != null){
-      formData.files.add(MapEntry(
-        'profileImage',
-        (await MultipartFile.fromFile(imageFile.path,
-            filename: imageFile.path.split('/').last)),
-      ));
+      formData = FormData.fromMap({
+        'profileImage':
+        await MultipartFile.fromFile(imageFile.path, filename: imageFile.path.split('/').last,
+          contentType: MediaType('image', 'png'),),
+      });
     }
     DioHelper.updateImage(
         url: updateImage,
-        data: formData.files.last.value
+        data: formData,
     ).then((value){
-      print(value.statusCode);
       if(value.statusCode == 200)
       {
         emit(UpdateProfileImageSuccessState());
-
+        print("updateUserImage.statusCode =${value.statusCode}");
       }
     }).catchError((error){
-      emit(UpdateUserDataErrorState(error.toString()));
+      print("updateUserImage.statusCode =$error");
+      emit(UpdateProfileImageErrorState());
     });
   }
 
@@ -203,7 +195,6 @@ class StudentCubit extends Cubit<StudentStates> {
       });
     }
     DioHelper.patchData(url: updateDataPatch, data: updateData).then((value){
-      print(value.statusCode);
       if(value.statusCode == 200)
         {
           if(updateFirstName) {
@@ -221,6 +212,7 @@ class StudentCubit extends Cubit<StudentStates> {
             bio=newBio!;
             emit(UpdateBioSuccessState());
           }
+          print("updateUserData.statusCode =${value.statusCode}");
         }
     }).catchError((error){
       print(error.toString());

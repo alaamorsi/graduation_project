@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/registeration/login/login_screen.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-import '../../../../../shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'theme_screen.dart';
 
@@ -67,7 +67,6 @@ class SettingsScreen extends StatelessWidget {
                   //app language
                   InkWell(
                     onTap: (){
-                      navigateTo(context, const ThemeScreen());
                     },
                     child: Row(
                       children: [
@@ -140,10 +139,7 @@ class SettingsScreen extends StatelessWidget {
                   //logout
                   InkWell(
                     onTap: (){
-                      CacheHelper.removeData(key: 'jwt');
-                      CacheHelper.removeData(key: 'role');
-                      jwt = 'null';
-                      role = 'null';
+                      StudentCubit.get(context).clearCache();
                       navigateAndFinish(context, const LoginScreen());
                     },
                     child: Row(

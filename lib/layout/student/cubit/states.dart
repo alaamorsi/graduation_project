@@ -4,10 +4,6 @@ class StudentInitialStates extends StudentStates {}
 
 class StudentChangeBottomNavState extends StudentStates {}
 
-class CheckViewDemoListState extends StudentStates {}
-
-class CheckPaymentState extends StudentStates {}
-
 class CheckFavoriteState extends StudentStates {}
 
 class StartSearchState extends StudentStates {}
@@ -36,7 +32,9 @@ class UpdateUserDataLoadingState extends StudentStates {}
 class UpdateFirstNameSuccessState extends StudentStates {}
 class UpdateLastNameSuccessState extends StudentStates {}
 class UpdateBioSuccessState extends StudentStates {}
+class UpdateProfileImageLoadingState extends StudentStates {}
 class UpdateProfileImageSuccessState extends StudentStates {}
+class UpdateProfileImageErrorState extends StudentStates {}
 
 class UpdateUserDataErrorState extends StudentStates {
   final String error;

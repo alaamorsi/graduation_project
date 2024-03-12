@@ -58,11 +58,10 @@ class DioHelper
 
   static Future<Response> updateImage ({
     required String url,
-    required MultipartFile data,
+    required FormData data,
   })async
   {
     dio.options.headers ={
-      'Content-Type':'application/json',
       'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
       'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
