@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layout/instructor/instructor_layout.dart';
+import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
@@ -24,8 +26,10 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginSuccessState) {
           if (role == 'student') {
             navigateAndFinish(context, const StudentLayout());
+            StudentCubit.get(context).getImage();
+            StudentCubit.get(context).getUser();
           } else if (role == 'instructor') {
-            navigateAndFinish(context, const StudentLayout());
+            navigateAndFinish(context, const InstructorLayout());
           }
         }
         if(state is LoginNotConfirmedState)

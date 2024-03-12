@@ -21,8 +21,8 @@ void main() async{
   mode = CacheHelper.getData(key: 'appMode')??mode;
   langTitle = CacheHelper.getData(key: 'ln')??langTitle;
   notification = CacheHelper.getData(key: 'notification')??notification;
-  jwt = CacheHelper.getData(key: 'jwt')??jwt;
-  role = CacheHelper.getData(key: 'role')??role;
+  jwt = CacheHelper.getData(key: 'jwt')??"";
+  role = CacheHelper.getData(key: 'role')??"";
   runApp(MyApp(appMode: mode));
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>AppCubit()),
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit()),
-        BlocProvider(create: (context)=>StudentCubit()),
+        BlocProvider(create: (context)=>StudentCubit()..getUser()..getImage()),
         BlocProvider(create: (context)=>InstructorCubit()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(

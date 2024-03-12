@@ -15,13 +15,9 @@ class ChatsScreen extends StatelessWidget {
         builder:(context,state){
           return Scaffold(
             appBar: secondAppbar(context: context, title: "Chat"),
-            body: ConditionalBuilder(
-            condition: true,
-            builder: (context) => ListView.builder(
+            body: ListView.builder(
               itemBuilder: (BuildContext context, int index)=>Center(child: Text('Chat of Lesson $index')),
-              itemCount: 2,
-            ),
-            fallback: (context) => const Center(child: Text('You are not in class yet')),
+              itemCount: 1,
             ),
           );
         }

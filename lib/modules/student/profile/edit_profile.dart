@@ -7,10 +7,14 @@ import 'package:graduation_project/shared/component/components.dart';
 import '../../../shared/component/constant.dart';
 import '../../../shared/network/cache_helper.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
 
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
 
+class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     TextEditingController firstNameController = TextEditingController();
@@ -23,9 +27,9 @@ class EditProfileScreen extends StatelessWidget {
       builder:(context,state){
         var theme = Theme.of(context);
         var cubit = StudentCubit.get(context);
-        firstNameController.text = cubit.firstName;
-        lastNameController.text = cubit.lastName;
-        bioController.text = cubit.bio;
+        firstNameController.text =CacheHelper.getData(key: 'firstName');
+        lastNameController.text = CacheHelper.getData(key: 'lastName');
+        bioController.text =CacheHelper.getData(key: 'biography')??"";
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: secondAppbar(context: context, title: 'edit profile'),
@@ -54,19 +58,26 @@ class EditProfileScreen extends StatelessWidget {
                                   await cubit.updateUserProfileImage(imageFile: cubit.profileImage);
                                   List<int> imageBytes = await cubit.profileImage!.readAsBytes();
                                   String base64Image = base64Encode(imageBytes);
-                                  CacheHelper.saveData(key: 'profileStr', value: base64Image);
+                                  await CacheHelper.saveData(key: 'profileStr', value: base64Image);
+                                  cubit.getImage();
+                                  setState(() {
+                                    wci =false;
+                                  });
                                 }
-                                if(ch1||ch2||ch3)
-                                  {
-                                    cubit.updateUserData(
-                                      updateFirstName: ch1,
-                                      updateLastName: ch2,
-                                      updateBio: ch3,
-                                      newFirstName: firstNameController.text,
-                                      newLastName: lastNameController.text,
-                                      newBio: bioController.text,
-                                    );
-                                  }
+                                if(formKey.currentState!.validate()) {
+                                  await cubit.updateUserData(
+                                    updateFirstName: ch1,
+                                    updateLastName: ch2,
+                                    updateBio: ch3,
+                                    newFirstName: firstNameController.text,
+                                    newLastName: lastNameController.text,
+                                    newBio: bioController.text,
+                                  );
+                                  await CacheHelper.saveData(key: 'firstName', value: firstNameController.text);
+                                  await CacheHelper.saveData(key: 'lastName', value: lastNameController.text);
+                                  await CacheHelper.saveData(key: 'biography', value: bioController.text);
+                                  cubit.getUser();
+                                }
                                 Navigator.pop(context);
                               },
                               child: Text("save",style: font.copyWith(color: Colors.white,fontSize: 16.0),)),
@@ -118,7 +129,9 @@ class EditProfileScreen extends StatelessWidget {
                       thereSuffix: false,
                       radius: 30,
                       validate: (String? value) {
-                        ch1 = CacheHelper.getData(key: 'firstName')!= value.toString();
+                        setState(() {
+                          ch1 = CacheHelper.getData(key: 'firstName')!= value.toString();
+                        });
                         return null;
                       },
                       label: 'First Name',
@@ -133,7 +146,9 @@ class EditProfileScreen extends StatelessWidget {
                       thereSuffix: false,
                       radius: 30,
                       validate: (String? value) {
-                        ch2 = CacheHelper.getData(key: 'lastName')!=value.toString();
+                        setState(() {
+                          ch2 = CacheHelper.getData(key: 'lastName')!=value.toString();
+                        });
                         return null;
                       },
                       label: 'Last Name',
@@ -147,7 +162,9 @@ class EditProfileScreen extends StatelessWidget {
                         thereSuffix: false,
                         radius: 30,
                         validate: (String? value) {
-                          ch3 = CacheHelper.getData(key: 'biography')!=value.toString();
+                          setState(() {
+                            ch3 = CacheHelper.getData(key: 'biography')!=value.toString();
+                          });
                           return null;
                         },
                         label: 'Bio',

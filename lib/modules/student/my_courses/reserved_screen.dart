@@ -3,22 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
 
-import '../../../shared/component/constant.dart';
-
 class ReservedScreen extends StatelessWidget {
   const ReservedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     var theme= Theme.of(context);
-    return Scaffold(
-      appBar: defaultAppBar(
-        context: context,
-        title: Text("My Enrolled Courses",
-          style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
-        ),
-      ),
-      body: ConditionalBuilder(
+    return ConditionalBuilder(
         condition: myCourses.isNotEmpty,
         builder: (context) => Padding(
           padding: const EdgeInsets.all(10),
@@ -34,7 +25,6 @@ class ReservedScreen extends StatelessWidget {
           ),
         ),
         fallback: (context) => const Center(child: Text('You are not in class yet')),
-      ),
-    );
+      );
   }
 }

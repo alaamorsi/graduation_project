@@ -31,11 +31,24 @@ class CacheHelper {
     return await sharedPreferences?.setDouble(key, value);
   }
 
+  static Future<void>? reload() async
+  {
+    return await sharedPreferences?.reload();
+  }
+
+
+
+
   static Future<bool> removeData({
     required String key,
   }) async
   {
     return await sharedPreferences!.remove(key);
+  }
+
+  static Future<bool> clear() async
+  {
+    return await sharedPreferences!.clear();
   }
 }
 

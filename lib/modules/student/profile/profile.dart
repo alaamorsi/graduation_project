@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
-import 'package:graduation_project/modules/settings/settings.dart';
 import 'package:graduation_project/modules/student/profile/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
@@ -18,37 +17,7 @@ class ProfileScreen extends StatelessWidget {
       listener: (BuildContext context, StudentStates state) {},
       builder: (context, state) {
         var cubit = StudentCubit.get(context);
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: theme.scaffoldBackgroundColor,
-            toolbarHeight: 70.0,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                )
-            ),
-            title: Text(cubit.titles[cubit.currentIndex],
-              style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
-            ),
-            actions:[
-              Padding(padding: const EdgeInsets.only(right:20.0),
-                child:Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.3),
-                    borderRadius: const BorderRadius.all(Radius.circular(9.0)),
-                  ),
-                  child: IconButton(
-                    onPressed: (){navigateTo(context, const SettingsScreen());},
-                    icon: Icon(Icons.settings,size: 25,color: Theme.of(context).primaryColor),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          body: SingleChildScrollView(
+        return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -108,11 +77,11 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   const Divider(),
-                  userdata(title: 'First name', data: CacheHelper.getData(key: 'firstName'), theme: theme),
+                  userdata(title: 'First name', data: cubit.firstName, theme: theme),
                   const SizedBox(
                     height: 10,
                   ),
-                  userdata(title: 'Last name', data:CacheHelper.getData(key: 'lastName'), theme: theme),
+                  userdata(title: 'Last name', data:cubit.lastName, theme: theme),
                   const SizedBox(
                     height: 10,
                   ),
@@ -125,12 +94,11 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  userdata(title: 'bio',data: CacheHelper.getData(key: 'biography')??"", theme: theme),
+                  userdata(title: 'bio',data: cubit.bio, theme: theme),
                 ],
               ),
             ),
-          ),
-        );
+          );
       },
     );
   }

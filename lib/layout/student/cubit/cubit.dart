@@ -103,19 +103,27 @@ class StudentCubit extends Cubit<StudentStates> {
     }
     emit(StudentHasImageState());
   }
+  void getUser(){
+    firstName=CacheHelper.getData(key: 'firstName');
+    lastName=CacheHelper.getData(key: 'lastName');
+    bio=CacheHelper.getData(key: 'biography')??"";
+    emit(GetUserDataSuccessState());
+  }
 
-  void clearCache(){
-    CacheHelper.removeData(key: 'jwt');
-    CacheHelper.removeData(key: 'role');
+  void clearCache() async{
+    await CacheHelper.removeData(key: 'jwt');
+    await CacheHelper.removeData(key: 'role');
+    await CacheHelper.removeData(key: 'firstName');
+    await CacheHelper.removeData(key: 'lastName');
+    await CacheHelper.removeData(key: 'biography');
+    await CacheHelper.removeData(key: 'email');
+    await CacheHelper.removeData(key: 'profileStr');
     jwt = 'null';
     role = 'null';
-    CacheHelper.removeData(key: 'firstName');
-    CacheHelper.removeData(key: 'lastName');
-    CacheHelper.removeData(key: 'biography');
-    CacheHelper.removeData(key: 'profileStr');
     firstName = '';
     lastName = '';
     bio = '';
+    imageProvider = const AssetImage("Assets/profile_icon_S.png");
   }
   File? profileImage;
   var picker = ImagePicker();
@@ -159,14 +167,14 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
   //update User Data
-  void updateUserData({
+  Future<void> updateUserData({
     required bool updateFirstName ,
     required bool updateLastName ,
     required bool updateBio ,
-     String? newFirstName,
-     String? newLastName,
-     String? newBio,
-  }) {
+    String? newFirstName,
+    String? newLastName,
+    String? newBio,
+  }) async {
     emit(UpdateUserDataLoadingState());
     List<Map<String,dynamic>> updateData=  List<Map<String,dynamic>>.empty(growable: true);
     if(updateFirstName)
@@ -194,21 +202,16 @@ class StudentCubit extends Cubit<StudentStates> {
       });
     }
     DioHelper.patchData(url: updateDataPatch, data: updateData).then((value){
+      print("updateUserData.statusCode =${value.statusCode}");
       if(value.statusCode == 200)
         {
           if(updateFirstName) {
-            CacheHelper.saveData(key: 'firstName', value: newFirstName);
-            firstName=newFirstName!;
             emit(UpdateFirstNameSuccessState());
           }
           if(updateLastName) {
-            CacheHelper.saveData(key: 'lastName', value: newLastName);
-            lastName=newLastName!;
             emit(UpdateLastNameSuccessState());
           }
           if(updateBio) {
-            CacheHelper.saveData(key: 'biography', value: newBio);
-            bio=newBio!;
             emit(UpdateBioSuccessState());
           }
           print("updateUserData.statusCode =${value.statusCode}");

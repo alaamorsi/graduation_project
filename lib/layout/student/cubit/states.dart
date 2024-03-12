@@ -2,6 +2,12 @@ abstract class StudentStates {}
 
 class StudentInitialStates extends StudentStates {}
 
+
+///implemented when app initialize and when data updated
+class GetUserDataSuccessState extends StudentStates {}
+
+class StudentHasImageState extends StudentStates {}
+
 class StudentChangeBottomNavState extends StudentStates {}
 
 class CheckFavoriteState extends StudentStates {}
@@ -19,8 +25,6 @@ class PaymentManagerErrorState extends StudentStates {
 }
 
 
-
-class StudentHasImageState extends StudentStates {}
 // pick image
 class ProfileImagePickedSuccessState extends StudentStates {}
 
@@ -41,5 +45,3 @@ class UpdateUserDataErrorState extends StudentStates {
 
   UpdateUserDataErrorState(this.error);
 }
-
-class GetUserDataSuccessState extends StudentStates {}

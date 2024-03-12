@@ -9,7 +9,6 @@ class DioHelper
   {
     dio = Dio(
       BaseOptions(
-        // 'Authorization': 'b676yF4HQTAGtP9bYNM2kjAw3VZ6vd63Ar7dr7jQvhISokVKIK5K3Emr4tiPctOBgBlZhV'
         baseUrl: 'http://ahmedad-001-site1.gtempurl.com/api/',
         receiveDataWhenStatusError: true,
       ),
@@ -33,7 +32,7 @@ class DioHelper
     required String url,
     required Map<String,dynamic> data,
     String? token,
-  })async
+  })
   {
     dio.options.headers ={
       'Content-Type':'application/json',
@@ -46,7 +45,7 @@ class DioHelper
     required String url,
     required List<Map<String,dynamic>>  data,
     String? token,
-  })async
+  })
   {
     dio.options.headers ={
       'Content-Type':'application/json',
@@ -59,7 +58,7 @@ class DioHelper
   static Future<Response> updateImage ({
     required String url,
     required FormData data,
-  })async
+  })
   {
     dio.options.headers ={
       'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
