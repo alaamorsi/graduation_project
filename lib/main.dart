@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/instructor/instructor_cubit/instructor_cubit.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
-import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/opening/opening.dart';
@@ -59,7 +58,7 @@ class MyApp extends StatelessWidget {
             theme: AppCubit.get(context).theme,
             darkTheme: AppCubit.get(context).darkTheme,
             themeMode: AppCubit.get(context).appMode,
-            home:const StudentLayout(),
+            home:const OpeningScreen(),
           );
         },
       ),
