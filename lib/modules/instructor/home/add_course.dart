@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/instructor/instructor_cubit/instructor_cubit.dart';
 import 'package:graduation_project/layout/instructor/instructor_cubit/instructor_states.dart';
-import '../../shared/component/constant.dart';
-import '../../shared/component/components.dart';
+import '../../../shared/component/constant.dart';
+import '../../../shared/component/components.dart';
 
 class AddCourse extends StatelessWidget {
   const AddCourse({super.key});

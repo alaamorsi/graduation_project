@@ -31,9 +31,6 @@ class CourseCubit extends Cubit<CourseStates> {
     'Assignments',
   ];
   void changeBottomNav(int index) {
-    if(index!=0){
-      disposeVideo();
-    }
     currentIndex = index;
     emit(CourseChangeBottomNavState());
   }

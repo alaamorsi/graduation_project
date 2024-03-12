@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/login/login_screen.dart';
-import 'package:graduation_project/modules/register/cubit/cubit.dart';
-import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
+import '../login/login_screen.dart';
+import 'cubit/cubit.dart';
+import 'cubit/states.dart';
 
 class ConfirmScreen extends StatelessWidget {
   final TextEditingController codeController = TextEditingController();

@@ -114,7 +114,7 @@ class StudentCubit extends Cubit<StudentStates> {
   String firstName=CacheHelper.getData(key: 'firstName');
   String lastName=CacheHelper.getData(key: 'lastName');
   String bio=CacheHelper.getData(key: 'biography')??"";
-   ImageProvider<Object> imageProvider=AssetImage("Assets/profile_icon_S.png");
+   ImageProvider<Object> imageProvider=const AssetImage("Assets/profile_icon_S.png");
 
   getImage(){
     Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/login/cubit/cubit.dart';
-import 'package:graduation_project/modules/login/cubit/states.dart';
-import 'package:graduation_project/modules/reset/forget_password_screen2.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
+
+import '../login/cubit/cubit.dart';
+import '../login/cubit/states.dart';
+import 'forget_password_screen2.dart';
 
 class ForgetPasswordScreen1 extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
-import 'package:graduation_project/modules/login/cubit/cubit.dart';
-import 'package:graduation_project/modules/login/cubit/states.dart';
-import 'package:graduation_project/modules/register/Confirm_Screen.dart';
-import 'package:graduation_project/modules/reset/forget_password_screen1.dart';
-import 'package:graduation_project/modules/register/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
-import '../../shared/component/constant.dart';
+import '../../../shared/component/constant.dart';
+import '../register/Confirm_Screen.dart';
+import '../register/second_screen.dart';
+import '../reset/forget_password_screen1.dart';
+import 'cubit/cubit.dart';
+import 'cubit/states.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

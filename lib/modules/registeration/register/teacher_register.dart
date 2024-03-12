@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/login/login_screen.dart';
-import 'package:graduation_project/modules/register/Confirm_Screen.dart';
-import 'package:graduation_project/modules/register/cubit/cubit.dart';
-import 'package:graduation_project/modules/register/cubit/states.dart';
-import 'package:graduation_project/modules/register/second_screen.dart';
+import 'package:graduation_project/modules/registeration/register/second_screen.dart';
+import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import '../../shared/component/constant.dart';
+import '../login/login_screen.dart';
+import 'Confirm_Screen.dart';
+import 'cubit/cubit.dart';
+import 'cubit/states.dart';
 
-class StudentScreen extends StatelessWidget {
-  const StudentScreen({super.key});
-
+class TeacherScreen extends StatelessWidget {
+  const TeacherScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +22,14 @@ class StudentScreen extends StatelessWidget {
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
         if(state is RegisterSuccessState)
-          {
-            RegisterCubit.get(context).sendConfirm(email: emailController.text);
-            navigateTo(context, ConfirmScreen(email: emailController.text,));
-          }
+        {
+          RegisterCubit.get(context).sendConfirm(email: emailController.text);
+          navigateTo(context, ConfirmScreen(email: emailController.text,));
+        }
       },
       builder: (context, state) {
-        var theme = Theme.of(context);
         var cubit = RegisterCubit.get(context);
+        var theme = Theme.of(context);
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SingleChildScrollView(
@@ -48,7 +47,7 @@ class StudentScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.arrow_back_ios_rounded,
-                                color: theme.primaryColor,size: 36.0,
+                            color: theme.primaryColor,size: 36.0,
                           ),
                           Text("login",
                             style: font.copyWith(color: theme.primaryColor,fontSize: 27.0,fontWeight: FontWeight.bold),)
@@ -60,7 +59,7 @@ class StudentScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "student account",
+                          "teacher account",
                           style:font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
                               color: theme.primaryColor),
                         ),
@@ -157,8 +156,8 @@ class StudentScreen extends StatelessWidget {
                       text: "create",
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                        cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 'student');
-                      }
+                          cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 'student');
+                        }
                       },
                       context: context,
                       color: theme.cardColor,

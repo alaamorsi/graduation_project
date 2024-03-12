@@ -6,54 +6,6 @@ import '../../../../shared/component/components.dart';
 import '../course_cubit/course_cubit.dart';
 import '../course_cubit/course_states.dart';
 
-List<Question> questions=[
-  Question(
-      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
-      isMultiChoose: true,
-      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
-      correctAnswer: 1),
-  Question(
-      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
-      isMultiChoose: false,
-      answers: ['أ - صح','ب - خظأ'],
-      correctAnswer: 1),
-  Question(
-      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
-      isMultiChoose: true,
-      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
-      correctAnswer: 2),
-  Question(
-      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
-      isMultiChoose: true,
-      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
-      correctAnswer: 3),
-  Question(
-      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
-      isMultiChoose: true,
-      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
-      correctAnswer: 4),
-  Question(
-      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
-      isMultiChoose: false,
-      answers: ['أ - صح','ب - خظأ'],
-      correctAnswer: 1),
-  Question(
-      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
-      isMultiChoose: false,
-      answers: ['أ - صح','ب - خظأ'],
-      correctAnswer: 1),
-  Question(
-      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
-      isMultiChoose: false,
-      answers: ['أ - صح','ب - خظأ'],
-      correctAnswer: 1),
-  Question(
-      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
-      isMultiChoose: false,
-      answers: ['أ - صح','ب - خظأ'],
-      correctAnswer: 1),
-];
-late List<int> studentAnswers;
 class AssignmentScreen extends StatelessWidget {
   const AssignmentScreen({super.key});
 
@@ -62,7 +14,6 @@ class AssignmentScreen extends StatelessWidget {
     return BlocConsumer<CourseCubit,CourseStates>(
       listener: (context,state) {},
       builder:(context,state){
-        var cubit = CourseCubit.get(context);
         var theme = Theme.of(context);
         return DefaultTabController(
           length: 2,
@@ -299,3 +250,52 @@ class Question{
     required this.correctAnswer,
   });
 }
+
+List<Question> questions=[
+  Question(
+      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
+      isMultiChoose: true,
+      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
+      correctAnswer: 1),
+  Question(
+      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
+      isMultiChoose: false,
+      answers: ['أ - صح','ب - خظأ'],
+      correctAnswer: 1),
+  Question(
+      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
+      isMultiChoose: true,
+      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
+      correctAnswer: 2),
+  Question(
+      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
+      isMultiChoose: true,
+      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
+      correctAnswer: 3),
+  Question(
+      question: 'تعتبر حركة الكواكب حول الشمس حركة؟',
+      isMultiChoose: true,
+      answers: ['أ - حركة دورية','ب - حركة توافقية','ج - حركة اهتزازية','د - حركة دورانية'],
+      correctAnswer: 4),
+  Question(
+      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
+      isMultiChoose: false,
+      answers: ['أ - صح','ب - خظأ'],
+      correctAnswer: 1),
+  Question(
+      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
+      isMultiChoose: false,
+      answers: ['أ - صح','ب - خظأ'],
+      correctAnswer: 1),
+  Question(
+      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
+      isMultiChoose: false,
+      answers: ['أ - صح','ب - خظأ'],
+      correctAnswer: 1),
+  Question(
+      question: 'تكون طاقة حركة البندول أكبر عند مروره بموضع السكون؟',
+      isMultiChoose: false,
+      answers: ['أ - صح','ب - خظأ'],
+      correctAnswer: 1),
+];
+late List<int> studentAnswers;

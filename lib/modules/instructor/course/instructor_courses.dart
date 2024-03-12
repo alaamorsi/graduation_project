@@ -2,24 +2,20 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
-
 import '../../../shared/component/constant.dart';
 
-class ReservedScreen extends StatelessWidget {
-  const ReservedScreen({super.key});
+class TeacherCoursesScreen extends StatelessWidget {
+  const TeacherCoursesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     var theme= Theme.of(context);
     return Scaffold(
-      appBar: defaultAppBar(
-        context: context,
-        title: Text("My Enrolled Courses",
-          style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
-        ),
-      ),
+      appBar:defaultAppBar(context: context,title: Text("Course",
+        style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
+      ),),
       body: ConditionalBuilder(
-        condition: myCourses.isNotEmpty,
+        condition: false,
         builder: (context) => Padding(
           padding: const EdgeInsets.all(10),
           child: ListView.builder(
@@ -33,7 +29,15 @@ class ReservedScreen extends StatelessWidget {
               }
           ),
         ),
-        fallback: (context) => const Center(child: Text('You are not in class yet')),
+        fallback: (context) => Center(
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Text("You Didn't make any Class yet",
+                style: font.copyWith(fontSize: 22.0,color: Theme.of(context).primaryColorDark),
+                textAlign:TextAlign.center,
+              ),
+            ),
+        ),
       ),
     );
   }

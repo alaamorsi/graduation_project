@@ -10,10 +10,8 @@ class ClassLeader extends StatelessWidget {
   const ClassLeader({super.key,required this.course});
 
   @override Widget build(BuildContext context) {
-
     return BlocProvider<CourseCubit>(
       create: (BuildContext context)=>CourseCubit()..openCourse(course),
-
       child:BlocConsumer<CourseCubit,CourseStates>(
           listener: (context,state) {},
           builder:(context,state){
@@ -68,6 +66,7 @@ class ClassLeader extends StatelessWidget {
                         ],
                         selectedIndex: cubit.currentIndex,
                         onTabChange: (index){
+                          cubit.disposeVideo();
                           cubit.changeBottomNav(index);
                         },
                       ),

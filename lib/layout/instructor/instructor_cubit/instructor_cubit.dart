@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/modules/instructor/home/instructor_home.dart';
+import '../../../modules/instructor/course/instructor_courses.dart';
+import '../../../modules/instructor/profile/instructor_profile.dart';
 import 'instructor_states.dart';
 
 class InstructorCubit extends Cubit<InstructorStates> {
@@ -8,8 +11,13 @@ class InstructorCubit extends Cubit<InstructorStates> {
   static InstructorCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
-  List<Widget> screens = [];
-  List<String> titles = [];
+  List<Widget> screens = [
+    const TeacherHomeScreen(),
+    const TeacherCoursesScreen(),
+    const TeacherProfile(),
+
+  ];
+
   void changeBottomNav(int index) {
     currentIndex = index;
     emit(InstructorChangeBottomNavState());

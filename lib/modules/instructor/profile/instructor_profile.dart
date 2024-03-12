@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
-import 'package:graduation_project/modules/settings/settings.dart';
 import 'package:graduation_project/modules/student/profile/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../shared/component/constant.dart';
+import '../../settings/settings.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class TeacherProfile extends StatelessWidget {
+  const TeacherProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
          cubit.imageProvider = MemoryImage(picture);
        }
         return Scaffold(
-          appBar: AppBar(
+          appBar:AppBar(
             backgroundColor: theme.scaffoldBackgroundColor,
             toolbarHeight: 70.0,
             shape: const RoundedRectangleBorder(
@@ -34,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
                   bottomRight: Radius.circular(10),
                 )
             ),
-            title: Text(cubit.titles[cubit.currentIndex],
+            title: Text("Profile",
               style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
             ),
             actions:[
@@ -96,7 +96,7 @@ class ProfileScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "${cubit.firstName} ${cubit.lastName}",
+                            "Mr: ${cubit.firstName} ${cubit.lastName}",
                             style: font.copyWith(
                                 fontWeight: FontWeight.w800,
                                 fontSize: 18.0,
