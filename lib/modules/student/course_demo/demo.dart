@@ -80,10 +80,10 @@ class Demo extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            rate(rate: course.preview[1].rate.toDouble() ),
+                            rate(rate: course.review[1].rate.toDouble() ),
                             const SizedBox(width: 10,),
                             Text(
-                              '( ${course.preview[1].rate.toDouble()} )',
+                              '( ${course.review[1].rate.toDouble()} )',
                               style: font.copyWith(fontSize: 13.0,color: Colors.black.withOpacity(.5)),
                             ),
                           ],

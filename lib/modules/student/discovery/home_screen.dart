@@ -95,10 +95,10 @@ class HomeScreen extends StatelessWidget {
                                     itemCount: categories.length,
                                     itemBuilder: (context ,index){
                                       int rate = 0;
-                                      for (var element in courses[index].preview) {
+                                      for (var element in courses[index].review) {
                                         rate = rate + element.rate;
                                       }
-                                      rate = rate~/(courses[index].preview.length);
+                                      rate = rate~/(courses[index].review.length);
                                       return courseItem(
                                           context: context,
                                           course: courses[index],

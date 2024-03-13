@@ -6,8 +6,8 @@ import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 
-class NotificationsScreen extends StatelessWidget {
-  const NotificationsScreen({super.key});
+class Teacher_Notifications extends StatelessWidget {
+  const Teacher_Notifications({super.key});
 
   @override
   Widget build(BuildContext context) {

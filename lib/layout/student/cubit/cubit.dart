@@ -99,7 +99,7 @@ class StudentCubit extends Cubit<StudentStates> {
       Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
       imageProvider = MemoryImage(picture);
     }else{
-      imageProvider = const AssetImage("Assets/profile_icon_S.png");
+      imageProvider = const AssetImage("Assets/profile/man1.png");
     }
     emit(StudentHasImageState());
   }
@@ -123,7 +123,7 @@ class StudentCubit extends Cubit<StudentStates> {
     firstName = '';
     lastName = '';
     bio = '';
-    imageProvider = const AssetImage("Assets/profile_icon_S.png");
+    imageProvider = const AssetImage("Assets/profile/man1.png");
   }
   File? profileImage;
   var picker = ImagePicker();

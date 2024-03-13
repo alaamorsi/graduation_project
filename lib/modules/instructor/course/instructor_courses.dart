@@ -10,11 +10,7 @@ class TeacherCoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme= Theme.of(context);
-    return Scaffold(
-      appBar:defaultAppBar(context: context,title: Text("Course",
-        style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
-      ),),
-      body: ConditionalBuilder(
+    return ConditionalBuilder(
         condition: false,
         builder: (context) => Padding(
           padding: const EdgeInsets.all(10),
@@ -38,7 +34,6 @@ class TeacherCoursesScreen extends StatelessWidget {
               ),
             ),
         ),
-      ),
-    );
+      );
   }
 }

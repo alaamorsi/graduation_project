@@ -8,7 +8,7 @@ class Course {
   final int year;
   final int videosNumber;
   final int price;
-  final List<Preview> preview;
+  final List<Review> review;
   bool inFavourite;
 
   Course({
@@ -21,19 +21,19 @@ class Course {
     required this.year,
     required this.videosNumber,
     required this.price,
-    required this.preview,
+    required this.review,
     required this.inFavourite,
   });
 
 }
 
-class Preview{
+class Review{
   final String name;
   final int rate;
   String? image;
   final String dateTime;
   final String comment;
-  Preview({
+  Review({
     required this.name,
     required this.dateTime,
     required this.comment,
@@ -52,10 +52,10 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 28,
     price: 300,
-    preview: [
-      Preview(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
-      Preview(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
-      Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    review: [
+      Review(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Review(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Review(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
     inFavourite: false,
   ),
@@ -69,10 +69,10 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 17,
     price: 300,
-    preview: [
-      Preview(rate: 4,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
-      Preview(rate: 3,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
-      Preview(rate: 1,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    review: [
+      Review(rate: 4,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Review(rate: 3,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Review(rate: 1,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
     inFavourite: false,
   ),
@@ -86,10 +86,10 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 16,
     price: 300,
-    preview: [
-      Preview(rate: 3,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
-      Preview(rate: 2,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
-      Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    review: [
+      Review(rate: 3,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Review(rate: 2,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Review(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
     inFavourite: false,
   ),
@@ -103,10 +103,10 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 28,
     price: 300,
-    preview: [
-      Preview(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
-      Preview(rate: 2,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
-      Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    review: [
+      Review(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Review(rate: 2,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Review(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
     inFavourite: false,
   ),
@@ -120,10 +120,10 @@ List<Course> courses=[
     year: 2024,
     videosNumber: 33,
     price: 300,
-    preview: [
-      Preview(rate: 1,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
-      Preview(rate: 0,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
-      Preview(rate: 2,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    review: [
+      Review(rate: 1,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Review(rate: 0,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Review(rate: 2,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
     inFavourite: false,
   ),
@@ -137,10 +137,10 @@ List<Course> courses=[
     year: 2023,
     videosNumber: 18,
     price: 300,
-    preview: [
-      Preview(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
-      Preview(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
-      Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    review: [
+      Review(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Review(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Review(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
     inFavourite: false,
   ),
@@ -158,7 +158,7 @@ class MyCourse {
   final int videosNumber;
   final List<Lesson> lessons;
   final int price;
-  final List<Preview> preview;
+  final List<Review> review;
   bool inFavourite;
 
   MyCourse({
@@ -171,7 +171,7 @@ class MyCourse {
     required this.year,
     required this.videosNumber,
     required this.price,
-    required this.preview,
+    required this.review,
     required this.inFavourite,
     required this.lessons,
   });
@@ -201,10 +201,10 @@ List<MyCourse> myCourses=[
     year: 2023,
     videosNumber: 3,
     price: 300,
-    preview: [
-      Preview(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
-      Preview(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
-      Preview(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
+    review: [
+      Review(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
+      Review(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
+      Review(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
     ],
     inFavourite: false,
     lessons: [

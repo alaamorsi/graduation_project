@@ -24,10 +24,10 @@ class WishListScreen extends StatelessWidget {
                   child: Column(
                       children: cubit.wishList.map((course) {
                         int rate = 0;
-                        for (var element in course.preview) {
+                        for (var element in course.review) {
                           rate = rate + element.rate;
                         }
-                        rate = rate~/(course.preview.length);
+                        rate = rate~/(course.review.length);
                         return courseItem(
                             context: context,
                             course: course,

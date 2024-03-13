@@ -67,7 +67,7 @@ class CourseDemo extends StatelessWidget {
                             width: screenWidth,
                             height: screenHeight/8,
                             decoration: BoxDecoration(
-                              color: theme.primaryColorLight.withOpacity(.2),
+                              color: theme.primaryColor.withOpacity(.2),
                               borderRadius: const BorderRadius.all(Radius.circular(23.0),),
                             ),
                             child:Padding(
@@ -135,7 +135,7 @@ class CourseDemo extends StatelessWidget {
                           width: screenWidth,
                           height: screenHeight/8,
                           decoration: BoxDecoration(
-                            color: theme.primaryColorLight.withOpacity(.2),
+                            color: theme.primaryColor.withOpacity(.2),
                             borderRadius: const BorderRadius.all(Radius.circular(15.0),),
                           ),
                           child:Padding(
@@ -150,13 +150,13 @@ class CourseDemo extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       color: theme.primaryColor.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(30),
-                                      image: course.preview[0].image!=null?
+                                      image: course.review[0].image!=null?
                                       DecorationImage(
                                         image:  NetworkImage(course.teacherImage),
                                         fit: BoxFit.cover,
                                       ):
                                       const DecorationImage(
-                                        image:  AssetImage("Assets/profile_icon_S.png"),
+                                        image:  AssetImage("Assets/profile/man_1.png"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -166,16 +166,16 @@ class CourseDemo extends StatelessWidget {
                                   crossAxisAlignment:CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      course.preview[0].name,
+                                      course.review[0].name,
                                       style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      course.preview[0].dateTime,
+                                      course.review[0].dateTime,
                                       style: font.copyWith(fontSize: 12.0,color: Colors.grey),
                                     ),
                                     Expanded(
                                       child: Text(
-                                        "${course.preview[0].comment}!",
+                                        "${course.review[0].comment}!",
                                         style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
                                       ),
                                     ),
@@ -201,7 +201,7 @@ class CourseDemo extends StatelessWidget {
                                             color:Colors.white,
                                           ),
                                           Text(
-                                            '${course.preview[0].rate}',
+                                            '${course.review[0].rate}',
                                             style: font.copyWith(fontSize: 12.0,color: Colors.white),
                                           ),
                                         ],

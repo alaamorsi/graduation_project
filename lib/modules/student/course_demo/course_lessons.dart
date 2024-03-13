@@ -89,7 +89,7 @@ class CourseLessons extends StatelessWidget {
         width: screenWidth,
         height: screenHeight/8,
         decoration: BoxDecoration(
-          color: theme.primaryColorLight.withOpacity(.2),
+          color: theme.primaryColor.withOpacity(.2),
           borderRadius: const BorderRadius.all(Radius.circular(23.0),),
         ),
         child:Padding(

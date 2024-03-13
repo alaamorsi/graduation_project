@@ -39,7 +39,7 @@ class CourseComments extends StatelessWidget {
                               theme: theme
                           ),
                       separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 10.0,),
-                      itemCount: course.preview.length,
+                      itemCount: course.review.length,
                     ),
                     fallback: (context)=>const Center(child: CircularProgressIndicator()),
                   ),
@@ -84,7 +84,7 @@ class CourseComments extends StatelessWidget {
       width: screenWidth,
       height: screenHeight/8,
       decoration: BoxDecoration(
-        color: theme.primaryColorLight.withOpacity(.2),
+        color: theme.primaryColor.withOpacity(.2),
         borderRadius: const BorderRadius.all(Radius.circular(15.0),),
       ),
       child:Padding(
@@ -99,13 +99,13 @@ class CourseComments extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(30),
-                  image: course.preview[index].image!=null?
+                  image: course.review[index].image!=null?
                   DecorationImage(
                     image:  NetworkImage(course.teacherImage),
                     fit: BoxFit.cover,
                   ):
-                  const DecorationImage(
-                    image:  AssetImage("Assets/profile_icon_S.png"),
+                  DecorationImage(
+                    image:  AssetImage("Assets/profile/man_${index+1}.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -115,16 +115,16 @@ class CourseComments extends StatelessWidget {
               crossAxisAlignment:CrossAxisAlignment.start,
               children: [
                 Text(
-                  course.preview[index].name,
+                  course.review[index].name,
                   style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  course.preview[index].dateTime,
+                  course.review[index].dateTime,
                   style: font.copyWith(fontSize: 12.0,color: Colors.grey),
                 ),
                 Expanded(
                   child: Text(
-                    '${course.preview[index].comment}!',
+                    '${course.review[index].comment}!',
                     style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
                   ),
                 ),
@@ -150,7 +150,7 @@ class CourseComments extends StatelessWidget {
                         color:Colors.white,
                       ),
                       Text(
-                        '${course.preview[index].rate}',
+                        '${course.review[index].rate}',
                         style: font.copyWith(fontSize: 12.0,color: Colors.white),
                       ),
                     ],

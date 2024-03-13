@@ -8,7 +8,6 @@ import 'package:graduation_project/modules/student/profile/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../shared/component/constant.dart';
-import '../../settings/settings.dart';
 
 class TeacherProfile extends StatelessWidget {
   const TeacherProfile({super.key});
@@ -24,37 +23,7 @@ class TeacherProfile extends StatelessWidget {
          Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr') ?? "");
          cubit.imageProvider = MemoryImage(picture);
        }
-        return Scaffold(
-          appBar:AppBar(
-            backgroundColor: theme.scaffoldBackgroundColor,
-            toolbarHeight: 70.0,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                )
-            ),
-            title: Text("Profile",
-              style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
-            ),
-            actions:[
-              Padding(padding: const EdgeInsets.only(right:20.0),
-                child:Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.3),
-                    borderRadius: const BorderRadius.all(Radius.circular(9.0)),
-                  ),
-                  child: IconButton(
-                    onPressed: (){navigateTo(context, const SettingsScreen());},
-                    icon: Icon(Icons.settings,size: 25,color: Theme.of(context).primaryColor),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          body: SingleChildScrollView(
+        return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -135,8 +104,7 @@ class TeacherProfile extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        );
+          );
       },
     );
   }
