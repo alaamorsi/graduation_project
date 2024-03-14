@@ -62,12 +62,14 @@ class CourseDemo extends StatelessWidget {
                                 child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
                         InkWell(
-                          onTap: (){navigateTo(context, const ViewVideoScreen());},
+                          onTap: (){
+                            navigateTo(context, const ViewVideoScreen(introUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",));
+                          },
                           child: Container(
                             width: screenWidth,
                             height: screenHeight/8,
                             decoration: BoxDecoration(
-                              color: theme.primaryColor.withOpacity(.2),
+                              color: theme.primaryColor.withOpacity(.1),
                               borderRadius: const BorderRadius.all(Radius.circular(23.0),),
                             ),
                             child:Padding(
@@ -135,7 +137,7 @@ class CourseDemo extends StatelessWidget {
                           width: screenWidth,
                           height: screenHeight/8,
                           decoration: BoxDecoration(
-                            color: theme.primaryColor.withOpacity(.2),
+                            color: theme.primaryColor.withOpacity(.1),
                             borderRadius: const BorderRadius.all(Radius.circular(15.0),),
                           ),
                           child:Padding(
@@ -152,7 +154,7 @@ class CourseDemo extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(30),
                                       image: course.review[0].image!=null?
                                       DecorationImage(
-                                        image:  NetworkImage(course.teacherImage),
+                                        image:  NetworkImage(course.review[0].image!),
                                         fit: BoxFit.cover,
                                       ):
                                       const DecorationImage(

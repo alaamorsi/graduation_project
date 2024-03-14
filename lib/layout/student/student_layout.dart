@@ -89,11 +89,11 @@ class StudentLayout extends StatelessWidget {
       return AppBar(
       backgroundColor: theme.scaffoldBackgroundColor,
       toolbarHeight: 70.0,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          )
+      leading: const Padding(
+        padding: EdgeInsets.only(
+          left: 15,top: 5,bottom: 5,
+        ),
+        child: Image(image: AssetImage("Assets/appbar.png")),
       ),
       title: Text('Hello,${CacheHelper.getData(key: 'firstName')}!',
         style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
@@ -130,8 +130,15 @@ class StudentLayout extends StatelessWidget {
     }
     else if(index==1){
       return defaultAppBar(
+        hasLeading: true,
         context: context,
-        title: Text("My Enrolled Courses",
+        leadingIcon:const Padding(
+          padding: EdgeInsets.only(
+            left: 15,top: 5,bottom: 5,
+          ),
+          child: Image(image: AssetImage("Assets/appbar.png")),
+        ),
+        title: Text("Enrolled Courses",
           style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
         ),
       );
@@ -141,12 +148,6 @@ class StudentLayout extends StatelessWidget {
       return AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         toolbarHeight: 70.0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(11.0),
-            bottomRight: Radius.circular(11.0),
-          ),
-        ),
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
         titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
         title: TextField(
@@ -191,11 +192,11 @@ class StudentLayout extends StatelessWidget {
       return AppBar(
         backgroundColor: theme.scaffoldBackgroundColor,
         toolbarHeight: 70.0,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-            )
+        leading: const Padding(
+          padding: EdgeInsets.only(
+              left: 15,top: 5,bottom: 5,
+          ),
+          child: Image(image: AssetImage("Assets/appbar.png")),
         ),
         title: Text(StudentCubit.get(context).titles[StudentCubit.get(context).currentIndex],
           style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),

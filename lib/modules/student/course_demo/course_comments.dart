@@ -84,7 +84,7 @@ class CourseComments extends StatelessWidget {
       width: screenWidth,
       height: screenHeight/8,
       decoration: BoxDecoration(
-        color: theme.primaryColor.withOpacity(.2),
+        color: theme.primaryColor.withOpacity(.1),
         borderRadius: const BorderRadius.all(Radius.circular(15.0),),
       ),
       child:Padding(
@@ -101,7 +101,7 @@ class CourseComments extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                   image: course.review[index].image!=null?
                   DecorationImage(
-                    image:  NetworkImage(course.teacherImage),
+                    image:  NetworkImage(course.review[index].image!),
                     fit: BoxFit.cover,
                   ):
                   DecorationImage(

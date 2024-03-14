@@ -190,41 +190,4 @@ class Lesson{
   });
 }
 
-List<MyCourse> myCourses=[
-  MyCourse(
-    category: 1,
-    teacherImage: 'https://media.istockphoto.com/id/869144556/photo/at-work.webp?s=2048x2048&w=is&k=20&c=A2UQ5503q2265YRRHnIKm7O1LlZKBZwX2iPH-PXpEQQ=',
-    teacherName: 'محمود بدر',
-    subject: 'Geography',
-    eduLevel: 'ثالثة ثانوي',
-    term: 2,
-    year: 2023,
-    videosNumber: 3,
-    price: 300,
-    review: [
-      Review(rate: 5,name: "sameh Ahmed", dateTime: "2024-03-06", comment: "this course is awesome"),
-      Review(rate: 5,name: "omer mohamed", dateTime: "2024-03-06", comment: "good course"),
-      Review(rate: 5,name: "alaa morsi", dateTime: "2024-03-06", comment: "this course is awesome"),
-    ],
-    inFavourite: false,
-    lessons: [
-      Lesson(
-          lessonName: "hello world",
-          videoUrl: "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
-          image: 'https://media.istockphoto.com/id/1478239832/photo/bee-on-coneflower.jpg?s=1024x1024&w=is&k=20&c=yXYXo6SbCnYWHsY7j9JE9mvn7C7GHLbL2qaIVEskeec=',
-          lessonTime: 3.24),
-      Lesson(
-          lessonName: "second lesson",
-          videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-          image: 'https://media.istockphoto.com/id/669593632/vector/moon-bunny.jpg?s=1024x1024&w=is&k=20&c=8Dz2T-bIH1T2D_6G-U7-CgWysiFCfsut-iueRy7BPeA=',
-          lessonTime: 9.22),
-      Lesson(
-          lessonName: "test test",
-          videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-          image: 'https://media.istockphoto.com/id/455450437/vector/crazy-asian-with-astro-gun.jpg?s=1024x1024&w=is&k=20&c=nIE9OmmKmnAfCmCynfukea2mzEggicmXtoZqYGEjHWk=',
-          lessonTime: 10),
-    ],
-  ),
-];
-
 

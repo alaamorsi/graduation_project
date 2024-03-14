@@ -108,7 +108,7 @@ class Demo extends StatelessWidget {
                                 child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
                         InkWell(
-                          onTap: (){navigateTo(context, const ViewVideoScreen());},
+                          onTap: (){navigateTo(context, const ViewVideoScreen(introUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",));},
                           child: Container(
                             width: screenWidth,
                             height: screenHeight/8,

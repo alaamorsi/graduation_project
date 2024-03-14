@@ -38,7 +38,8 @@ class CourseLessons extends StatelessWidget {
                               title: "lesson",
                               course: course,
                               color: theme.primaryColor,
-                              theme: theme
+                              theme: theme,
+                              introUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                           ),
                       separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 10.0,),
                       itemCount: course.videosNumber,
@@ -79,17 +80,18 @@ class CourseLessons extends StatelessWidget {
     required int index,
     required String title,
     required Course course,
+    required String introUrl,
     required Color color,
     required ThemeData theme,
   })
   {
     return InkWell(
-      onTap: (){index==0?navigateTo(context, const ViewVideoScreen()):null;},
+      onTap: (){index==0?navigateTo(context, ViewVideoScreen(introUrl: introUrl,)):null;},
       child: Container(
         width: screenWidth,
         height: screenHeight/8,
         decoration: BoxDecoration(
-          color: theme.primaryColor.withOpacity(.2),
+          color: theme.primaryColor.withOpacity(.1),
           borderRadius: const BorderRadius.all(Radius.circular(23.0),),
         ),
         child:Padding(

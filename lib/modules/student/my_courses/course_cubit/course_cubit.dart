@@ -80,5 +80,9 @@ class CourseCubit extends Cubit<CourseStates> {
     flickManager.dispose();
     emit(DisposeVideoState());
   }
+  void pauseVideo() {
+    flickManager.flickControlManager?.pause();
+    emit(DisposeVideoState());
+  }
 
 }

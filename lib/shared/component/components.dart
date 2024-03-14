@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:graduation_project/shared/component/test.dart';
 import 'package:hexcolor/hexcolor.dart';
-import '../../modules/student/my_courses/screens/course_leader.dart';
 import 'constant.dart';
 /////////////////////////////////////////////////////
 
@@ -118,7 +117,7 @@ Widget myDropDownMenu({
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext context,
-  IconData? leadingIcon,
+  Widget? leadingIcon,
   void Function()? leadingFunction,
   required Widget title,
   IconData? atEndIcon,
@@ -130,16 +129,9 @@ PreferredSizeWidget defaultAppBar({
     AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       toolbarHeight: 70.0,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(11.0),
-          bottomRight: Radius.circular(11.0),
-        ),
-      ),
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
       titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
-      leading: hasLeading? Padding(padding: const EdgeInsets.only(left: 10.0),
-          child: IconButton(onPressed: leadingFunction, icon: Icon(leadingIcon))):null,
+      leading: hasLeading? leadingIcon:null,
       title: title,
       centerTitle: titleInCenter,
       actions: atEnd?[Padding(padding: const EdgeInsets.only(right: 10.0),
@@ -411,82 +403,6 @@ Widget courseItem({
   );
 }
 
-// paid course item
-Widget paidCourse({
-  required BuildContext context,
-  required MyCourse course,
-  required Color color,
-  bool isReserved =false,
-  bool isFavourite = false,
-}) {
-  return Padding(
-    padding: const EdgeInsets.all(9.0),
-    child: InkWell(
-      onTap: (){navigateTo(context, ClassLeader(course: course,));},
-      child: Container(
-        width: screenWidth,
-        height: screenHeight/7,
-        decoration: BoxDecoration(
-          color: color.withOpacity(.1),
-          borderRadius: const BorderRadius.all(Radius.circular(23.0),),
-        ),
-        child:Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            children: [
-              //Teacher image
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Container(
-                  width: screenHeight/10,
-                  height: screenHeight/10,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(image: NetworkImage(course.teacherImage),fit: BoxFit.cover)
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    course.subject,
-                    style: font.copyWith(fontSize: 18.0,color: color),
-                  ),
-                  const SizedBox(height: 5,),
-                  Text(
-                    '${course.videosNumber} lesson',
-                    style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: screenHeight/10,
-                    height: screenHeight/10,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: color,width: 5)
-                    ),
-                    child: Center(
-                        child: Text("25%",
-                          style: font.copyWith(fontSize: 16.0,color: color),
-                        ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-}
 
 Widget item(IconData icon,String text){
   return Expanded(

@@ -66,8 +66,10 @@ class ClassLeader extends StatelessWidget {
                         ],
                         selectedIndex: cubit.currentIndex,
                         onTabChange: (index){
-                          cubit.disposeVideo();
                           cubit.changeBottomNav(index);
+                          if(index!=0){
+                            cubit.pauseVideo();
+                          }
                         },
                       ),
                     ),

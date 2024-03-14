@@ -23,7 +23,7 @@ void main() async{
   notification = CacheHelper.getData(key: 'notification')??notification;
   jwt = CacheHelper.getData(key: 'jwt')??"";
   role = CacheHelper.getData(key: 'role')??"";
-  runApp(MyApp(appMode: mode));
+  runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -33,10 +33,7 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-  final bool appMode;
-  const MyApp({super.key,
-    required this.appMode,
-  });
+  const MyApp({super.key,});
 
   @override
   Widget build(BuildContext context) {
