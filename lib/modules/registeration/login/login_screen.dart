@@ -75,6 +75,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20.0),
                     defaultFormField(
+                        context:context,
                         controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
@@ -91,6 +92,7 @@ class LoginScreen extends StatelessWidget {
                       height: 20.0,
                     ),
                     defaultFormField(
+                      context:context,
                       controller: passwordController,
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:graduation_project/shared/component/test.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -32,13 +31,14 @@ Widget usedButton({
       children:[
         isLoading? loading: Text(
           text,
-          style: GoogleFonts.changa().copyWith(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.bold),
+          style: font.copyWith(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.bold),
         ),
       ],
     ));
 
 //default input form field
 Widget defaultFormField({
+  required BuildContext context,
   required TextEditingController controller,
   required TextInputType type,
   void Function(String)? onSubmit,
@@ -74,7 +74,7 @@ Widget defaultFormField({
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius),
           borderSide: BorderSide(
-              color: HexColor("#000080"),
+              color: Theme.of(context).primaryColor,
               width: 2.0
           ),
         ),

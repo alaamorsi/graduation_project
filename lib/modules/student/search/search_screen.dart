@@ -10,27 +10,73 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController searchController = TextEditingController();
     var cubit = StudentCubit.get(context);
-    return SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              ConditionalBuilder(
-                condition: false,
-                builder: (context) => ListView.separated(
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => const SizedBox(),
-                  separatorBuilder: (context, index) => myDivider(),
-                  itemCount: 4,
-                ),
-                fallback: (context) =>cubit.startSearching?const Center(child: CircularProgressIndicator()):Container(),
-              ),
-            ],
+    ThemeData theme = Theme.of(context);
+    return Scaffold(
+      appBar:AppBar(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      toolbarHeight: 70.0,
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
+      titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
+      title: TextField(
+        controller: searchController,
+        textAlign: TextAlign.start,
+        decoration:  InputDecoration(
+          labelStyle: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark),
+          hintText: 'enter teacher name or subject',
+          hintStyle: const TextStyle(color: Colors.grey,fontSize: 13.0,fontWeight: FontWeight.w300),
+          enabledBorder:const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              borderSide: BorderSide(color: Colors.grey)
+          ),
+          focusedBorder:OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(30)),
+              borderSide: BorderSide(color: theme.primaryColor)
           ),
         ),
-      );
+        keyboardType: TextInputType.text,
+        onChanged: (value){},
+        onSubmitted: (value) {},
+      ),
+      actions:[
+        Padding(padding: const EdgeInsets.only(right: 13.0),
+          child:Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor.withOpacity(0.3),
+              borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+            ),
+            child: IconButton(
+              onPressed: (){StudentCubit.get(context).showSearchFilter(context);},
+              icon: Icon(Icons.filter_alt_rounded,size: 25,color: Theme.of(context).primaryColor),
+            ),
+          ),
+        ),
+      ],
+    ),
+      body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                ConditionalBuilder(
+                  condition: false,
+                  builder: (context) => ListView.separated(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) => const SizedBox(),
+                    separatorBuilder: (context, index) => myDivider(),
+                    itemCount: 4,
+                  ),
+                  fallback: (context) =>cubit.startSearching?const Center(child: CircularProgressIndicator()):Container(),
+                ),
+              ],
+            ),
+          ),
+        ),
+    );
   }
 }
 

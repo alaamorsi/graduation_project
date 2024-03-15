@@ -19,23 +19,38 @@ class ReservedScreen extends StatelessWidget {
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return ConditionalBuilder(
-            condition: myCourses.isNotEmpty,
-            builder: (context) => Padding(
-              padding: const EdgeInsets.all(10),
-              child: ListView.builder(
-                  itemCount: myCourses.length,
-                  itemBuilder: (context ,index){
-                    return paidCourse(
-                        context: context,
-                        course: myCourses[index],
-                        theme: theme,
-                        courseProgress: progress[index]
-                    );
-                  }
+          return Scaffold(
+            appBar: defaultAppBar(
+              hasLeading: true,
+              context: context,
+              leadingIcon:const Padding(
+                padding: EdgeInsets.only(
+                  left: 15,top: 5,bottom: 5,
+                ),
+                child: Image(image: AssetImage("Assets/appbar.png")),
+              ),
+              title: Text("Enrolled Courses",
+                style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
               ),
             ),
-            fallback: (context) => const Center(child: Text('You are not in class yet')),
+            body: ConditionalBuilder(
+              condition: myCourses.isNotEmpty,
+              builder: (context) => Padding(
+                padding: const EdgeInsets.all(10),
+                child: ListView.builder(
+                    itemCount: myCourses.length,
+                    itemBuilder: (context ,index){
+                      return paidCourse(
+                          context: context,
+                          course: myCourses[index],
+                          theme: theme,
+                          courseProgress: progress[index]
+                      );
+                    }
+                ),
+              ),
+              fallback: (context) => const Center(child: Text('You are not in class yet')),
+            ),
           );
       }
     );

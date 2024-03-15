@@ -16,9 +16,10 @@ class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('إعادة تعيين كلمة السر'),
-      ),
+      appBar:secondAppbar(
+            context: context,
+            title: 'Rest Password',
+          ),
       body: BlocConsumer<LoginCubit,LoginStates>(
         listener: (context , state){
           if(state is ResetPasswordSuccessState)
@@ -28,7 +29,7 @@ class ResetPasswordScreen extends StatelessWidget {
         },
         builder: (context , state ){
           return Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Form(
@@ -46,23 +47,24 @@ class ResetPasswordScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text('رجاءاً ادخل كلمة السر الجديدة',
-                      style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold),textDirection: TextDirection.rtl),
+                    Text('Please Enter New Password',
+                      style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0,),
                     defaultFormField(
+                      context:context,
                       controller: passwordController1,
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return '!'' لا يمكن ترك هذه الخانة فارغة';
+                          return 'This field cannot be empty !';
                         }
                         if(value.length<8)
                           {
-                            return '!'' كلمة المرور يجب ان لا تقل عن ٨ احرف';
+                            return 'Password must be at least 8 characters !';
                           }
                         return null;
                       },
-                      label: 'كلمة المرور الجديدة',
+                      label: 'New Password',
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: LoginCubit.get(context).prefixIcon,
                       isPassword: LoginCubit.get(context).isPassword,
@@ -72,19 +74,20 @@ class ResetPasswordScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 15.0,),
                     defaultFormField(
+                      context:context,
                       controller: passwordController2,
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return '!'' لا يمكن ترك هذه الخانة فارغة';
+                          return 'This field cannot be empty !';
                         }
                         if(value != passwordController1.text)
                           {
-                            return '!'' كلمة المرور غير متطابقة';
+                            return 'Password does not match !';
                           }
                         return null;
                       },
-                      label: 'إعادة كتابة كلمة المرور',
+                      label: 'Retype password',
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: LoginCubit.get(context).prefixIcon,
                       isPassword: LoginCubit.get(context).isPassword,
@@ -97,14 +100,14 @@ class ResetPasswordScreen extends StatelessWidget {
                       atEnd: false,
                       paddingSize: 10.0,
                       isLoading: LoginCubit.get(context).isLoading,
-                      text: "التالي",
+                      text: "Next",
                       onPressed: () {
                         if(formKey.currentState!.validate()) {
                           LoginCubit.get(context).userResetPassword(email: email, newPassword: passwordController1.text);
                         }
                       },
                       context: context,
-                      color: Theme.of(context).canvasColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),

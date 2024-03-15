@@ -25,11 +25,12 @@ class ForgetPasswordScreen1 extends StatelessWidget {
       builder: (context , state){
         var cubit = LoginCubit.get(context);
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('هل نسيت كلمة السر؟'),
+          appBar: secondAppbar(
+            context: context,
+            title: 'Forgot password?',
           ),
           body: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Form(
@@ -47,39 +48,38 @@ class ForgetPasswordScreen1 extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text('رجاءاً ادخل البريد الإلكتروني للحساب الخاص بك',
-                        style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold),textDirection: TextDirection.rtl),
-                    Text('سوف نرسل الي البريد الإلكتروني الخاص بك رمز التحقق',
-                      style: font.copyWith(fontSize: 16.0,),textDirection: TextDirection.rtl,),
+                    Text('Please enter your account email',
+                        style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0,),
                     defaultFormField(
+                        context: context,
                         controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return '!'' لا يمكن ترك هذه الخانة فارغة';
+                            return 'This field cannot be empty !';
                           }
                           else if (!cubit.checkForNumbers(value))
                             {
-                              return '!'' البريد الإلكتروني غير صالح';
+                              return 'Invalid Email !';
                             }
                           return null;
                         },
-                        label: 'البريد الإلكتروني',
+                        label: 'Email address',
                         suffixIcon: Icons.email_outlined),
                     const SizedBox(height: 20.0,),
                     usedButton(
                       atEnd: false,
                       paddingSize: 10.0,
                       isLoading: LoginCubit.get(context).isLoading,
-                      text: "التالي",
+                      text: "Next",
                       onPressed: () {
                         if(formKey.currentState!.validate()) {
                           cubit.sendResetCode(email: emailController.text, reset: true);
                         }
                       },
                       context: context,
-                      color: Theme.of(context).canvasColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),

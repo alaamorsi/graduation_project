@@ -15,9 +15,10 @@ class ForgetPasswordScreen2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('هل نسيت كلمة السر؟'),
-      ),
+      appBar: secondAppbar(
+            context: context,
+            title: 'Forgot password?',
+          ),
       body: BlocConsumer<LoginCubit,LoginStates>(
         listener: (context , state){
           if (state is ValidateResetPasswordSuccessState)
@@ -36,7 +37,7 @@ class ForgetPasswordScreen2 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(18.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Container(
                         width: screenWidth*3/4,
                         height: screenWidth*3/4,
@@ -45,21 +46,21 @@ class ForgetPasswordScreen2 extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text('رجاءاً ادخل رمز التحقق الذي تم ارساله',
-                      style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold),textDirection: TextDirection.rtl),
-                    Text('لفد ارسلنا الي البريد الإلكتروني الخاص بك رمز التحقق',
-                      style: font.copyWith(fontSize: 16.0,),textDirection: TextDirection.rtl),
+                    const SizedBox(height: 20.0,),
+                    Text('Please enter the verification code that was sent',
+                      style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0,),
                     defaultFormField(
+                      context:context,
                       controller: codeController,
                       type: TextInputType.number,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return '!'' لا يمكن ترك هذه الخانة فارغة';
+                          return 'This field cannot be empty !';
                         }
                         return null;
                       },
-                      label: 'رمز التحقق',
+                      label: 'Verification Code',
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: LoginCubit.get(context).prefixIcon,
                       isPassword: LoginCubit.get(context).isPassword,
@@ -72,14 +73,14 @@ class ForgetPasswordScreen2 extends StatelessWidget {
                       atEnd: false,
                       paddingSize: 10.0,
                       isLoading: LoginCubit.get(context).isLoading,
-                      text: "التالي",
+                      text: "Next",
                       onPressed: () {
                         if(formKey.currentState!.validate()) {
                           LoginCubit.get(context).validateResetCode(email: email, code: codeController.text);
                         }
                       },
                       context: context,
-                      color: Theme.of(context).canvasColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),

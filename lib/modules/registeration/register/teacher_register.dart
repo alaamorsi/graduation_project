@@ -76,6 +76,7 @@ class TeacherScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20.0),
                     defaultFormField(
+                        context: context,
                         controller: nameController1,
                         type: TextInputType.text,
                         validate: (String? value) {
@@ -88,6 +89,7 @@ class TeacherScreen extends StatelessWidget {
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
+                        context: context,
                         controller: nameController2,
                         type: TextInputType.text,
                         validate: (String? value) {
@@ -100,6 +102,7 @@ class TeacherScreen extends StatelessWidget {
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
+                        context: context,
                         controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
@@ -116,6 +119,7 @@ class TeacherScreen extends StatelessWidget {
                         suffixIcon: Icons.email_outlined),
                     const SizedBox(height: 10.0),
                     defaultFormField(
+                      context: context,
                       controller: passwordController,
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
@@ -160,7 +164,7 @@ class TeacherScreen extends StatelessWidget {
                         }
                       },
                       context: context,
-                      color: theme.cardColor,
+                      color: theme.primaryColor,
                     ),
                     const SizedBox(height: 10.0),
                     Row(

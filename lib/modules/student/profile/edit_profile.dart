@@ -123,6 +123,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     //data
                     Text("First Name",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     defaultFormField(
+                      context:context,
                       controller: firstNameController,
                       type: TextInputType.text,
                       therePrefix: false,
@@ -140,6 +141,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     //data
                     Text("Last Name",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     defaultFormField(
+                      context:context,
                       controller: lastNameController,
                       type: TextInputType.text,
                       therePrefix: false,
@@ -156,6 +158,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     const SizedBox(height: 10.0),
                     Text("Bio",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     defaultFormField(
+                        context:context,
                         controller: bioController,
                         type: TextInputType.emailAddress,
                         therePrefix: false,

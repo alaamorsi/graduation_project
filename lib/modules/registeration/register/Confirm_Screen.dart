@@ -24,9 +24,9 @@ class ConfirmScreen extends StatelessWidget {
       builder: (context , state){
         var cubit = RegisterCubit.get(context);
         return Scaffold(
-          appBar: defaultAppBar(context: context, title: const Text('Email confirm'),atEnd: false),
+          appBar: secondAppbar(context: context, title:'Email confirm'),
           body: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Form(
@@ -44,21 +44,22 @@ class ConfirmScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text('رجاءاً ادخل رمز التحقق الذي تم ارساله',
-                        style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold),textDirection: TextDirection.rtl),
-                    Text('لفد ارسلنا الي البريد الإلكتروني الخاص بك رمز التحقق',
-                        style: font.copyWith(fontSize: 16.0,),textDirection: TextDirection.rtl),
+                    Text('Please enter the verification code that was sent',
+                        style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold)),
+                    Text('We sent your verification code to your email',
+                        style: font.copyWith(fontSize: 16.0,)),
                     const SizedBox(height: 20.0,),
                     defaultFormField(
+                      context: context,
                       controller: codeController,
                       type: TextInputType.number,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return '!''رجاءً ادخل رمز التحقق الصحيح';
+                          return 'This field cannot be empty !';
                         }
                         return null;
                       },
-                      label: 'رمز التحقق',
+                      label: 'Verification Code',
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: cubit.prefixIcon,
                       isPassword: cubit.isPassword,
@@ -71,14 +72,14 @@ class ConfirmScreen extends StatelessWidget {
                       atEnd: false,
                       paddingSize: 10.0,
                       isLoading: cubit.isLoading,
-                      text: "التالي",
+                      text: "Next",
                       onPressed: () {
                         if(formKey.currentState!.validate()) {
                           cubit.validateCodeConfirm(email: email, code: codeController.text);
                         }
                       },
                       context: context,
-                      color: Theme.of(context).canvasColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),

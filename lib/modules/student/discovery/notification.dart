@@ -15,16 +15,14 @@ class NotificationsScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           var theme = Theme.of(context);
-          var cubit = StudentCubit.get(context);
           return Scaffold(
             appBar: secondAppbar(context: context, title: 'Notifications'),
             body: ConditionalBuilder(
-              condition: cubit.wishList.isNotEmpty,
+              condition: false,
               builder: (context) {
                 return const SingleChildScrollView(
                   child: Column(
                       children: [
-
                       ]
                   ),
                 );

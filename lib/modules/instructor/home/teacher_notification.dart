@@ -6,8 +6,8 @@ import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 
-class Teacher_Notifications extends StatelessWidget {
-  const Teacher_Notifications({super.key});
+class TeacherNotifications extends StatelessWidget {
+  const TeacherNotifications({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +19,11 @@ class Teacher_Notifications extends StatelessWidget {
           return Scaffold(
             appBar: secondAppbar(context: context, title: 'Notifications'),
             body: ConditionalBuilder(
-              condition: cubit.wishList.isNotEmpty,
+              condition: false,
               builder: (context) {
                 return const SingleChildScrollView(
                   child: Column(
-                      children: [
-
-                      ]
+                      children: []
                   ),
                 );
               },

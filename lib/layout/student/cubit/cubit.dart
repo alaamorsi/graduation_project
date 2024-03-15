@@ -30,12 +30,7 @@ class StudentCubit extends Cubit<StudentStates> {
     const SearchScreen(),
     const ProfileScreen(),
   ];
-  List<String> titles = [
-    'Discovery',
-    'My Enrolled Courses',
-    'Search',
-    'My Profile'
-  ];
+
   void changeBottomNav(int index) {
     currentIndex = index;
     emit(StudentChangeBottomNavState());
@@ -92,14 +87,14 @@ class StudentCubit extends Cubit<StudentStates> {
   String firstName=CacheHelper.getData(key: 'firstName');
   String lastName=CacheHelper.getData(key: 'lastName');
   String bio=CacheHelper.getData(key: 'biography')??"";
-  ImageProvider<Object> imageProvider=const AssetImage("Assets/profile_icon_S.png");
+  ImageProvider<Object> imageProvider=const AssetImage("Assets/profile/man_1.png");
 
   void getImage(){
     if(CacheHelper.getData(key: 'profileStr')!=null){
       Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
       imageProvider = MemoryImage(picture);
     }else{
-      imageProvider = const AssetImage("Assets/profile/man1.png");
+      imageProvider = const AssetImage("Assets/profile/man_1.png");
     }
     emit(StudentHasImageState());
   }
@@ -123,7 +118,7 @@ class StudentCubit extends Cubit<StudentStates> {
     firstName = '';
     lastName = '';
     bio = '';
-    imageProvider = const AssetImage("Assets/profile/man1.png");
+    imageProvider = const AssetImage("Assets/profile/man_1.png");
   }
   File? profileImage;
   var picker = ImagePicker();

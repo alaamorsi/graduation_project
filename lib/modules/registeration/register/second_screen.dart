@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/registeration/register/student_register.dart';
 import 'package:graduation_project/modules/registeration/register/teacher_register.dart';
 import 'package:graduation_project/shared/component/components.dart';
-
 import '../../../shared/component/constant.dart';
-import '../login/login_screen.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});
@@ -19,75 +17,69 @@ class SecondScreenState extends State<SecondScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:Theme.of(context).scaffoldBackgroundColor,
-      body: SingleChildScrollView(
-        child:Form(
+      body:Form(
           child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 30.0),
+            padding: const EdgeInsets.only(left: 20.0,right: 20,top: 30.0),
+            child: SingleChildScrollView(
               child: Column(
                 children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back_ios_rounded,
+                          color: Theme.of(context).primaryColor,size: 30.0,
+                        ),
+                      ),
+                      Center(
+                        child: Text("Which one are you",
+                          style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 22.0,fontWeight: FontWeight.bold),),
+                      )
+                    ]
+                  ),
+                  const SizedBox(height: 20,),
                   InkWell(
-                    onTap: (){
-                      navigateAndFinish(context, const LoginScreen());
-                    },
-                    child: Row(
-                        children: [
-                          Icon(Icons.arrow_back_ios_rounded,
-                            color: Theme.of(context).primaryColor,size: 36.0,
+                    onTap: () {navigateAndFinish(context, const TeacherScreen());},
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(39),
+                          height: screenWidth/1.5,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor.withOpacity(.2),
+                            shape: BoxShape.circle,
                           ),
-                          Text("login",
-                            style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 27.0,fontWeight: FontWeight.bold),)
-                        ]
+                          child: const Image(image: AssetImage("Assets/tutor.png")),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Text("Tutor",style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 20)),
+                      ],
+                     ),
+                  ),
+                  newDivider(),
+                  InkWell(
+                    onTap: () {navigateAndFinish(context, const StudentScreen());},
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(39),
+                          height: screenWidth/1.5,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor.withOpacity(.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Image(image: AssetImage("Assets/student.png")),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Text("Student",style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 20)),
+                      ],
                     ),
                   ),
-                  SizedBox(height: screenHeight/4,),
-                  Column(
-                    children: [
-                    Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                     Text(
-                       'new account',
-                       style: font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
-                           color: Theme.of(context).primaryColor),
-                     ),
-                    ],
-                    ),
-                    Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                     Text(
-                       'Register now to enjoy our great services',
-                       style: font.copyWith(fontSize: 13.0, color: Colors.grey),
-                     ),
-                    ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    SizedBox(
-                    width: double.infinity,
-                    child: usedButton(
-                       text: 'teacher',
-                       onPressed: () {
-                         navigateAndFinish(context, const TeacherScreen());
-                       },
-                       context: context,
-                       color: Theme.of(context).primaryColor),
-                    ),
-                    const SizedBox(height: 20.0),
-                    SizedBox(
-                    width: double.infinity,
-                    child: usedButton(
-                       text: 'student',
-                       onPressed: () {
-                         navigateAndFinish(context, const StudentScreen());
-                       },
-                       context: context,
-                       color: Theme.of(context).primaryColor),
-                    ),
-                    ],
-                   ),
                 ],
               ),
-           ),
+            ),
           ),
         ),
     );

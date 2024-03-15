@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/registeration/register/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
-
 import '../../../shared/component/constant.dart';
 import '../login/login_screen.dart';
 import 'Confirm_Screen.dart';
@@ -78,6 +77,7 @@ class StudentScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20.0),
                     defaultFormField(
+                        context: context,
                         controller: nameController1,
                         type: TextInputType.text,
                         validate: (String? value) {
@@ -90,6 +90,7 @@ class StudentScreen extends StatelessWidget {
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
+                        context: context,
                         controller: nameController2,
                         type: TextInputType.text,
                         validate: (String? value) {
@@ -102,6 +103,7 @@ class StudentScreen extends StatelessWidget {
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
+                        context: context,
                         controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
@@ -118,6 +120,7 @@ class StudentScreen extends StatelessWidget {
                         suffixIcon: Icons.email_outlined),
                     const SizedBox(height: 10.0),
                     defaultFormField(
+                      context: context,
                       controller: passwordController,
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
@@ -162,7 +165,7 @@ class StudentScreen extends StatelessWidget {
                       }
                       },
                       context: context,
-                      color: theme.cardColor,
+                      color: theme.primaryColor,
                     ),
                     const SizedBox(height: 10.0),
                     Row(
