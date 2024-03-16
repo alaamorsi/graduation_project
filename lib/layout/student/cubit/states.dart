@@ -32,16 +32,10 @@ class ProfileImagePickedErrorState extends StudentStates {}
 
 // Get user states
 class UpdateUserDataLoadingState extends StudentStates {}
-
 class UpdateFirstNameSuccessState extends StudentStates {}
 class UpdateLastNameSuccessState extends StudentStates {}
 class UpdateBioSuccessState extends StudentStates {}
 class UpdateProfileImageLoadingState extends StudentStates {}
 class UpdateProfileImageSuccessState extends StudentStates {}
 class UpdateProfileImageErrorState extends StudentStates {}
-
-class UpdateUserDataErrorState extends StudentStates {
-  final String error;
-
-  UpdateUserDataErrorState(this.error);
-}
+class UpdateUserDataErrorState extends StudentStates {}

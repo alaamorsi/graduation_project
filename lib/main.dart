@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
             theme: AppCubit.get(context).theme,
             darkTheme: AppCubit.get(context).darkTheme,
             themeMode: AppCubit.get(context).appMode,
-            home:const InstructorLayout(),
+            home:const OpeningScreen(),
           );
         },
       ),

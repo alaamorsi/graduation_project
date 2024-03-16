@@ -7,6 +7,7 @@ import '../../../layout/instructor/instructor_cubit/instructor_cubit.dart';
 import '../../../layout/instructor/instructor_cubit/instructor_states.dart';
 import '../../../shared/component/constant.dart';
 import '../../../shared/network/cache_helper.dart';
+import 'Courses.dart';
 
 class TeacherHomeScreen extends StatelessWidget {
   const TeacherHomeScreen({super.key});
@@ -14,6 +15,7 @@ class TeacherHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    String firstName = CacheHelper.getData(key: 'firstName').toString();
     return BlocConsumer<InstructorCubit,InstructorStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -27,8 +29,14 @@ class TeacherHomeScreen extends StatelessWidget {
               ),
               child: Image(image: AssetImage("Assets/appbar.png")),
             ),
-            title: Text('Hello,Mr ${CacheHelper.getData(key: 'firstName')}!',
-              style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Welcome ", style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: theme.primaryColor),),
+                Text('Mr ${firstName.replaceRange(0,1, firstName[0].toUpperCase())}',
+                  style: font.copyWith(fontSize: 21.0,fontWeight: FontWeight.w500,color: theme.primaryColorDark),
+                ),
+              ],
             ),
             actions:[
               Padding(padding: const EdgeInsets.symmetric(horizontal:10.0),
@@ -54,30 +62,44 @@ class TeacherHomeScreen extends StatelessWidget {
                   dashboardItem(
                     context: context,
                     title: "Add Course",
-                    image: "Assets/for_teacher/courses.png",
+                    image: "Assets/for_teacher/addVideo.png",
                     goTo: (){
                       navigateTo(context, const AddCourse());
                     },
                   ),
                   dashboardItem(
                     context: context,
-                    title: "Important",
+                    title: "Courses",
+                    image: "Assets/for_teacher/course.png",
+                    goTo: (){
+                      navigateTo(context, const ChooseCoursesScreen());
+                    },
+                  ),
+                  dashboardItem(
+                    context: context,
+                    title: "Notes",
                     image: "Assets/for_teacher/notes.png",
                     goTo: (){
-                      navigateTo(context, const AddCourse());
                     },
                   ),
                   dashboardItem(
                     context: context,
-                    title: "Profits",
+                    title: "Subscriptions",
                     image: "Assets/for_teacher/getMoney.png",
                     goTo: (){
                     },
                   ),
                   dashboardItem(
                     context: context,
-                    title: "Grow",
-                    image: "Assets/for_teacher/statistics.png",
+                    title: "One Touch",
+                    image: "Assets/for_teacher/oneTouch.png",
+                    goTo: (){
+                    },
+                  ),
+                  dashboardItem(
+                    context: context,
+                    title: "Gifts",
+                    image: "Assets/for_teacher/gifts.png",
                     goTo: (){
                     },
                   ),
@@ -104,7 +126,9 @@ Widget dashboardItem({
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.circular(5),
-          boxShadow: [BoxShadow(color: Theme.of(context).canvasColor,blurRadius: 1,spreadRadius: 1)]
+          boxShadow: [
+            BoxShadow(color: Theme.of(context).cardColor,blurRadius: .9,spreadRadius: .6),
+          ]
         ),
         child: Column(
           children: [

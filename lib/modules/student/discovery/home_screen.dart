@@ -27,6 +27,7 @@ class HomeScreen extends StatelessWidget {
     ];
     var cubit = StudentCubit.get(context);
     var theme = Theme.of(context);
+    String firstName = CacheHelper.getData(key: 'firstName').toString();
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -40,8 +41,16 @@ class HomeScreen extends StatelessWidget {
               ),
               child: Image(image: AssetImage("Assets/appbar.png")),
             ),
-            title: Text('Hello,${CacheHelper.getData(key: 'firstName')}!',
-              style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Hello,',
+                  style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: theme.primaryColor),
+                ),
+                Text(firstName.replaceRange(0,1, firstName[0].toUpperCase()),
+                  style: font.copyWith(fontSize: 21.0,fontWeight: FontWeight.w500,color: theme.primaryColorDark),
+                ),
+              ],
             ),
             actions:[
               Container(

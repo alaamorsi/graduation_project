@@ -68,6 +68,7 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StartSearchState());
     print(results);
   }
+
   Future<void> payManager(int coursePrice) async{
     emit(PaymentManagerLoadingState());
     PaymobManager().getPaymentKey(
@@ -79,7 +80,6 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(PaymentManagerSuccessState());
     }).catchError((error){
       emit(PaymentManagerErrorState(error));
-      print(error.toString());
     });
   }
 
@@ -128,13 +128,12 @@ class StudentCubit extends Cubit<StudentStates> {
       profileImage = File(pickedFile.path);
       emit(ProfileImagePickedSuccessState());
     } else {
-      print('No image selected.');
       emit(ProfileImagePickedErrorState());
     }
   }
 
   //update User image
-  Future<void> updateUserProfileImage({
+  Future<int?> updateUserProfileImage({
     required File? imageFile,
   }) async{
     emit(UpdateProfileImageLoadingState());
@@ -146,23 +145,24 @@ class StudentCubit extends Cubit<StudentStates> {
         ),
       });
     }
-    DioHelper.updateImage(
+    try{
+      Response response = await DioHelper.updateImage(
         url: updateImage,
         data: formData,
-    ).then((value){
-      if(value.statusCode == 200)
-      {
-        emit(UpdateProfileImageSuccessState());
-        print("updateUserImage.statusCode =${value.statusCode}");
+      );
+      emit(UpdateProfileImageSuccessState());
+      return response.statusCode;
+    }catch(error){
+      if(error is DioException){
+        emit(UpdateProfileImageErrorState());
+        return error.response!.statusCode;
       }
-    }).catchError((error){
-      print("updateUserImage.statusCode =$error");
-      emit(UpdateProfileImageErrorState());
-    });
+    }
+    return null;
   }
 
   //update User Data
-  Future<void> updateUserData({
+  Future<int?> updateUserData({
     required bool updateFirstName ,
     required bool updateLastName ,
     required bool updateBio ,
@@ -196,24 +196,27 @@ class StudentCubit extends Cubit<StudentStates> {
         'value' : newBio,
       });
     }
-    DioHelper.patchData(url: updateDataPatch, data: updateData).then((value){
-      print("updateUserData.statusCode =${value.statusCode}");
-      if(value.statusCode == 200)
-        {
-          if(updateFirstName) {
-            emit(UpdateFirstNameSuccessState());
-          }
-          if(updateLastName) {
-            emit(UpdateLastNameSuccessState());
-          }
-          if(updateBio) {
-            emit(UpdateBioSuccessState());
-          }
-          print("updateUserData.statusCode =${value.statusCode}");
-        }
-    }).catchError((error){
-      print(error.toString());
-      emit(UpdateUserDataErrorState(error.toString()));
-    });
+    try{
+      Response response = await DioHelper.patchData(
+          url: updateDataPatch,
+          data: updateData
+      );
+      if(updateFirstName) {
+        emit(UpdateFirstNameSuccessState());
+      }
+      if(updateLastName) {
+        emit(UpdateLastNameSuccessState());
+      }
+      if(updateBio) {
+        emit(UpdateBioSuccessState());
+      }
+      return response.statusCode;
+    }catch(error){
+      if(error is DioException){
+        emit(UpdateUserDataErrorState());
+        return error.response!.statusCode;
+      }
+    }
+    return 0;
   }
 }

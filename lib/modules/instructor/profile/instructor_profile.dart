@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
-import 'package:graduation_project/layout/student/cubit/states.dart';
+import 'package:graduation_project/layout/instructor/instructor_cubit/instructor_cubit.dart';
+import 'package:graduation_project/layout/instructor/instructor_cubit/instructor_states.dart';
 import 'package:graduation_project/modules/settings/settings.dart';
 import 'package:graduation_project/modules/student/profile/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -16,10 +16,10 @@ class TeacherProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return BlocConsumer<StudentCubit, StudentStates>(
-      listener: (BuildContext context, StudentStates state) {},
+    return BlocConsumer<InstructorCubit,InstructorStates>(
+      listener: (context, state) {},
       builder: (context, state) {
-        var cubit = StudentCubit.get(context);
+        var cubit = InstructorCubit.get(context);
        if(CacheHelper.getData(key: 'profileStr')!=null){
          Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr') ?? "");
          cubit.imageProvider = MemoryImage(picture);

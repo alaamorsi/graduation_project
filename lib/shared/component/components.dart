@@ -95,6 +95,38 @@ Widget defaultFormField({
       ),
     );
 
+
+//default input form field
+Widget editFormField({
+  required BuildContext context,
+  required TextEditingController controller,
+  void Function(String)? onSubmit,
+  Function(String val)? onChanged,
+  required String? Function(String? val)? validate,
+  required String? label,
+}) => TextFormField(
+  autofocus: true,
+  controller: controller,
+  keyboardType: TextInputType.text,
+  cursorColor: Theme.of(context).primaryColor,
+  onFieldSubmitted: onSubmit,
+  onChanged: onChanged,
+  validator: validate,
+  style: TextStyle(color: Theme.of(context).primaryColor,fontSize: 16.0),
+  decoration: const InputDecoration(
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide.none,
+    ),
+    enabledBorder:OutlineInputBorder(
+      borderSide: BorderSide.none,
+    ),
+    border:OutlineInputBorder(
+      borderSide: BorderSide.none,
+    ),
+  ),
+);
+
+
 ///////////////
 Widget myDropDownMenu({
   required BuildContext context,
@@ -147,8 +179,7 @@ PreferredSizeWidget secondAppbar({
   required String title,
   Widget? actionIcon,
   bool hasAction=false,
-}) =>
-    AppBar(
+}) => AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       toolbarHeight: 70.0,
       shape: const RoundedRectangleBorder(
@@ -227,12 +258,12 @@ void showToast({
 }) =>
     Fluttertoast.showToast(
       msg: text,
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 5,
       backgroundColor: chooseToastColor(state),
       textColor: Colors.white,
-      fontSize: 16.0,
+      fontSize: 18.0,
     );
 
 // enum
@@ -242,13 +273,13 @@ Color chooseToastColor(ToastStates state) {
   Color color;
   switch (state) {
     case ToastStates.success:
-      color = Colors.green;
+      color = Colors.greenAccent;
       break;
     case ToastStates.error:
-      color = Colors.red;
+      color = Colors.redAccent;
       break;
     case ToastStates.warning:
-      color = Colors.amber;
+      color = Colors.amberAccent;
       break;
   }
   return color;

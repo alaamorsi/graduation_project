@@ -46,24 +46,33 @@ class DioHelper
     required List<Map<String,dynamic>>  data,
     String? token,
   })
-  {
+  async {
     dio.options.headers ={
       'Content-Type':'application/json',
       'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
       'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
-    return dio.patch(url,data: data,);
+    try{
+      Response<dynamic> response = await dio.patch(url,data: data,);
+      return response;
+    } catch(e){
+      rethrow;
+    }
   }
 
   static Future<Response> updateImage ({
     required String url,
     required FormData data,
-  })
-  {
+  }) async{
     dio.options.headers ={
       'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
       'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
-    return dio.post(url,data: data,);
+    try{
+      Response<dynamic> response = await dio.post(url,data: data,);
+      return response;
+    } catch(e){
+      rethrow;
+    }
   }
 }

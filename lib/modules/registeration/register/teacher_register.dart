@@ -7,6 +7,7 @@ import '../login/login_screen.dart';
 import 'Confirm_Screen.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
+import 'terms_of_use.dart';
 
 class TeacherScreen extends StatelessWidget {
   const TeacherScreen({super.key});
@@ -141,15 +142,20 @@ class TeacherScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Checkbox(
-                          side: BorderSide(color: theme.iconTheme.color!),
+                          side: BorderSide(color: theme.primaryColor),
                           value: cubit.acceptCondition,
                           onChanged: (value) {
                             cubit.changeAcceptConditions();
                           },
                         ),
-                        Text(
-                            'terms of use',
-                            style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
+                        InkWell(
+                          onTap:() {
+                            navigateTo(context, const TermsAndPolicies());
+                          },
+                          child: Text(
+                              'terms of use',
+                              style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 10.0),
@@ -159,7 +165,7 @@ class TeacherScreen extends StatelessWidget {
                       isLoading: cubit.isLoading,
                       text: "create",
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
+                        if (formKey.currentState!.validate() && cubit.acceptCondition) {
                           cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 'student');
                         }
                       },
