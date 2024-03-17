@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/modules/registeration/register/student_register.dart';
-import 'package:graduation_project/modules/registeration/register/teacher_register.dart';
+import 'package:graduation_project/modules/registration/register/student_register.dart';
+import 'package:graduation_project/modules/registration/register/teacher_register.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../shared/component/constant.dart';
 

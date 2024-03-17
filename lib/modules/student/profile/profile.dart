@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
-import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/modules/settings/settings.dart';
 import 'package:graduation_project/modules/student/profile/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
+import '../../../layout/student/student_cubit/student_cubit.dart';
+import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/constant.dart';
 
 class ProfileScreen extends StatelessWidget {

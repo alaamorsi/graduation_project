@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../shared/component/constant.dart';
 
-class TeacherCoursesScreen extends StatelessWidget {
-  const TeacherCoursesScreen({super.key});
+class TutorCoursesScreen extends StatelessWidget {
+  const TutorCoursesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,8 @@ class TeacherCoursesScreen extends StatelessWidget {
     return Scaffold(
       appBar: defaultAppBar(
         context: context,
-        title: "Course",
+        title:"Class",
+        hasActions: false,
       ),
       body: ConditionalBuilder(
           condition: false,
@@ -29,7 +30,7 @@ class TeacherCoursesScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Text("You Didn't make any Class yet",
-                  style: font.copyWith(fontSize: 22.0,color: Theme.of(context).primaryColorDark),
+                  style: font.copyWith(fontSize: 22.0,color: theme.primaryColorDark),
                   textAlign:TextAlign.center,
                 ),
               ),

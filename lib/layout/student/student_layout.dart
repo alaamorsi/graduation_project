@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
-import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
+import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
 
 class StudentLayout extends StatelessWidget {
   const StudentLayout({super.key});

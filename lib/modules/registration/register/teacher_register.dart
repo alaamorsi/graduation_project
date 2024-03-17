@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/registeration/register/second_screen.dart';
+import 'package:graduation_project/modules/registration/register/second_screen.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../login/login_screen.dart';
@@ -166,7 +166,7 @@ class TeacherScreen extends StatelessWidget {
                       text: "create",
                       onPressed: () {
                         if (formKey.currentState!.validate() && cubit.acceptCondition) {
-                          cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 'student');
+                          cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 'instructor');
                         }
                       },
                       context: context,

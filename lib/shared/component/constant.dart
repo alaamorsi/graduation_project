@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graduation_project/shared/network/cache_helper.dart';
 
 bool mode = true;
 bool notification = true;

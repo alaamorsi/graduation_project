@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/registeration/reset/reset_password_screen.dart';
+import 'package:graduation_project/modules/registration/reset/reset_password_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import '../login/cubit/cubit.dart';

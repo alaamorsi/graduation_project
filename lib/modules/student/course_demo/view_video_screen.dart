@@ -1,9 +1,9 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
-import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:video_player/video_player.dart';
+import '../../../layout/student/student_cubit/student_cubit.dart';
+import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/components.dart';
 
 class ViewVideoScreen extends StatefulWidget {

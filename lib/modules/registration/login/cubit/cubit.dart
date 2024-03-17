@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/login_and_user_data_model.dart';
-import 'package:graduation_project/modules/registeration/login/cubit/states.dart';
+import 'package:graduation_project/modules/registration/login/cubit/states.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
@@ -45,7 +45,6 @@ class LoginCubit extends Cubit<LoginStates> {
       },
     ).then((value) {
       isLoading = false;
-      print(value.statusCode);
       if (value.statusCode == 200) {
         loginModel = LoginModel.fromJson(value.data);
         if (loginModel.emailConfirmed) {
@@ -60,17 +59,18 @@ class LoginCubit extends Cubit<LoginStates> {
           CacheHelper.saveData(key: 'firstName', value: userData.firstName);
           CacheHelper.saveData(key: 'lastName', value: userData.lastName);
           CacheHelper.saveData(key: 'email', value: userData.email);
-          CacheHelper.saveData(key: 'biography', value: loginModel.biography);
-          Uint8List bytes = base64Decode(loginModel.profilePicture!);
-          String pictureStr = base64Encode(bytes);
-          CacheHelper.saveData(key: 'profileStr', value: pictureStr);
+          CacheHelper.saveData(key: 'biography', value: loginModel.biography??"enter your bio here");
+          if(loginModel.profilePicture!=null){
+            Uint8List bytes = base64Decode(loginModel.profilePicture!);
+            String pictureStr = base64Encode(bytes);
+            CacheHelper.saveData(key: 'profileStr', value: pictureStr);
+          }
           emit(LoginSuccessState());
         } else if(!loginModel.emailConfirmed){
           emit(LoginNotConfirmedState());
         }
       }
     }).catchError((error) {
-      print(error.toString());
       isLoading = false;
       if (error.toString().contains('404')) {
         emit(LoginNotFoundState());
@@ -97,10 +97,8 @@ class LoginCubit extends Cubit<LoginStates> {
         'reset': reset,
       },
     ).then((value) {
-      print(value.statusCode);
       emit(SendResetCodeSuccessState());
     }).catchError((error) {
-      print(error.toString());
       emit(SendResetCodeErrorState(error.toString()));
     });
   }
@@ -119,12 +117,10 @@ class LoginCubit extends Cubit<LoginStates> {
       },
     ).then((value) {
       isLoading = false;
-      print(value.statusCode);
       if (value.statusCode == 200) {
         emit(ValidateResetPasswordSuccessState());
       }
     }).catchError((error) {
-      print(error.toString());
       isLoading = false;
       emit(ValidateResetPasswordErrorState(error.toString()));
     });
@@ -144,12 +140,10 @@ class LoginCubit extends Cubit<LoginStates> {
       },
     ).then((value) {
       isLoading = false;
-      print(value.statusCode);
       if (value.statusCode == 200) {
         emit(ResetPasswordSuccessState());
       }
     }).catchError((error) {
-      print(error.toString());
       isLoading = false;
         emit(ResetPasswordErrorState(error.toString()));
     });
@@ -164,10 +158,8 @@ class LoginCubit extends Cubit<LoginStates> {
         'email': email,
       },
     ).then((value) {
-      print(value.statusCode);
       emit(SendConfirmSuccessState());
     }).catchError((error) {
-      print(error.toString());
       emit(SendConfirmErrorState(error.toString()));
     });
   }

@@ -4,57 +4,86 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/instructor/home/instructor_home.dart';
-import 'package:graduation_project/shared/component/constant.dart';
+import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
+import 'package:graduation_project/modules/student/notification/notification.dart';
+import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
+import 'package:graduation_project/modules/student/discovery/search_screen.dart';
+import 'package:graduation_project/modules/student/discovery/home_screen.dart';
+import 'package:graduation_project/modules/student/profile/profile.dart';
+import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../modules/instructor/course/instructor_courses.dart';
-import '../../../modules/instructor/profile/instructor_profile.dart';
-import 'instructor_states.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../modules/student/my_courses/reserved_screen.dart';
+import '../../../shared/component/constant.dart';
 
-class InstructorCubit extends Cubit<InstructorStates> {
-  InstructorCubit() : super(InstructorInitialStates());
+class StudentCubit extends Cubit<StudentStates> {
+  StudentCubit() : super(StudentInitialStates());
 
-  static InstructorCubit get(context) => BlocProvider.of(context);
+  static StudentCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
   List<Widget> screens = [
-    const TeacherHomeScreen(),
-    const TeacherCoursesScreen(),
-    const TeacherProfile(),
-
+    const HomeScreen(),
+    const ReservedScreen(),
+    const NotificationsScreen(),
+    const ProfileScreen(),
   ];
 
   void changeBottomNav(int index) {
     currentIndex = index;
-    emit(InstructorChangeBottomNavState());
+    emit(StudentChangeBottomNavState());
   }
 
-  List<bool> courseTypeSel=[false,false];
-  void changeCourseTypeSelection(int sel) {
-    switch (sel) {
-      case 0:
-        courseTypeSel[0]= !courseTypeSel[0];
-        courseTypeSel[1]= false;
-        break;
-      case 1:
-        courseTypeSel[0]= false;
-        courseTypeSel[1]= !courseTypeSel[1];
-        break;
+  List<Course> wishList=[];
+  void addToWishList(Course course)
+  {
+    course.inFavourite = !course.inFavourite;
+    if(course.inFavourite){
+      wishList.add(course);
     }
-    emit(ChangeCourseTypeSelectionState());
+    else if (!course.inFavourite){
+      wishList.remove(course);
+    }
+    emit(CheckFavoriteState());
   }
 
-  String newCourseSub='';
-  String newCourseEduLevel='';
-  int newCourseTerm=0;
-  void addNewCourseSelection(var v,var subSel) {
-    v = subSel;
-    emit(AddNewCourseSelectionState());
+  bool isFavorite = false;
+  void checkFavorite()
+  {
+    isFavorite =!isFavorite;
+    emit(CheckFavoriteState());
   }
 
+  bool startSearching = false;
+  void showSearchFilter(context) async
+  {
+    await showAdaptiveDialog(
+        context: context,
+        builder: (BuildContext context){
+          return const MultiSelect();
+        }
+    );
+    emit(StartSearchState());
+  }
+
+  Future<void> payManager(int coursePrice) async{
+    emit(PaymentManagerLoadingState());
+    PaymobManager().getPaymentKey(
+        coursePrice,"EGP"
+    ).then((String paymentKey) {
+      launchUrl(
+        Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
+      );
+      emit(PaymentManagerSuccessState());
+    }).catchError((error){
+      emit(PaymentManagerErrorState(error));
+    });
+  }
+
+  //student data
   String firstName=CacheHelper.getData(key: 'firstName');
   String lastName=CacheHelper.getData(key: 'lastName');
   String bio=CacheHelper.getData(key: 'biography')??"";
@@ -67,9 +96,9 @@ class InstructorCubit extends Cubit<InstructorStates> {
     }else{
       imageProvider = const AssetImage("Assets/profile/man_1.png");
     }
-    emit(HasImageState());
+    emit(StudentHasImageState());
   }
-  void getData(){
+  void getUser(){
     firstName=CacheHelper.getData(key: 'firstName');
     lastName=CacheHelper.getData(key: 'lastName');
     bio=CacheHelper.getData(key: 'biography')??"";
@@ -99,13 +128,12 @@ class InstructorCubit extends Cubit<InstructorStates> {
       profileImage = File(pickedFile.path);
       emit(ProfileImagePickedSuccessState());
     } else {
-      print('No image selected.');
       emit(ProfileImagePickedErrorState());
     }
   }
 
   //update User image
-  Future<void> updateUserProfileImage({
+  Future<int?> updateUserProfileImage({
     required File? imageFile,
   }) async{
     emit(UpdateProfileImageLoadingState());
@@ -117,23 +145,24 @@ class InstructorCubit extends Cubit<InstructorStates> {
         ),
       });
     }
-    DioHelper.updateImage(
-      url: updateImage,
-      data: formData,
-    ).then((value){
-      if(value.statusCode == 200)
-      {
-        emit(UpdateProfileImageSuccessState());
-        print("updateUserImage.statusCode =${value.statusCode}");
+    try{
+      Response response = await DioHelper.updateImage(
+        url: updateImage,
+        data: formData,
+      );
+      emit(UpdateProfileImageSuccessState());
+      return response.statusCode;
+    }catch(error){
+      if(error is DioException){
+        emit(UpdateProfileImageErrorState());
+        return error.response!.statusCode;
       }
-    }).catchError((error){
-      print("updateUserImage.statusCode =$error");
-      emit(UpdateProfileImageErrorState());
-    });
+    }
+    return null;
   }
 
   //update User Data
-  Future<void> updateUserData({
+  Future<int?> updateUserData({
     required bool updateFirstName ,
     required bool updateLastName ,
     required bool updateBio ,
@@ -167,25 +196,27 @@ class InstructorCubit extends Cubit<InstructorStates> {
         'value' : newBio,
       });
     }
-    DioHelper.patchData(url: updateDataPatch, data: updateData).then((value){
-      print("updateUserData.statusCode =${value.statusCode}");
-      if(value.statusCode == 200)
-      {
-        if(updateFirstName) {
-          emit(UpdateFirstNameSuccessState());
-        }
-        if(updateLastName) {
-          emit(UpdateLastNameSuccessState());
-        }
-        if(updateBio) {
-          emit(UpdateBioSuccessState());
-        }
-        print("updateUserData.statusCode =${value.statusCode}");
+    try{
+      Response response = await DioHelper.patchData(
+          url: updateDataPatch,
+          data: updateData
+      );
+      if(updateFirstName) {
+        emit(UpdateFirstNameSuccessState());
       }
-    }).catchError((error){
-      print(error.toString());
-      emit(UpdateUserDataErrorState(error.toString()));
-    });
+      if(updateLastName) {
+        emit(UpdateLastNameSuccessState());
+      }
+      if(updateBio) {
+        emit(UpdateBioSuccessState());
+      }
+      return response.statusCode;
+    }catch(error){
+      if(error is DioException){
+        emit(UpdateUserDataErrorState());
+        return error.response!.statusCode;
+      }
+    }
+    return 0;
   }
-
 }

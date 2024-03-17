@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/login_and_user_data_model.dart';
-import 'package:graduation_project/modules/registeration/register/cubit/states.dart';
+import 'package:graduation_project/modules/registration/register/cubit/states.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 
@@ -52,11 +52,9 @@ class RegisterCubit extends Cubit<RegisterStates>{
         'role': role,
       },
     ).then((value) {
-      print(value.statusCode);
       isLoading = false;
       emit(RegisterSuccessState());
     }).catchError((error) {
-      print(error.toString());
       isLoading = false;
       emit(RegisterErrorState(error.toString()));
     });
@@ -70,10 +68,8 @@ class RegisterCubit extends Cubit<RegisterStates>{
         'email': email,
       },
     ).then((value) {
-      print(value.statusCode);
       emit(SendConfirmSuccessState());
     }).catchError((error) {
-      print(error.toString());
       emit(SendConfirmErrorState(error.toString()));
     });
   }
@@ -90,10 +86,8 @@ class RegisterCubit extends Cubit<RegisterStates>{
         'code': code,
       },
     ).then((value) {
-      print(value.statusCode);
       emit(CheckCodeConfirmSuccessState());
     }).catchError((error) {
-      print(error.toString());
       emit(CheckCodeConfirmErrorState(error.toString()));
     });
   }

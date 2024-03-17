@@ -1,13 +1,13 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
-import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/modules/student/discovery/discovery_category_list.dart';
 import 'package:graduation_project/modules/student/discovery/search_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
+import '../../../layout/student/student_cubit/student_cubit.dart';
+import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/constant.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'wish_list.dart';
@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
         return Scaffold(
-          appBar:defaultAppBar(
+          appBar: defaultAppBar(
             context: context,
             title: 'Hello,${firstName.replaceRange(0,1, firstName[0].toUpperCase())}',
             actions: [

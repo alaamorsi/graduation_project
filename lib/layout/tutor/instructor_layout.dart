@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'instructor_cubit/instructor_cubit.dart';
-import 'instructor_cubit/instructor_states.dart';
+import 'tutor_cubit/instructor_cubit.dart';
+import 'tutor_cubit/instructor_states.dart';
 
 class InstructorLayout extends StatelessWidget {
   const InstructorLayout({super.key});

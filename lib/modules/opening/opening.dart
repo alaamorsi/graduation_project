@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/layout/instructor/instructor_layout.dart';
+import 'package:graduation_project/modules/registration/login/login_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:lottie/lottie.dart';
 import '../../layout/student/student_layout.dart';
+import '../../layout/tutor/instructor_layout.dart';
 import 'introduction_screen.dart';
 
 class OpeningScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _OpeningScreenState extends State<OpeningScreen> {
         }else if(role == 'instructor'){
           navigateAndFinish(context, const InstructorLayout());
         }else{
-          navigateAndFinish(context, const InstructorLayout());
+          navigateAndFinish(context, const LoginScreen());
         }
       }else{
         navigateTo(context, const Introduction());

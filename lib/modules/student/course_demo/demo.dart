@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
-import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/modules/student/course_demo/course_lessons.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
+import '../../../layout/student/student_cubit/student_cubit.dart';
+import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/constant.dart';
 
 class Demo extends StatelessWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
-import 'package:graduation_project/modules/registeration/login/login_screen.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/components.dart';
+import '../../layout/student/student_cubit/student_cubit.dart';
+import '../registration/login/login_screen.dart';
 import 'theme_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -29,7 +29,7 @@ class SettingsScreen extends StatelessWidget {
                   // Row(children: [
                   //   myDropDownMenu(
                   //     context: context,
-                  //     title: "اللغة",
+                  //     title: "Language",
                   //     initialSelectionText: langTitle,
                   //     chooses: <DropdownMenuEntry<String>>[
                   //       DropdownMenuEntry(
@@ -44,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
                   //       ),
                   //       DropdownMenuEntry(
                   //         value: "ar",
-                  //         label: "عربي",
+                  //         label: "Arabic",
                   //         style: ButtonStyle(
                   //           backgroundColor: MaterialStateProperty.all(
                   //               Theme.of(context).scaffoldBackgroundColor),

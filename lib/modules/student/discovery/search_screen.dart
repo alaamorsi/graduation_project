@@ -1,8 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/components.dart';
+import '../../../layout/student/student_cubit/student_cubit.dart';
+
 
 
 class SearchScreen extends StatelessWidget {

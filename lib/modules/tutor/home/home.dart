@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/instructor/home/add_course.dart';
-import 'package:graduation_project/modules/instructor/home/teacher_notification.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import '../../../layout/instructor/instructor_cubit/instructor_cubit.dart';
-import '../../../layout/instructor/instructor_cubit/instructor_states.dart';
+import '../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
+import '../../../layout/tutor/tutor_cubit/instructor_states.dart';
 import '../../../shared/component/constant.dart';
 import '../../../shared/network/cache_helper.dart';
 import 'Courses.dart';
+import 'add_course.dart';
+import 'notification.dart';
 
-class TeacherHomeScreen extends StatelessWidget {
-  const TeacherHomeScreen({super.key});
+class TutorHomeScreen extends StatelessWidget {
+  const TutorHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,40 +20,25 @@ class TeacherHomeScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: theme.scaffoldBackgroundColor,
-            toolbarHeight: 70.0,
-            leading: const Padding(
-              padding: EdgeInsets.only(
-                left: 15,top: 5,bottom: 5,
-              ),
-              child: Image(image: AssetImage("Assets/appbar.png")),
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Welcome ", style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: theme.primaryColor),),
-                Text('Mr ${firstName.replaceRange(0,1, firstName[0].toUpperCase())}',
-                  style: font.copyWith(fontSize: 21.0,fontWeight: FontWeight.w500,color: theme.primaryColorDark),
-                ),
-              ],
-            ),
-            actions:[
-              Padding(padding: const EdgeInsets.symmetric(horizontal:10.0),
-                child:Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.3),
-                    borderRadius: const BorderRadius.all(Radius.circular(9.0)),
-                  ),
-                  child: IconButton(
-                    onPressed: (){navigateTo(context, const TeacherNotifications());},
-                    icon: Icon(Icons.notifications,size: 25,color: Theme.of(context).primaryColor,),
+          appBar: defaultAppBar(
+              context: context,
+              title: 'Hello,Mr ${firstName.replaceRange(0,1, firstName[0].toUpperCase())}',
+              actions: [
+                Padding(padding: const EdgeInsets.symmetric(horizontal:10.0),
+                  child:Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(0.3),
+                      borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                    ),
+                    child: IconButton(
+                      onPressed: (){navigateTo(context, const TutorNotifications());},
+                      icon: Icon(Icons.notifications,size: 25,color: theme.primaryColor,),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ]
           ),
           body:Padding(
               padding: const EdgeInsets.all(17),

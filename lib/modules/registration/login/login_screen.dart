@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/instructor/instructor_layout.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
+import '../../../layout/student/student_cubit/student_cubit.dart';
+import '../../../layout/tutor/instructor_layout.dart';
+import '../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
 import '../../../shared/component/constant.dart';
 import '../register/Confirm_Screen.dart';
 import '../register/second_screen.dart';
@@ -30,6 +31,8 @@ class LoginScreen extends StatelessWidget {
             StudentCubit.get(context).getUser();
           } else if (role == 'instructor') {
             navigateAndFinish(context, const InstructorLayout());
+            InstructorCubit.get(context).getImage();
+            InstructorCubit.get(context).getData();
           }
         }
         if(state is LoginNotConfirmedState)

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/instructor/instructor_cubit/instructor_cubit.dart';
-import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/opening/opening.dart';
@@ -10,8 +8,10 @@ import 'package:graduation_project/shared/bloc_observer.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
-import 'modules/registeration/login/cubit/cubit.dart';
-import 'modules/registeration/register/cubit/cubit.dart';
+import 'layout/student/student_cubit/student_cubit.dart';
+import 'layout/tutor/tutor_cubit/instructor_cubit.dart';
+import 'modules/registration/login/cubit/cubit.dart';
+import 'modules/registration/register/cubit/cubit.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

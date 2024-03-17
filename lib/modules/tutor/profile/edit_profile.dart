@@ -1,24 +1,24 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../layout/student/student_cubit/student_cubit.dart';
-import '../../../layout/student/student_cubit/student_states.dart';
+import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_cubit.dart';
+import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_states.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../shared/component/constant.dart';
 import '../../../shared/network/cache_helper.dart';
 
-class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+class TutorEditProfile extends StatefulWidget {
+  const TutorEditProfile({super.key});
 
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
+  State<TutorEditProfile> createState() => _TutorEditProfileState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
+class _TutorEditProfileState extends State<TutorEditProfile> {
   @override
   void initState() {
     super.initState();
-    StudentCubit.get(context).profileImage = null;
+    InstructorCubit.get(context).profileImage = null;
   }
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     TextEditingController lastNameController = TextEditingController();
     TextEditingController bioController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    return BlocConsumer<StudentCubit,StudentStates>(
+    return BlocConsumer<InstructorCubit,InstructorStates>(
       listener: (context,state) {},
       builder:(context,state){
         var theme = Theme.of(context);
-        var cubit = StudentCubit.get(context);
+        var cubit = InstructorCubit.get(context);
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBar(
@@ -52,7 +52,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 child: IconButton(
                   onPressed: (){
-                    cubit.getUser();
+                    cubit.getData();
                     cubit.getImage();
                     Navigator.pop(context);
                   },

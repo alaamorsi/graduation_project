@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layout/instructor/instructor_cubit/instructor_cubit.dart';
-import 'package:graduation_project/layout/instructor/instructor_cubit/instructor_states.dart';
 import 'package:graduation_project/modules/settings/settings.dart';
-import 'package:graduation_project/modules/student/profile/edit_profile.dart';
+import 'package:graduation_project/modules/tutor/profile/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
+import '../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
+import '../../../layout/tutor/tutor_cubit/instructor_states.dart';
 import '../../../shared/component/constant.dart';
 
-class TeacherProfile extends StatelessWidget {
-  const TeacherProfile({super.key});
+class TutorProfile extends StatelessWidget {
+  const TutorProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +25,10 @@ class TeacherProfile extends StatelessWidget {
          cubit.imageProvider = MemoryImage(picture);
        }
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: theme.scaffoldBackgroundColor,
-            toolbarHeight: 70.0,
-            leading: const Padding(
-              padding: EdgeInsets.only(
-                left: 15,top: 5,bottom: 5,
-              ),
-              child: Image(image: AssetImage("Assets/appbar.png")),
-            ),
-            title: Text("Profile",
-              style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
-            ),
-            actions:[
+          appBar: defaultAppBar(
+            context: context,
+            title: "Profile",
+            actions: [
               Padding(padding: const EdgeInsets.only(right:20.0),
                 child:Container(
                   height: 40,
@@ -48,7 +39,7 @@ class TeacherProfile extends StatelessWidget {
                   ),
                   child: IconButton(
                     onPressed: (){navigateTo(context, const SettingsScreen());},
-                    icon: Icon(Icons.settings,size: 25,color: Theme.of(context).primaryColor),
+                    icon: Icon(Icons.settings,size: 25,color: theme.primaryColor),
                   ),
                 ),
               ),
@@ -74,7 +65,7 @@ class TeacherProfile extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
-                                  navigateTo(context, const EditProfileScreen());
+                                  navigateTo(context, const TutorEditProfile());
                                 },
                                 child: Container(
                                   height: 30,

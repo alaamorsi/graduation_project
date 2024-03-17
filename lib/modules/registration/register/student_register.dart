@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/modules/registeration/register/second_screen.dart';
+import 'package:graduation_project/modules/registration/register/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../shared/component/constant.dart';
 import '../login/login_screen.dart';
