@@ -56,8 +56,8 @@ class StudentLayout extends StatelessWidget {
                           text: 'Course',
                         ),
                         GButton(
-                          icon: Icons.search,
-                          text: 'Search',
+                          icon: Icons.notifications,
+                          text: 'Notification',
                         ),
                         GButton(
                           icon: Icons.person_outline,

@@ -16,7 +16,11 @@ class NotificationsScreen extends StatelessWidget {
         builder: (context, state) {
           var theme = Theme.of(context);
           return Scaffold(
-            appBar: secondAppbar(context: context, title: 'Notifications'),
+            appBar: defaultAppBar(
+              context: context,
+              title:"Notifications",
+              hasActions: false,
+            ),
             body: ConditionalBuilder(
               condition: false,
               builder: (context) {

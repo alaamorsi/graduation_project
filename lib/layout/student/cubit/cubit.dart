@@ -5,8 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
+import 'package:graduation_project/modules/student/notification/notification.dart';
 import 'package:graduation_project/modules/student/paymob_manager/paymob_manager.dart';
-import 'package:graduation_project/modules/student/search/search_screen.dart';
+import 'package:graduation_project/modules/student/discovery/search_screen.dart';
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
 import 'package:graduation_project/shared/component/test.dart';
@@ -27,7 +28,7 @@ class StudentCubit extends Cubit<StudentStates> {
   List<Widget> screens = [
     const HomeScreen(),
     const ReservedScreen(),
-    const SearchScreen(),
+    const NotificationsScreen(),
     const ProfileScreen(),
   ];
 
@@ -59,14 +60,13 @@ class StudentCubit extends Cubit<StudentStates> {
   bool startSearching = false;
   void showSearchFilter(context) async
   {
-    final List<String> results = await showAdaptiveDialog(
+    await showAdaptiveDialog(
         context: context,
         builder: (BuildContext context){
           return const MultiSelect();
         }
     );
     emit(StartSearchState());
-    print(results);
   }
 
   Future<void> payManager(int coursePrice) async{

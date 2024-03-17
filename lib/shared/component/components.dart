@@ -149,29 +149,22 @@ Widget myDropDownMenu({
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext context,
-  Widget? leadingIcon,
-  void Function()? leadingFunction,
-  required Widget title,
-  IconData? atEndIcon,
-  void Function()? atEndFunction,
-  bool atEnd = true,
-  bool hasLeading = false,
-  bool titleInCenter = false,
+  required String title,
+  List<Widget>? actions,
+  bool hasActions = true,
 }) =>
     AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       toolbarHeight: 70.0,
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
-      titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
-      leading: hasLeading? leadingIcon:null,
-      title: title,
-      centerTitle: titleInCenter,
-      actions: atEnd?[Padding(padding: const EdgeInsets.only(right: 10.0),
-          child: IconButton(
-              onPressed: atEndFunction,
-              icon: Icon(atEndIcon),
-          ),
-        ),]:[],
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 15,top: 5,bottom: 5,),
+        child: Image(image: const AssetImage("Assets/appbar2.png"),color: Theme.of(context).primaryColor,),
+      ),
+      title: Text(title,
+        style: font.copyWith(fontSize: 21.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColor),
+      ),
+      actions: hasActions?actions:[],
   );
 
 PreferredSizeWidget secondAppbar({
@@ -182,12 +175,6 @@ PreferredSizeWidget secondAppbar({
 }) => AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       toolbarHeight: 70.0,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(11.0),
-          bottomRight: Radius.circular(11.0),
-        ),
-      ),
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
       titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
       leading:Padding(

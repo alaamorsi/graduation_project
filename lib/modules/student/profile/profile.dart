@@ -19,19 +19,10 @@ class ProfileScreen extends StatelessWidget {
         var theme = Theme.of(context);
         var cubit = StudentCubit.get(context);
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: theme.scaffoldBackgroundColor,
-            toolbarHeight: 70.0,
-            leading: const Padding(
-              padding: EdgeInsets.only(
-                left: 15,top: 5,bottom: 5,
-              ),
-              child: Image(image: AssetImage("Assets/appbar.png")),
-            ),
-            title: Text("Profile",
-              style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: theme.primaryColorDark),
-            ),
-            actions:[
+          appBar:defaultAppBar(
+            context: context,
+            title: "Profile",
+            actions: [
               Padding(padding: const EdgeInsets.only(right:20.0),
                 child:Container(
                   height: 40,

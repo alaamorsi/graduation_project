@@ -70,8 +70,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if(state is UpdateUserDataLoadingState ||  state is UpdateProfileImageLoadingState )const LinearProgressIndicator(),
-                    //edit button
+                    if(state is UpdateUserDataLoadingState ||  state is UpdateProfileImageLoadingState )const Padding(padding: EdgeInsets.all(11.0), child: LinearProgressIndicator(),),
+                    //Edit Image
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:[
@@ -124,7 +124,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ]
                     ),
                     const SizedBox(height: 15.0,),
-                    //data
+                    //Edit First Name
                     Text("First Name",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     Container(
                       decoration: const BoxDecoration(
@@ -141,70 +141,69 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               showModalBottomSheet(
                                   context: context,
                                   builder: (BuildContext context){
-                                    return Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(11.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                              Text("First name",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
-                                              editFormField(
-                                                  context: context,
-                                                  controller: firstNameController,
-                                                  validate: (String? value) {
-                                                    if (value!.isEmpty) {
-                                                      return 'name can not be empty!';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  label: CacheHelper.getData(key: 'firstName')
-                                              ),
-                                              Row(
-                                                children: [
-                                                  TextButton(
-                                                      onPressed: (){Navigator.pop(context);},
-                                                      child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
-                                                  ),
-                                                  const SizedBox(width: 5,),
-                                                  ElevatedButton(
-                                                      style:  ButtonStyle(
-                                                          backgroundColor: MaterialStatePropertyAll(theme.primaryColor)
-                                                      ),
-                                                      onPressed: () async{
-                                                        var response = await cubit.updateUserData(
-                                                          updateFirstName: true,
-                                                          updateLastName: false,
-                                                          updateBio: false,
-                                                          newFirstName: firstNameController.text,
-                                                        );
-                                                        if(response ==200){
-                                                          await CacheHelper.saveData(key: 'firstName', value: firstNameController.text);
-                                                          showToast(text: "Data has been updated successfully", state: ToastStates.success);
-                                                        }
-                                                        else if(response ==401){
-                                                          showToast(text: "Unauthorized access", state: ToastStates.error);
-                                                        }
-                                                        else{
-                                                          showToast(text: "Something went wrong", state: ToastStates.error);
-                                                        }
-                                                      },
-                                                      child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                      ),
+                                    return Padding(
+                                      padding: const EdgeInsets.all(11.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                            Text("First name",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
+                                            editFormField(
+                                                context: context,
+                                                controller: firstNameController,
+                                                validate: (String? value) {
+                                                  if (value!.isEmpty) {
+                                                    return 'name can not be empty!';
+                                                  }
+                                                  return null;
+                                                },
+                                                label: CacheHelper.getData(key: 'firstName')
+                                            ),
+                                            Row(
+                                              children: [
+                                                TextButton(
+                                                    onPressed: (){Navigator.pop(context);},
+                                                    child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                                                ),
+                                                const SizedBox(width: 5,),
+                                                ElevatedButton(
+                                                    style:  ButtonStyle(
+                                                        backgroundColor: MaterialStatePropertyAll(theme.primaryColor)
+                                                    ),
+                                                    onPressed: () async{
+                                                      var response = await cubit.updateUserData(
+                                                        updateFirstName: true,
+                                                        updateLastName: false,
+                                                        updateBio: false,
+                                                        newFirstName: firstNameController.text,
+                                                      );
+                                                      if(response ==200){
+                                                        await CacheHelper.saveData(key: 'firstName', value: firstNameController.text);
+                                                        showToast(text: "Data has been updated successfully", state: ToastStates.success);
+                                                      }
+                                                      else if(response ==401){
+                                                        showToast(text: "Unauthorized access", state: ToastStates.error);
+                                                      }
+                                                      else{
+                                                        showToast(text: "Something went wrong", state: ToastStates.error);
+                                                      }
+                                                    },
+                                                    child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                     );
                                   }
                               );
                             },
-                            icon: const Icon(Icons.edit)
+                            icon: Icon(Icons.edit,color: theme.primaryColor,size: 25,)
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 10.0,),
+                    //Edit Last Name
                     Text("Last Name",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     Container(
                       decoration: const BoxDecoration(
@@ -221,70 +220,69 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 showModalBottomSheet(
                                     context: context,
                                     builder: (BuildContext context){
-                                      return Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(11.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text("Last name",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
-                                              editFormField(
-                                                  context: context,
-                                                  controller: lastNameController,
-                                                  validate: (String? value) {
-                                                    if (value!.isEmpty) {
-                                                      return 'name can not be empty!';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  label: CacheHelper.getData(key: 'lastName')
-                                              ),
-                                              Row(
-                                                children: [
-                                                  TextButton(
-                                                      onPressed: (){Navigator.pop(context);},
-                                                      child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
-                                                  ),
-                                                  const SizedBox(width: 5,),
-                                                  ElevatedButton(
-                                                      style:  ButtonStyle(
-                                                          backgroundColor: MaterialStatePropertyAll(theme.primaryColor)
-                                                      ),
-                                                      onPressed: () async{
-                                                        var response = await cubit.updateUserData(
-                                                          updateFirstName: false,
-                                                          updateLastName: true,
-                                                          updateBio: false,
-                                                          newLastName: lastNameController.text,
-                                                        );
-                                                        if(response ==200){
-                                                          await CacheHelper.saveData(key: 'lastName', value: lastNameController.text);
-                                                          showToast(text: "Data has been updated successfully", state: ToastStates.success);
-                                                        }
-                                                        else if(response ==401){
-                                                          showToast(text: "Unauthorized access", state: ToastStates.error);
-                                                        }
-                                                        else{
-                                                          showToast(text: "Something went wrong", state: ToastStates.error);
-                                                        }
-                                                      },
-                                                      child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                      return Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Last name",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
+                                            editFormField(
+                                                context: context,
+                                                controller: lastNameController,
+                                                validate: (String? value) {
+                                                  if (value!.isEmpty) {
+                                                    return 'name can not be empty!';
+                                                  }
+                                                  return null;
+                                                },
+                                                label: CacheHelper.getData(key: 'lastName')
+                                            ),
+                                            Row(
+                                              children: [
+                                                TextButton(
+                                                    onPressed: (){Navigator.pop(context);},
+                                                    child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                                                ),
+                                                const SizedBox(width: 5,),
+                                                ElevatedButton(
+                                                    style:  ButtonStyle(
+                                                        backgroundColor: MaterialStatePropertyAll(theme.primaryColor)
+                                                    ),
+                                                    onPressed: () async{
+                                                      var response = await cubit.updateUserData(
+                                                        updateFirstName: false,
+                                                        updateLastName: true,
+                                                        updateBio: false,
+                                                        newLastName: lastNameController.text,
+                                                      );
+                                                      if(response ==200){
+                                                        await CacheHelper.saveData(key: 'lastName', value: lastNameController.text);
+                                                        showToast(text: "Data has been updated successfully", state: ToastStates.success);
+                                                      }
+                                                      else if(response ==401){
+                                                        showToast(text: "Unauthorized access", state: ToastStates.error);
+                                                      }
+                                                      else{
+                                                        showToast(text: "Something went wrong", state: ToastStates.error);
+                                                      }
+                                                    },
+                                                    child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       );
                                     }
                                 );
                               },
-                              icon: const Icon(Icons.edit)
+                              icon: Icon(Icons.edit,color: theme.primaryColor,size: 25,)
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 10.0),
+                    //Edit Bio
                     Text("Bio",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     Container(
                       decoration: const BoxDecoration(
@@ -301,62 +299,60 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 showModalBottomSheet(
                                   context: context,
                                   builder: (BuildContext context){
-                                    return Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(11.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text("bio",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
-                                            editFormField(
-                                                context: context,
-                                                controller: bioController,
-                                                validate: (String? value) {
-                                                  return null;
-                                                },
-                                                label: CacheHelper.getData(key: 'biography')
-                                            ),
-                                            Row(
-                                              children: [
-                                                TextButton(
-                                                    onPressed: (){Navigator.pop(context);},
-                                                    child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
-                                                ),
-                                                const SizedBox(width: 5,),
-                                                ElevatedButton(
-                                                    style:  ButtonStyle(
-                                                        backgroundColor: MaterialStatePropertyAll(theme.primaryColor)
-                                                    ),
-                                                    onPressed: () async{
-                                                      var response = await cubit.updateUserData(
-                                                        updateFirstName: false,
-                                                        updateLastName: false,
-                                                        updateBio: true,
-                                                        newBio: bioController.text,
-                                                      );
-                                                      if(response ==200){
-                                                        await CacheHelper.saveData(key: 'biography', value: bioController.text);
-                                                        showToast(text: "Data has been updated successfully", state: ToastStates.success);
-                                                      }
-                                                      else if(response ==401){
-                                                        showToast(text: "Unauthorized access", state: ToastStates.error);
-                                                      }
-                                                      else{
-                                                        showToast(text: "Something went wrong", state: ToastStates.error);
-                                                      }
-                                                    },
-                                                    child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                    return Padding(
+                                      padding: const EdgeInsets.all(11.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("bio",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
+                                          editFormField(
+                                              context: context,
+                                              controller: bioController,
+                                              validate: (String? value) {
+                                                return null;
+                                              },
+                                              label: CacheHelper.getData(key: 'biography')
+                                          ),
+                                          Row(
+                                            children: [
+                                              TextButton(
+                                                  onPressed: (){Navigator.pop(context);},
+                                                  child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                                              ),
+                                              const SizedBox(width: 5,),
+                                              ElevatedButton(
+                                                  style:  ButtonStyle(
+                                                      backgroundColor: MaterialStatePropertyAll(theme.primaryColor)
+                                                  ),
+                                                  onPressed: () async{
+                                                    var response = await cubit.updateUserData(
+                                                      updateFirstName: false,
+                                                      updateLastName: false,
+                                                      updateBio: true,
+                                                      newBio: bioController.text,
+                                                    );
+                                                    if(response ==200){
+                                                      await CacheHelper.saveData(key: 'biography', value: bioController.text);
+                                                      showToast(text: "Data has been updated successfully", state: ToastStates.success);
+                                                    }
+                                                    else if(response ==401){
+                                                      showToast(text: "Unauthorized access", state: ToastStates.error);
+                                                    }
+                                                    else{
+                                                      showToast(text: "Something went wrong", state: ToastStates.error);
+                                                    }
+                                                  },
+                                                  child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     );
                                   }
                                 );
                               },
-                              icon: const Icon(Icons.edit)
+                              icon: Icon(Icons.edit,color: theme.primaryColor,size: 25,)
                           ),
                         ],
                       ),

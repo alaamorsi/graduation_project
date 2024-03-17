@@ -21,17 +21,9 @@ class ReservedScreen extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             appBar: defaultAppBar(
-              hasLeading: true,
               context: context,
-              leadingIcon:const Padding(
-                padding: EdgeInsets.only(
-                  left: 15,top: 5,bottom: 5,
-                ),
-                child: Image(image: AssetImage("Assets/appbar.png")),
-              ),
-              title: Text("Enrolled Courses",
-                style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColorDark),
-              ),
+              title:"Enrolled Courses",
+              hasActions: false,
             ),
             body: ConditionalBuilder(
               condition: myCourses.isNotEmpty,

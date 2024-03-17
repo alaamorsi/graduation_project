@@ -12,16 +12,7 @@ class TeacherCoursesScreen extends StatelessWidget {
     return Scaffold(
       appBar: defaultAppBar(
         context: context,
-        hasLeading: true,
-        leadingIcon: const Padding(
-          padding: EdgeInsets.only(
-            left: 15,top: 5,bottom: 5,
-          ),
-          child: Image(image: AssetImage("Assets/appbar.png")),
-        ),
-        title: Text("Course",
-          style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: theme.primaryColorDark),
-        ),
+        title: "Course",
       ),
       body: ConditionalBuilder(
           condition: false,

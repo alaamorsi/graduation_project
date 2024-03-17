@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/cubit/cubit.dart';
 import 'package:graduation_project/layout/student/cubit/states.dart';
 import 'package:graduation_project/modules/student/discovery/discovery_category_list.dart';
+import 'package:graduation_project/modules/student/discovery/search_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../shared/component/constant.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'notification.dart';
 import 'wish_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -32,27 +32,10 @@ class HomeScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
         return Scaffold(
-          appBar:  AppBar(
-            backgroundColor: theme.scaffoldBackgroundColor,
-            toolbarHeight: 70.0,
-            leading: const Padding(
-              padding: EdgeInsets.only(
-                left: 15,top: 5,bottom: 5,
-              ),
-              child: Image(image: AssetImage("Assets/appbar.png")),
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Hello,',
-                  style: font.copyWith(fontSize: 24.0,fontWeight: FontWeight.w600,color: theme.primaryColor),
-                ),
-                Text(firstName.replaceRange(0,1, firstName[0].toUpperCase()),
-                  style: font.copyWith(fontSize: 21.0,fontWeight: FontWeight.w500,color: theme.primaryColorDark),
-                ),
-              ],
-            ),
-            actions:[
+          appBar:defaultAppBar(
+            context: context,
+            title: 'Hello,${firstName.replaceRange(0,1, firstName[0].toUpperCase())}',
+            actions: [
               Container(
                 height: 40,
                 width: 40,
@@ -61,8 +44,8 @@ class HomeScreen extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(9.0)),
                 ),
                 child: IconButton(
-                  onPressed: (){navigateTo(context, const NotificationsScreen());},
-                  icon: Icon(Icons.notifications,size: 25,color: Theme.of(context).primaryColor,),
+                  onPressed: (){navigateTo(context, const SearchScreen());},
+                  icon: Icon(Icons.search,size: 25,color: Theme.of(context).primaryColor,),
                 ),
               ),
               Padding(padding: const EdgeInsets.symmetric(horizontal:10.0),
@@ -79,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
+            ]
           ),
           body: ConditionalBuilder(
               condition: true,
