@@ -24,6 +24,7 @@ class ForgetPasswordScreen1 extends StatelessWidget {
       },
       builder: (context , state){
         var cubit = LoginCubit.get(context);
+        var theme = Theme.of(context);
         return Scaffold(
           appBar: secondAppbar(
             context: context,

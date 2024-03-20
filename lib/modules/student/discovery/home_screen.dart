@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: defaultAppBar(
             context: context,
-            title: 'Hello,${firstName.replaceRange(0,1, firstName[0].toUpperCase())}'.tr,
+            title: 'Hello'.tr+firstName.replaceRange(0,1, firstName[0].toUpperCase()),
             actions: [
               Container(
                 height: 40,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -39,11 +40,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
             titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
             leading:Padding(
-              padding: const EdgeInsets.only(
-                  left: 14.0,top: 14.0,bottom: 14.0
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 14),
               child: Container(
-                padding: const EdgeInsets.only(left: 7.0),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
                 height: 25,
                 width: 25,
                 decoration: BoxDecoration(
@@ -60,7 +59,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
             ),
-            title: const Text("Edit profile"),
+            title: Text("Edit profile".tr),
+            centerTitle: true,
           ),
           body: SingleChildScrollView(
             child: Form(
@@ -125,7 +125,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     const SizedBox(height: 15.0,),
                     //Edit First Name
-                    Text("First Name",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
+                    Text("First name".tr,style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     Container(
                       decoration: const BoxDecoration(
                         border: Border(
@@ -146,13 +146,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                            Text("First name",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
+                                            Text("First name".tr,style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
                                             editFormField(
                                                 context: context,
                                                 controller: firstNameController,
                                                 validate: (String? value) {
                                                   if (value!.isEmpty) {
-                                                    return 'name can not be empty!';
+                                                    return 'name can not be empty!'.tr;
                                                   }
                                                   return null;
                                                 },
@@ -162,7 +162,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                               children: [
                                                 TextButton(
                                                     onPressed: (){Navigator.pop(context);},
-                                                    child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                                                    child: Text('back'.tr,style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
                                                 ),
                                                 const SizedBox(width: 5,),
                                                 ElevatedButton(
@@ -178,16 +178,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                       );
                                                       if(response ==200){
                                                         await CacheHelper.saveData(key: 'firstName', value: firstNameController.text);
-                                                        showToast(title: 'Greet', description: "First name has been updated successfully",context: context, state: MotionState.success);
+                                                        showToast(title: 'Success'.tr, description: "name has been updated successfully".tr,context: context, state: MotionState.success);
                                                       }
                                                       else if(response == 401){
-                                                        showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
+                                                        showToast(title: 'Warning'.tr, description: "session has been end".tr,context: context, state: MotionState.warning);
                                                       }
                                                       else{
-                                                        showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
+                                                        showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
                                                       }
                                                     },
-                                                    child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                                                    child: Text('save'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
                                                 ),
                                               ],
                                             ),
@@ -204,7 +204,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     const SizedBox(height: 10.0,),
                     //Edit Last Name
-                    Text("Last Name",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
+                    Text("Last name".tr,style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     Container(
                       decoration: const BoxDecoration(
                         border: Border(
@@ -225,13 +225,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text("Last name",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
+                                            Text("Last name".tr,style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
                                             editFormField(
                                                 context: context,
                                                 controller: lastNameController,
                                                 validate: (String? value) {
                                                   if (value!.isEmpty) {
-                                                    return 'name can not be empty!';
+                                                    return 'name can not be empty!'.tr;
                                                   }
                                                   return null;
                                                 },
@@ -241,7 +241,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                               children: [
                                                 TextButton(
                                                     onPressed: (){Navigator.pop(context);},
-                                                    child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                                                    child: Text('back'.tr,style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
                                                 ),
                                                 const SizedBox(width: 5,),
                                                 ElevatedButton(
@@ -257,16 +257,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                       );
                                                       if(response ==200){
                                                         await CacheHelper.saveData(key: 'lastName', value: lastNameController.text);
-                                                        showToast(title: 'Greet', description: "Last name has been updated successfully",context: context, state: MotionState.success);
+                                                        showToast(title: 'Success'.tr, description: "name has been updated successfully".tr,context: context, state: MotionState.success);
                                                       }
                                                       else if(response == 401){
-                                                        showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
+                                                        showToast(title: 'Warning'.tr, description: "session has been end".tr,context: context, state: MotionState.warning);
                                                       }
                                                       else{
-                                                        showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
+                                                        showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
                                                       }
                                                     },
-                                                    child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                                                    child: Text('save'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
                                                 ),
                                               ],
                                             ),
@@ -283,7 +283,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     const SizedBox(height: 10.0),
                     //Edit Bio
-                    Text("Bio",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
+                    Text("bio".tr,style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     Container(
                       decoration: const BoxDecoration(
                         border: Border(
@@ -304,7 +304,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text("bio",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
+                                          Text("bio".tr,style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
                                           editFormField(
                                               context: context,
                                               controller: bioController,
@@ -317,7 +317,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             children: [
                                               TextButton(
                                                   onPressed: (){Navigator.pop(context);},
-                                                  child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                                                  child: Text('back'.tr,style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
                                               ),
                                               const SizedBox(width: 5,),
                                               ElevatedButton(
@@ -333,16 +333,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                     );
                                                     if(response ==200){
                                                       await CacheHelper.saveData(key: 'biography', value: bioController.text);
-                                                      showToast(title: 'Greet', description: "Bio has been updated successfully",context: context, state: MotionState.success);
+                                                      showToast(title: 'Success'.tr, description: "bio has been updated successfully".tr,context: context, state: MotionState.success);
                                                     }
                                                     else if(response == 401){
-                                                      showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
+                                                      showToast(title: 'Warning'.tr, description: "session has been end".tr,context: context, state: MotionState.warning);
                                                     }
                                                     else{
-                                                      showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
+                                                      showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
                                                     }
                                                   },
-                                                  child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                                                  child: Text('save'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
                                               ),
                                             ],
                                           ),

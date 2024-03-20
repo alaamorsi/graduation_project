@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/test.dart';
@@ -22,7 +23,7 @@ class ReservedScreen extends StatelessWidget {
           return Scaffold(
             appBar: defaultAppBar(
               context: context,
-              title:"Enrolled Courses",
+              title:"Enrolled Courses".tr,
               hasActions: false,
             ),
             body: ConditionalBuilder(
@@ -41,7 +42,7 @@ class ReservedScreen extends StatelessWidget {
                     }
                 ),
               ),
-              fallback: (context) => const Center(child: Text('You are not in class yet')),
+              fallback: (context) => Center(child: Text('You are not in class yet'.tr)),
             ),
           );
       }
@@ -88,12 +89,12 @@ class ReservedScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      course.subject,
+                      course.subject.tr,
                       style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
                     ),
                     const SizedBox(height: 5,),
                     Text(
-                      '${course.videosNumber} lesson',
+                      '${course.videosNumber}${'lessons'.tr}',
                       style: font.copyWith(fontSize: 12.0,color: theme.primaryColorDark.withOpacity(.5)),
                     ),
                   ],

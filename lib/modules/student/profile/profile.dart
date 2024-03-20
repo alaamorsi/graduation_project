@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/settings/settings.dart';
 import 'package:graduation_project/modules/student/profile/edit_profile.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -21,9 +22,9 @@ class ProfileScreen extends StatelessWidget {
         return Scaffold(
           appBar:defaultAppBar(
             context: context,
-            title: "Profile",
+            title: "Profile".tr,
             actions: [
-              Padding(padding: const EdgeInsets.only(right:20.0),
+              Padding(padding: const EdgeInsets.symmetric(horizontal:10.0),
                 child:Container(
                   height: 40,
                   width: 40,
@@ -97,16 +98,16 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                     const Divider(),
-                    userdata(title: 'First name', data: cubit.firstName, theme: theme),
+                    userdata(title: 'First name'.tr, data: cubit.firstName, theme: theme),
                     const SizedBox(
                       height: 10,
                     ),
-                    userdata(title: 'Last name', data:cubit.lastName, theme: theme),
+                    userdata(title: 'Last name'.tr, data:cubit.lastName, theme: theme),
                     const SizedBox(
                       height: 10,
                     ),
                     userdata(
-                        title: 'Email',
+                        title: "email address".tr,
                         data: CacheHelper.getData(key: 'email') ?? "",
                         noIcon: false,
                         icon: Icons.email_rounded,
@@ -114,7 +115,7 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    userdata(title: 'bio',data: cubit.bio, theme: theme),
+                    userdata(title: 'bio'.tr,data: cubit.bio, theme: theme),
                   ],
                 ),
               ),

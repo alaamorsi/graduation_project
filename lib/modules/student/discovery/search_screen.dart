@@ -1,5 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
@@ -68,26 +69,26 @@ class MultiSelect extends StatefulWidget {
 }
 class _MultiSelectState extends State<MultiSelect> {
   final eduLevel=[
-    'High School',
-    'Middle',
-    'Primary',
+    'High School'.tr,
+    'Middle'.tr,
+    'Primary'.tr,
   ];
   final subjects=[
-    'Arabic',
-    'English',
-    'Mathematics',
-    'Studies',
-    'Science',
-    'French',
-    'Italian',
-    'German',
-    'History',
-    'geography',
-    'Chemistry',
-    'Physics',
-    'Biology',
-    'Psychology',
-    'Philosophy'
+    'Arabic'.tr,
+    'English'.tr,
+    'Studies'.tr,
+    'Science'.tr,
+    'French'.tr,
+    'Italian'.tr,
+    'German'.tr,
+    'History'.tr,
+    'Geography'.tr,
+    'Chemistry'.tr,
+    'Physics'.tr,
+    'Biology'.tr,
+    'Psychology'.tr,
+    'Philosophy'.tr,
+    'Mathematics'.tr,
   ];
   final levelSelections=[
     false,
@@ -112,9 +113,9 @@ class _MultiSelectState extends State<MultiSelect> {
     false,
   ];
   final prices=[
-    '<EP200',
-    'EP200-EP500',
-    '>EP500',
+    '<${'EGP'.tr}200',
+    '${'EGP'.tr}200-${'EGP'.tr}500',
+    '>${'EGP'.tr}500',
   ];
   final pricesSelection=[
     false,
@@ -148,13 +149,13 @@ class _MultiSelectState extends State<MultiSelect> {
     var theme = Theme.of(context);
     return AlertDialog.adaptive(
       backgroundColor: theme.scaffoldBackgroundColor,
-      title:Center(child: Text('Search filter',style: font.copyWith(color: theme.primaryColorDark,fontSize: 16.0),)),
+      title:Center(child: Text('Search filter'.tr,style: font.copyWith(color: theme.primaryColorDark,fontSize: 16.0),)),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20,),
-            Text('Education level',style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0)),
+            Text('Education level'.tr,style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0)),
             const SizedBox(height: 10,),
             ConditionalBuilder(
               condition: true,
@@ -168,7 +169,7 @@ class _MultiSelectState extends State<MultiSelect> {
               fallback: (context)=>Container(),
             ),
             const SizedBox(height: 10.0,),
-            Text('Subjects',style: font.copyWith(color: theme.primaryColorDark,fontSize: 17.0,fontWeight: FontWeight.w500)),
+            Text('Subjects'.tr,style: font.copyWith(color: theme.primaryColorDark,fontSize: 17.0,fontWeight: FontWeight.w500)),
             const SizedBox(height: 10,),
             ConditionalBuilder(
               condition: isPrim,
@@ -226,7 +227,7 @@ class _MultiSelectState extends State<MultiSelect> {
                   side:  MaterialStatePropertyAll(BorderSide(color: theme.primaryColor)),
                 ),
                 onPressed: cansel,
-                child: Text('Clear',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                child: Text('Clear'.tr,style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
             ),
             const SizedBox(width: 5,),
             Expanded(
@@ -235,7 +236,7 @@ class _MultiSelectState extends State<MultiSelect> {
                       backgroundColor: MaterialStatePropertyAll(theme.primaryColor)
                   ),
                   onPressed: submit,
-                  child: Text('Apply filter',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                  child: Text('Apply filter'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
               ),
             ),
           ],

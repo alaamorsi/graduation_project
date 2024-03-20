@@ -24,6 +24,7 @@ class ConfirmScreen extends StatelessWidget {
       },
       builder: (context , state){
         var cubit = RegisterCubit.get(context);
+        var theme = Theme.of(context);
         return Scaffold(
           appBar: secondAppbar(context: context, title:'Email confirm'.tr),
           body: Padding(

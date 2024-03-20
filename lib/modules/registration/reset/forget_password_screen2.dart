@@ -28,6 +28,7 @@ class ForgetPasswordScreen2 extends StatelessWidget {
             }
         },
         builder: (context , state){
+          var theme = Theme.of(context);
           return Padding(
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(

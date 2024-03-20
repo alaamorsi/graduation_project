@@ -18,6 +18,7 @@ class SettingsScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var appCubit = AppCubit.get(context);
+        var theme = Theme.of(context);
         return Scaffold(
           backgroundColor: theme.scaffoldBackgroundColor,
           appBar: secondAppbar(context: context, title:"Settings".tr,),

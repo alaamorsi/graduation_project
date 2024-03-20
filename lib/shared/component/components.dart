@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:graduation_project/shared/component/test.dart';
@@ -178,9 +179,9 @@ PreferredSizeWidget secondAppbar({
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
       titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
       leading:Padding(
-        padding: const EdgeInsets.all(14.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 14),
         child: Container(
-          padding: const EdgeInsets.only(left: 7.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
           height: 25,
           width: 25,
           decoration: BoxDecoration(
@@ -194,6 +195,7 @@ PreferredSizeWidget secondAppbar({
         ),
       ),
       title: Text(title),
+      centerTitle: true,
       actions: hasAction?[Padding(padding: const EdgeInsets.only(right: 10.0),
         child: actionIcon)]:[],
     );
@@ -337,7 +339,7 @@ Widget slideItem({
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                       color: id==2?Colors.indigoAccent:Colors.orangeAccent,
-                    ), child: Text("Check Now !",style: font.copyWith(fontSize: 16.0,color: Colors.white),)
+                    ), child: Text("Check Now!".tr,style: font.copyWith(fontSize: 16.0,color: Colors.white),)
                 ),
               ],
             ),
@@ -392,14 +394,14 @@ Widget courseItem({
                 children: [
                   Expanded(
                     child: Text(
-                      course.subject,
+                      course.subject.tr,
                       style: font.copyWith(fontSize: 16.0,color: color),
                     ),
                   ),
                   const SizedBox(height: 5,),
                   Expanded(
                     child: Text(
-                      '${course.videosNumber} lesson',
+                      '${course.videosNumber}${'lessons'.tr}',
                       style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
                     ),
                   ),
@@ -432,7 +434,7 @@ Widget courseItem({
                   ),
                   Expanded(
                     child: Text(
-                      'EP${course.price}',
+                      '${'EGP'.tr}${course.price}',
                       style: font.copyWith(fontSize: 14.0,color: color),
                     ),
                   ),

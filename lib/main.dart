@@ -21,7 +21,7 @@ void main() async{
   DioHelper.init();
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
-  langTitle = CacheHelper.getData(key: 'ln')??langTitle;
+  langTitle = CacheHelper.getData(key: 'language')??langTitle;
   notification = CacheHelper.getData(key: 'notification')??notification;
   jwt = CacheHelper.getData(key: 'jwt')??jwt;
   role = CacheHelper.getData(key: 'role')??role;
@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
-    theme = Theme.of(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context)=>AppCubit()),
