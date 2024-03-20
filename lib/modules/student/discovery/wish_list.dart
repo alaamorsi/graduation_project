@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
@@ -16,7 +17,7 @@ class WishListScreen extends StatelessWidget {
           var theme = Theme.of(context);
           var cubit = StudentCubit.get(context);
         return Scaffold(
-          appBar: secondAppbar(context: context, title: 'WishList'),
+          appBar: secondAppbar(context: context, title: 'WishList'.tr),
           body: ConditionalBuilder(
               condition: cubit.wishList.isNotEmpty,
               builder: (context) {
@@ -40,7 +41,7 @@ class WishListScreen extends StatelessWidget {
                 );
             },
             fallback: (context)=> Center(
-                child: Text('Your WishList is Empty',
+                child: Text('Your WishList is Empty'.tr,
                   style: font.copyWith(color: theme.primaryColor,fontSize: 18.0),
                 ),
             ),

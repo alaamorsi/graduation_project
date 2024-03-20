@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/layout/student/student_layout.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
@@ -26,20 +27,29 @@ class LoginScreen extends StatelessWidget {
         role = CacheHelper.getData(key: 'role');
         if (state is LoginSuccessState) {
           if (role == 'student') {
-            navigateAndFinish(context, const StudentLayout());
+            Get.offAll(const StudentLayout());
             StudentCubit.get(context).getImage();
             StudentCubit.get(context).getUser();
           } else if (role == 'instructor') {
-            navigateAndFinish(context, const InstructorLayout());
+            Get.offAll(const InstructorLayout());
             InstructorCubit.get(context).getImage();
             InstructorCubit.get(context).getData();
           }
         }
-        if(state is LoginNotConfirmedState)
-          {
-            LoginCubit.get(context).sendConfirm(email: emailController.text);
-            navigateAndFinish(context, ConfirmScreen(email: emailController.text));
-          }
+        else if(state is LoginNotConfirmedState) {
+          showToast(title: 'Info'.tr, description: "your email is not confirmed ,check your gmail!".tr,context: context, state: MotionState.info);
+          LoginCubit.get(context).sendConfirm(email: emailController.text);
+          navigateAndFinish(context, ConfirmScreen(email: emailController.text));
+        }
+        else if(state is FormatErrorState){
+          showToast(title: 'Error'.tr, description: "email format error".tr,context: context, state: MotionState.error);
+        }
+        else if(state is LoginNotFoundState){
+          showToast(title: 'Error'.tr, description: "email not found".tr,context: context, state: MotionState.error);
+        }
+        else if(state is LoginErrorState){
+          showToast(title: 'Error'.tr, description: "email or password is wrong".tr,context: context, state: MotionState.error);
+        }
       },
       builder: (context, state) {
         var cubit = LoginCubit.get(context);
@@ -58,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'login',
+                          'login'.tr,
                           style: font.copyWith(
                               fontSize: 29.0,
                               fontWeight: FontWeight.bold,
@@ -70,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Register now to enjoy our great services',
+                          'Register now to enjoy our great services'.tr,
                           style:
                               font.copyWith(fontSize: 13.0, color: Colors.grey),
                         ),
@@ -83,13 +93,13 @@ class LoginScreen extends StatelessWidget {
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return 'This field cannot be empty !';
+                            return 'This field cannot be empty!'.tr;
                           } else if (!cubit.checkForNumbers(value)) {
-                            return 'Invalid Email !';
+                            return 'Invalid Email !'.tr;
                           }
                           return null;
                         },
-                        label: 'Email address',
+                        label: 'email address'.tr,
                         suffixIcon: Icons.email_outlined),
                     const SizedBox(
                       height: 20.0,
@@ -100,11 +110,11 @@ class LoginScreen extends StatelessWidget {
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty || value.length < 8) {
-                          return 'Password must be at least 8 characters !';
+                          return 'Password must be at least 8 characters!'.tr;
                         }
                         return null;
                       },
-                      label: 'password',
+                      label: 'password'.tr,
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: LoginCubit.get(context).prefixIcon,
                       isPassword: LoginCubit.get(context).isPassword,
@@ -118,7 +128,7 @@ class LoginScreen extends StatelessWidget {
                       atEnd: false,
                       paddingSize: 13.0,
                       isLoading: cubit.isLoading,
-                      text: "login",
+                      text: "login".tr,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           cubit.userLogin(
@@ -135,7 +145,7 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't have an account ?",
+                          "Don't have an account?".tr,
                           style:
                           font.copyWith(color: Colors.grey, fontSize: 12.0),
                         ),
@@ -143,7 +153,7 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             navigateTo(context, const SecondScreen());
                           },
-                          child: Text("Create now",
+                          child: Text("Create now".tr,
                               style: font.copyWith(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 14.0,
@@ -158,7 +168,7 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             navigateTo(context, ForgetPasswordScreen1());
                           },
-                          child: Text("Forgot your password ?",
+                          child: Text("Forgot password?".tr,
                               style: font.copyWith(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 15.0,
@@ -180,7 +190,7 @@ class LoginScreen extends StatelessWidget {
                           width: 5.0,
                         ),
                         Text(
-                          'or',
+                          'or'.tr,
                           style: font.copyWith(
                               fontSize: 15.0,
                               color: Theme.of(context).primaryColor),

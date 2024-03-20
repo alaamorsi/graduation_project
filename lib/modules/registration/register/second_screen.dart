@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/registration/register/student_register.dart';
 import 'package:graduation_project/modules/registration/register/teacher_register.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -33,11 +34,13 @@ class SecondScreenState extends State<SecondScreen> {
                           color: Theme.of(context).primaryColor,size: 30.0,
                         ),
                       ),
-                      Center(
-                        child: Text("Which one are you",
-                          style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 22.0,fontWeight: FontWeight.bold),),
-                      )
                     ]
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Which one are you".tr, style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 20.0,fontWeight: FontWeight.bold),)
+                    ],
                   ),
                   const SizedBox(height: 20,),
                   InkWell(
@@ -54,7 +57,7 @@ class SecondScreenState extends State<SecondScreen> {
                           child: const Image(image: AssetImage("Assets/tutor.png")),
                         ),
                         const SizedBox(height: 10.0),
-                        Text("Tutor",style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 20)),
+                        Text("Tutor".tr,style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 20)),
                       ],
                      ),
                   ),
@@ -73,7 +76,7 @@ class SecondScreenState extends State<SecondScreen> {
                           child: const Image(image: AssetImage("Assets/student.png")),
                         ),
                         const SizedBox(height: 10.0),
-                        Text("Student",style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 20)),
+                        Text("Student".tr,style: font.copyWith(color: Theme.of(context).primaryColor,fontSize: 20)),
                       ],
                     ),
                   ),

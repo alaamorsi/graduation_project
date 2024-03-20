@@ -12,6 +12,8 @@ import 'layout/student/student_cubit/student_cubit.dart';
 import 'layout/tutor/tutor_cubit/instructor_cubit.dart';
 import 'modules/registration/login/cubit/cubit.dart';
 import 'modules/registration/register/cubit/cubit.dart';
+import 'package:get/get.dart';
+import 'language/translation.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +23,8 @@ void main() async{
   mode = CacheHelper.getData(key: 'appMode')??mode;
   langTitle = CacheHelper.getData(key: 'ln')??langTitle;
   notification = CacheHelper.getData(key: 'notification')??notification;
-  jwt = CacheHelper.getData(key: 'jwt')??"";
-  role = CacheHelper.getData(key: 'role')??"";
+  jwt = CacheHelper.getData(key: 'jwt')??jwt;
+  role = CacheHelper.getData(key: 'role')??role;
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -39,23 +41,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
+    theme = Theme.of(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context)=>AppCubit()),
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit()),
         BlocProvider(create: (context)=>StudentCubit()..getUser()..getImage()),
-        BlocProvider(create: (context)=>InstructorCubit()),
+        BlocProvider(create: (context)=>InstructorCubit()..getData()..getImage()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
         builder: (context,state){
-          return MaterialApp(
+          return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: AppCubit.get(context).theme,
             darkTheme: AppCubit.get(context).darkTheme,
             themeMode: AppCubit.get(context).appMode,
             home:const OpeningScreen(),
+            translations: Translation(),
+            locale: const Locale('ar'),
+            fallbackLocale: const Locale('ar'),
           );
         },
       ),

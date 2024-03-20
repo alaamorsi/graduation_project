@@ -99,8 +99,8 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StudentHasImageState());
   }
   void getUser(){
-    firstName=CacheHelper.getData(key: 'firstName');
-    lastName=CacheHelper.getData(key: 'lastName');
+    firstName=CacheHelper.getData(key: 'firstName')??'';
+    lastName=CacheHelper.getData(key: 'lastName')??'';
     bio=CacheHelper.getData(key: 'biography')??"";
     emit(GetUserDataSuccessState());
   }

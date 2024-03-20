@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/student/discovery/discovery_category_list.dart';
 import 'package:graduation_project/modules/student/discovery/search_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -34,7 +35,7 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: defaultAppBar(
             context: context,
-            title: 'Hello,${firstName.replaceRange(0,1, firstName[0].toUpperCase())}',
+            title: 'Hello,${firstName.replaceRange(0,1, firstName[0].toUpperCase())}'.tr,
             actions: [
               Container(
                 height: 40,
@@ -76,25 +77,25 @@ class HomeScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text("Special", style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
+                            Text("Special".tr, style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
                             const Spacer(),
                             TextButton(onPressed: () {navigateTo(context, const CategoryList());},
-                              child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
+                              child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                       ),
                       CarouselSlider(
                         items:[
-                          slideItem(context: context, title: "Science is Amazing", id: 1, image: "Assets/subjects_icon/science.png"),
-                          slideItem(context: context, title: "Learn English Easy", id: 2, image: "Assets/subjects_icon/alphabet.png"),
-                          slideItem(context: context, title: "Know more about History", id: 1, image: "Assets/subjects_icon/history.png"),
-                          slideItem(context: context, title: "Atoms is too Tiny", id: 2, image: "Assets/subjects_icon/atom.png"),
-                          slideItem(context: context, title: "Is that A Ball !!!", id: 1, image: "Assets/subjects_icon/ball.png"),
-                          slideItem(context: context, title: "It's look like a Cube", id: 2, image: "Assets/subjects_icon/block.png"),
-                          slideItem(context: context, title: "Dna what it Mean !", id: 1, image: "Assets/subjects_icon/dna.png"),
-                          slideItem(context: context, title: "Geology is Funny now", id: 2, image: "Assets/subjects_icon/globe.png"),
-                          slideItem(context: context, title: "Find Great Idea !", id: 1, image: "Assets/subjects_icon/idea.png"),
-                          slideItem(context: context, title: "Math is not that hard", id: 2, image: "Assets/subjects_icon/maths.png"),
-                          slideItem(context: context, title: "What is Solar System", id: 1, image: "Assets/subjects_icon/solar-system.png"),
-                          slideItem(context: context, title: "Did you know it !!!", id: 2, image: "Assets/subjects_icon/square-root.png"),
+                          slideItem(context: context, title: "Science is Amazing".tr, id: 1, image: "Assets/subjects_icon/science.png"),
+                          slideItem(context: context, title: "Learn English Easy".tr, id: 2, image: "Assets/subjects_icon/alphabet.png"),
+                          slideItem(context: context, title: "Know more about History".tr, id: 1, image: "Assets/subjects_icon/history.png"),
+                          slideItem(context: context, title: "Atoms is too Tiny".tr, id: 2, image: "Assets/subjects_icon/atom.png"),
+                          slideItem(context: context, title: "Is that A Ball !!!".tr, id: 1, image: "Assets/subjects_icon/ball.png"),
+                          slideItem(context: context, title: "It's look like a Cube".tr, id: 2, image: "Assets/subjects_icon/block.png"),
+                          slideItem(context: context, title: "DNA what it Mean !".tr, id: 1, image: "Assets/subjects_icon/dna.png"),
+                          slideItem(context: context, title: "Geology is Funny now".tr, id: 2, image: "Assets/subjects_icon/globe.png"),
+                          slideItem(context: context, title: "Find Great Idea !".tr, id: 1, image: "Assets/subjects_icon/idea.png"),
+                          slideItem(context: context, title: "Math is not that hard".tr, id: 2, image: "Assets/subjects_icon/maths.png"),
+                          slideItem(context: context, title: "What is Solar System".tr, id: 1, image: "Assets/subjects_icon/solar-system.png"),
+                          slideItem(context: context, title: "Did you know it !!!".tr, id: 2, image: "Assets/subjects_icon/square-root.png"),
                         ],
                         options: CarouselOptions(
                           height: screenHeight/4,
@@ -120,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                                 unselectedLabelStyle: font.copyWith(color: Colors.grey,fontSize: 16.0),
                                 labelPadding: const EdgeInsets.symmetric(horizontal: 10.0),
                                 dividerColor: Colors.transparent,
-                                tabs: categories.map((e) => Tab(text: e)).toList()
+                                tabs: categories.map((e) => Tab(text: e.tr)).toList()
                             ),
                             SizedBox(
                               width: double.maxFinite,

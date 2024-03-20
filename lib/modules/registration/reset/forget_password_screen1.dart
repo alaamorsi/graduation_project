@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-
 import '../login/cubit/cubit.dart';
 import '../login/cubit/states.dart';
 import 'forget_password_screen2.dart';
@@ -27,7 +27,7 @@ class ForgetPasswordScreen1 extends StatelessWidget {
         return Scaffold(
           appBar: secondAppbar(
             context: context,
-            title: 'Forgot password?',
+            title: 'Forgot password?'.tr,
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -48,8 +48,8 @@ class ForgetPasswordScreen1 extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text('Please enter your account email',
-                        style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold)),
+                    Text('Please enter your account email'.tr,
+                        style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0,),
                     defaultFormField(
                         context: context,
@@ -57,22 +57,22 @@ class ForgetPasswordScreen1 extends StatelessWidget {
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return 'This field cannot be empty !';
+                            return 'This field cannot be empty!'.tr;
                           }
                           else if (!cubit.checkForNumbers(value))
                             {
-                              return 'Invalid Email !';
+                              return 'Invalid Email!'.tr;
                             }
                           return null;
                         },
-                        label: 'Email address',
+                        label: 'email address'.tr,
                         suffixIcon: Icons.email_outlined),
                     const SizedBox(height: 20.0,),
                     usedButton(
                       atEnd: false,
                       paddingSize: 10.0,
                       isLoading: LoginCubit.get(context).isLoading,
-                      text: "Next",
+                      text: "Next".tr,
                       onPressed: () {
                         if(formKey.currentState!.validate()) {
                           cubit.sendResetCode(email: emailController.text, reset: true);

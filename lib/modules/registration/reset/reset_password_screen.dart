@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import '../login/cubit/cubit.dart';
@@ -18,7 +19,7 @@ class ResetPasswordScreen extends StatelessWidget {
     return Scaffold(
       appBar:secondAppbar(
             context: context,
-            title: 'Rest Password',
+            title: 'Rest Password'.tr,
           ),
       body: BlocConsumer<LoginCubit,LoginStates>(
         listener: (context , state){
@@ -47,8 +48,8 @@ class ResetPasswordScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text('Please Enter New Password',
-                      style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold)),
+                    Text('Please Enter New Password'.tr,
+                        style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0,),
                     defaultFormField(
                       context:context,
@@ -56,15 +57,15 @@ class ResetPasswordScreen extends StatelessWidget {
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return 'This field cannot be empty !';
+                          return 'This field cannot be empty!'.tr;
                         }
                         if(value.length<8)
                           {
-                            return 'Password must be at least 8 characters !';
+                            return 'Password must be at least 8 characters!'.tr;
                           }
                         return null;
                       },
-                      label: 'New Password',
+                      label: 'New Password'.tr,
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: LoginCubit.get(context).prefixIcon,
                       isPassword: LoginCubit.get(context).isPassword,
@@ -79,15 +80,15 @@ class ResetPasswordScreen extends StatelessWidget {
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return 'This field cannot be empty !';
+                          return 'This field cannot be empty!'.tr;
                         }
                         if(value != passwordController1.text)
                           {
-                            return 'Password does not match !';
+                            return 'Password does not match!'.tr;
                           }
                         return null;
                       },
-                      label: 'Retype password',
+                      label: 'Retype password'.tr,
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: LoginCubit.get(context).prefixIcon,
                       isPassword: LoginCubit.get(context).isPassword,
@@ -100,7 +101,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       atEnd: false,
                       paddingSize: 10.0,
                       isLoading: LoginCubit.get(context).isLoading,
-                      text: "Next",
+                      text: "Next".tr,
                       onPressed: () {
                         if(formKey.currentState!.validate()) {
                           LoginCubit.get(context).userResetPassword(email: email, newPassword: passwordController1.text);

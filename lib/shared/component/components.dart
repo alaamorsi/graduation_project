@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:graduation_project/shared/component/test.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -158,7 +158,7 @@ PreferredSizeWidget defaultAppBar({
       toolbarHeight: 70.0,
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
       leading: Padding(
-        padding: const EdgeInsets.only(left: 15,top: 5,bottom: 5,),
+        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
         child: Image(image: const AssetImage("Assets/appbar2.png"),color: Theme.of(context).primaryColor,),
       ),
       title: Text(title,
@@ -178,9 +178,7 @@ PreferredSizeWidget secondAppbar({
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
       titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
       leading:Padding(
-        padding: const EdgeInsets.only(
-            left: 14.0,top: 14.0,bottom: 14.0
-        ),
+        padding: const EdgeInsets.all(14.0),
         child: Container(
           padding: const EdgeInsets.only(left: 7.0),
           height: 25,
@@ -240,36 +238,64 @@ void navigateAndFinish(context, widget) => Navigator.pushReplacement(
 /////////////////////
 
 void showToast({
-  required String text,
-  required ToastStates state,
+  required String title,
+  required String description,
+  required MotionState state,
+  required BuildContext context,
 }) =>
-    Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 5,
-      backgroundColor: chooseToastColor(state),
-      textColor: Colors.white,
-      fontSize: 18.0,
-    );
+    MotionToast(
+      icon:  chooseToastIcon(state),
+      primaryColor:  chooseToastColor(state),
+      title:  Text(title),
+      description:  Text(description),
+      width:  300,
+      height:  100,
+    ).show(context);
 
 // enum
-enum ToastStates { success, error, warning }
+enum MotionState {success, error, warning, info,delete,}
 
-Color chooseToastColor(ToastStates state) {
+Color chooseToastColor(MotionState state) {
   Color color;
   switch (state) {
-    case ToastStates.success:
+    case MotionState.success:
       color = Colors.greenAccent;
       break;
-    case ToastStates.error:
+    case MotionState.error:
       color = Colors.redAccent;
       break;
-    case ToastStates.warning:
+    case MotionState.warning:
       color = Colors.amberAccent;
+      break;
+    case MotionState.info:
+      color = Colors.blueAccent;
+      break;
+    case MotionState.delete:
+      color = Colors.purpleAccent;
       break;
   }
   return color;
+}
+IconData chooseToastIcon(MotionState state) {
+  IconData icon;
+  switch (state) {
+    case MotionState.success:
+      icon = Icons.gpp_good;
+      break;
+    case MotionState.error:
+      icon = Icons.gpp_bad;
+      break;
+    case MotionState.warning:
+      icon = Icons.warning;
+      break;
+    case MotionState.info:
+      icon = Icons.info;
+      break;
+    case MotionState.delete:
+      icon = Icons.delete;
+      break;
+  }
+  return icon;
 }
 
 Widget slideItem({

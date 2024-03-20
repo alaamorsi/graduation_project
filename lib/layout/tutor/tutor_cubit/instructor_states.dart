@@ -9,6 +9,9 @@ class HasImageState extends InstructorStates {}
 // pick image
 class ProfileImagePickedSuccessState extends InstructorStates {}
 class ProfileImagePickedErrorState extends InstructorStates {}
+// pick video
+class VideoPickedSuccessState extends InstructorStates {}
+class VideoPickedErrorState extends InstructorStates {}
 
 // Get user states
 class UpdateUserDataLoadingState extends InstructorStates {}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../shared/component/constant.dart';
 import '../registration/login/login_screen.dart';
@@ -48,10 +49,10 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
               width: screenWidth,
             ),
             const SizedBox(height: 30,),
-            Text("Choose freely.",style: font.copyWith(color: Colors.white,fontSize: 30.0),),
+            Text("Save time".tr,style: font.copyWith(color: Colors.white,fontSize: 30.0),),
             const SizedBox(height: 10,),
             Text(
-              "Choose from hundreds of teachers, online and recorded lessons.",
+              "save your time in searching for a good teacher".tr,
               style: font.copyWith(color: Colors.white,fontSize: 14.0),
             ),
             const SizedBox(height: 60,),
@@ -62,7 +63,7 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
                   onTap: (){
                     navigateAndFinish(context, const LoginScreen());
                   },
-                  child: Text("SKIP",style: font.copyWith(color: Colors.white,fontSize: 14.0),),
+                  child: Text("SKIP".tr,style: font.copyWith(color: Colors.white,fontSize: 14.0),),
                 ),
                 ElevatedButton(onPressed: (){
                   setState(() {
@@ -90,10 +91,10 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
               width: screenWidth,
             ),
             const SizedBox(height: 30,),
-            Text("Easy to learn.",style: font.copyWith(color: Colors.white,fontSize: 30.0),),
+            Text("Easy to learn".tr,style: font.copyWith(color: Colors.white,fontSize: 30.0),),
             const SizedBox(height: 10,),
             Text(
-              "Enjoy watching a free introduction of all content before buying, rate and ask in each lesson separately.",
+              "Enjoy a free introduction".tr,
               style: font.copyWith(color: Colors.white,fontSize: 14.0),
             ),
             const SizedBox(height: 60,),
@@ -104,7 +105,7 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
                   onTap: (){
                     navigateAndFinish(context, const LoginScreen());
                   },
-                  child: Text("SKIP",style: font.copyWith(color: Colors.white,fontSize: 14.0),),
+                  child: Text("SKIP".tr,style: font.copyWith(color: Colors.white,fontSize: 14.0),),
                 ),
                 ElevatedButton(
                     onPressed: (){
@@ -134,10 +135,10 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
               width: screenWidth,
             ),
             const SizedBox(height: 30,),
-            Text("Level up.",style: font.copyWith(color: Colors.white,fontSize: 30.0),),
+            Text("Level up".tr,style: font.copyWith(color: Colors.white,fontSize: 30.0),),
             const SizedBox(height: 10,),
             Text(
-              "Solve the task assigned in each lesson to test your level.",
+              "Solve the assigned".tr,
               style: font.copyWith(color: Colors.white,fontSize: 14.0),
             ),
             const SizedBox(height: 50,),
@@ -145,6 +146,7 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
               padding: const EdgeInsets.only(left:150.0,),
               child: InkWell(
                 onTap: (){
+                  Get.off(const LoginScreen());
                   navigateAndFinish(context, const LoginScreen());
                 },
                 child: Container(
@@ -155,7 +157,7 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
                       borderRadius: BorderRadius.circular(50),
                       boxShadow: const [BoxShadow(color: Colors.white,offset: Offset(-2, 4),spreadRadius: 2)]
                   ),
-                  child:Text("Get started",style: font.copyWith(color: Colors.greenAccent,fontSize: 16.0),),
+                  child:Text("Get started".tr,style: font.copyWith(color: Colors.greenAccent,fontSize: 16.0),),
                 ),
               ),
             ),

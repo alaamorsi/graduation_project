@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/component/constant.dart';
@@ -11,62 +12,23 @@ import 'theme_screen.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
         var appCubit = AppCubit.get(context);
-        var theme = Theme.of(context);
         return Scaffold(
           backgroundColor: theme.scaffoldBackgroundColor,
-          appBar: secondAppbar(context: context, title:"Settings",),
+          appBar: secondAppbar(context: context, title:"Settings".tr,),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
                 children: [
-                  // Row(children: [
-                  //   myDropDownMenu(
-                  //     context: context,
-                  //     title: "Language",
-                  //     initialSelectionText: langTitle,
-                  //     chooses: <DropdownMenuEntry<String>>[
-                  //       DropdownMenuEntry(
-                  //         value: "en",
-                  //         label: "English",
-                  //         style: ButtonStyle(
-                  //           backgroundColor: MaterialStateProperty.all(
-                  //               Theme.of(context).scaffoldBackgroundColor),
-                  //           foregroundColor: MaterialStateProperty.all(
-                  //               Theme.of(context).iconTheme.color),
-                  //         ),
-                  //       ),
-                  //       DropdownMenuEntry(
-                  //         value: "ar",
-                  //         label: "Arabic",
-                  //         style: ButtonStyle(
-                  //           backgroundColor: MaterialStateProperty.all(
-                  //               Theme.of(context).scaffoldBackgroundColor),
-                  //           foregroundColor: MaterialStateProperty.all(
-                  //               Theme.of(context).iconTheme.color),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //     onSelect: (language) {
-                  //       switch (language) {
-                  //         case "ar":
-                  //           appCubit.changeAppLanguage(context,'ar');
-                  //           break;
-                  //         case "en":
-                  //           appCubit.changeAppLanguage(context,'en');
-                  //           break;
-                  //       }
-                  //     }),
-                  // ]),
                   //app language
                   InkWell(
                     onTap: (){
+                      appCubit.changeAppLanguage();
                     },
                     child: Row(
                       children: [
@@ -80,7 +42,7 @@ class SettingsScreen extends StatelessWidget {
                           child: Icon(Icons.language_outlined,size: 25,color:theme.primaryColor),
                         ),
                         const SizedBox(width: 20,),
-                        Text("language",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                        Text("language".tr,style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
                         const Spacer(),
                         Icon(Icons.arrow_forward_ios_outlined,size: 18,color:theme.primaryColor),
                       ],
@@ -104,7 +66,7 @@ class SettingsScreen extends StatelessWidget {
                           child: Icon(Icons.imagesearch_roller_rounded,size: 25,color:theme.primaryColor),
                         ),
                         const SizedBox(width: 20,),
-                        Text("Theme",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                        Text("Theme".tr,style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
                         const Spacer(),
                         Icon(Icons.arrow_forward_ios_outlined,size: 18,color:theme.primaryColor),
                       ],
@@ -124,7 +86,7 @@ class SettingsScreen extends StatelessWidget {
                         child:Icon(Icons.notifications,size: 25,color:theme.primaryColor,),
                       ),
                       const SizedBox(width: 20,),
-                      Text("Notifications",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                      Text("Notifications".tr,style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
                       const Spacer(),
                       Switch(
                         value: notification,
@@ -140,7 +102,7 @@ class SettingsScreen extends StatelessWidget {
                   InkWell(
                     onTap: (){
                       StudentCubit.get(context).clearCache();
-                      navigateAndFinish(context, const LoginScreen());
+                      Get.offAll( const LoginScreen());
                     },
                     child: Row(
                       children: [
@@ -154,7 +116,7 @@ class SettingsScreen extends StatelessWidget {
                           child:const Icon(Icons.input_outlined,size: 20,color: Colors.red,),
                         ),
                         const SizedBox(width: 20,),
-                        Text("Logout",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),)
+                        Text("Logout".tr,style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),)
                       ],
                     ),
                   ),

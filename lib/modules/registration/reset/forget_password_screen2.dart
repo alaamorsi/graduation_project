@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/registration/reset/reset_password_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
@@ -17,7 +18,7 @@ class ForgetPasswordScreen2 extends StatelessWidget {
     return Scaffold(
       appBar: secondAppbar(
             context: context,
-            title: 'Forgot password?',
+            title: 'Forgot password?'.tr,
           ),
       body: BlocConsumer<LoginCubit,LoginStates>(
         listener: (context , state){
@@ -47,8 +48,8 @@ class ForgetPasswordScreen2 extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20.0,),
-                    Text('Please enter the verification code that was sent',
-                      style: font.copyWith(fontSize: 20.0,fontWeight: FontWeight.bold)),
+                    Text("verification message".tr,
+                        style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0,),
                     defaultFormField(
                       context:context,
@@ -56,11 +57,11 @@ class ForgetPasswordScreen2 extends StatelessWidget {
                       type: TextInputType.number,
                       validate: (String? value) {
                         if (value!.isEmpty) {
-                          return 'This field cannot be empty !';
+                          return 'This field cannot be empty!'.tr;
                         }
                         return null;
                       },
-                      label: 'Verification Code',
+                      label: 'Verification Code'.tr,
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: LoginCubit.get(context).prefixIcon,
                       isPassword: LoginCubit.get(context).isPassword,
@@ -73,7 +74,7 @@ class ForgetPasswordScreen2 extends StatelessWidget {
                       atEnd: false,
                       paddingSize: 10.0,
                       isLoading: LoginCubit.get(context).isLoading,
-                      text: "Next",
+                      text: "Next".tr,
                       onPressed: () {
                         if(formKey.currentState!.validate()) {
                           LoginCubit.get(context).validateResetCode(email: email, code: codeController.text);

@@ -90,6 +90,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
     bio = '';
     imageProvider = const AssetImage("Assets/profile/man_1.png");
   }
+
   File? profileImage;
   var picker = ImagePicker();
   Future<void> getProfileImage() async {
@@ -99,6 +100,29 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(ProfileImagePickedSuccessState());
     } else {
       emit(ProfileImagePickedErrorState());
+    }
+  }
+
+  List<File?> videos=[];
+  File? video;
+  Future<void> pikeVideoFromGallery() async {
+    final pickedVideo = await picker.pickVideo(source: ImageSource.gallery);
+    if (pickedVideo != null) {
+      video = File(pickedVideo.path);
+      videos.add(video);
+      emit(VideoPickedSuccessState());
+    } else {
+      emit(VideoPickedErrorState());
+    }
+  }
+  Future<void> pikeVideoFromCamera() async {
+    final pickedVideo = await picker.pickVideo(source: ImageSource.camera);
+    if (pickedVideo != null) {
+      video = File(pickedVideo.path);
+      videos.add(video);
+      emit(VideoPickedSuccessState());
+    } else {
+      emit(VideoPickedErrorState());
     }
   }
 

@@ -5,8 +5,7 @@ import '../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
 import '../../../layout/tutor/tutor_cubit/instructor_states.dart';
 import '../../../shared/component/constant.dart';
 import '../../../shared/network/cache_helper.dart';
-import 'Courses.dart';
-import 'add_course.dart';
+import 'add_course1.dart';
 import 'notification.dart';
 
 class TutorHomeScreen extends StatelessWidget {
@@ -24,7 +23,7 @@ class TutorHomeScreen extends StatelessWidget {
               context: context,
               title: 'Hello,Mr ${firstName.replaceRange(0,1, firstName[0].toUpperCase())}',
               actions: [
-                Padding(padding: const EdgeInsets.symmetric(horizontal:10.0),
+                Padding(padding: const EdgeInsets.only(right:20.0),
                   child:Container(
                     height: 40,
                     width: 40,
@@ -57,7 +56,6 @@ class TutorHomeScreen extends StatelessWidget {
                     title: "Courses",
                     image: "Assets/for_teacher/course.png",
                     goTo: (){
-                      navigateTo(context, const ChooseCoursesScreen());
                     },
                   ),
                   dashboardItem(

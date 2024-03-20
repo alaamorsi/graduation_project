@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/component/constant.dart';
@@ -19,7 +20,7 @@ class ThemeScreen extends StatelessWidget {
         var theme = Theme.of(context);
         return Scaffold(
           backgroundColor: theme.scaffoldBackgroundColor,
-          appBar: secondAppbar(context: context, title:"Theme",),
+          appBar: secondAppbar(context: context, title:"Theme".tr,),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -39,7 +40,7 @@ class ThemeScreen extends StatelessWidget {
                         Icon(Icons.brightness_4_outlined,size: 25,color:theme.primaryColor,),
                       ),
                       const SizedBox(width: 20,),
-                      Text("Mode",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                      Text("Mode".tr,style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
                       const Spacer(),
                       Switch(
                         value: mode,
@@ -66,17 +67,17 @@ class ThemeScreen extends StatelessWidget {
                         child: Icon(Icons.imagesearch_roller_rounded,size: 25,color:theme.primaryColor),
                       ),
                       const SizedBox(width: 20,),
-                      Text("Theme",style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                      Text("Theme".tr,style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
                       const Spacer(),
                       ],
                   ),
                   const SizedBox(height: 20,),
                   Wrap(
                     children: [
-                      themeItem(title: "Orange (Safe)", icon: Icons.headset, cardColor: HexColor("#FF4500"), tap: (){appCubit.changeTheme(1);}),
-                      themeItem(title: "Green (Natural)", icon: Icons.eco_rounded,cardColor: HexColor("#056608"), tap: (){appCubit.changeTheme(2);}),
-                      themeItem(title: "Blue (Fly)", icon: Icons.flight_takeoff_rounded,cardColor: HexColor("#1589FF"), tap: (){appCubit.changeTheme(3);}),
-                      themeItem(title: "Purple (Peace)", icon: Icons.yard_rounded,cardColor: HexColor("#9933ff"), tap: (){appCubit.changeTheme(4);}),
+                      themeItem(title: "Orange (Safe)".tr, icon: Icons.headset, cardColor: HexColor("#FF4500"), tap: (){appCubit.changeTheme(1);}),
+                      themeItem(title: "Green (Natural)".tr, icon: Icons.eco_rounded,cardColor: HexColor("#056608"), tap: (){appCubit.changeTheme(2);}),
+                      themeItem(title: "Blue (Fly)".tr, icon: Icons.flight_takeoff_rounded,cardColor: HexColor("#1589FF"), tap: (){appCubit.changeTheme(3);}),
+                      themeItem(title: "Purple (Peace)".tr, icon: Icons.yard_rounded,cardColor: HexColor("#9933ff"), tap: (){appCubit.changeTheme(4);}),
                     ],
                   )
                 ]

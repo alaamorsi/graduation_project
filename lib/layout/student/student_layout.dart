@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
@@ -46,22 +47,22 @@ class StudentLayout extends StatelessWidget {
                       tabBackgroundColor: theme.primaryColor.withOpacity(0.2),//the tabbed item
                       tabBorderRadius: 15,
                       activeColor: theme.primaryColor,
-                      tabs: const [
+                      tabs: [
                         GButton(
                           icon: Icons.home_outlined,
-                          text: 'Home',
+                          text: 'Home'.tr,
                         ),
                         GButton(
                           icon: Icons.dashboard_outlined,
-                          text: 'Course',
+                          text: 'Course'.tr,
                         ),
                         GButton(
                           icon: Icons.notifications,
-                          text: 'Notification',
+                          text: 'Notifications'.tr,
                         ),
                         GButton(
                           icon: Icons.person_outline,
-                          text: 'Profile',
+                          text: 'Profile'.tr,
                         ),
                       ],
                       selectedIndex: cubit.currentIndex,

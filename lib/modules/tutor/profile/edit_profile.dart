@@ -75,7 +75,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:[
-                        //Student Image
+                        // Image
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Container(
@@ -103,13 +103,13 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                         String base64Image = base64Encode(imageBytes);
                                         await CacheHelper.saveData(key: 'profileStr', value: base64Image);
                                         cubit.getImage();
-                                        showToast(text: "Image has been saved successfully", state: ToastStates.success);
+                                        showToast(title: 'Greet', description: "Image has been saved successfully",context: context, state: MotionState.success);
                                       }
                                       else if(response == 401){
-                                        showToast(text: "Unauthorized access", state: ToastStates.error);
+                                        showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
                                       }
                                       else{
-                                        showToast(text: "Something went wrong", state: ToastStates.error);
+                                        showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
                                       }
                                     }
                                   },
@@ -178,13 +178,13 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                                       );
                                                       if(response ==200){
                                                         await CacheHelper.saveData(key: 'firstName', value: firstNameController.text);
-                                                        showToast(text: "Data has been updated successfully", state: ToastStates.success);
+                                                        showToast(title: 'Greet', description: "First name has been updated successfully",context: context, state: MotionState.success);
                                                       }
-                                                      else if(response ==401){
-                                                        showToast(text: "Unauthorized access", state: ToastStates.error);
+                                                      else if(response == 401){
+                                                        showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
                                                       }
                                                       else{
-                                                        showToast(text: "Something went wrong", state: ToastStates.error);
+                                                        showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
                                                       }
                                                     },
                                                     child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
@@ -257,13 +257,13 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                                       );
                                                       if(response ==200){
                                                         await CacheHelper.saveData(key: 'lastName', value: lastNameController.text);
-                                                        showToast(text: "Data has been updated successfully", state: ToastStates.success);
+                                                        showToast(title: 'Greet', description: "Last name has been updated successfully",context: context, state: MotionState.success);
                                                       }
-                                                      else if(response ==401){
-                                                        showToast(text: "Unauthorized access", state: ToastStates.error);
+                                                      else if(response == 401){
+                                                        showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
                                                       }
                                                       else{
-                                                        showToast(text: "Something went wrong", state: ToastStates.error);
+                                                        showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
                                                       }
                                                     },
                                                     child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
@@ -333,13 +333,13 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                                     );
                                                     if(response ==200){
                                                       await CacheHelper.saveData(key: 'biography', value: bioController.text);
-                                                      showToast(text: "Data has been updated successfully", state: ToastStates.success);
+                                                      showToast(title: 'Success', description: "Bio has been updated successfully",context: context, state: MotionState.success);
                                                     }
-                                                    else if(response ==401){
-                                                      showToast(text: "Unauthorized access", state: ToastStates.error);
+                                                    else if(response == 401){
+                                                      showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
                                                     }
                                                     else{
-                                                      showToast(text: "Something went wrong", state: ToastStates.error);
+                                                      showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
                                                     }
                                                   },
                                                   child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)

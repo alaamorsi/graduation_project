@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/registration/login/login_screen.dart';
-import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:lottie/lottie.dart';
 import '../../layout/student/student_layout.dart';
@@ -27,14 +27,14 @@ class _OpeningScreenState extends State<OpeningScreen> {
     Future.delayed(const Duration(seconds: 6)).then((value){
       if(jwt!.isNotEmpty){
         if(role == 'student'){
-          navigateAndFinish(context, const StudentLayout());
+          Get.offAll(const StudentLayout());
         }else if(role == 'instructor'){
-          navigateAndFinish(context, const InstructorLayout());
+          Get.offAll(const InstructorLayout());
         }else{
-          navigateAndFinish(context, const LoginScreen());
+          Get.offAll(const LoginScreen());
         }
       }else{
-        navigateTo(context, const Introduction());
+        Get.offAll(const Introduction());
       }
     });
   }

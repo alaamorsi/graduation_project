@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/registration/register/second_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../shared/component/constant.dart';
@@ -51,17 +52,17 @@ class StudentScreen extends StatelessWidget {
                           Icon(Icons.arrow_back_ios_rounded,
                                 color: theme.primaryColor,size: 36.0,
                           ),
-                          Text("login",
+                          Text("login".tr,
                             style: font.copyWith(color: theme.primaryColor,fontSize: 27.0,fontWeight: FontWeight.bold),)
                         ],
                       ),
                     ),
-                    const SizedBox(height: 70.0),
+                    const SizedBox(height: 50.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "student account",
+                          "student account".tr,
                           style:font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
                               color: theme.primaryColor),
                         ),
@@ -71,7 +72,7 @@ class StudentScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Register now to enjoy our great services',
+                          'Register now to enjoy our great services'.tr,
                           style: font.copyWith(fontSize: 13.0, color: Colors.grey),
                         ),
                       ],
@@ -83,11 +84,11 @@ class StudentScreen extends StatelessWidget {
                         type: TextInputType.text,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return 'This field cannot be empty !';
+                            return 'This field cannot be empty!'.tr;
                           }
                           return null;
                         },
-                        label: 'First name',
+                        label: 'First name'.tr,
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
@@ -96,11 +97,11 @@ class StudentScreen extends StatelessWidget {
                         type: TextInputType.text,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return 'This field cannot be empty !';
+                            return 'This field cannot be empty!'.tr;
                           }
                           return null;
                         },
-                        label: 'last name',
+                        label: 'Last name'.tr,
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
@@ -109,15 +110,15 @@ class StudentScreen extends StatelessWidget {
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
-                            return 'This field cannot be empty !';
+                            return 'This field cannot be empty!'.tr;
                           }
                           else if (!cubit.checkForNumbers(value))
                           {
-                            return 'Invalid Email !';
+                            return 'Invalid Email!'.tr;
                           }
                           return null;
                         },
-                        label: 'Email address',
+                        label: 'email address'.tr,
                         suffixIcon: Icons.email_outlined),
                     const SizedBox(height: 10.0),
                     defaultFormField(
@@ -126,11 +127,11 @@ class StudentScreen extends StatelessWidget {
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
                         if (value!.isEmpty || value.length<8) {
-                          return 'Password must be at least 8 characters !';
+                          return 'Password must be at least 8 characters!'.tr;
                         }
                         return null;
                       },
-                      label: 'password',
+                      label: 'password'.tr,
                       suffixIcon: Icons.lock_outline,
                       prefixIcon: cubit.prefixIcon,
                       isPassword: cubit.isPassword,
@@ -154,8 +155,8 @@ class StudentScreen extends StatelessWidget {
                             navigateTo(context, const TermsAndPolicies());
                           },
                           child: Text(
-                            'terms of use',
-                            style:Theme.of(context).textTheme.labelSmall,textAlign:TextAlign.right),
+                            'terms of use'.tr,
+                            style:font.copyWith(color: theme.primaryColorDark.withOpacity(.5),fontSize: 14,),textAlign:TextAlign.right),
                         ),
                       ],
                     ),
@@ -164,7 +165,7 @@ class StudentScreen extends StatelessWidget {
                     usedButton(
                       atEnd: false,
                       isLoading: cubit.isLoading,
-                      text: "create",
+                      text: "create".tr,
                       onPressed: () {
                         if (formKey.currentState!.validate() && cubit.acceptCondition) {
                         cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 'student');
@@ -178,7 +179,7 @@ class StudentScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Have an account already ?",
+                          "Have an account already?".tr,
                           style:
                           font.copyWith(color: Colors.grey, fontSize: 12.0),
                         ),
@@ -186,7 +187,7 @@ class StudentScreen extends StatelessWidget {
                           onPressed: () {
                             navigateTo(context, const LoginScreen());
                           },
-                          child: Text("login now",
+                          child: Text("login".tr,
                               style: font.copyWith(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 14.0,

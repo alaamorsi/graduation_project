@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
-import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/themes.dart';
 import '../../shared/component/constant.dart';
 
@@ -14,12 +14,14 @@ class AppCubit extends Cubit<AppStates> {
   ThemeMode appMode = mode?ThemeMode.light:ThemeMode.dark;
   ThemeData theme = blueTheme;
   ThemeData darkTheme = blueDarkTheme;
+  String language = 'ar';
+  bool appIsArabic = true;
 
   // Change language by default arabic
-  void changeAppLanguage(context,String ln) {
-    langTitle=(ln=="ar")?'Arabic':'English';
-    CacheHelper.saveData(key: 'ln', value: ln);
-    emit(AppChangModeState());
+  void changeAppLanguage() {
+    language = appIsArabic ?'ar':'en';
+    Get.updateLocale(Locale(language));
+    CacheHelper.saveData(key: 'language', value: language);
   }
 
   // Change application mode state
@@ -56,28 +58,6 @@ class AppCubit extends Cubit<AppStates> {
     notification = !notification;
     CacheHelper.putBoolean(key: 'notification', value: notification);
     emit(AppChangeNotificationState());
-  }
-
-  List<String> selectedItems = [];
-  List<dynamic> search = [];
-
-  String startValue ='Arabic';
-
-  void getSearch(String value) {
-    emit(GetSearchDataLoading());
-    search = [];
-    DioHelper.getData(url: 'v2/everything', query: {
-      'q': value,
-      'apiKey': '2871845932ca4f2c8e8a8594dada13d4',
-    }).then((value) {
-      search = value.data['articles'];
-      emit(GetSearchDataSuccess());
-    }).catchError((error) {
-      emit(GetSearchDataError(error.toString()));
-    });
-  }
-  void searchBy(String value) {
-    emit(MakeSearchFilter());
   }
 }
 
