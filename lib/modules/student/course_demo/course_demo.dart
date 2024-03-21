@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/student/course_demo/course_comments.dart';
 import 'package:graduation_project/modules/student/course_demo/course_lessons.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
@@ -24,7 +25,7 @@ class CourseDemo extends StatelessWidget {
         return Scaffold(
             appBar:secondAppbar(
               context: context,
-              title: "${course.subject} course",
+              title:course.subject.tr,
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
@@ -35,17 +36,17 @@ class CourseDemo extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text("Instructor : ", style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark),),
+                            Text("Instructor : ".tr, style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark),),
                             Text(course.teacherName,style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
                             ),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Text("for level ${course.eduLevel} ",
+                        Text("${"for level".tr} ${course.eduLevel.tr}",
                           style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark.withOpacity(.7)),
                         ),
                         const SizedBox(height: 20),
-                        Text("Description", style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                        Text("Description".tr, style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
                         Text(
                           "Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description ",
                           style: font.copyWith(fontSize: 13.0,color: theme.primaryColorDark.withOpacity(.5)),
@@ -56,10 +57,10 @@ class CourseDemo extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text('${course.videosNumber} Lessons', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
+                              Text('${course.videosNumber} ${'lessons'.tr}', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
                               const Spacer(),
                               TextButton(onPressed: () {navigateTo(context, CourseLessons(course: course));},
-                                child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
+                                child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
                         InkWell(
                           onTap: (){
@@ -128,10 +129,10 @@ class CourseDemo extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text('Rate And Preview', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
+                              Text('Rate And Review'.tr, style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
                               const Spacer(),
                               TextButton(onPressed: () {navigateTo(context, CourseComments(course: course));},
-                                child: Text('See all', style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
+                                child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
                         Container(
                           width: screenWidth,
@@ -165,6 +166,7 @@ class CourseDemo extends StatelessWidget {
                                   ),
                                 ),
                                 Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment:CrossAxisAlignment.start,
                                   children: [
                                     Text(
@@ -223,7 +225,7 @@ class CourseDemo extends StatelessWidget {
                     child: usedButton(
                       atEnd: false,
                       isLoading: state is PaymentManagerLoadingState,
-                      text: "Enroll - EP${course.price}",
+                      text: '${"Enroll".tr}-${course.price}${'EGP'.tr}',
                       color: theme.cardColor,
                       radius: 30,
                       paddingSize: 10,

@@ -75,6 +75,7 @@ const Map <String , String > en = {
   "Info":"Info",
   "Error":"Error",
   "Success":"Success",
+  "Warning":"Warning",
   "your email is not confirmed ,check your gmail!":"email is not confirmed ,check your Gmail!",
   "email format error":"email format error",
   "email not found":"email is not found",
@@ -119,4 +120,10 @@ const Map <String , String > en = {
   'Subjects':'Subjects',
   'Clear':'Clear',
   'Apply filter':'Apply filter',
+  "Instructor : ":"Instructor : ",
+  "for level":"for level",
+  "Description":"Description",
+  'Rate And Review':'Rate And Review',
+  "Enroll":"Enroll",
+  'Introduction':'Introduction',
 };

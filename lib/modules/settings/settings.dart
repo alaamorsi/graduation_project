@@ -108,6 +108,7 @@ class SettingsScreen extends StatelessWidget {
                         Get.offAll( const LoginScreen());
                       }
                       else{
+                        print(response.toString());
                         showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
                       }
                     },

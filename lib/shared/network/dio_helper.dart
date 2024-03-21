@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 
@@ -32,13 +34,18 @@ class DioHelper
     required String url,
     required Map<String,dynamic> data,
     String? token,
-  })
-  {
+  }) async{
     dio.options.headers ={
       'Content-Type':'application/json',
       'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
     };
-    return dio.post(url,data: data,);
+    try{
+      Response<dynamic> response = await dio.post(url,data: data,);
+      return response;
+    }
+    catch(e){
+      rethrow;
+    }
   }
 
   static Future<Response> patchData ({
@@ -85,7 +92,7 @@ class DioHelper
       'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
-      Response<dynamic> response = await dio.delete(url,data: token,);
+      Response<dynamic> response = await dio.delete(url,data: jsonEncode(token),);
       return response;
     } catch(e){
       rethrow;

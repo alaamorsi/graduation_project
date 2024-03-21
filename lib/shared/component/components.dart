@@ -401,7 +401,7 @@ Widget courseItem({
                   const SizedBox(height: 5,),
                   Expanded(
                     child: Text(
-                      '${course.videosNumber}${'lessons'.tr}',
+                      '${course.videosNumber} ${'lessons'.tr}',
                       style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
                     ),
                   ),

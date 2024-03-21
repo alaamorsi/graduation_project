@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
@@ -21,7 +22,7 @@ class CourseLessons extends StatelessWidget {
         return Scaffold(
           appBar:secondAppbar(
             context: context,
-            title: '${course.videosNumber} Lessons',
+            title: '${course.videosNumber} ${'lessons'.tr}',
           ),
           body: Padding(
             padding: const EdgeInsets.all(10.0),

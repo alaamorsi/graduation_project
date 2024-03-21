@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
@@ -20,7 +21,7 @@ class CourseComments extends StatelessWidget {
         return Scaffold(
           appBar:secondAppbar(
             context: context,
-            title: 'Rate And Preview',
+            title: 'Rate And Review'.tr,
           ),
           body: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -59,7 +60,7 @@ class CourseComments extends StatelessWidget {
                       children:[
                         Icon(Icons.arrow_back,color: theme.primaryColor,),
                         const SizedBox(width: 9,),
-                        Text('Back',style: font.copyWith(color: theme.primaryColor,fontSize: 18.0,fontWeight: FontWeight.bold),),
+                        Text('back'.tr,style: font.copyWith(color: theme.primaryColor,fontSize: 18.0,fontWeight: FontWeight.bold),),
                       ],
                     ),
                   ),
@@ -92,7 +93,7 @@ class CourseComments extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 7.0),
+              padding: const EdgeInsets.symmetric(horizontal: 7.0),
               child: Container(
                 width: 55,
                 height: 55,
@@ -112,6 +113,7 @@ class CourseComments extends StatelessWidget {
               ),
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment:CrossAxisAlignment.start,
               children: [
                 Text(

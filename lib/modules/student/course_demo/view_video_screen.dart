@@ -1,6 +1,7 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
@@ -41,20 +42,14 @@ class ViewVideoScreenState extends State<ViewVideoScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    var cubit = StudentCubit.get(context);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){},
       builder: (context , state ){
         return Scaffold(
           appBar:secondAppbar(
           context: context,
-          title: 'Course title',
-          hasAction: true,
-          actionIcon: IconButton(
-              onPressed: (){
-                cubit.checkFavorite();
-              },
-              icon: cubit.isFavorite? const Icon( Icons.favorite,color: Colors.red,) : const Icon(Icons.favorite_border)),),
+          title: 'Introduction'.tr,
+          ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
               children: [
