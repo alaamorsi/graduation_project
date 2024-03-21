@@ -75,4 +75,20 @@ class DioHelper
       rethrow;
     }
   }
+
+  static Future<Response> delete ({
+    required String url,
+    required String token,
+  }) async{
+    dio.options.headers ={
+      'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
+      'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
+    };
+    try{
+      Response<dynamic> response = await dio.delete(url,data: token,);
+      return response;
+    } catch(e){
+      rethrow;
+    }
+  }
 }

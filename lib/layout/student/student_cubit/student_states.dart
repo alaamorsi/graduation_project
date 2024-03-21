@@ -27,8 +27,11 @@ class PaymentManagerErrorState extends StudentStates {
 
 // pick image
 class ProfileImagePickedSuccessState extends StudentStates {}
-
 class ProfileImagePickedErrorState extends StudentStates {}
+
+//logout
+class LogoutSuccessState extends StudentStates {}
+class LogoutErrorState extends StudentStates {}
 
 // Get user states
 class UpdateUserDataLoadingState extends StudentStates {}

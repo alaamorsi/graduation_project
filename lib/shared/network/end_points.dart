@@ -6,3 +6,4 @@ String resetPassword='Account/ResetPassword';
 String validateReset='Account/ValidateResetPasswordCode';
 String updateDataPatch='Account/UpdateInsensitveData';
 String updateImage='Account/UpdatePicture';
+String logout='Account/SignOut';

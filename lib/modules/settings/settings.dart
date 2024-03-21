@@ -5,6 +5,7 @@ import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../layout/student/student_cubit/student_cubit.dart';
 import '../registration/login/login_screen.dart';
 import 'theme_screen.dart';
@@ -101,9 +102,14 @@ class SettingsScreen extends StatelessWidget {
                   newDivider(),
                   //logout
                   InkWell(
-                    onTap: (){
-                      StudentCubit.get(context).clearCache();
-                      Get.offAll( const LoginScreen());
+                    onTap: ()async{
+                      int? response = await StudentCubit.get(context).logOut(CacheHelper.getData(key: 'refreshToken'));
+                      if(response == 200){
+                        Get.offAll( const LoginScreen());
+                      }
+                      else{
+                        showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
+                      }
                     },
                     child: Row(
                       children: [

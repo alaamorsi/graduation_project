@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
+import 'package:graduation_project/modules/registration/login/cubit/states.dart';
 import 'package:graduation_project/modules/student/notification/notification.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
 import 'package:graduation_project/modules/student/discovery/search_screen.dart';
@@ -105,21 +106,37 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(GetUserDataSuccessState());
   }
 
-  void clearCache() async{
-    await CacheHelper.removeData(key: 'jwt');
-    await CacheHelper.removeData(key: 'role');
-    await CacheHelper.removeData(key: 'firstName');
-    await CacheHelper.removeData(key: 'lastName');
-    await CacheHelper.removeData(key: 'biography');
-    await CacheHelper.removeData(key: 'email');
-    await CacheHelper.removeData(key: 'profileStr');
-    jwt = 'null';
-    role = 'null';
-    firstName = '';
-    lastName = '';
-    bio = '';
-    imageProvider = const AssetImage("Assets/profile/man_1.png");
+  Future<int?> logOut (String refreshToken) async{
+    try{
+      Response response = await DioHelper.delete(
+        url: logout,
+        token: refreshToken,
+      );
+      emit(LogoutSuccessState());
+      await CacheHelper.removeData(key: 'jwt');
+      await CacheHelper.removeData(key: 'role');
+      await CacheHelper.removeData(key: 'firstName');
+      await CacheHelper.removeData(key: 'lastName');
+      await CacheHelper.removeData(key: 'biography');
+      await CacheHelper.removeData(key: 'email');
+      await CacheHelper.removeData(key: 'profileStr');
+      jwt = 'null';
+      role = 'null';
+      firstName = '';
+      lastName = '';
+      bio = '';
+      imageProvider = const AssetImage("Assets/profile/man_1.png");
+      return response.statusCode;
+    }catch(error){
+      if(error is DioException){
+        emit(LogoutErrorState());
+        return error.response!.statusCode;
+      }
+    }
+    return null;
   }
+
+
   File? profileImage;
   var picker = ImagePicker();
   Future<void> getProfileImage() async {

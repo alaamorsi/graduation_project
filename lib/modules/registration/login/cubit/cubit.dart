@@ -55,6 +55,7 @@ class LoginCubit extends Cubit<LoginStates> {
           Map<String, dynamic> decodedMap = json.decode(decodedString);
           userData = UserData.fromJson(decodedMap);
           CacheHelper.saveData(key: 'jwt', value: loginModel.jwt);
+          CacheHelper.saveData(key: 'refreshToken', value: loginModel.refreshToken);
           CacheHelper.saveData(key: 'role', value: userData.role.toLowerCase());
           CacheHelper.saveData(key: 'firstName', value: userData.firstName);
           CacheHelper.saveData(key: 'lastName', value: userData.lastName);
