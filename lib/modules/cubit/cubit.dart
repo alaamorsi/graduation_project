@@ -15,14 +15,12 @@ class AppCubit extends Cubit<AppStates> {
   ThemeData theme = blueTheme;
   ThemeData darkTheme = blueDarkTheme;
   String language = 'ar';
-  bool appIsArabic = true;
 
   // Change language by default arabic
-  void changeAppLanguage() {
-    appIsArabic=!appIsArabic;
-    language = appIsArabic ?'ar':'en';
-    Get.updateLocale(Locale(language));
-    CacheHelper.saveData(key: 'language', value: language);
+  void changeAppLanguage(String lang) {
+    language = lang;
+    Get.updateLocale(Locale(lang));
+    CacheHelper.saveData(key: 'language', value: lang);
   }
 
   // Change application mode state

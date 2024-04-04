@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/modules/registration/login/login_screen.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-import 'package:lottie/lottie.dart';
 import '../../layout/student/student_layout.dart';
 import '../../layout/tutor/instructor_layout.dart';
 import 'introduction_screen.dart';
@@ -25,7 +24,7 @@ class _OpeningScreenState extends State<OpeningScreen> {
     Timer(const Duration(milliseconds: 50), () {
       setState(() {logoOpacity=1;});});
     Future.delayed(const Duration(seconds: 6)).then((value){
-      if(jwt!.isNotEmpty){
+      if(!firstInstall){
         if(role == 'student'){
           Get.offAll(const StudentLayout());
         }else if(role == 'instructor'){
@@ -53,7 +52,10 @@ class _OpeningScreenState extends State<OpeningScreen> {
                 t1 =0;
               });
             },
-            child: LottieBuilder.asset("Assets/animated.json")
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Image(image: const AssetImage("Assets/appbar2.png"),color: Theme.of(context).primaryColor,),
+            )
           ),
           const SizedBox(height: 20,),
           AnimatedSlide(

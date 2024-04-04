@@ -10,3 +10,4 @@ var font= GoogleFonts.changa();
 //user data
 String? jwt = '';
 String? role = '';
+late bool firstInstall;

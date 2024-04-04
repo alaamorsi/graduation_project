@@ -106,8 +106,6 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
   Future<int?> logOut (String refreshToken) async{
-    print(refreshToken);
-    print(CacheHelper.getData(key: 'jwt'));
     try{
       Response response = await DioHelper.delete(
         url: logout,
@@ -123,8 +121,8 @@ class StudentCubit extends Cubit<StudentStates> {
       await CacheHelper.removeData(key: 'biography');
       await CacheHelper.removeData(key: 'email');
       await CacheHelper.removeData(key: 'profileStr');
-      jwt = 'null';
-      role = 'null';
+      jwt = '';
+      role = '';
       firstName = '';
       lastName = '';
       bio = '';

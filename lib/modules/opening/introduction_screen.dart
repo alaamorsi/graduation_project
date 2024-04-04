@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/modules/opening/make_your_settings.dart';
 import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../shared/component/constant.dart';
 import '../registration/login/login_screen.dart';
 
@@ -23,6 +25,7 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
         initialIndex: index,
         vsync: this,
     );
+    CacheHelper.putBoolean(key: 'firstInstall', value: false);
   }
 
   @override
@@ -61,7 +64,7 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
               children: [
                 InkWell(
                   onTap: (){
-                    navigateAndFinish(context, const LoginScreen());
+                    Get.offAll(const MakeYourSettingScreen());
                   },
                   child: Text("SKIP".tr,style: font.copyWith(color: Colors.white,fontSize: 14.0),),
                 ),
@@ -103,7 +106,7 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
               children: [
                 InkWell(
                   onTap: (){
-                    navigateAndFinish(context, const LoginScreen());
+                    Get.offAll(const MakeYourSettingScreen());
                   },
                   child: Text("SKIP".tr,style: font.copyWith(color: Colors.white,fontSize: 14.0),),
                 ),
@@ -146,8 +149,7 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
               padding: const EdgeInsets.only(left:150.0,),
               child: InkWell(
                 onTap: (){
-                  Get.off(const LoginScreen());
-                  navigateAndFinish(context, const LoginScreen());
+                  Get.off(const MakeYourSettingScreen());
                 },
                 child: Container(
                   height:45,
@@ -179,7 +181,7 @@ class _IntroductionState extends State<Introduction> with SingleTickerProviderSt
               child: TabPageSelector(
                 controller: controller,
                 color: Colors.white,
-                selectedColor: Colors.red,
+                selectedColor: Colors.red.shade900,
                 borderStyle: BorderStyle.none,
               ),
           )

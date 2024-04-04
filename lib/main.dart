@@ -21,8 +21,8 @@ void main() async{
   DioHelper.init();
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
-  langTitle = CacheHelper.getData(key: 'language')??langTitle;
   notification = CacheHelper.getData(key: 'notification')??notification;
+  firstInstall= CacheHelper.getData(key: 'firstInstall')??true;
   jwt = CacheHelper.getData(key: 'jwt')??jwt;
   role = CacheHelper.getData(key: 'role')??role;
   runApp(const MyApp());
@@ -41,9 +41,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
+    int themeId = CacheHelper.getData(key: "themeId")??1;
+    langTitle = CacheHelper.getData(key: 'language')??langTitle;
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context)=>AppCubit()),
+        BlocProvider(create: (context)=>AppCubit()..changeTheme(themeId)),
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit()),
         BlocProvider(create: (context)=>StudentCubit()..getUser()..getImage()),
@@ -59,7 +61,7 @@ class MyApp extends StatelessWidget {
             themeMode: AppCubit.get(context).appMode,
             home:const OpeningScreen(),
             translations: Translation(),
-            locale: const Locale('ar'),
+            locale: Locale(langTitle),
             fallbackLocale: const Locale('ar'),
           );
         },

@@ -74,10 +74,10 @@ class ThemeScreen extends StatelessWidget {
                   const SizedBox(height: 20,),
                   Wrap(
                     children: [
-                      themeItem(title: "Orange (Safe)".tr, icon: Icons.headset, cardColor: HexColor("#FF4500"), tap: (){appCubit.changeTheme(1);}),
+                      themeItem(title: "Orange (Safety)".tr, icon: Icons.headset, cardColor: HexColor("#FF4500"), tap: (){appCubit.changeTheme(1);}),
                       themeItem(title: "Green (Natural)".tr, icon: Icons.eco_rounded,cardColor: HexColor("#056608"), tap: (){appCubit.changeTheme(2);}),
-                      themeItem(title: "Blue (Fly)".tr, icon: Icons.flight_takeoff_rounded,cardColor: HexColor("#1589FF"), tap: (){appCubit.changeTheme(3);}),
-                      themeItem(title: "Purple (Peace)".tr, icon: Icons.yard_rounded,cardColor: HexColor("#9933ff"), tap: (){appCubit.changeTheme(4);}),
+                      themeItem(title: "Blue (Freedom)".tr, icon: Icons.flight_takeoff_rounded,cardColor: HexColor("#1589FF"), tap: (){appCubit.changeTheme(3);}),
+                      themeItem(title: "Purple (Power)".tr, icon: Icons.yard_rounded,cardColor: HexColor("#9933ff"), tap: (){appCubit.changeTheme(4);}),
                     ],
                   )
                 ]
@@ -86,34 +86,5 @@ class ThemeScreen extends StatelessWidget {
         );
       },
     );
-  }
-  Widget themeItem({
-    required String title,
-    required Color cardColor,
-    required IconData icon,
-    required void Function() tap,
-  }){
-   return Padding(
-     padding: const EdgeInsets.symmetric(vertical: 10.0),
-     child: InkWell(
-       onTap: tap,
-       child: Container(
-         padding: const EdgeInsets.all(10),
-         height: 70,
-         width: double.infinity,
-         decoration: BoxDecoration(
-           color: cardColor.withOpacity(.2),
-           borderRadius: const BorderRadius.all(Radius.circular(15)),
-         ),
-         child: Row(
-           children: [
-             Icon(icon,size: 40,color:cardColor),
-             const SizedBox(width: 20,),
-             Text(title,style: font.copyWith(fontSize: 18.0,color: Colors.white,),),
-           ],
-         ),
-       ),
-     ),
-   );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:graduation_project/shared/component/components.dart';
 import '../../../../shared/component/constant.dart';
 import '../../../../shared/component/test.dart';
 import '../course_cubit/course_cubit.dart';
@@ -18,40 +20,7 @@ class LessonsScreen extends StatelessWidget {
         builder:(context,state){
         var course = CourseCubit.get(context);
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            toolbarHeight: 70.0,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(11.0),
-                bottomRight: Radius.circular(11.0),
-              ),
-            ),
-            iconTheme: IconThemeData(color: Theme.of(context).primaryColor,size: 35),
-            titleTextStyle:font.copyWith(fontSize: 25.0,color: Theme.of(context).primaryColor),
-            leading:Padding(
-              padding: const EdgeInsets.only(
-                  left: 14.0,top: 14.0,bottom: 14.0
-              ),
-              child: Container(
-                padding: const EdgeInsets.only(left: 7.0),
-                height: 25,
-                width: 25,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.3),
-                  borderRadius: const BorderRadius.all(Radius.circular(9.0)),
-                ),
-                child: IconButton(
-                  onPressed: (){
-                    course.disposeVideo();
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back_ios,size: 20,color: Theme.of(context).primaryColor,),
-                ),
-              ),
-            ),
-            title: const Text("Lessons"),
-          ),
+          appBar: secondAppbar(context: context, title: "lessons".tr),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -59,9 +28,9 @@ class LessonsScreen extends StatelessWidget {
               children: [
                 FlickVideoPlayer(flickManager: course.flickManager),
                 const SizedBox(height: 20,),
-                Text('Next Lesson',style: font.copyWith(color: theme.primaryColorDark.withOpacity(.6),fontSize: 16.0,fontWeight: FontWeight.bold)),
+                Text('Next Lesson'.tr,style: font.copyWith(color: theme.primaryColorDark.withOpacity(.6),fontSize: 16.0,fontWeight: FontWeight.bold)),
                 SizedBox(
-                  height: 300,
+                  height: screenHeight/2.5,
                   width: double.infinity,
                   child: ListView.separated(
                     itemBuilder: (BuildContext context, int index)=>
@@ -127,16 +96,12 @@ class LessonsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10,),
-                Expanded(
-                  child: Text(course.lessons[index].lessonName,
-                    style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
-                  ),
+                Text(course.lessons[index].lessonName,
+                  style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
                 ),
                 const SizedBox(height: 5,),
-                Expanded(
-                  child: Text("$munit m ${second.toInt()} s",
-                    style: font.copyWith(fontSize: 12.0,color: theme.primaryColorDark.withOpacity(.5)),
-                  ),
+                Text("$munit ${"m".tr} ${second.toInt()} ${"s".tr}",
+                  style: font.copyWith(fontSize: 12.0,color: theme.primaryColorDark.withOpacity(.5)),
                 ),
                 const SizedBox(height: 10,),
               ],

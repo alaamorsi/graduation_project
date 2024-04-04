@@ -515,6 +515,38 @@ Widget rate({
   );
 }
 
+Widget themeItem({
+  required String title,
+  required Color cardColor,
+  required IconData icon,
+  required void Function() tap,
+}){
+  return Padding(
+    padding: const EdgeInsets.all(8),
+    child: InkWell(
+      onTap: tap,
+      child: Container(
+        padding: const EdgeInsets.all(15),
+        height: screenWidth/2.5,
+        width: screenWidth/2.5,
+        decoration: BoxDecoration(
+          color: cardColor.withOpacity(.2),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon,size: 54,color:cardColor),
+            const SizedBox(width: 20,),
+            Text(title,style: font.copyWith(fontSize: 18.0,color: Colors.white,),textAlign: TextAlign.center,),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 
 
 

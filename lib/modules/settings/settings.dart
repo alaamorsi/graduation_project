@@ -8,6 +8,7 @@ import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../layout/student/student_cubit/student_cubit.dart';
 import '../registration/login/login_screen.dart';
+import 'language_screen.dart';
 import 'theme_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -30,7 +31,7 @@ class SettingsScreen extends StatelessWidget {
                   //app language
                   InkWell(
                     onTap: (){
-                      appCubit.changeAppLanguage();
+                      Get.to(const LanguageScreen());
                     },
                     child: Row(
                       children: [
@@ -54,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
                   //app theme
                   InkWell(
                     onTap: (){
-                      navigateTo(context, const ThemeScreen());
+                      Get.to(const ThemeScreen());
                     },
                     child: Row(
                       children: [
@@ -105,7 +106,7 @@ class SettingsScreen extends StatelessWidget {
                     onTap: ()async{
                       int? response = await StudentCubit.get(context).logOut(CacheHelper.getData(key: 'refreshToken'));
                       if(response == 200){
-                        Get.offAll( const LoginScreen());
+                        Get.offAll(const LoginScreen());
                       }
                       else{
                         print(response.toString());
@@ -121,7 +122,7 @@ class SettingsScreen extends StatelessWidget {
                             color: Colors.pinkAccent.withOpacity(0.2),
                             borderRadius: const BorderRadius.all(Radius.circular(9.0)),
                           ),
-                          child:const Icon(Icons.input_outlined,size: 20,color: Colors.red,),
+                          child: Icon(Icons.input_outlined,size: 20,color: Colors.red.shade900,),
                         ),
                         const SizedBox(width: 20,),
                         Text("Logout".tr,style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),)
