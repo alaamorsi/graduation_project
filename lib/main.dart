@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/opening/opening.dart';
+import 'package:graduation_project/modules/tutor/home/home.dart';
 import 'package:graduation_project/shared/bloc_observer.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/component/constant.dart';

@@ -56,6 +56,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
       emit(RegisterSuccessState());
     }).catchError((error) {
       isLoading = false;
+      print(error.toString());
       emit(RegisterErrorState(error.toString()));
     });
   }

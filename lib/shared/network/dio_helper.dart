@@ -11,7 +11,7 @@ class DioHelper
   {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://ahmedad-001-site1.gtempurl.com/api/',
+        baseUrl: 'http://alaamorsy-001-site1.anytempurl.com/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -37,7 +37,7 @@ class DioHelper
   }) async{
     dio.options.headers ={
       'Content-Type':'application/json',
-      'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
+      'Authorization':'Basic MTExNzI5ODk6NjAtZGF5ZnJlZXRyaWFs',
     };
     try{
       Response<dynamic> response = await dio.post(url,data: data,);
@@ -56,7 +56,7 @@ class DioHelper
   async {
     dio.options.headers ={
       'Content-Type':'application/json',
-      'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
+      'Authorization':'Basic MTExNzI5ODk6NjAtZGF5ZnJlZXRyaWFs',
       'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
@@ -72,7 +72,7 @@ class DioHelper
     required FormData data,
   }) async{
     dio.options.headers ={
-      'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
+      'Authorization':'Basic MTExNzI5ODk6NjAtZGF5ZnJlZXRyaWFs',
       'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
@@ -88,7 +88,7 @@ class DioHelper
     required String token,
   }) async{
     dio.options.headers ={
-      'Authorization':'Basic MTExNjMwOTY6NjAtZGF5ZnJlZXRyaWFs',
+      'Authorization':'Basic MTExNzI5ODk6NjAtZGF5ZnJlZXRyaWFs',
       'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
