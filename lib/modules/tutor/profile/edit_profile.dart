@@ -6,6 +6,8 @@ import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_states.da
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../shared/component/constant.dart';
 import '../../../shared/network/cache_helper.dart';
+import 'package:get/get.dart';
+
 
 class TutorEditProfile extends StatefulWidget {
   const TutorEditProfile({super.key});
@@ -60,7 +62,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                 ),
               ),
             ),
-            title: const Text("Edit profile"),
+            title:  Text("Edit profile".tr),
           ),
           body: SingleChildScrollView(
             child: Form(

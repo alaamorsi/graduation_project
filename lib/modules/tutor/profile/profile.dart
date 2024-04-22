@@ -9,6 +9,7 @@ import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
 import '../../../layout/tutor/tutor_cubit/instructor_states.dart';
 import '../../../shared/component/constant.dart';
+import 'package:get/get.dart';
 
 class TutorProfile extends StatelessWidget {
   const TutorProfile({super.key});
@@ -27,7 +28,7 @@ class TutorProfile extends StatelessWidget {
         return Scaffold(
           appBar: defaultAppBar(
             context: context,
-            title: "Profile",
+            title: "Profile".tr,
             actions: [
               Padding(padding: const EdgeInsets.only(right:20.0),
                 child:Container(
@@ -105,16 +106,16 @@ class TutorProfile extends StatelessWidget {
                       ],
                     ),
                     const Divider(),
-                    userdata(title: 'First name', data: cubit.firstName, theme: theme),
+                    userdata(title: 'First name'.tr, data: cubit.firstName, theme: theme),
                     const SizedBox(
                       height: 10,
                     ),
-                    userdata(title: 'Last name', data: cubit.lastName, theme: theme),
+                    userdata(title: 'Last name'.tr, data: cubit.lastName, theme: theme),
                     const SizedBox(
                       height: 10,
                     ),
                     userdata(
-                        title: 'Email',
+                        title: "email address".tr,
                         data: CacheHelper.getData(key: 'email') ?? "",
                         noIcon: false,
                         icon: Icons.email_rounded,
@@ -122,7 +123,7 @@ class TutorProfile extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    userdata(title: 'bio', data: cubit.bio, theme: theme),
+                    userdata(title: 'bio'.tr, data: cubit.bio, theme: theme),
                   ],
                 ),
               ),
