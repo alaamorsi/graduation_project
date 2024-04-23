@@ -2,7 +2,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/modules/student/discovery/discovery_category_list.dart';
 import 'package:graduation_project/modules/student/discovery/search_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
@@ -26,6 +25,26 @@ class HomeScreen extends StatelessWidget {
       'Weekly content',
       'Recorded Content',
     ];
+    List<String> subjects = [
+      'Arabic',
+      'English',
+      'Mathematics',
+      'Studies',
+      'Science',
+      'History',
+      'Geography',
+      'Chemistry',
+      'Physics',
+      'French',
+      'Italian',
+      'German',
+      'Biology',
+      'Geology',
+      'Dynamics',
+      'Statics',
+      'Psychology',
+      'Philosophy'
+    ];
     var cubit = StudentCubit.get(context);
     var theme = Theme.of(context);
     String firstName = CacheHelper.getData(key: 'firstName').toString();
@@ -35,6 +54,7 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: defaultAppBar(
             context: context,
+            centerTitle: false,
             title: 'Hello'.tr+firstName.replaceRange(0,1, firstName[0].toUpperCase()),
             actions: [
               Container(
@@ -79,24 +99,14 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             Text("Special".tr, style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0,fontWeight: FontWeight.w300),),
                             const Spacer(),
-                            TextButton(onPressed: () {navigateTo(context, const CategoryList());},
-                              child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
+                          ]
+                        ),
                       ),
                       CarouselSlider(
-                        items:[
-                          slideItem(context: context, title: "Science is Amazing".tr, id: 1, image: "Assets/subjects_icon/science.png"),
-                          slideItem(context: context, title: "Learn English Easy".tr, id: 2, image: "Assets/subjects_icon/alphabet.png"),
-                          slideItem(context: context, title: "Know more about History".tr, id: 1, image: "Assets/subjects_icon/history.png"),
-                          slideItem(context: context, title: "Atoms is too Tiny".tr, id: 2, image: "Assets/subjects_icon/atom.png"),
-                          slideItem(context: context, title: "Is that A Ball !!!".tr, id: 1, image: "Assets/subjects_icon/ball.png"),
-                          slideItem(context: context, title: "It's look like a Cube".tr, id: 2, image: "Assets/subjects_icon/block.png"),
-                          slideItem(context: context, title: "DNA what it Mean !".tr, id: 1, image: "Assets/subjects_icon/dna.png"),
-                          slideItem(context: context, title: "Geology is Funny now".tr, id: 2, image: "Assets/subjects_icon/globe.png"),
-                          slideItem(context: context, title: "Find Great Idea !".tr, id: 1, image: "Assets/subjects_icon/idea.png"),
-                          slideItem(context: context, title: "Math is not that hard".tr, id: 2, image: "Assets/subjects_icon/maths.png"),
-                          slideItem(context: context, title: "What is Solar System".tr, id: 1, image: "Assets/subjects_icon/solar-system.png"),
-                          slideItem(context: context, title: "Did you know it !!!".tr, id: 2, image: "Assets/subjects_icon/square-root.png"),
-                        ],
+                        items:
+                          subjects.map((element)=>
+                            slideItem(context: context, title: element.tr, image: "Assets/subjects_icon/$element.png"),
+                          ).toList(),
                         options: CarouselOptions(
                           height: screenHeight/4,
                           initialPage: 0,

@@ -54,8 +54,8 @@ class InstructorLayout extends StatelessWidget {
                         text: 'Home'.tr,
                       ),
                       GButton(
-                        icon: Icons.dashboard_rounded,
-                        text: 'Course'.tr,
+                        icon: Icons.notifications,
+                        text: 'Notifications'.tr,
                       ),
                       GButton(
                         icon: Icons.person,

@@ -2,7 +2,7 @@
     <!-- INTERNET permission here -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="Educationa"
+        android:label="Digitutor"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

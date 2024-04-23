@@ -153,6 +153,7 @@ PreferredSizeWidget defaultAppBar({
   required String title,
   List<Widget>? actions,
   bool hasActions = true,
+  bool centerTitle = true,
 }) =>
     AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -162,8 +163,9 @@ PreferredSizeWidget defaultAppBar({
         padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
         child: Image(image: const AssetImage("Assets/appbar2.png"),color: Theme.of(context).primaryColor,),
       ),
+      centerTitle: centerTitle,
       title: Text(title,
-        style: font.copyWith(fontSize: 21.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColor),
+        style: font.copyWith(fontSize: 25.0,fontWeight: FontWeight.w600,color: Theme.of(context).primaryColor),
       ),
       actions: hasActions?actions:[],
   );
@@ -303,7 +305,6 @@ IconData chooseToastIcon(MotionState state) {
 Widget slideItem({
   required BuildContext context,
   required String title,
-  required int id,
   required String image,
 }) {
   return Padding(
@@ -315,7 +316,7 @@ Widget slideItem({
         width: screenWidth,
         height: screenHeight/4,
         decoration: BoxDecoration(
-          color: id==1?Colors.indigoAccent:Colors.orangeAccent,
+          color: Theme.of(context).primaryColor.withOpacity(.7),
           borderRadius: const BorderRadius.all(Radius.circular(23.0)), // color: cardColor,
         ),
         child:Row(
@@ -324,23 +325,17 @@ Widget slideItem({
             Image(image: AssetImage(image),fit:BoxFit.cover,),
             const SizedBox(width: 9),
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width:140,
+                  width:170,
                   child:Text(title,
-                    style: font.copyWith(fontSize: 20.0, fontWeight: FontWeight.bold,color: Colors.white),
+                    style: font.copyWith(fontSize: 25.0, fontWeight: FontWeight.bold,color: Colors.white),
                     maxLines: 3,
                   ),
                 ),
-                const SizedBox(height: 9),
-                Container(
-                    padding: const EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-                      color: id==2?Colors.indigoAccent:Colors.orangeAccent,
-                    ), child: Text("Check Now!".tr,style: font.copyWith(fontSize: 16.0,color: Colors.white),)
-                ),
+                const SizedBox(height: 50),
               ],
             ),
           ],

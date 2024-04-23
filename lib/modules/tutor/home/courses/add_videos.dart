@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import '../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
-import '../../../layout/tutor/tutor_cubit/instructor_states.dart';
-import '../../../shared/component/constant.dart';
+import '../../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
+import '../../../../layout/tutor/tutor_cubit/instructor_states.dart';
+import '../../../../shared/component/constant.dart';
 
-class AddCourse2 extends StatelessWidget {
-  const AddCourse2({super.key});
+class AddVideos extends StatelessWidget {
+  const AddVideos({super.key});
 
     @override
   Widget build(BuildContext context) {
@@ -22,7 +22,6 @@ class AddCourse2 extends StatelessWidget {
               hasAction: true,
               actionIcon: InkWell(
                 onTap: (){
-                  navigateTo(context, const AddCourse2());
                 },
                 child: Padding(padding: const EdgeInsets.only(right:10.0),
                   child:Container(

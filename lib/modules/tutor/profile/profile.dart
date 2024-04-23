@@ -30,7 +30,7 @@ class TutorProfile extends StatelessWidget {
             context: context,
             title: "Profile".tr,
             actions: [
-              Padding(padding: const EdgeInsets.only(right:20.0),
+              Padding(padding: const EdgeInsets.symmetric(horizontal:10.0),
                 child:Container(
                   height: 40,
                   width: 40,
