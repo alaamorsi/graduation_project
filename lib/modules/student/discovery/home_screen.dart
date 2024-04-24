@@ -52,6 +52,7 @@ class HomeScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
         return Scaffold(
+
           appBar: defaultAppBar(
             context: context,
             centerTitle: false,
