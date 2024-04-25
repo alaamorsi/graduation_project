@@ -18,7 +18,7 @@ class AddVideos extends StatelessWidget {
           return Scaffold(
             appBar: secondAppbar(
               context: context,
-              title: "Add Course",
+              title: "Add Video",
               hasAction: true,
               actionIcon: InkWell(
                 onTap: (){
@@ -32,7 +32,7 @@ class AddVideos extends StatelessWidget {
                       color: Theme.of(context).primaryColor.withOpacity(0.3),
                       borderRadius: const BorderRadius.all(Radius.circular(9.0)),
                     ),
-                    child: Text("Finish",style: font.copyWith(color: theme.primaryColor,fontWeight: FontWeight.bold,fontSize: 20),)
+                    child: Text("Upload",style: font.copyWith(color: theme.primaryColor,fontWeight: FontWeight.bold,fontSize: 20),)
                   ),
                 ),
               ),
@@ -46,7 +46,7 @@ class AddVideos extends StatelessWidget {
                     style: font.copyWith(color: theme.primaryColorDark,fontWeight: FontWeight.bold,fontSize: 20),
                   ),
                   const SizedBox(height: 10,),
-                  Row(
+                  Wrap(
                     children: [
                       InkWell(
                         onTap: () async{
@@ -64,7 +64,7 @@ class AddVideos extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Add",style: font.copyWith(color: theme.primaryColor,fontWeight: FontWeight.bold,fontSize: 20),),
+                                  Text("From camera",style: font.copyWith(color: theme.primaryColor,fontWeight: FontWeight.bold,fontSize: 20),),
                                   const SizedBox(width: 10,),
                                   Icon(Icons.camera,color: theme.primaryColor,size: 30)
                                 ]
@@ -88,7 +88,7 @@ class AddVideos extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Add",style: font.copyWith(color: theme.primaryColor,fontWeight: FontWeight.bold,fontSize: 20),),
+                                  Text("From gallery",style: font.copyWith(color: theme.primaryColor,fontWeight: FontWeight.bold,fontSize: 20),),
                                   const SizedBox(width: 10,),
                                   Icon(Icons.video_collection,color: theme.primaryColor,size: 30)
                                 ]

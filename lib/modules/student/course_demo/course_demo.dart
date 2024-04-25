@@ -231,7 +231,11 @@ class CourseDemo extends StatelessWidget {
                       paddingSize: 10,
                       context: context,
                       onPressed:(){
-                        cubit.payManager(course.price);
+                        cubit.payManager(course.price,{
+                          'studentId' : '010',
+                          'courseId' : '011',
+                          'price' : '${course.price}'
+                        });
                         },
                     ),
                   ),

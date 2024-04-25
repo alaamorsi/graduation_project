@@ -7,7 +7,12 @@ import '../../../../shared/component/constant.dart';
 import '../../../../shared/component/components.dart';
 
 class AddCourse extends StatefulWidget {
-  const AddCourse({super.key});
+  final String courseType;
+
+  const AddCourse({
+    super.key,
+    required this.courseType,
+  });
 
   @override
   State<AddCourse> createState() => _AddCourseState();
@@ -111,7 +116,8 @@ class _AddCourseState extends State<AddCourse> {
                       list: eduLevel,
                       theme: theme,
                       onTap: (s) {
-                        cubit.addNewCourseSelection(cubit.newCourseEduLevel, s!);
+                        cubit.addNewCourseSelection(
+                            cubit.newCourseEduLevel, s!);
                       }),
                   const SizedBox(
                     height: 20,
@@ -155,27 +161,36 @@ class _AddCourseState extends State<AddCourse> {
                       cursorColor: Colors.black,
                       textAlign: TextAlign.start,
                       validator: (String? value) {
-                        if (value!.isEmpty) return 'Please enter course price!'.tr;
+                        if (value!.isEmpty)
+                          return 'Please enter course price!'.tr;
                         return null;
                       },
-                      style:
-                          const TextStyle(color: Colors.black87, fontSize: 16.0),
+                      style: const TextStyle(
+                          color: Colors.black87, fontSize: 16.0),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white.withOpacity(0),
                         hintText: 'Ex: 200 EGP'.tr,
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 13.0),
+                        hintStyle:
+                            const TextStyle(color: Colors.grey, fontSize: 13.0),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(color: Colors.black54, width: 1.5),
+                          borderSide: const BorderSide(
+                              color: Colors.black54, width: 1.5),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(color: Colors.black54, width: 1.0,),
+                          borderSide: const BorderSide(
+                            color: Colors.black54,
+                            width: 1.0,
+                          ),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(color: Colors.black54, width: 1.0,),
+                          borderSide: const BorderSide(
+                            color: Colors.black54,
+                            width: 1.0,
+                          ),
                         ),
                       ),
                     ),
@@ -196,8 +211,9 @@ class _AddCourseState extends State<AddCourse> {
                           width: 5.0,
                         ),
                         Expanded(
-                          child: Text(
-                          'Note : Service fee is 30 EPG for each course you make to ensure your seriously and will get back after 100 subscriptions,Also after make the course for every student who buy your course application will get 15% of subscription.'.tr,
+                            child: Text(
+                          'Note : Service fee is 30 EPG for each course you make to ensure your seriously and will get back after 100 subscriptions,Also after make the course for every student who buy your course application will get 15% of subscription.'
+                              .tr,
                           style: font.copyWith(
                               color: theme.primaryColor,
                               fontSize: 17.0,
@@ -209,32 +225,44 @@ class _AddCourseState extends State<AddCourse> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: ElevatedButton(
-                        onPressed: () {
-                          if(formKey.currentState!.validate())
-                            {
-                              cubit.payManager(int.parse(priceController.text));
-                            }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          elevation: 2.0,
-                          shadowColor: Colors.white,
-                          backgroundColor: Colors.blue,
-                          padding: const EdgeInsets.all(10.0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Pay for the service fee'.tr,
-                              style: font.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          cubit.payManager(
+                              int.parse(
+                                priceController.text,
+                              ),
+                              {
+                                'instructorId' : '015',
+                                'type': widget.courseType,
+                                'subject': cubit.newCourseSub,
+                                'level': cubit.newCourseEduLevel,
+                                'Term': cubit.newCourseTerm.toString(),
+                                'price': priceController.text,
+                              });
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 2.0,
+                        shadowColor: Colors.white,
+                        backgroundColor: Colors.blue,
+                        padding: const EdgeInsets.all(10.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          state is PaymentManagerLoadingState
+                              ? const Center(child: CircularProgressIndicator())
+                              : Text(
+                                  'Pay for the service fee'.tr,
+                                  style: font.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

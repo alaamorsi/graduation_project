@@ -9,10 +9,9 @@ class TutorCoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: defaultAppBar(
+      appBar: secondAppbar(
         context: context,
         title:"Class",
-        hasActions: false,
       ),
       body: Padding(padding: const EdgeInsets.all(20),
         child: Wrap(
@@ -27,28 +26,34 @@ class TutorCoursesScreen extends StatelessWidget {
           ),
           dashboardItem(
             context: context,
-            title: "Notes",
+            title: "Students",
             image: "Assets/for_teacher/notes.png",
             goTo: () {},
           ),
           dashboardItem(
             context: context,
-            title: "Subscriptions",
+            title: "Exams",
             image: "Assets/for_teacher/getMoney.png",
             goTo: () {},
           ),
           dashboardItem(
             context: context,
-            title: "One Touch",
+            title: "Assignments",
             image: "Assets/for_teacher/oneTouch.png",
             goTo: () {},
           ),
           dashboardItem(
             context: context,
-            title: "Gifts",
+            title: "Files",
             image: "Assets/for_teacher/gifts.png",
             goTo: () {},
           ),
+            dashboardItem(
+              context: context,
+              title: "Chat",
+              image: "Assets/for_teacher/gifts.png",
+              goTo: () {},
+            ),
         ],
         ),
       ),

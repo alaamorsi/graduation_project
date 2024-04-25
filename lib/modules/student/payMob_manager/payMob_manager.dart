@@ -3,14 +3,14 @@ import 'package:graduation_project/modules/student/paymob_manager/constant.dart'
 
 class PaymobManager{
 
-  Future<String> getPaymentKey(int amount,String currency)async{
+  Future<String> getPaymentKey(int amount,String currency,Map<String,String> formData)async{
     try {
       String authenticationToken= await _getAuthenticationToken();
 
       int orderId= await _getOrderId(
         authenticationToken: authenticationToken,
         amount: (100*amount).toString(),
-        currency: currency,
+        currency: currency, formData: formData,
       );
 
       String paymentKey= await _getPaymentKey(
@@ -21,7 +21,6 @@ class PaymobManager{
       );
       return paymentKey;
     } catch (e) {
-      print("Exc==========================================");
       print(e.toString());
       throw Exception();
     }
@@ -41,6 +40,7 @@ class PaymobManager{
     required String authenticationToken,
     required String amount,
     required String currency,
+    required Map<String,String> formData,
   })async{
     final Response response=await Dio().post(
         "https://accept.paymob.com/api/ecommerce/orders",
@@ -49,7 +49,7 @@ class PaymobManager{
           "amount_cents":amount, //  >>(STRING)<<
           "currency": currency,//Not Req
           "delivery_needed": "false",
-          "items": [],
+          "items": [formData],
         }
     );
     return response.data["id"];  //INTGER
@@ -78,7 +78,7 @@ class PaymobManager{
             //Have To Be Values
             "first_name": "Clifford",
             "last_name": "Nicolas",
-            "email": "claudette09@exa.com",
+            "email": "example@abo.com",
             "phone_number": "+86(8)9135210487",
 
             //Can Set "NA"
