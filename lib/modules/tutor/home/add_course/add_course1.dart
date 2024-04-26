@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
 import '../../../../layout/tutor/tutor_cubit/instructor_states.dart';
 import '../../../../shared/component/constant.dart';
@@ -26,40 +27,42 @@ class _AddCourseState extends State<AddCourse> {
     List<String> subjects = [
       'Arabic',
       'English',
-      'Mathematics',
-      'Studies',
-      'Science',
-      'History',
+      'German',
+      'Spanish',
+      'Italian',
+      'French',
+      'Maths',
+      'Sciences',
+      'SocialStudies',
       'Geography',
+      'History',
+      'Philosophy',
+      'Psychology',
       'Chemistry',
       'Physics',
-      'French',
-      'Italian',
-      'German',
       'Biology',
       'Geology',
-      'Dynamics',
-      'Statics',
-      'Psychology',
-      'Philosophy'
+      'ReligiousEducation',
+      'Computer',
+      'Economics',
+      'Statistics',
     ];
     List<String> eduLevel = [
-      'First Primary',
-      'Second  Primary',
-      'Third  Primary',
-      'Fourth Primary',
-      'Fifth Primary',
-      'Sixth Primary',
-      'First Intermediate',
-      'Second  Intermediate',
-      'Third  Intermediate',
-      'First Secondary',
-      'Second  Secondary',
-      'Third  Secondary',
+      'FirstYear',
+      'SecondYear',
+      'ThirdYear',
+      'FourthYear',
+      'FifthYear',
+      'SixthYear',
+    ];
+    List<String> stage = [
+      'PrimaryStage',
+      'PreparatoryStage',
+      'SecondaryStage',
     ];
     List<String> term = [
-      'First Term',
-      'Second Term',
+      'First',
+      'Second',
     ];
 
     return BlocConsumer<InstructorCubit, InstructorStates>(
@@ -101,7 +104,28 @@ class _AddCourseState extends State<AddCourse> {
                     height: 20,
                   ),
                   Text(
-                    "Educational level".tr,
+                    "Stage".tr,
+                    style: font.copyWith(
+                        color: theme.primaryColorDark,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  selectionField(
+                      context: context,
+                      hint: 'choose stage',
+                      list: stage,
+                      theme: theme,
+                      onTap: (s) {
+                        cubit.addNewCourseSelection(cubit.newCourseStage, s!);
+                      }),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Level".tr,
                     style: font.copyWith(
                         color: theme.primaryColorDark,
                         fontWeight: FontWeight.bold,
@@ -227,18 +251,16 @@ class _AddCourseState extends State<AddCourse> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
+                          print('####################');
+                          print(cubit.newCourseSub);
                           cubit.payManager(
-                              int.parse(
-                                priceController.text,
-                              ),
-                              {
-                                'instructorId' : '015',
-                                'type': widget.courseType,
-                                'subject': cubit.newCourseSub,
-                                'level': cubit.newCourseEduLevel,
-                                'Term': cubit.newCourseTerm.toString(),
-                                'price': priceController.text,
-                              });
+                            int.parse(
+                              priceController.text,
+                            ),
+                            cubit.newCourseSub,
+                            priceController.text,
+                            '${CacheHelper.getData(key: 'id')},${widget.courseType},${cubit.newCourseSub},${cubit.newCourseEduLevel},${cubit.newCourseStage},${cubit.newCourseTerm},${priceController.text}',
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(

@@ -52,6 +52,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
   String newCourseSub = '';
   String newCourseEduLevel = '';
   int newCourseTerm = 0;
+  String newCourseStage = '';
 
   void addNewCourseSelection(var v, var subSel) {
     v = subSel;
@@ -227,10 +228,10 @@ class InstructorCubit extends Cubit<InstructorStates> {
     emit(EnableButtonBackState());
   }
 
-  Future<void> payManager(int coursePrice,Map<String,String> formData) async{
+  Future<void> payManager(int coursePrice,String nameSubject , String price , String description ) async{
     emit(PaymentManagerLoadingState());
     PaymobManager().getPaymentKey(
-        coursePrice,"EGP",formData
+        coursePrice,"EGP",nameSubject,price,description,
     ).then((String paymentKey) {
       launchUrl(
         Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
@@ -240,5 +241,39 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(PaymentManagerErrorState(error));
     });
   }
+
+  Future<int?> logOut (String refreshToken) async{
+    try{
+      Response response = await DioHelper.delete(
+        url: logout,
+        token: refreshToken,
+      );
+      emit(LogOutSuccessState());
+      currentIndex = 0;
+      await CacheHelper.removeData(key: 'jwt');
+      await CacheHelper.removeData(key: 'role');
+      await CacheHelper.removeData(key: 'refreshToken');
+      await CacheHelper.removeData(key: 'firstName');
+      await CacheHelper.removeData(key: 'lastName');
+      await CacheHelper.removeData(key: 'biography');
+      await CacheHelper.removeData(key: 'email');
+      await CacheHelper.removeData(key: 'profileStr');
+      await CacheHelper.removeData(key: 'id');
+      jwt = '';
+      role = '';
+      firstName = '';
+      lastName = '';
+      bio = '';
+      imageProvider = const AssetImage("Assets/profile/man_1.png");
+      return response.statusCode;
+    }catch(error){
+      if(error is DioException){
+        emit(LogOutErrorState());
+        return error.response!.statusCode;
+      }
+    }
+    return null;
+  }
+
 
 }

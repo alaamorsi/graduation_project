@@ -53,3 +53,10 @@ class PaymentManagerErrorState extends InstructorStates {
 
   PaymentManagerErrorState(this.error);
 }
+
+// log out tutor
+class LogOutLoadingState extends InstructorStates {}
+
+class LogOutSuccessState extends InstructorStates {}
+
+class LogOutErrorState extends InstructorStates {}

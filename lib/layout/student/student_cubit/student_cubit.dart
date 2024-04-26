@@ -69,10 +69,10 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StartSearchState());
   }
 
-  Future<void> payManager(int coursePrice,Map<String,String> formData) async{
+  Future<void> payManager(int coursePrice,String nameSubject , String price , String description) async{
     emit(PaymentManagerLoadingState());
     PaymobManager().getPaymentKey(
-        coursePrice,"EGP",formData
+        coursePrice,"EGP",nameSubject,price,description,
     ).then((String paymentKey) {
       launchUrl(
         Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
@@ -121,6 +121,7 @@ class StudentCubit extends Cubit<StudentStates> {
       await CacheHelper.removeData(key: 'biography');
       await CacheHelper.removeData(key: 'email');
       await CacheHelper.removeData(key: 'profileStr');
+      await CacheHelper.removeData(key: 'id');
       jwt = '';
       role = '';
       firstName = '';

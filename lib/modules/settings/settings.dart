@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_cubit.dart';
 import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/shared/component/constant.dart';
@@ -104,14 +105,26 @@ class SettingsScreen extends StatelessWidget {
                   //logout
                   InkWell(
                     onTap: ()async{
-                      int? response = await StudentCubit.get(context).logOut(CacheHelper.getData(key: 'refreshToken'));
-                      if(response == 200){
-                        Get.offAll(const LoginScreen());
-                      }
-                      else{
-                        print(response.toString());
-                        showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
-                      }
+                     if (CacheHelper.getData(key: 'role') == 'student')
+                       {
+                         int? response = await StudentCubit.get(context).logOut(CacheHelper.getData(key: 'refreshToken'));
+                         if(response == 200){
+                           Get.offAll(const LoginScreen());
+                         }
+                         else{
+                           showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
+                         }
+                       }
+                     else
+                       {
+                         int? response = await InstructorCubit.get(context).logOut(CacheHelper.getData(key: 'refreshToken'));
+                         if(response == 200){
+                           Get.offAll(const LoginScreen());
+                         }
+                         else{
+                           showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
+                         }
+                       }
                     },
                     child: Row(
                       children: [

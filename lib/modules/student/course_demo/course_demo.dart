@@ -6,6 +6,7 @@ import 'package:graduation_project/modules/student/course_demo/course_lessons.da
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/test.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/constant.dart';
@@ -231,11 +232,7 @@ class CourseDemo extends StatelessWidget {
                       paddingSize: 10,
                       context: context,
                       onPressed:(){
-                        cubit.payManager(course.price,{
-                          'studentId' : '010',
-                          'courseId' : '011',
-                          'price' : '${course.price}'
-                        });
+                        cubit.payManager(course.price,course.subject,course.price.toString(),'${CacheHelper.getData(key: 'id')},011,${course.price}');
                         },
                     ),
                   ),
