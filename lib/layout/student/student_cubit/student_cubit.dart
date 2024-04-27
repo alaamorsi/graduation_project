@@ -69,10 +69,10 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StartSearchState());
   }
 
-  Future<void> payManager(int coursePrice,String nameSubject , String price , String description) async{
+  Future<void> payManager(int coursePrice,String description) async{
     emit(PaymentManagerLoadingState());
     PaymobManager().getPaymentKey(
-        coursePrice,"EGP",nameSubject,price,description,
+        coursePrice,"EGP",description,
     ).then((String paymentKey) {
       launchUrl(
         Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),

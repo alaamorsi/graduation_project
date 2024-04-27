@@ -51,10 +51,10 @@ class InstructorCubit extends Cubit<InstructorStates> {
 
   String newCourseSub = '';
   String newCourseEduLevel = '';
-  int newCourseTerm = 0;
+  String newCourseTerm = '';
   String newCourseStage = '';
 
-  void addNewCourseSelection(var v, var subSel) {
+  void addNewCourseSelection(String v, String subSel) {
     v = subSel;
     emit(AddNewCourseSelectionState());
   }
@@ -62,8 +62,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
   String firstName = CacheHelper.getData(key: 'firstName');
   String lastName = CacheHelper.getData(key: 'lastName');
   String bio = CacheHelper.getData(key: 'biography') ?? "";
-  ImageProvider<Object> imageProvider =
-      const AssetImage("Assets/profile/man_1.png");
+  ImageProvider<Object> imageProvider = const AssetImage("Assets/profile/man_1.png");
 
   void getImage() {
     if (CacheHelper.getData(key: 'profileStr') != null) {
@@ -228,10 +227,10 @@ class InstructorCubit extends Cubit<InstructorStates> {
     emit(EnableButtonBackState());
   }
 
-  Future<void> payManager(int coursePrice,String nameSubject , String price , String description ) async{
+  Future<void> payManager(int coursePrice,String description ) async{
     emit(PaymentManagerLoadingState());
     PaymobManager().getPaymentKey(
-        coursePrice,"EGP",nameSubject,price,description,
+        coursePrice,"EGP",description,
     ).then((String paymentKey) {
       launchUrl(
         Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),

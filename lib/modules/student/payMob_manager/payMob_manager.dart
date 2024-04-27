@@ -3,7 +3,7 @@ import 'package:graduation_project/modules/student/paymob_manager/constant.dart'
 
 class PaymobManager {
   Future<String> getPaymentKey(
-      int amount, String currency, String nameSubject , String price , String description ) async {
+      int amount, String currency,String description ) async {
     try {
       String authenticationToken = await _getAuthenticationToken();
 
@@ -11,8 +11,6 @@ class PaymobManager {
         authenticationToken: authenticationToken,
         amount: (100 * amount).toString(),
         currency: currency,
-        nameSubject: nameSubject,
-        price: price,
         description: description,
       );
 
@@ -41,8 +39,6 @@ class PaymobManager {
     required String authenticationToken,
     required String amount,
     required String currency,
-    required String nameSubject,
-    required String price,
     required String description,
   }) async {
     final Response response = await Dio()
@@ -53,7 +49,7 @@ class PaymobManager {
       "delivery_needed": "false",
       "items": [
         {
-          "name": 'aboOmar',
+          "name": 'Digitutor',
           "amount_cents": '500000',
           "description": description,
           "quantity": '1'

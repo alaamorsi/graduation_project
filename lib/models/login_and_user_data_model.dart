@@ -28,6 +28,7 @@ class UserData
   late String email;
   late String role;
   late String id;
+  late String userName;
 
   UserData.fromJson(Map<String, dynamic> json)
   {
@@ -36,5 +37,6 @@ class UserData
     email = json['email'];
     role = json['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
     id = json['id'];
+    userName = json['userName'];
   }
 }

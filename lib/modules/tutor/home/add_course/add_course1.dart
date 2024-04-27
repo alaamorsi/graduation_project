@@ -20,6 +20,11 @@ class AddCourse extends StatefulWidget {
 }
 
 class _AddCourseState extends State<AddCourse> {
+  String newCourseSub = '';
+  String newCourseEduLevel = '';
+  String newCourseTerm = '';
+  String newCourseStage = '';
+
   @override
   Widget build(BuildContext context) {
     TextEditingController priceController = TextEditingController();
@@ -97,8 +102,10 @@ class _AddCourseState extends State<AddCourse> {
                       hint: 'choose subject'.tr,
                       list: subjects,
                       theme: theme,
-                      onTap: (s) {
-                        cubit.addNewCourseSelection(cubit.newCourseSub, s!);
+                      onSelect: (s) {
+                        setState(() {
+                          newCourseSub=s!;
+                        });
                       }),
                   const SizedBox(
                     height: 20,
@@ -118,8 +125,10 @@ class _AddCourseState extends State<AddCourse> {
                       hint: 'choose stage',
                       list: stage,
                       theme: theme,
-                      onTap: (s) {
-                        cubit.addNewCourseSelection(cubit.newCourseStage, s!);
+                      onSelect: (s) {
+                        setState(() {
+                          newCourseStage=s!;
+                        });
                       }),
                   const SizedBox(
                     height: 20,
@@ -139,9 +148,10 @@ class _AddCourseState extends State<AddCourse> {
                       hint: 'choose Educational level'.tr,
                       list: eduLevel,
                       theme: theme,
-                      onTap: (s) {
-                        cubit.addNewCourseSelection(
-                            cubit.newCourseEduLevel, s!);
+                      onSelect: (s) {
+                        setState(() {
+                          newCourseEduLevel=s!;
+                        });
                       }),
                   const SizedBox(
                     height: 20,
@@ -161,8 +171,10 @@ class _AddCourseState extends State<AddCourse> {
                       hint: 'choose term'.tr,
                       list: term,
                       theme: theme,
-                      onTap: (s) {
-                        cubit.addNewCourseSelection(cubit.newCourseTerm, s!);
+                      onSelect: (s) {
+                        setState(() {
+                          newCourseTerm=s!;
+                        });
                       }),
                   const SizedBox(
                     height: 20,
@@ -185,8 +197,9 @@ class _AddCourseState extends State<AddCourse> {
                       cursorColor: Colors.black,
                       textAlign: TextAlign.start,
                       validator: (String? value) {
-                        if (value!.isEmpty)
+                        if (value!.isEmpty) {
                           return 'Please enter course price!'.tr;
+                        }
                         return null;
                       },
                       style: const TextStyle(
@@ -251,15 +264,11 @@ class _AddCourseState extends State<AddCourse> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          print('####################');
-                          print(cubit.newCourseSub);
                           cubit.payManager(
                             int.parse(
                               priceController.text,
                             ),
-                            cubit.newCourseSub,
-                            priceController.text,
-                            '${CacheHelper.getData(key: 'id')},${widget.courseType},${cubit.newCourseSub},${cubit.newCourseEduLevel},${cubit.newCourseStage},${cubit.newCourseTerm},${priceController.text}',
+                            '${CacheHelper.getData(key: 'id')},${widget.courseType},$newCourseSub,$newCourseEduLevel,$newCourseStage,$newCourseTerm,${priceController.text}',
                           );
                         }
                       },
@@ -301,7 +310,7 @@ Widget selectionField({
   required List<String> list,
   required String hint,
   required ThemeData theme,
-  required void Function(String? value) onTap,
+  required void Function(String? val)? onSelect,
   required context,
 }) {
   return WillPopScope(
@@ -321,12 +330,10 @@ Widget selectionField({
                   label: e.tr,
                 ))
             .toList(),
-        onSelected: onTap,
+        onSelected: onSelect,
         menuStyle: MenuStyle(
-          backgroundColor:
-              MaterialStatePropertyAll(theme.scaffoldBackgroundColor),
-          side: MaterialStatePropertyAll(
-              BorderSide(color: theme.primaryColorDark)),
+          backgroundColor: MaterialStatePropertyAll(theme.scaffoldBackgroundColor),
+          side: MaterialStatePropertyAll(BorderSide(color: theme.primaryColorDark)),
         ),
       ),
     ),

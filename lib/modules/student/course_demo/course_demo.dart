@@ -232,7 +232,7 @@ class CourseDemo extends StatelessWidget {
                       paddingSize: 10,
                       context: context,
                       onPressed:(){
-                        cubit.payManager(course.price,course.subject,course.price.toString(),'${CacheHelper.getData(key: 'id')},011,${course.price}');
+                        cubit.payManager(course.price,'${CacheHelper.getData(key: 'id')},011,${course.price}');
                         },
                     ),
                   ),

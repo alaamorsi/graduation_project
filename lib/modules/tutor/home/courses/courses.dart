@@ -44,14 +44,14 @@ class TutorCoursesScreen extends StatelessWidget {
           ),
           dashboardItem(
             context: context,
-            title: "Files",
+            title: "Attachment",
             image: "Assets/for_teacher/gifts.png",
             goTo: () {},
           ),
             dashboardItem(
               context: context,
               title: "Chat",
-              image: "Assets/for_teacher/gifts.png",
+              image: "Assets/for_teacher/communications.png",
               goTo: () {},
             ),
         ],
