@@ -190,4 +190,11 @@ class Lesson{
   });
 }
 
+class Message{
+  late int senderId;
+  late String messageContent;
+  late String messageDate;
+  Message(this.senderId,this.messageContent,this.messageDate);
+}
+
 

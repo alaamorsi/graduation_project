@@ -34,7 +34,6 @@ class TutorHomeScreen extends StatelessWidget {
                     courseDesign(theme: theme, subject: "Arabic", subscriptions: 20, rate: 0),
                     courseDesign(theme: theme, subject: "English", subscriptions: 1, rate: 4),
                     courseDesign(theme: theme, subject: "Mathematics", subscriptions: 2, rate: 3),
-                    courseDesign(theme: theme, subject: "Geology", subscriptions: 2, rate: 3)
                   ],
                 ),
               ),
@@ -68,7 +67,7 @@ class TutorHomeScreen extends StatelessWidget {
 }){
     return InkWell(
       onTap: (){
-        Get.to(()=>const TutorCoursesScreen());
+        Get.to(TutorCoursesScreen(subject: subject,));
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -133,18 +132,6 @@ class TutorHomeScreen extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     subscriptions>1?
-                //     const Icon(Icons.groups,color:Colors.white,size: 30,):
-                //     const Icon(Icons.person,color:Colors.white,size: 27,),
-                //     Text('$subscriptions ${'subscriber'.tr}',
-                //       style: font.copyWith(fontSize: 18.0,color: Colors.white),
-                //     ),
-                //     const SizedBox(height: 20,),
-                //   ],
-                // ),
               ],
             ),
           ),

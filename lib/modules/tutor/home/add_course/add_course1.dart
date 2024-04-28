@@ -20,55 +20,11 @@ class AddCourse extends StatefulWidget {
 }
 
 class _AddCourseState extends State<AddCourse> {
-  String newCourseSub = '';
-  String newCourseEduLevel = '';
-  String newCourseTerm = '';
-  String newCourseStage = '';
 
   @override
   Widget build(BuildContext context) {
     TextEditingController priceController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    List<String> subjects = [
-      'Arabic',
-      'English',
-      'German',
-      'Spanish',
-      'Italian',
-      'French',
-      'Maths',
-      'Sciences',
-      'SocialStudies',
-      'Geography',
-      'History',
-      'Philosophy',
-      'Psychology',
-      'Chemistry',
-      'Physics',
-      'Biology',
-      'Geology',
-      'ReligiousEducation',
-      'Computer',
-      'Economics',
-      'Statistics',
-    ];
-    List<String> eduLevel = [
-      'FirstYear',
-      'SecondYear',
-      'ThirdYear',
-      'FourthYear',
-      'FifthYear',
-      'SixthYear',
-    ];
-    List<String> stage = [
-      'PrimaryStage',
-      'PreparatoryStage',
-      'SecondaryStage',
-    ];
-    List<String> term = [
-      'First',
-      'Second',
-    ];
 
     return BlocConsumer<InstructorCubit, InstructorStates>(
       listener: (context, state) {},
@@ -103,9 +59,7 @@ class _AddCourseState extends State<AddCourse> {
                       list: subjects,
                       theme: theme,
                       onSelect: (s) {
-                        setState(() {
-                          newCourseSub=s!;
-                        });
+                        cubit.subjectSelect(s!);
                       }),
                   const SizedBox(
                     height: 20,
@@ -122,13 +76,11 @@ class _AddCourseState extends State<AddCourse> {
                   ),
                   selectionField(
                       context: context,
-                      hint: 'choose stage',
+                      hint: 'choose stage'.tr,
                       list: stage,
                       theme: theme,
                       onSelect: (s) {
-                        setState(() {
-                          newCourseStage=s!;
-                        });
+                        cubit.stageSelect(s!);
                       }),
                   const SizedBox(
                     height: 20,
@@ -149,9 +101,7 @@ class _AddCourseState extends State<AddCourse> {
                       list: eduLevel,
                       theme: theme,
                       onSelect: (s) {
-                        setState(() {
-                          newCourseEduLevel=s!;
-                        });
+                        cubit.levelSelect(s!);
                       }),
                   const SizedBox(
                     height: 20,
@@ -172,9 +122,7 @@ class _AddCourseState extends State<AddCourse> {
                       list: term,
                       theme: theme,
                       onSelect: (s) {
-                        setState(() {
-                          newCourseTerm=s!;
-                        });
+                        cubit.termSelect(s!);
                       }),
                   const SizedBox(
                     height: 20,
@@ -212,21 +160,21 @@ class _AddCourseState extends State<AddCourse> {
                             const TextStyle(color: Colors.grey, fontSize: 13.0),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(
-                              color: Colors.black54, width: 1.5),
+                          borderSide: BorderSide(
+                              color: theme.primaryColorDark, width: 1),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(
-                            color: Colors.black54,
-                            width: 1.0,
+                          borderSide: BorderSide(
+                            color: theme.primaryColorDark,
+                            width: .8,
                           ),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(
-                            color: Colors.black54,
-                            width: 1.0,
+                          borderSide: BorderSide(
+                            color: theme.primaryColorDark,
+                            width: .8,
                           ),
                         ),
                       ),
@@ -263,12 +211,13 @@ class _AddCourseState extends State<AddCourse> {
                     padding: const EdgeInsets.all(15.0),
                     child: ElevatedButton(
                       onPressed: () {
+                        print("### Course Data : ${cubit.courseSub}##${cubit.courseStage}##${cubit.courseLevel}##${cubit.courseTerm}");
                         if (formKey.currentState!.validate()) {
                           cubit.payManager(
                             int.parse(
                               priceController.text,
                             ),
-                            '${CacheHelper.getData(key: 'id')},${widget.courseType},$newCourseSub,$newCourseEduLevel,$newCourseStage,$newCourseTerm,${priceController.text}',
+                            '${CacheHelper.getData(key: 'id')},${widget.courseType},${cubit.courseSub},${cubit.courseStage},${cubit.courseLevel},${cubit.courseTerm},${priceController.text}',
                           );
                         }
                       },
@@ -310,7 +259,7 @@ Widget selectionField({
   required List<String> list,
   required String hint,
   required ThemeData theme,
-  required void Function(String? val)? onSelect,
+  required void Function(String?)? onSelect,
   required context,
 }) {
   return WillPopScope(
@@ -324,64 +273,28 @@ Widget selectionField({
         menuHeight: 200,
         width: screenWidth - 60,
         hintText: hint,
+        textStyle: font.copyWith(color: theme.primaryColorDark, fontSize: 18.0),
         dropdownMenuEntries: list
             .map((e) => DropdownMenuEntry<String>(
-                  value: e,
-                  label: e.tr,
-                ))
+                value: e,
+                label: e.tr,
+                labelWidget: Text(
+                  e.tr,
+                  style: font.copyWith(
+                      color: theme.primaryColorDark,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.bold),
+                )))
             .toList(),
         onSelected: onSelect,
         menuStyle: MenuStyle(
-          backgroundColor: MaterialStatePropertyAll(theme.scaffoldBackgroundColor),
-          side: MaterialStatePropertyAll(BorderSide(color: theme.primaryColorDark)),
+          backgroundColor:
+              MaterialStatePropertyAll(theme.scaffoldBackgroundColor),
+          side: MaterialStatePropertyAll(
+              BorderSide(color: theme.primaryColorDark)),
         ),
       ),
     ),
   );
 }
 
-//                      InkWell(
-//                         onTap: () {
-//                           cubit.changeCourseTypeSelection(1);
-//                         },
-//                         child: AnimatedContainer(
-//                           duration: const Duration(milliseconds: 300),
-//                           width: screenWidth / 2 - 25,
-//                           decoration: BoxDecoration(
-//                             color: cubit.courseTypeSel[1]
-//                                 ? theme.canvasColor
-//                                 : theme.scaffoldBackgroundColor,
-//                             borderRadius:
-//                                 const BorderRadius.all(Radius.circular(15.0)),
-//                             border: Border.all(
-//                                 color: theme.primaryColorDark, width: .5),
-//                           ),
-//                           child: Padding(
-//                             padding: const EdgeInsets.all(11.0),
-//                             child: Column(
-//                               crossAxisAlignment: CrossAxisAlignment.center,
-//                               children: [
-//                                 Container(
-//                                   padding: const EdgeInsets.all(15),
-//                                   height: 90,
-//                                   decoration: const BoxDecoration(
-//                                     color: Colors.transparent,
-//                                     shape: BoxShape.circle,
-//                                   ),
-//                                   child: const Image(
-//                                       image: AssetImage(
-//                                           "Assets/for_teacher/recorded.png")),
-//                                 ),
-//                                 const SizedBox(height: 10.0),
-//                                 Text(
-//                                   "Recorded",
-//                                   style: font.copyWith(
-//                                       fontSize: 20.0,
-//                                       fontWeight: FontWeight.bold,
-//                                       color: theme.primaryColorDark),
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         ),
-//                       )

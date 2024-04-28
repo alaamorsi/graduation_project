@@ -68,37 +68,15 @@ class MultiSelect extends StatefulWidget {
   State<MultiSelect> createState() => _MultiSelectState();
 }
 class _MultiSelectState extends State<MultiSelect> {
-  final eduLevel=[
-    'High School'.tr,
-    'Middle'.tr,
-    'Primary'.tr,
-  ];
-  final subjects=[
-    'Arabic'.tr,
-    'English'.tr,
-    'Studies'.tr,
-    'Science'.tr,
-    'Mathematics'.tr,
-    'History'.tr,
-    'Geography'.tr,
-    'Chemistry'.tr,
-    'Physics'.tr,
-    'French'.tr,
-    'Italian'.tr,
-    'German'.tr,
-    'Biology'.tr,
-    'Geology'.tr,
-    'Psychology'.tr,
-    'Dynamics'.tr,
-    'Statics'.tr,
-    'Philosophy'.tr,
-  ];
   final levelSelections=[
     false,
     false,
     false,
   ];
   final subSelections=[
+    false,
+    false,
+    false,
     false,
     false,
     false,
@@ -161,7 +139,7 @@ class _MultiSelectState extends State<MultiSelect> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20,),
-            Text('Education level'.tr,style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0)),
+            Text('Stage'.tr,style: font.copyWith(color: theme.primaryColorDark,fontSize: 18.0)),
             const SizedBox(height: 10,),
             ConditionalBuilder(
               condition: true,
@@ -207,6 +185,9 @@ class _MultiSelectState extends State<MultiSelect> {
                     chooses(context, 15,theme),
                     chooses(context, 16,theme),
                     chooses(context, 17,theme),
+                    chooses(context, 18,theme),
+                    chooses(context, 19,theme),
+                    chooses(context, 20,theme),
                   ]),
             ),
             const SizedBox(height: 10.0,),
@@ -261,7 +242,7 @@ class _MultiSelectState extends State<MultiSelect> {
             showCheckmark: false,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),),
-            label: Text(eduLevel[index]),
+            label: Text(stage[index].tr),
             labelStyle: font.copyWith(fontSize: 12.0, color: Colors.white,),
             selected: levelSelections[index],
             backgroundColor: Colors.grey,
@@ -274,14 +255,14 @@ class _MultiSelectState extends State<MultiSelect> {
                     continue;
                   }
                   levelSelections[i] = false;
-                  itemChange(eduLevel[i], false);
+                  itemChange(stage[i], false);
                 }
                 if(levelSelections[0]){
                   isPrim=false;
                 } else if(levelSelections[1]||levelSelections[2]){
                   isPrim=true;
                 }
-                itemChange(eduLevel[index], select);
+                itemChange(stage[index], select);
               });
             }
         ),
@@ -294,7 +275,7 @@ class _MultiSelectState extends State<MultiSelect> {
             showCheckmark: false,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),),
-            label: Text(subjects[index]),
+            label: Text(subjects[index].tr),
             labelStyle: font.copyWith(fontSize: 12.0, color: Colors.white,),
             selected: subSelections[index],
             backgroundColor: Colors.grey,
@@ -307,7 +288,7 @@ class _MultiSelectState extends State<MultiSelect> {
                   if(subSelections[i]){
                     continue;
                   }
-                  itemChange(subjects[i], false);
+                  itemChange(subjects[i], select);
                 }
               });
             }
@@ -334,7 +315,7 @@ class _MultiSelectState extends State<MultiSelect> {
                   if(pricesSelection[i]){
                     continue;
                   }
-                  itemChange(prices[i], false);
+                  itemChange(prices[i], select);
                 }
               });
             }

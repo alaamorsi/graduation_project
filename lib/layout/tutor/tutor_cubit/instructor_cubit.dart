@@ -33,30 +33,26 @@ class InstructorCubit extends Cubit<InstructorStates> {
     emit(InstructorChangeBottomNavState());
   }
 
-  List<bool> courseTypeSel = [false, false];
+  late String courseSub;
+  late String courseStage;
+  late String courseLevel;
+  late String courseTerm;
 
-  void changeCourseTypeSelection(int sel) {
-    switch (sel) {
-      case 0:
-        courseTypeSel[0] = !courseTypeSel[0];
-        courseTypeSel[1] = false;
-        break;
-      case 1:
-        courseTypeSel[0] = false;
-        courseTypeSel[1] = !courseTypeSel[1];
-        break;
-    }
-    emit(ChangeCourseTypeSelectionState());
+  void subjectSelect(String s) {
+    courseSub = s;
+    emit(SelectionState());
   }
-
-  String newCourseSub = '';
-  String newCourseEduLevel = '';
-  String newCourseTerm = '';
-  String newCourseStage = '';
-
-  void addNewCourseSelection(String v, String subSel) {
-    v = subSel;
-    emit(AddNewCourseSelectionState());
+  void stageSelect(String s) {
+    courseStage = s;
+    emit(SelectionState());
+  }
+  void levelSelect(String s) {
+    courseLevel = s;
+    emit(SelectionState());
+  }
+  void termSelect(String s) {
+    courseTerm = s;
+    emit(SelectionState());
   }
 
   String firstName = CacheHelper.getData(key: 'firstName');

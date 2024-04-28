@@ -36,9 +36,7 @@ class UpdateUserDataErrorState extends InstructorStates {}
 
 class InstructorChangeBottomNavState extends InstructorStates {}
 
-class ChangeCourseTypeSelectionState extends InstructorStates {}
-
-class AddNewCourseSelectionState extends InstructorStates {}
+class SelectionState extends InstructorStates {}
 
 // button back
 class EnableButtonBackState extends InstructorStates {}

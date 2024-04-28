@@ -1,4 +1,6 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
@@ -306,11 +308,12 @@ Widget slideItem({
   required BuildContext context,
   required String title,
   required String image,
+  required void Function()? onTap,
 }) {
   return Padding(
     padding: const EdgeInsets.all(9.0),
     child: InkWell(
-      onTap:(){},
+      onTap:onTap,
       child: Container(
         padding: const EdgeInsets.all(20.0),
         width: screenWidth,
@@ -535,6 +538,114 @@ Widget themeItem({
             Icon(icon,size: 54,color:cardColor),
             const SizedBox(width: 20,),
             Text(title,style: font.copyWith(fontSize: 18.0,color: Colors.white,),textAlign: TextAlign.center,),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget buildMessageItem({
+  required BuildContext context,
+  required ThemeData theme,
+  required Message message,
+  required Cubit cubit,
+})
+{
+  if (message.senderId == 100){
+    return userMessageItem(theme: theme, message: message, context: context,cubit: cubit);
+  }
+  else {
+    return othersMessageItem(theme: theme, message: message,cubit: cubit);
+  }
+}
+
+Widget othersMessageItem({
+  required ThemeData theme,
+  required Message message,
+  required Cubit cubit,
+})
+{
+  return Padding(
+    padding: const EdgeInsets.only(right: 11,top: 6,bottom: 6,left: 50),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(.6),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(50.0),
+          bottomRight: Radius.circular(50.0),
+          bottomLeft: Radius.circular(50.0),
+        ),
+      ),
+      child:Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          textDirection: TextDirection.rtl,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: CircleAvatar(
+                backgroundColor: theme.canvasColor.withOpacity(.4),
+                radius: 25,
+                backgroundImage: const AssetImage("Assets/profile/man_5.png"),
+              ),
+            ),
+            Expanded(
+              child: Text(message.messageContent,
+                maxLines: 4,
+                style: font.copyWith(fontSize: 23.0,fontWeight: FontWeight.w600,color: theme.primaryColorLight),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget userMessageItem({
+  required BuildContext context,
+  required ThemeData theme,
+  required Message message,
+  required var cubit,
+})
+{
+  return Padding(
+    padding: const EdgeInsets.only(right: 50,top: 6,bottom: 6,left: 11),
+    child: Container(
+      decoration: BoxDecoration(
+        color: theme.primaryColor,
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(50.0),
+          bottomRight: Radius.circular(50.0),
+          bottomLeft: Radius.circular(50.0),
+        ),
+      ),
+      child:Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          textDirection: TextDirection.ltr,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: CircleAvatar(
+                backgroundColor: theme.canvasColor.withOpacity(.4),
+                radius: 25,
+                backgroundImage: cubit.getImage(),
+              ),
+            ),
+            Expanded(
+              child: Text(message.messageContent,
+                maxLines: 4,
+                textAlign:TextAlign.left,
+                style: font.copyWith(fontSize: 23.0,fontWeight: FontWeight.w600,color: theme.primaryColorLight),
+
+              ),
+            ),
           ],
         ),
       ),

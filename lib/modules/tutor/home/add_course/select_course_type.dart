@@ -31,7 +31,7 @@ class SecondScreenState extends State<SelectCourseType> {
                 const SizedBox(height: 20,),
                 InkWell(
                   onTap: () {
-                    Get.to(()=>const AddCourse(courseType: 'Recorded',));
+                    Get.to(const AddCourse(courseType: 'Recorded',));
                   },
                   child: Column(
                     children: [
@@ -52,7 +52,13 @@ class SecondScreenState extends State<SelectCourseType> {
                 newDivider(),
                 InkWell(
                   onTap: () {
-                    Get.to(()=>const AddCourse(courseType: 'Live',));
+                    showToast(
+                        title: "Coming Soon".tr,
+                        description: "Sorry, that option isn't available now".tr,
+                        state: MotionState.warning,
+                        context: context
+                    );
+                    // Get.to(()=>const AddCourse(courseType: 'Live',));
                   },
                   child: Column(
                     children: [
