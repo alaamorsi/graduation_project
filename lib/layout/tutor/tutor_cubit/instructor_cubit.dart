@@ -57,6 +57,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
 
   String firstName = CacheHelper.getData(key: 'firstName');
   String lastName = CacheHelper.getData(key: 'lastName');
+  String userName = CacheHelper.getData(key: 'userName');
   String bio = CacheHelper.getData(key: 'biography') ?? "";
   ImageProvider<Object> imageProvider = const AssetImage("Assets/profile/man_1.png");
 
@@ -73,6 +74,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
   void getData() {
     firstName = CacheHelper.getData(key: 'firstName');
     lastName = CacheHelper.getData(key: 'lastName');
+    userName = CacheHelper.getData(key: 'userName');
     bio = CacheHelper.getData(key: 'biography') ?? "";
     emit(GetUserDataSuccessState());
   }
@@ -89,6 +91,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
     role = 'null';
     firstName = '';
     lastName = '';
+    userName = '';
     bio = '';
     imageProvider = const AssetImage("Assets/profile/man_1.png");
   }

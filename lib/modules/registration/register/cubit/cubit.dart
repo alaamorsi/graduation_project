@@ -5,26 +5,30 @@ import 'package:graduation_project/modules/registration/register/cubit/states.da
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 
-class RegisterCubit extends Cubit<RegisterStates>{
+class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit() : super(RegisterInitialState());
-  static RegisterCubit get(context)=> BlocProvider.of(context);
+
+  static RegisterCubit get(context) => BlocProvider.of(context);
 
   // Control to visible or invisible password
   IconData prefixIcon = Icons.visibility_outlined;
   bool isPassword = true;
+
   void changePasswordVisibility() {
     isPassword = !isPassword;
     prefixIcon =
-    isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+        isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(ChangePasswordVisibilityState());
   }
 
   // Change accept conditions
   bool acceptCondition = false;
+
   void changeAcceptConditions() {
     acceptCondition = !acceptCondition;
     emit(ChangeAcceptOfConditions());
   }
+
   bool checkForNumbers(String input) {
     RegExp regex = RegExp(r'\w+@\w+\.\w+(\.\w+)*');
     return regex.hasMatch(input);
@@ -33,9 +37,11 @@ class RegisterCubit extends Cubit<RegisterStates>{
   late LoginModel loginModel;
   late UserData userData;
   bool isLoading = false;
+
   void userRegister({
     required String firstName,
     required String lastName,
+    required String userName,
     required String email,
     required String password,
     required String role,
@@ -47,6 +53,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
       data: {
         'firstName': firstName,
         'lastName': lastName,
+        'userName': userName,
         'email': email,
         'password': password,
         'role': role,
@@ -60,6 +67,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
       emit(RegisterErrorState(error.toString()));
     });
   }
+
   void sendConfirm({
     required String email,
   }) {
@@ -92,5 +100,4 @@ class RegisterCubit extends Cubit<RegisterStates>{
       emit(CheckCodeConfirmErrorState(error.toString()));
     });
   }
-
 }

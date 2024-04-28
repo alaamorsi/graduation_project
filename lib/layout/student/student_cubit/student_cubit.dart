@@ -86,6 +86,7 @@ class StudentCubit extends Cubit<StudentStates> {
   //student data
   String firstName=CacheHelper.getData(key: 'firstName');
   String lastName=CacheHelper.getData(key: 'lastName');
+  String userName=CacheHelper.getData(key: 'userName');
   String bio=CacheHelper.getData(key: 'biography')??"";
   ImageProvider<Object> imageProvider=const AssetImage("Assets/profile/man_1.png");
 
@@ -101,6 +102,7 @@ class StudentCubit extends Cubit<StudentStates> {
   void getUser(){
     firstName=CacheHelper.getData(key: 'firstName')??'';
     lastName=CacheHelper.getData(key: 'lastName')??'';
+    userName=CacheHelper.getData(key: 'userName');
     bio=CacheHelper.getData(key: 'biography')??"";
     emit(GetUserDataSuccessState());
   }
@@ -122,11 +124,13 @@ class StudentCubit extends Cubit<StudentStates> {
       await CacheHelper.removeData(key: 'email');
       await CacheHelper.removeData(key: 'profileStr');
       await CacheHelper.removeData(key: 'id');
+      await CacheHelper.removeData(key: 'userName');
       jwt = '';
       role = '';
       firstName = '';
       lastName = '';
       bio = '';
+      userName = '';
       imageProvider = const AssetImage("Assets/profile/man_1.png");
       return response.statusCode;
     }catch(error){

@@ -33,7 +33,7 @@ class TutorHomeScreen extends StatelessWidget {
                   children: [
                     courseDesign(theme: theme, subject: "Arabic", subscriptions: 20, rate: 0),
                     courseDesign(theme: theme, subject: "English", subscriptions: 1, rate: 4),
-                    courseDesign(theme: theme, subject: "Mathematics", subscriptions: 2, rate: 3),
+                    courseDesign(theme: theme, subject: "Maths", subscriptions: 2, rate: 3),
                   ],
                 ),
               ),

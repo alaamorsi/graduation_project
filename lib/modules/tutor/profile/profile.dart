@@ -55,7 +55,7 @@ class TutorProfile extends StatelessWidget {
                     Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 20.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: Stack(
                             alignment: AlignmentDirectional.bottomEnd,
                             children: [

@@ -28,7 +28,7 @@ class _ChatScreenState extends State<ChatScreen> {
             body: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return buildTeacherChat(
-                    theme: theme, message: messages[index], context: context, cubit: teacher);
+                    theme: theme, message: messages[index], context: context);
               },
               itemCount: messages.length,
             ),
@@ -40,7 +40,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 height: 90,
                 decoration: BoxDecoration(
                   color: theme.primaryColorLight,
-                  borderRadius: const BorderRadius.all(Radius.circular(18),),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(18),
+                  ),
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 15,
@@ -61,51 +63,236 @@ class _ChatScreenState extends State<ChatScreen> {
                           validate: (s) {
                             return null;
                           },
-                          label: "Type your message"
-                      ),
+                          label: "Type your message"),
                     ),
                     Expanded(
-                      child: IconButton(onPressed: () {
-                        setState(() {
-                          messages.add(Message(100, messageController.text, "now"));
-                        });
-                      }, icon: Icon(Icons.send_rounded, color: theme.primaryColor,)),
+                      child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              var time = DateTime.now();
+                              messages.add(Message(
+                                  senderUserName: 'sameh',
+                                  senderFirstName: teacher.firstName,
+                                  senderLastName: teacher.lastName,
+                                  messageContent: messageController.text,
+                                  messageDate: '${time.hour}:${time.minute}',
+                                  senderProfileImage: teacher.imageProvider,
+                              ));
+                            });
+                          },
+                          icon: Icon(
+                            Icons.send_rounded,
+                            color: theme.primaryColor,
+                          )),
                     )
                   ],
                 ),
               ),
             ),
           );
-        }
-    );
+        });
   }
+
   Widget buildTeacherChat({
     required BuildContext context,
     required ThemeData theme,
     required Message message,
-    required Cubit cubit,
-  })
-  {
-    if (message.senderId == 150){
-      return userMessageItem(theme: theme, message: message, context: context,cubit: cubit);
-    }
-    else {
-      return othersMessageItem(theme: theme, message: message,cubit: cubit);
+  }) {
+    if (message.senderUserName == 'sameh') {
+      return userMessageItem(
+        theme: theme,
+        message: message,
+        context: context,
+      );
+    } else {
+      return othersMessageItem(theme: theme, message: message);
     }
   }
 }
 
-List<Message> messages=[
-  Message(150, "can i ask a question", "9am"),
-  Message(100, "test test test test test test test test test test test test test test test test test ", "9am"),
-  Message(140, "can i ask a question", "9am"),
-  Message(150, "can i ask a question", "9am"),
-  Message(130, "can i ask a question", "9am"),
-  Message(120, "can i ask a question", "9am"),
-  Message(100, "from sameh", "9am"),
-  Message(100, "from sameh", "9am"),
-  Message(150, "can i ask a question", "9am"),
-  Message(130, "can i ask a question", "9am"),
-  Message(110, "can i ask a question", "9am"),
-  Message(120, "can i ask a question", "9am"),
+Widget othersMessageItem({
+  required ThemeData theme,
+  required Message message,
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(right: 11, top: 6, bottom: 6, left: 50),
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(.6),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30.0),
+          bottomRight: Radius.circular(30.0),
+          bottomLeft: Radius.circular(30.0),
+        ),
+      ),
+      child: Row(
+        textDirection: TextDirection.ltr,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(width: 5,),
+          SizedBox(
+            width: screenWidth/5*3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${message.senderFirstName} ${message.senderFirstName} (${message.senderUserName})",
+                  style: font.copyWith(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600,
+                      color: theme.primaryColorLight),
+                ),
+                const SizedBox(height: 5,),
+                Text(
+                  message.messageContent,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 5,
+                  style: font.copyWith(
+                      fontSize: 18.0,
+                      color: theme.primaryColorLight),
+                ),
+                Text(
+                  message.messageDate,
+                  style: font.copyWith(
+                      fontSize: 10.0,
+                      color: theme.primaryColorLight),
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: CircleAvatar(
+              backgroundColor: theme.canvasColor.withOpacity(.4),
+              radius: 25,
+              backgroundImage: message.senderProfileImage ??
+                  const AssetImage("Assets/profile/man_5.png"),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget userMessageItem({
+  required BuildContext context,
+  required ThemeData theme,
+  required Message message,
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(right: 50, top: 6, bottom: 6, left: 11),
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: theme.primaryColor,
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(30.0),
+          bottomRight: Radius.circular(30.0),
+          bottomLeft: Radius.circular(30.0),
+        ),
+      ),
+      child: Column(
+        children: [
+          Row(
+            textDirection: TextDirection.ltr,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: CircleAvatar(
+                  backgroundColor: theme.canvasColor.withOpacity(.4),
+                  radius: 15,
+                  backgroundImage: InstructorCubit
+                      .get(context)
+                      .imageProvider,
+                ),
+              ),
+              const SizedBox(width: 5,),
+              Text(
+                "${message.senderFirstName} ${message.senderFirstName} (${message.senderUserName})",
+                style: font.copyWith(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w600,
+                    color: theme.primaryColorLight),
+              ),
+              ]
+          ),
+          Row(
+              textDirection: TextDirection.ltr,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(width: 70,),
+                Text(
+                  message.messageContent,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 5,
+                  style: font.copyWith(
+                      fontSize: 18.0,
+                      color: theme.primaryColorLight),
+                ),
+              ]
+          ),
+          Row(
+              textDirection: TextDirection.ltr,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Spacer(),
+                Text(
+                  message.messageDate,
+                  style: font.copyWith(
+                      fontSize: 10.0,
+                      color: theme.primaryColorLight),
+                ),
+              ]
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+List<Message> messages = [
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 's',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 'g',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'i just test chat,i just test chat,i just test chat,i just test chat,',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
 ];

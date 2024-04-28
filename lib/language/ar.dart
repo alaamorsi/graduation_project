@@ -19,6 +19,7 @@ const Map<String, String> ar = {
   "student account": "حساب الطالب",
   'First name': 'الاسم الأول',
   'Last name': 'الاسم الأخير',
+  'userName':'اسم المستخدم',
   'terms of use': 'شروط الاستخدام',
   "create": "انشاء",
   "Have an account already?": "هل لديك حساب بالفعل ؟",

@@ -17,16 +17,20 @@ class TeacherScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //TextController to read text entered in text field
     TextEditingController passwordController = TextEditingController();
+    TextEditingController userNameController = TextEditingController();
     TextEditingController nameController1 = TextEditingController();
     TextEditingController nameController2 = TextEditingController();
     TextEditingController emailController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
-        if(state is RegisterSuccessState)
-        {
+        if (state is RegisterSuccessState) {
           RegisterCubit.get(context).sendConfirm(email: emailController.text);
-          navigateTo(context, ConfirmScreen(email: emailController.text,));
+          navigateTo(
+              context,
+              ConfirmScreen(
+                email: emailController.text,
+              ));
         }
       },
       builder: (context, state) {
@@ -43,16 +47,27 @@ class TeacherScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 10.0,),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
                     InkWell(
-                      onTap: (){navigateAndFinish(context, const SecondScreen());},
+                      onTap: () {
+                        navigateAndFinish(context, const SecondScreen());
+                      },
                       child: Row(
                         children: [
-                          Icon(Icons.arrow_back_ios_rounded,
-                            color: theme.primaryColor,size: 36.0,
+                          Icon(
+                            Icons.arrow_back_ios_rounded,
+                            color: theme.primaryColor,
+                            size: 36.0,
                           ),
-                          Text("login".tr,
-                            style: font.copyWith(color: theme.primaryColor,fontSize: 27.0,fontWeight: FontWeight.bold),)
+                          Text(
+                            "login".tr,
+                            style: font.copyWith(
+                                color: theme.primaryColor,
+                                fontSize: 27.0,
+                                fontWeight: FontWeight.bold),
+                          )
                         ],
                       ),
                     ),
@@ -62,7 +77,9 @@ class TeacherScreen extends StatelessWidget {
                       children: [
                         Text(
                           "teacher account".tr,
-                          style:font.copyWith(fontSize: 25.0,fontWeight: FontWeight.bold,
+                          style: font.copyWith(
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold,
                               color: theme.primaryColor),
                         ),
                       ],
@@ -72,7 +89,8 @@ class TeacherScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Register now to enjoy our great services'.tr,
-                          style: font.copyWith(fontSize: 13.0, color: Colors.grey),
+                          style:
+                              font.copyWith(fontSize: 13.0, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -105,14 +123,25 @@ class TeacherScreen extends StatelessWidget {
                     const SizedBox(height: 10.0),
                     defaultFormField(
                         context: context,
+                        controller: userNameController,
+                        type: TextInputType.text,
+                        validate: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'This field cannot be empty!'.tr;
+                          }
+                          return null;
+                        },
+                        label: 'userName'.tr,
+                        suffixIcon: Icons.account_box_rounded),
+                    const SizedBox(height: 10.0),
+                    defaultFormField(
+                        context: context,
                         controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (String? value) {
                           if (value!.isEmpty) {
                             return 'This field cannot be empty!'.tr;
-                          }
-                          else if (!cubit.checkForNumbers(value))
-                          {
+                          } else if (!cubit.checkForNumbers(value)) {
                             return 'Invalid Email!'.tr;
                           }
                           return null;
@@ -125,7 +154,7 @@ class TeacherScreen extends StatelessWidget {
                       controller: passwordController,
                       type: TextInputType.visiblePassword,
                       validate: (String? value) {
-                        if (value!.isEmpty || value.length<8) {
+                        if (value!.isEmpty || value.length < 8) {
                           return 'Password must be at least 8 characters!'.tr;
                         }
                         return null;
@@ -150,12 +179,15 @@ class TeacherScreen extends StatelessWidget {
                           },
                         ),
                         InkWell(
-                          onTap:() {
+                          onTap: () {
                             navigateTo(context, const TermsAndPolicies());
                           },
-                          child: Text(
-                              'terms of use'.tr,
-                              style:font.copyWith(color: theme.primaryColorDark.withOpacity(.5),fontSize: 14,),textAlign:TextAlign.right),
+                          child: Text('terms of use'.tr,
+                              style: font.copyWith(
+                                color: theme.primaryColorDark.withOpacity(.5),
+                                fontSize: 14,
+                              ),
+                              textAlign: TextAlign.right),
                         ),
                       ],
                     ),
@@ -166,8 +198,15 @@ class TeacherScreen extends StatelessWidget {
                       isLoading: cubit.isLoading,
                       text: "create".tr,
                       onPressed: () {
-                        if (formKey.currentState!.validate() && cubit.acceptCondition) {
-                          cubit.userRegister(firstName: nameController1.text, lastName: nameController2.text, email: emailController.text, password: passwordController.text, role: 'instructor');
+                        if (formKey.currentState!.validate() &&
+                            cubit.acceptCondition) {
+                          cubit.userRegister(
+                              firstName: nameController1.text,
+                              lastName: nameController2.text,
+                              userName: userNameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                              role: 'instructor');
                         }
                       },
                       context: context,
@@ -180,7 +219,7 @@ class TeacherScreen extends StatelessWidget {
                         Text(
                           "Have an account already?".tr,
                           style:
-                          font.copyWith(color: Colors.grey, fontSize: 12.0),
+                              font.copyWith(color: Colors.grey, fontSize: 12.0),
                         ),
                         TextButton(
                           onPressed: () {

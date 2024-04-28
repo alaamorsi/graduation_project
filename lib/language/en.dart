@@ -20,6 +20,7 @@ const Map<String, String> en = {
   "student account": "student account",
   'First name': 'First name',
   'Last name': 'Last name',
+  'userName':'User name',
   'terms of use': 'terms of use',
   "create": "create",
   "Have an account already?": "Have an account already ?",

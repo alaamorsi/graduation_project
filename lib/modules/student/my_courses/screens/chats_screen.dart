@@ -28,8 +28,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
             appBar: secondAppbar(context: context, title: "Chat".tr),
             body: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return buildStudentChat(
-                    theme: theme, message: messages[index], context: context, cubit: student);
+                return buildStudentChat(theme: theme, message: messages[index], context: context);
               },
               itemCount: messages.length,
             ),
@@ -68,8 +67,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
                     Expanded(
                       child: IconButton(onPressed: () {
                         setState(() {
-                          messages.add(Message(100, messageController.text, "now"));
-                        });
+                          messages.add(Message(
+                            senderUserName: 'sameh',
+                            senderFirstName: student.firstName,
+                            senderLastName: student.lastName,
+                            messageContent: messageController.text,
+                            messageDate: DateTime.now().minute.toString(),
+                            senderProfileImage: student.imageProvider,
+                          ));                        });
                       }, icon: Icon(Icons.send_rounded, color: theme.primaryColor)),
                     )
                   ],
@@ -84,130 +89,142 @@ class _ChatsScreenState extends State<ChatsScreen> {
     required BuildContext context,
     required ThemeData theme,
     required Message message,
-    required Cubit cubit,
   })
   {
-    if (message.senderId == 100){
-      return userMessageItem(theme: theme, message: message, context: context,cubit: cubit);
+    if (message.senderUserName == 'sameh'){
+      return userMessageItem(theme: theme, message: message, context: context);
     }
     else {
-      return othersMessageItem(theme: theme, message: message,cubit: cubit);
+      return othersMessageItem(theme: theme, message: message);
     }
   }
 }
+Widget othersMessageItem({
+  required ThemeData theme,
+  required Message message,
+})
+{
+  return Padding(
+    padding: const EdgeInsets.only(right: 11,top: 6,bottom: 6,left: 50),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(.6),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(50.0),
+          bottomRight: Radius.circular(50.0),
+          bottomLeft: Radius.circular(50.0),
+        ),
+      ),
+      child:Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          textDirection: TextDirection.rtl,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: CircleAvatar(
+                backgroundColor: theme.canvasColor.withOpacity(.4),
+                radius: 25,
+                backgroundImage: const AssetImage("Assets/profile/man_5.png"),
+              ),
+            ),
+            Expanded(
+              child: Text(message.messageContent,
+                maxLines: 4,
+                style: font.copyWith(fontSize: 23.0,fontWeight: FontWeight.w600,color: theme.primaryColorLight),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
 
-List<Message> messages=[
-  Message(150, "can i ask a question", "9am"),
-  Message(100, "test test test test test test test test test test test test test test test test test ", "9am"),
-  Message(140, "can i ask a question", "9am"),
-  Message(150, "can i ask a question", "9am"),
-  Message(130, "can i ask a question", "9am"),
-  Message(120, "can i ask a question", "9am"),
-  Message(100, "from sameh", "9am"),
-  Message(100, "from sameh", "9am"),
-  Message(150, "can i ask a question", "9am"),
-  Message(130, "can i ask a question", "9am"),
-  Message(110, "can i ask a question", "9am"),
-  Message(120, "can i ask a question", "9am"),
+Widget userMessageItem({
+  required BuildContext context,
+  required ThemeData theme,
+  required Message message,
+})
+{
+  return Padding(
+    padding: const EdgeInsets.only(right: 50,top: 6,bottom: 6,left: 11),
+    child: Container(
+      decoration: BoxDecoration(
+        color: theme.primaryColor,
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(50.0),
+          bottomRight: Radius.circular(50.0),
+          bottomLeft: Radius.circular(50.0),
+        ),
+      ),
+      child:Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          textDirection: TextDirection.ltr,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: CircleAvatar(
+                backgroundColor: theme.canvasColor.withOpacity(.4),
+                radius: 25,
+                backgroundImage: message.senderProfileImage,
+              ),
+            ),
+            Expanded(
+              child: Text(message.messageContent,
+                maxLines: 4,
+                textAlign:TextAlign.left,
+                style: font.copyWith(fontSize: 23.0,fontWeight: FontWeight.w600,color: theme.primaryColorLight),
+
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+List<Message> messages = [
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderUserName: 'sameh',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
 ];
-
-// class ChatsScreen extends StatelessWidget {
-//   const ChatsScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     var theme = Theme.of(context);
-//     return BlocConsumer<CourseCubit,CourseStates>(
-//         listener: (context,state) {},
-//         builder:(context,state){
-//           var course = CourseCubit.get(context);
-//           return Scaffold(
-//             appBar: secondAppbar(context: context, title: "Chat".tr),
-//             body: ListView.builder(
-//               itemBuilder: (BuildContext context, int index) {
-//                 return buildMessageItem(theme: theme, message: messages[index], context: context, cubit: course);
-//               },
-//               itemCount: messages.length,
-//             ),
-//             bottomNavigationBar: Padding(
-//               padding: const EdgeInsets.only(left: 11,right: 11,bottom: 11),
-//               child: Container(
-//                 padding: const EdgeInsets.all(9),
-//                 width: double.infinity,
-//                 height: 90,
-//                 decoration: BoxDecoration(
-//                   color: theme.primaryColorLight,
-//                   borderRadius: const BorderRadius.all(Radius.circular(18),),
-//                   boxShadow: [
-//                     BoxShadow(
-//                       blurRadius: 15,
-//                       color: theme.primaryColorDark.withOpacity(.1),
-//                       offset: const Offset(0, -5),
-//                     )
-//                   ],
-//                 ),
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     SizedBox(
-//                       width: screenWidth*3/4,
-//                       child: defaultFormField(
-//                           context: context,
-//                           controller: messageController,
-//                           type: TextInputType.text,
-//                           validate: (s){
-//                             return null;
-//                           },
-//                           label: "Type your question"
-//                       ),
-//                     ),
-//                     IconButton(onPressed: (){
-//                       setState(() {
-//                         messages.add(Message(100, messageController.text, "now"));
-//                       });
-//                     }, icon: Icon(Icons.send_rounded,color: theme.primaryColor,size:45,))
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           );
-//         }
-//     );
-//   }
-// Widget buildChatItem({
-//   required BuildContext context,
-//   required int index,
-//   required MyCourse course,
-//   required ThemeData theme,
-//   required void Function() onTap,
-// })
-// {
-//   return InkWell(
-//     onTap: onTap,
-//     child: Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 11,vertical: 6),
-//       child: Container(
-//         width: screenWidth,
-//         height: screenHeight/6,
-//         decoration: BoxDecoration(
-//           color: theme.cardColor,
-//           borderRadius: const BorderRadius.all(Radius.circular(23.0),),
-//         ),
-//         child:Padding(
-//           padding: const EdgeInsets.all(20),
-//           child: Row(
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             children: [
-//               Text(course.lessons[index].lessonName,
-//                 style: font.copyWith(fontSize: 23.0,fontWeight: FontWeight.w600,color: theme.primaryColorLight),
-//               ),
-//               const Spacer(),
-//               Icon( Icons.arrow_forward_ios,color: theme.primaryColorLight,size: 30,),
-//             ],
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }
-// }

@@ -44,7 +44,7 @@ class TutorCoursesScreen extends StatelessWidget {
           dashboardItem(
             context: context,
             title: "Assignments",
-            image: "Assets/for_teacher/oneTouch.png",
+            image: "Assets/for_teacher/exam.png",
             goTo: () {},
           ),
           dashboardItem(
