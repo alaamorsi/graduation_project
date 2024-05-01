@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "881049663435",
+    "project_id": "digitutor-b5d93",
+    "storage_bucket": "digitutor-b5d93.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881049663435:android:c07486ec493acf4658e84e",
+        "android_client_info": {
+          "package_name": "com.example.graduation_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4sR4ZKdG8HvpX36l-ZbWED9SPE6aBi9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
