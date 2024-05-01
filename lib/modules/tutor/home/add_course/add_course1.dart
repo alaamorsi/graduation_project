@@ -217,7 +217,7 @@ class _AddCourseState extends State<AddCourse> {
                             int.parse(
                               priceController.text,
                             ),
-                            '${CacheHelper.getData(key: 'id')},${widget.courseType},${cubit.courseSub},${cubit.courseStage},${cubit.courseLevel},${cubit.courseTerm},${priceController.text}',
+                            '${CacheHelper.getData(key: 'id')},${widget.courseType},${cubit.courseSub},${cubit.courseLevel},${cubit.courseStage},${cubit.courseTerm},${priceController.text}',
                           );
                         }
                       },

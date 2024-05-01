@@ -11,7 +11,7 @@ class DioHelper
   {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://alaamorsy-001-site1.anytempurl.com/api/',
+        baseUrl: 'https://digitutor.runasp.net/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -25,7 +25,6 @@ class DioHelper
   {
     dio.options.headers ={
       'Content-Type':'application/json',
-      'Authorization':token,
     };
     return await dio.get(url ,queryParameters: query);
   }
@@ -37,7 +36,6 @@ class DioHelper
   }) async{
     dio.options.headers ={
       'Content-Type':'application/json',
-      'Authorization':'Basic MTExNzI5ODk6NjAtZGF5ZnJlZXRyaWFs',
     };
     try{
       Response<dynamic> response = await dio.post(url,data: data,);
@@ -56,8 +54,7 @@ class DioHelper
   async {
     dio.options.headers ={
       'Content-Type':'application/json',
-      'Authorization':'Basic MTExNzI5ODk6NjAtZGF5ZnJlZXRyaWFs',
-      'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
+      'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
       Response<dynamic> response = await dio.patch(url,data: data,);
@@ -72,8 +69,7 @@ class DioHelper
     required FormData data,
   }) async{
     dio.options.headers ={
-      'Authorization':'Basic MTExNzI5ODk6NjAtZGF5ZnJlZXRyaWFs',
-      'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
+      'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
       Response<dynamic> response = await dio.post(url,data: data,);
@@ -88,8 +84,7 @@ class DioHelper
     required String token,
   }) async{
     dio.options.headers ={
-      'Authorization':'Basic MTExNzI5ODk6NjAtZGF5ZnJlZXRyaWFs',
-      'AuthorizationJwt':'Bearer ${CacheHelper.getData(key: 'jwt')}',
+      'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
       Response<dynamic> response = await dio.delete(url,data: jsonEncode(token),);
