@@ -19,8 +19,13 @@ class ForgetPasswordScreen1 extends StatelessWidget {
       listener: (context , state){
         if (state is SendResetCodeSuccessState)
           {
+            showToast(title: 'Info'.tr, description: "we sent you verification code ,check your gmail!".tr,context: context, state: MotionState.info);
             navigateTo(context, ForgetPasswordScreen2(email: emailController.text,));
           }
+        else if (state is SendResetCodeErrorState)
+        {
+          showToast(title: 'Error'.tr, description: "email not found".tr,context: context, state: MotionState.error);
+        }
       },
       builder: (context , state){
         var cubit = LoginCubit.get(context);

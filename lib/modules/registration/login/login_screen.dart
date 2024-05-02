@@ -26,6 +26,7 @@ class LoginScreen extends StatelessWidget {
       listener: (context, state) {
         role = CacheHelper.getData(key: 'role');
         if (state is LoginSuccessState) {
+          showToast(title: 'welcome back'.tr, description: "login success".tr,context: context, state: MotionState.success);
           if (role == 'student') {
             Get.offAll(const StudentLayout());
             StudentCubit.get(context).getImage();

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/models/error_response.dart';
 import 'package:graduation_project/models/login_and_user_data_model.dart';
 import 'package:graduation_project/modules/registration/register/cubit/states.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
@@ -36,6 +39,8 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   late LoginModel loginModel;
   late UserData userData;
+  RegisterResponse? errorResponse;
+
   bool isLoading = false;
 
   void userRegister({
@@ -60,11 +65,26 @@ class RegisterCubit extends Cubit<RegisterStates> {
       },
     ).then((value) {
       isLoading = false;
-      emit(RegisterSuccessState());
+      if (value.toString().contains('200')) {
+        emit(RegisterSuccessState());
+      }
     }).catchError((error) {
       isLoading = false;
-      print(error.toString());
-      emit(RegisterErrorState(error.toString()));
+      if (error.toString().contains('400')) {
+        Map<String, dynamic> decodedMap = json.encode(error) as Map<String, dynamic>;
+        errorResponse = RegisterResponse.fromJson(decodedMap);
+        if (errorResponse!.success == false) {
+          if (errorResponse!.hasRepeatedEmail == true) {
+            emit(RegErrorRepeatedEmailState());
+          } else if (errorResponse!.hasRepeatedUserName == true) {
+            emit(RegErrorRepeatedUserNameState());
+          }
+        }
+      } else if (error.toString().contains('500')) {
+        emit(RegErrorServerErrorState());
+      } else {
+        emit(RegisterErrorState());
+      }
     });
   }
 
@@ -79,7 +99,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
     ).then((value) {
       emit(SendConfirmSuccessState());
     }).catchError((error) {
-      emit(SendConfirmErrorState(error.toString()));
+      emit(SendConfirmErrorState());
     });
   }
 
@@ -97,7 +117,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
     ).then((value) {
       emit(CheckCodeConfirmSuccessState());
     }).catchError((error) {
-      emit(CheckCodeConfirmErrorState(error.toString()));
+      emit(CheckCodeConfirmErrorState());
     });
   }
 }

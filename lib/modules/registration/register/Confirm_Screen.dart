@@ -19,7 +19,11 @@ class ConfirmScreen extends StatelessWidget {
       listener: (context , state){
         if(state is CheckCodeConfirmSuccessState)
         {
+          showToast(title: 'Success'.tr, description: "your email has been confirmed".tr,context: context, state: MotionState.success);
           navigateTo(context, const LoginScreen());
+        }
+        else if (state is CheckCodeConfirmErrorState){
+          showToast(title: 'Error'.tr, description: "code is not correct".tr,context: context, state: MotionState.error);
         }
       },
       builder: (context , state){

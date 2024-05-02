@@ -1,6 +1,4 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
@@ -325,16 +323,16 @@ Widget slideItem({
         child:Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image(image: AssetImage(image),fit:BoxFit.cover,),
+            Image(image: AssetImage(image),fit:BoxFit.cover,height: screenWidth * .36,),
             const SizedBox(width: 9),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width:170,
+                  width:screenWidth * .4,
                   child:Text(title,
-                    style: font.copyWith(fontSize: 25.0, fontWeight: FontWeight.bold,color: Colors.white),
+                    style: font.copyWith(fontSize: screenWidth * .066, fontWeight: FontWeight.bold,color: Colors.white),
                     maxLines: 3,
                   ),
                 ),

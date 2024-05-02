@@ -109,6 +109,7 @@ class SettingsScreen extends StatelessWidget {
                        {
                          int? response = await StudentCubit.get(context).logOut(CacheHelper.getData(key: 'refreshToken'));
                          if(response == 200){
+                           showToast(title: 'Info'.tr, description: "logOut Success".tr,context: context, state: MotionState.info);
                            Get.offAll(const LoginScreen());
                          }
                          else{
@@ -119,6 +120,7 @@ class SettingsScreen extends StatelessWidget {
                        {
                          int? response = await InstructorCubit.get(context).logOut(CacheHelper.getData(key: 'refreshToken'));
                          if(response == 200){
+                           showToast(title: 'Info'.tr, description: "logOut Success".tr,context: context, state: MotionState.info);
                            Get.offAll(const LoginScreen());
                          }
                          else{
@@ -132,7 +134,7 @@ class SettingsScreen extends StatelessWidget {
                           height: 50,
                           width: 50,
                           decoration: BoxDecoration(
-                            color: Colors.pinkAccent.withOpacity(0.2),
+                            color: Colors.red.withOpacity(0.2),
                             borderRadius: const BorderRadius.all(Radius.circular(9.0)),
                           ),
                           child: Icon(Icons.input_outlined,size: 20,color: Colors.red.shade900,),

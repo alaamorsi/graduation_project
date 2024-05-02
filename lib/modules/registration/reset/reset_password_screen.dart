@@ -26,6 +26,7 @@ class ResetPasswordScreen extends StatelessWidget {
         listener: (context , state){
           if(state is ResetPasswordSuccessState)
             {
+              showToast(title: 'Success'.tr, description: "password updated success".tr,context: context, state: MotionState.success);
               navigateAndFinish(context, const LoginScreen());
             }
         },

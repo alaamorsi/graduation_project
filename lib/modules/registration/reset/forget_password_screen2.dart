@@ -24,8 +24,13 @@ class ForgetPasswordScreen2 extends StatelessWidget {
         listener: (context , state){
           if (state is ValidateResetPasswordSuccessState)
             {
+              showToast(title: 'Success'.tr, description: "code is correct".tr,context: context, state: MotionState.success);
               navigateTo(context, ResetPasswordScreen(email: email,));
             }
+          else if (state is ValidateResetPasswordErrorState)
+          {
+            showToast(title: 'Error'.tr, description: "code is not correct".tr,context: context, state: MotionState.error);
+          }
         },
         builder: (context , state){
           var theme = Theme.of(context);

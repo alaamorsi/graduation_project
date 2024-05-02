@@ -6,11 +6,13 @@ class RegisterLoadingState extends RegisterStates {}
 
 class RegisterSuccessState extends RegisterStates {}
 
-class RegisterErrorState extends RegisterStates {
-  final String error;
+class RegisterErrorState extends RegisterStates {}
 
-  RegisterErrorState(this.error);
-}
+class RegErrorRepeatedUserNameState extends RegisterStates {}
+
+class RegErrorRepeatedEmailState extends RegisterStates {}
+
+class RegErrorServerErrorState extends RegisterStates {}
 
 class ChangePasswordVisibilityState extends RegisterStates {}
 
@@ -21,16 +23,10 @@ class ChangeAcceptOfConditions extends RegisterStates {}
 // send Confirmation
 class SendConfirmSuccessState extends RegisterStates {}
 
-class SendConfirmErrorState extends RegisterStates {
-  final String error;
+class SendConfirmErrorState extends RegisterStates {}
 
-  SendConfirmErrorState(this.error);
-}
 class CheckCodeConfirmLoadingState extends RegisterStates {}
+
 class CheckCodeConfirmSuccessState extends RegisterStates {}
 
-class CheckCodeConfirmErrorState extends RegisterStates {
-  final String error;
-
-  CheckCodeConfirmErrorState(this.error);
-}
+class CheckCodeConfirmErrorState extends RegisterStates {}
