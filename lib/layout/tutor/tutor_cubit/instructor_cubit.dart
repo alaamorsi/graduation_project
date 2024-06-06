@@ -42,14 +42,17 @@ class InstructorCubit extends Cubit<InstructorStates> {
     courseSub = s;
     emit(SelectionState());
   }
+
   void stageSelect(String s) {
     courseStage = s;
     emit(SelectionState());
   }
+
   void levelSelect(String s) {
     courseLevel = s;
     emit(SelectionState());
   }
+
   void termSelect(String s) {
     courseTerm = s;
     emit(SelectionState());
@@ -59,7 +62,8 @@ class InstructorCubit extends Cubit<InstructorStates> {
   String lastName = CacheHelper.getData(key: 'lastName');
   String userName = CacheHelper.getData(key: 'userName');
   String bio = CacheHelper.getData(key: 'biography') ?? "";
-  ImageProvider<Object> imageProvider = const AssetImage("Assets/profile/man_1.png");
+  ImageProvider<Object> imageProvider =
+      const AssetImage("Assets/profile/man_1.png");
 
   void getImage() {
     if (CacheHelper.getData(key: 'profileStr') != null) {
@@ -149,14 +153,18 @@ class InstructorCubit extends Cubit<InstructorStates> {
       });
     }
     try {
-      Response response = await DioHelper.updateImage(
-        url: updateImage,
-        data: formData,
-      );
+      // Response response = await DioHelper.updateImage(
+      //   url: updateImage,
+      //   data: formData,
+      // );
+      Response response = await sendRequest(
+          method: 'updateImage', url: updateImage, formData: formData);
       emit(UpdateProfileImageSuccessState());
       return response.statusCode;
     } catch (error) {
-      if (error is DioException) {
+      if (error == 401) {
+        emit(SessionEndedState());
+      } else if (error is DioException) {
         emit(UpdateProfileImageErrorState());
         return error.response!.statusCode;
       }
@@ -199,7 +207,9 @@ class InstructorCubit extends Cubit<InstructorStates> {
     }
     try {
       Response response =
-          await DioHelper.patchData(url: updateDataPatch, data: updateData);
+          // await DioHelper.patchData(url: updateDataPatch, data: updateData);
+          await sendRequest(
+              method: 'patch', url: updateDataPatch, listMap: updateData);
       if (updateFirstName) {
         emit(UpdateFirstNameSuccessState());
       }
@@ -211,9 +221,10 @@ class InstructorCubit extends Cubit<InstructorStates> {
       }
       return response.statusCode;
     } catch (error) {
-      if (error is DioException) {
+      if (error == 401) {
+        emit(SessionEndedState());
+      } else if (error is DioException) {
         emit(UpdateUserDataErrorState());
-        return error.response!.statusCode;
       }
     }
     return 0;
@@ -226,52 +237,119 @@ class InstructorCubit extends Cubit<InstructorStates> {
     emit(EnableButtonBackState());
   }
 
-  Future<void> payManager(int coursePrice,String description ) async{
+  Future<void> payManager(int coursePrice, String description) async {
     emit(PaymentManagerLoadingState());
-    PaymobManager().getPaymentKey(
-        coursePrice,"EGP",description,
-    ).then((String paymentKey) {
+    PaymobManager()
+        .getPaymentKey(
+      coursePrice,
+      "EGP",
+      description,
+    )
+        .then((String paymentKey) {
       launchUrl(
-        Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
+        Uri.parse(
+            "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
       );
       emit(PaymentManagerSuccessState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(PaymentManagerErrorState(error));
     });
   }
 
-  Future<int?> logOut (String refreshToken) async{
-    try{
-      Response response = await DioHelper.delete(
-        url: logout,
-        token: refreshToken,
-      );
-      emit(LogOutSuccessState());
-      currentIndex = 0;
-      await CacheHelper.removeData(key: 'jwt');
-      await CacheHelper.removeData(key: 'role');
-      await CacheHelper.removeData(key: 'refreshToken');
-      await CacheHelper.removeData(key: 'firstName');
-      await CacheHelper.removeData(key: 'lastName');
-      await CacheHelper.removeData(key: 'biography');
-      await CacheHelper.removeData(key: 'email');
-      await CacheHelper.removeData(key: 'profileStr');
-      await CacheHelper.removeData(key: 'id');
-      jwt = '';
-      role = '';
-      firstName = '';
-      lastName = '';
-      bio = '';
-      imageProvider = const AssetImage("Assets/profile/man_1.png");
+  Future<int?> logOut(String refreshToken) async {
+    try {
+      // Response response = await DioHelper.delete(
+      //   url: logout,
+      //   token: refreshToken,
+      // );
+      Response response =
+          await sendRequest(method: 'delete', url: logout, token: refreshToken);
+      await clearCacheAllItems();
       return response.statusCode;
-    }catch(error){
-      if(error is DioException){
-        emit(LogOutErrorState());
-        return error.response!.statusCode;
+    } catch (error) {
+      if (error == 401) {
+        // emit(LogOutErrorState());
+        // return error.response!.statusCode;
+        await clearCacheAllItems();
       }
     }
     return null;
   }
 
+  Future<dynamic> sendRequest(
+      {required String method,
+      required String url,
+      String? token,
+      Map<String, String>? data,
+      List<Map<String, dynamic>>? listMap,
+      FormData? formData}) async {
+    try {
+      switch (method.toLowerCase()) {
+        case 'get':
+          return await DioHelper.getData(url: url);
+        case 'post':
+          return await DioHelper.postData(url: url, data: data!);
+        case 'put':
+          return await DioHelper.putData(url: url, data: data!);
+        case 'delete':
+          return await DioHelper.delete(
+              url: url, data: data!, token: token ?? '');
+        case 'patch':
+          return await DioHelper.patchData(url: url, data: listMap!);
+        case 'updateImage':
+          return await DioHelper.updateImage(url: url, data: formData);
+        default:
+          throw UnsupportedError('Method $method is not supported');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response!.statusCode == 401) {
+          try {
+            var response = await DioHelper.postData(url: updateTokens, data: {
+              'email': CacheHelper.getData(key: 'email'),
+              'refreshToken': CacheHelper.getData(key: 'refreshToken')
+            });
+            CacheHelper.saveData(key: 'jwt', value: response.data['jwt']);
+            CacheHelper.saveData(
+                key: 'refreshToken', value: response.data['refreshToken']);
+            return await sendRequest(
+                method: method,
+                url: url,
+                token: token,
+                data: data,
+                listMap: listMap,
+                formData: formData);
+          } catch (e) {
+            if (e is DioException) {
+              if (e.response!.statusCode == 401) {
+                throw 401;
+              }
+            }
+          }
+        } else {
+          rethrow;
+        }
+      }
+    }
+  }
 
+  Future clearCacheAllItems() async {
+    currentIndex = 0;
+    await CacheHelper.removeData(key: 'jwt');
+    await CacheHelper.removeData(key: 'role');
+    await CacheHelper.removeData(key: 'refreshToken');
+    await CacheHelper.removeData(key: 'firstName');
+    await CacheHelper.removeData(key: 'lastName');
+    await CacheHelper.removeData(key: 'biography');
+    await CacheHelper.removeData(key: 'email');
+    await CacheHelper.removeData(key: 'profileStr');
+    await CacheHelper.removeData(key: 'id');
+    jwt = '';
+    role = '';
+    firstName = '';
+    lastName = '';
+    bio = '';
+    imageProvider = const AssetImage("Assets/profile/man_1.png");
+    emit(LogOutSuccessState());
+  }
 }

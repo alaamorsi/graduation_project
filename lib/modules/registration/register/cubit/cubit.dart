@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/error_response.dart';
 import 'package:graduation_project/models/login_and_user_data_model.dart';
 import 'package:graduation_project/modules/registration/register/cubit/states.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 
@@ -71,7 +72,8 @@ class RegisterCubit extends Cubit<RegisterStates> {
     }).catchError((error) {
       isLoading = false;
       if (error.toString().contains('400')) {
-        Map<String, dynamic> decodedMap = json.encode(error) as Map<String, dynamic>;
+        Map<String, dynamic> decodedMap =
+            json.encode(error) as Map<String, dynamic>;
         errorResponse = RegisterResponse.fromJson(decodedMap);
         if (errorResponse!.success == false) {
           if (errorResponse!.hasRepeatedEmail == true) {
@@ -95,9 +97,15 @@ class RegisterCubit extends Cubit<RegisterStates> {
       url: sendCode,
       data: {
         'email': email,
+        'reset': false
       },
     ).then((value) {
-      emit(SendConfirmSuccessState());
+      if (value.data['success'] == true) {
+        CacheHelper.saveData(key: 'iToken', value: value.data['token']);
+        emit(SendConfirmSuccessState());
+      } else {
+        emit(SendConfirmFailedState());
+      }
     }).catchError((error) {
       emit(SendConfirmErrorState());
     });
@@ -113,6 +121,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
       data: {
         'email': email,
         'code': code,
+        'identityToken': CacheHelper.getData(key: 'iToken'),
       },
     ).then((value) {
       emit(CheckCodeConfirmSuccessState());

@@ -10,6 +10,7 @@ import 'package:graduation_project/shared/network/end_points.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
+
   static LoginCubit get(context) => BlocProvider.of(context);
 
   // Control to visible or invisible password
@@ -18,7 +19,8 @@ class LoginCubit extends Cubit<LoginStates> {
 
   void changePasswordVisibility() {
     isPassword = !isPassword;
-    prefixIcon = isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    prefixIcon =
+        isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(ChangePasswordVisibilityState());
   }
 
@@ -50,26 +52,30 @@ class LoginCubit extends Cubit<LoginStates> {
         if (loginModel.emailConfirmed) {
           String payLoad = loginModel.jwt!.split('.')[1];
           int padLength = (4 - payLoad.length % 4) % 4;
-          String paddedPayload= payLoad.padRight(payLoad.length + padLength, '=');
+          String paddedPayload =
+              payLoad.padRight(payLoad.length + padLength, '=');
           String decodedString = utf8.decode(base64.decode(paddedPayload));
           Map<String, dynamic> decodedMap = json.decode(decodedString);
           userData = UserData.fromJson(decodedMap);
           CacheHelper.saveData(key: 'jwt', value: loginModel.jwt);
-          CacheHelper.saveData(key: 'refreshToken', value: loginModel.refreshToken);
+          CacheHelper.saveData(
+              key: 'refreshToken', value: loginModel.refreshToken);
           CacheHelper.saveData(key: 'role', value: userData.role.toLowerCase());
           CacheHelper.saveData(key: 'firstName', value: userData.firstName);
           CacheHelper.saveData(key: 'lastName', value: userData.lastName);
           CacheHelper.saveData(key: 'email', value: userData.email);
           CacheHelper.saveData(key: 'id', value: userData.id);
           CacheHelper.saveData(key: 'userName', value: userData.userName);
-          CacheHelper.saveData(key: 'biography', value: loginModel.biography??"enter your bio here");
-          if(loginModel.profilePicture!=null){
+          CacheHelper.saveData(
+              key: 'biography',
+              value: loginModel.biography ?? "enter your bio here");
+          if (loginModel.profilePicture != null) {
             Uint8List bytes = base64Decode(loginModel.profilePicture!);
             String pictureStr = base64Encode(bytes);
             CacheHelper.saveData(key: 'profileStr', value: pictureStr);
           }
           emit(LoginSuccessState());
-        } else if(!loginModel.emailConfirmed){
+        } else if (!loginModel.emailConfirmed) {
           emit(LoginNotConfirmedState());
         }
       }
@@ -77,15 +83,11 @@ class LoginCubit extends Cubit<LoginStates> {
       isLoading = false;
       if (error.toString().contains('404')) {
         emit(LoginNotFoundState());
-      }
-     else if (error.toString().contains('400')) {
+      } else if (error.toString().contains('400')) {
         emit(FormatErrorState());
+      } else {
+        emit(LoginErrorState(error.toString()));
       }
-     else
-       {
-         emit(LoginErrorState(error.toString()));
-       }
-
     });
   }
 
@@ -93,6 +95,8 @@ class LoginCubit extends Cubit<LoginStates> {
     required String email,
     required bool reset,
   }) {
+    isLoading = true;
+    emit(SendResetCodeLoadingState());
     DioHelper.postData(
       url: sendCode,
       data: {
@@ -100,8 +104,15 @@ class LoginCubit extends Cubit<LoginStates> {
         'reset': reset,
       },
     ).then((value) {
-      emit(SendResetCodeSuccessState());
+      isLoading = false;
+      if (value.data['success'] == true) {
+        CacheHelper.saveData(key: 'iToken', value: value.data['token']);
+        emit(SendResetCodeSuccessState());
+      } else {
+        emit(SendResetCodeFailedState());
+      }
     }).catchError((error) {
+      isLoading = false;
       emit(SendResetCodeErrorState(error.toString()));
     });
   }
@@ -110,13 +121,14 @@ class LoginCubit extends Cubit<LoginStates> {
     required String? email,
     required String? code,
   }) {
-    emit(ValidateResetPasswordLoadingState());
     isLoading = true;
+    emit(ValidateResetPasswordLoadingState());
     DioHelper.postData(
       url: validateReset,
       data: {
         'email': email,
         'code': code,
+        'identityToken': CacheHelper.getData(key: 'iToken'),
       },
     ).then((value) {
       isLoading = false;
@@ -133,13 +145,14 @@ class LoginCubit extends Cubit<LoginStates> {
     required String? email,
     required String? newPassword,
   }) {
-    emit(ResetPasswordLoadingState());
     isLoading = true;
+    emit(ResetPasswordLoadingState());
     DioHelper.postData(
       url: resetPassword,
       data: {
         'email': email,
         'newPassword': newPassword,
+        'token': CacheHelper.getData(key: 'iToken'),
       },
     ).then((value) {
       isLoading = false;
@@ -148,7 +161,7 @@ class LoginCubit extends Cubit<LoginStates> {
       }
     }).catchError((error) {
       isLoading = false;
-        emit(ResetPasswordErrorState(error.toString()));
+      emit(ResetPasswordErrorState(error.toString()));
     });
   }
 
@@ -157,14 +170,16 @@ class LoginCubit extends Cubit<LoginStates> {
   }) {
     DioHelper.postData(
       url: sendCode,
-      data: {
-        'email': email,
-      },
+      data: {'email': email, 'reset': false},
     ).then((value) {
-      emit(SendConfirmSuccessState());
+      if (value.data['success'] == true) {
+        CacheHelper.saveData(key: 'iToken', value: value.data['token']);
+        emit(SendConfirmSuccessState());
+      } else {
+        emit(SendConfirmFailedState());
+      }
     }).catchError((error) {
       emit(SendConfirmErrorState(error.toString()));
     });
   }
-
 }

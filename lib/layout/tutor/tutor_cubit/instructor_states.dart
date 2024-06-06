@@ -58,3 +58,6 @@ class LogOutLoadingState extends InstructorStates {}
 class LogOutSuccessState extends InstructorStates {}
 
 class LogOutErrorState extends InstructorStates {}
+
+// Session Ended
+class SessionEndedState extends InstructorStates {}

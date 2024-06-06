@@ -25,6 +25,8 @@ class SendConfirmSuccessState extends RegisterStates {}
 
 class SendConfirmErrorState extends RegisterStates {}
 
+class SendConfirmFailedState extends RegisterStates {}
+
 class CheckCodeConfirmLoadingState extends RegisterStates {}
 
 class CheckCodeConfirmSuccessState extends RegisterStates {}

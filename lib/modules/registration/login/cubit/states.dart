@@ -43,6 +43,8 @@ class ValidateResetPasswordErrorState extends LoginStates {
 }
 
 // Send reset code
+class SendResetCodeLoadingState extends LoginStates {}
+
 class SendResetCodeSuccessState extends LoginStates {}
 
 class SendResetCodeErrorState extends LoginStates {
@@ -51,6 +53,8 @@ class SendResetCodeErrorState extends LoginStates {
   SendResetCodeErrorState(this.error);
 }
 
+class SendResetCodeFailedState extends LoginStates {}
+
 class SendConfirmSuccessState extends LoginStates {}
 
 class SendConfirmErrorState extends LoginStates {
@@ -58,3 +62,5 @@ class SendConfirmErrorState extends LoginStates {
 
   SendConfirmErrorState(this.error);
 }
+
+class SendConfirmFailedState extends LoginStates {}

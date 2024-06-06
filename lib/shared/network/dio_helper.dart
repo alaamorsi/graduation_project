@@ -66,7 +66,7 @@ class DioHelper
 
   static Future<Response> updateImage ({
     required String url,
-    required FormData data,
+    FormData? data,
   }) async{
     dio.options.headers ={
       'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
@@ -82,6 +82,7 @@ class DioHelper
   static Future<Response> delete ({
     required String url,
     required String token,
+    Map<String, String>? data,
   }) async{
     dio.options.headers ={
       'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
@@ -92,5 +93,26 @@ class DioHelper
     } catch(e){
       rethrow;
     }
+  }
+  static Future<Response> putData({
+    required String url,
+    Map<String, dynamic>? query,
+    required Map<String, dynamic> data,
+    String lang = 'en',
+    String? token,
+  }) async
+  {
+    dio.options.headers =
+    {
+      'Content-Type':'application/json',
+      'lang':lang,
+      'Authorization': token??'',
+    };
+
+    return dio.put(
+      url,
+      queryParameters: query,
+      data: data,
+    );
   }
 }

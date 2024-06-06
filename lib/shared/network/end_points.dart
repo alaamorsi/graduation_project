@@ -7,3 +7,4 @@ String validateReset='Account/password/code-validation';
 String updateDataPatch='Account/settings/insensitive-data';
 String updateImage='Account/settings/profile-picture';
 String logout='Account/sign-out';
+String updateTokens='Account/tokens';
