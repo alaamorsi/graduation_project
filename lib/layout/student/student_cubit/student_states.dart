@@ -30,8 +30,14 @@ class ProfileImagePickedSuccessState extends StudentStates {}
 class ProfileImagePickedErrorState extends StudentStates {}
 
 //logout
-class LogoutSuccessState extends StudentStates {}
-class LogoutErrorState extends StudentStates {}
+class LogOutLoadingState extends StudentStates {}
+
+class LogOutSuccessState extends StudentStates {}
+
+class LogOutErrorState extends StudentStates {}
+
+// Session Ended
+class SessionEndedState extends StudentStates {}
 
 // Get user states
 class UpdateUserDataLoadingState extends StudentStates {}

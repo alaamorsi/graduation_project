@@ -83,23 +83,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
     emit(GetUserDataSuccessState());
   }
 
-  void clearCache() async {
-    await CacheHelper.removeData(key: 'jwt');
-    await CacheHelper.removeData(key: 'role');
-    await CacheHelper.removeData(key: 'firstName');
-    await CacheHelper.removeData(key: 'lastName');
-    await CacheHelper.removeData(key: 'biography');
-    await CacheHelper.removeData(key: 'email');
-    await CacheHelper.removeData(key: 'profileStr');
-    jwt = 'null';
-    role = 'null';
-    firstName = '';
-    lastName = '';
-    userName = '';
-    bio = '';
-    imageProvider = const AssetImage("Assets/profile/man_1.png");
-  }
-
   File? profileImage;
   var picker = ImagePicker();
 
@@ -264,13 +247,13 @@ class InstructorCubit extends Cubit<InstructorStates> {
       // );
       Response response =
           await sendRequest(method: 'delete', url: logout, token: refreshToken);
-      await clearCacheAllItems();
+      await clearCache();
       return response.statusCode;
     } catch (error) {
       if (error == 401) {
         // emit(LogOutErrorState());
         // return error.response!.statusCode;
-        await clearCacheAllItems();
+        await clearCache();
       }
     }
     return null;
@@ -333,7 +316,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
     }
   }
 
-  Future clearCacheAllItems() async {
+  Future clearCache() async {
     currentIndex = 0;
     await CacheHelper.removeData(key: 'jwt');
     await CacheHelper.removeData(key: 'role');
