@@ -5,7 +5,8 @@ import '../../../../shared/component/constant.dart';
 import 'add_course1.dart';
 
 class SelectCourseType extends StatefulWidget {
-  const SelectCourseType({super.key});
+  final String? successPayment;
+  const SelectCourseType({super.key,this.successPayment});
 
   @override
   SecondScreenState createState() => SecondScreenState();

@@ -46,7 +46,7 @@ class TutorHomeScreen extends StatelessWidget {
               children: [
                 FloatingActionButton(
                   onPressed: (){
-                    Get.to(const SelectCourseType());
+                    Get.to(()=>const SelectCourseType());
                   },
                   backgroundColor: theme.primaryColor,
                   tooltip: 'Create a new course',
