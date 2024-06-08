@@ -10,10 +10,24 @@ class SelectCourseType extends StatefulWidget {
 
   @override
   SecondScreenState createState() => SecondScreenState();
+
 }
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class SecondScreenState extends State<SelectCourseType> {
+  @override
+  void initState() {
+    super.initState();
+    if(widget.successPayment != null){
+      if(widget.successPayment =='true'){
+        showToast(title: "Course Addition", description: "Course has been added successfully", state: MotionState.success, context: context);
+      }
+      else if(widget.successPayment =='false'){
+        showToast(title: "Course Addition", description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

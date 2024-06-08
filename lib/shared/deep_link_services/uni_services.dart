@@ -31,13 +31,6 @@ class UniServices{
     Map<String,String> param = uri.queryParameters;
 
     String success = param['success']??'';
-    String pending = param['pending']??'';
-    if(success =='true' && pending == 'false'){
-      Get.to(()=>SelectCourseType(successPayment: success,));
-    }else if ( pending == 'true'){
-
-    }else{
-
-    }
+    Get.to(()=>SelectCourseType(successPayment: success,));
   }
 }
