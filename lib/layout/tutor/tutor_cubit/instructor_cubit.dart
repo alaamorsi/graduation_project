@@ -217,7 +217,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
 
   Future<void> payManager(int coursePrice, String description) async {
-     onPaymentComplete;
+     // onPaymentComplete;
     emit(PaymentManagerLoadingState());
     PaymobManager().getPaymentKey(
       coursePrice,
@@ -226,18 +226,18 @@ class InstructorCubit extends Cubit<InstructorStates> {
     ).then((String paymentKey) {
       launchUrl(Uri.parse(
           "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"));
+    }).catchError((e){
+      print(e.toString());
     });
   }
-  Future<void> onPaymentComplete() async{
-    var response = await DioHelper.getData(url: orderId);
-    if(response.statusCode ==200){
+  Future<void> onPaymentComplete() async {
+    try {
+      var response = await DioHelper.getData(url: orderId,query: {'orderId' : CacheHelper.getData(key: 'orderId')});
       emit(PaymentManagerSuccessState());
-    }
-    else{
+    } catch (e) {
       emit(PaymentManagerErrorState());
     }
   }
-
   Future<int?> logOut(String refreshToken) async {
     try {
       Response response =
@@ -247,6 +247,10 @@ class InstructorCubit extends Cubit<InstructorStates> {
     } catch (error) {
       if (error == 401) {
         await clearCache();
+        return 200;
+      }
+      else {
+        return (error as Response).statusCode;
       }
     }
     return null;
