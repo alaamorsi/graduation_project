@@ -232,7 +232,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
   Future<void> onPaymentComplete() async {
     try {
-      var response = await DioHelper.getData(url: orderId,query: {'orderId' : CacheHelper.getData(key: 'orderId')});
+      await DioHelper.getData(url: orderId,query: {'orderId' : CacheHelper.getData(key: 'orderId')});
       emit(PaymentManagerSuccessState());
     } catch (e) {
       emit(PaymentManagerErrorState());
@@ -240,20 +240,18 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
   Future<int?> logOut(String refreshToken) async {
     try {
-      Response response =
-          await sendRequest(method: 'delete', url: logout, token: refreshToken);
+      Response response = await sendRequest(method: 'delete', url: logout, token: refreshToken);
       await clearCache();
       return response.statusCode;
     } catch (error) {
-      if (error == 401) {
+      if ((error as Response).statusCode == 401) {
         await clearCache();
         return 200;
       }
       else {
-        return (error as Response).statusCode;
+        return 404;
       }
     }
-    return null;
   }
 
   Future<dynamic> sendRequest(
