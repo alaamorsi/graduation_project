@@ -8,3 +8,4 @@ String updateDataPatch='Account/settings/insensitive-data';
 String updateImage='Account/settings/profile-picture';
 String logout='Account/sign-out';
 String updateTokens='Account/tokens';
+String orderId='api/course/order-id';

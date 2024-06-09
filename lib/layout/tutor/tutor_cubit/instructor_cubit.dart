@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/route_manager.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
@@ -11,6 +13,7 @@ import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../modules/tutor/home/add_course/select_course_type.dart';
 import '../../../modules/tutor/home/home.dart';
 import '../../../modules/tutor/notification/notification.dart';
 import '../../../modules/tutor/profile/profile.dart';
@@ -136,10 +139,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
       });
     }
     try {
-      // Response response = await DioHelper.updateImage(
-      //   url: updateImage,
-      //   data: formData,
-      // );
       Response response = await sendRequest(
           method: 'updateImage', url: updateImage, formData: formData);
       emit(UpdateProfileImageSuccessState());
@@ -190,7 +189,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
     }
     try {
       Response response =
-          // await DioHelper.patchData(url: updateDataPatch, data: updateData);
           await sendRequest(
               method: 'patch', url: updateDataPatch, listMap: updateData);
       if (updateFirstName) {
@@ -222,17 +220,22 @@ class InstructorCubit extends Cubit<InstructorStates> {
 
   Future<void> payManager(int coursePrice, String description) async {
     emit(PaymentManagerLoadingState());
-    PaymobManager()
-        .getPaymentKey(
+    PaymobManager().getPaymentKey(
       coursePrice,
       "EGP",
       description,
-    )
-        .then((String paymentKey) {
-      launchUrl(
-        Uri.parse(
-            "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
-      );
+    ).then((String paymentKey) {
+      unawaited(launchUrl(Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey")
+      ).then((success) async{
+        var response = await DioHelper.getData(url: orderId);
+        if (response==200) {
+          Get.to(()=>const SelectCourseType(successPayment: 'success',));
+        } else if (response==400) {
+          Get.to(()=>const SelectCourseType(successPayment: 'false',));
+        }
+      }).catchError((error) {
+        Get.to(()=>const SelectCourseType(successPayment: 'false',));
+      }));
       emit(PaymentManagerSuccessState());
     }).catchError((error) {
       emit(PaymentManagerErrorState(error));
@@ -241,18 +244,12 @@ class InstructorCubit extends Cubit<InstructorStates> {
 
   Future<int?> logOut(String refreshToken) async {
     try {
-      // Response response = await DioHelper.delete(
-      //   url: logout,
-      //   token: refreshToken,
-      // );
       Response response =
           await sendRequest(method: 'delete', url: logout, token: refreshToken);
       await clearCache();
       return response.statusCode;
     } catch (error) {
       if (error == 401) {
-        // emit(LogOutErrorState());
-        // return error.response!.statusCode;
         await clearCache();
       }
     }

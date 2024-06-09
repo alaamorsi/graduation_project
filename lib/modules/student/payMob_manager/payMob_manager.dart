@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:graduation_project/modules/student/paymob_manager/constant.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 
 class PaymobManager {
   Future<String> getPaymentKey(
@@ -56,6 +57,7 @@ class PaymobManager {
         },
       ],
     });
+    CacheHelper.saveData(key: 'orderId', value: response.data["id"]);
     return response.data["id"]; //INTGER
   }
 

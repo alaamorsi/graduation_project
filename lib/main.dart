@@ -5,8 +5,6 @@ import 'package:graduation_project/modules/cubit/cubit.dart';
 import 'package:graduation_project/modules/cubit/states.dart';
 import 'package:graduation_project/modules/opening/opening.dart';
 import 'package:graduation_project/shared/bloc_observer.dart';
-import 'package:graduation_project/shared/deep_link_services/context_utility.dart';
-import 'package:graduation_project/shared/deep_link_services/uni_services.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
@@ -26,7 +24,6 @@ void main() async{
   );
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
-  await UniServices.init();
   await CacheHelper.init();
   mode = CacheHelper.getData(key: 'appMode')??mode;
   notification = CacheHelper.getData(key: 'notification')??notification;
@@ -63,7 +60,6 @@ class MyApp extends StatelessWidget {
         listener: (context,state){},
         builder: (context,state){
           return GetMaterialApp(
-            navigatorKey: ContextUtility.navigatorKey,
             debugShowCheckedModeBanner: false,
             theme: AppCubit.get(context).theme,
             darkTheme: AppCubit.get(context).darkTheme,
