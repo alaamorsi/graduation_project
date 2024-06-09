@@ -1,10 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- INTERNET permission here -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="Digitutor"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- MainActivity configuration -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -14,27 +17,40 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
 
+            <!-- Intent filter for deep linking -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="your_scheme" />
+                <data
+                    android:scheme="https"
+                    android:host="digitutor-application-999.web.app" />
             </intent-filter>
-            <data
-                android:scheme="https"
-                android:host="digitutor-application-999.web.app"
-            />
+
+            <!-- Intent filter for app link verification -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="digitutor-application-999.web.app" />
+            </intent-filter>
+
+            <!-- Meta-data for Flutter NormalTheme -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"
+                />
+
+            <!-- Main launcher intent filter -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- Don't delete the meta-data below.
-             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+
+        <!-- Meta-data for Flutter tool -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
