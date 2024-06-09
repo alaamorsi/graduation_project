@@ -186,9 +186,8 @@ class InstructorCubit extends Cubit<InstructorStates> {
       });
     }
     try {
-      Response response =
-          await sendRequest(
-              method: 'patch', url: updateDataPatch, listMap: updateData);
+      Response response = await sendRequest(
+          method: 'patch', url: updateDataPatch, listMap: updateData);
       if (updateFirstName) {
         emit(UpdateFirstNameSuccessState());
       }
@@ -217,38 +216,47 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
 
   Future<void> payManager(int coursePrice, String description) async {
-     // onPaymentComplete;
+    // onPaymentComplete;
     emit(PaymentManagerLoadingState());
-    PaymobManager().getPaymentKey(
+    PaymobManager()
+        .getPaymentKey(
       coursePrice,
       "EGP",
       description,
-    ).then((String paymentKey) {
+    )
+        .then((String paymentKey) {
       launchUrl(Uri.parse(
           "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"));
-    }).catchError((e){
+    }).catchError((e) {
       print(e.toString());
     });
   }
+
   Future<void> onPaymentComplete() async {
     try {
-      await DioHelper.getData(url: orderId,query: {'orderId' : CacheHelper.getData(key: 'orderId')});
+      await DioHelper.getData(
+          url: orderId,
+          query: {'orderId': CacheHelper.getData(key: 'orderId')});
       emit(PaymentManagerSuccessState());
     } catch (e) {
       emit(PaymentManagerErrorState());
     }
   }
+
   Future<int?> logOut(String refreshToken) async {
     try {
-      Response response = await sendRequest(method: 'delete', url: logout, token: refreshToken);
+      Response response =
+          await sendRequest(method: 'delete', url: logout, data: {'refreshToken' : refreshToken});
       await clearCache();
+      print('from tryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
       return response.statusCode;
     } catch (error) {
-      if ((error as Response).statusCode == 401) {
+      if (error is int && error == 401) {
+        print('from catch ifffffffffffffffffffffffffffffffffffff');
         await clearCache();
         return 200;
-      }
-      else {
+      } else {
+        print('from catch elseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
         return 404;
       }
     }
@@ -257,7 +265,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
   Future<dynamic> sendRequest(
       {required String method,
       required String url,
-      String? token,
       Map<String, String>? data,
       List<Map<String, dynamic>>? listMap,
       FormData? formData}) async {
@@ -271,7 +278,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
           return await DioHelper.putData(url: url, data: data!);
         case 'delete':
           return await DioHelper.delete(
-              url: url, data: data!, token: token ?? '');
+              url: url, data: data!,);
         case 'patch':
           return await DioHelper.patchData(url: url, data: listMap!);
         case 'updateImage':
@@ -293,7 +300,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
             return await sendRequest(
                 method: method,
                 url: url,
-                token: token,
                 data: data,
                 listMap: listMap,
                 formData: formData);

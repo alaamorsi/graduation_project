@@ -231,7 +231,7 @@ class StudentCubit extends Cubit<StudentStates> {
           return await DioHelper.putData(url: url, data: data!);
         case 'delete':
           return await DioHelper.delete(
-              url: url, data: data!, token: token ?? '');
+              url: url, data: data!,);
         case 'patch':
           return await DioHelper.patchData(url: url, data: listMap!);
         case 'updateImage':

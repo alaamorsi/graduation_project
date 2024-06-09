@@ -81,14 +81,13 @@ class DioHelper
 
   static Future<Response> delete ({
     required String url,
-    required String token,
     Map<String, String>? data,
   }) async{
     dio.options.headers ={
       'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
-      Response<dynamic> response = await dio.delete(url,data: jsonEncode(token),);
+      Response response = await dio.delete(url,data: data,);
       return response;
     } catch(e){
       rethrow;
