@@ -46,11 +46,7 @@ class PaymentManagerLoadingState extends InstructorStates {}
 
 class PaymentManagerSuccessState extends InstructorStates {}
 
-class PaymentManagerErrorState extends InstructorStates {
-  final String error;
-
-  PaymentManagerErrorState(this.error);
-}
+class PaymentManagerErrorState extends InstructorStates {}
 
 // log out tutor
 class LogOutLoadingState extends InstructorStates {}

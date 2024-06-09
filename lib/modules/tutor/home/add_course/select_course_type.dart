@@ -5,8 +5,7 @@ import '../../../../shared/component/constant.dart';
 import 'add_course1.dart';
 
 class SelectCourseType extends StatefulWidget {
-  final String? successPayment;
-  const SelectCourseType({super.key,this.successPayment});
+  const SelectCourseType({super.key});
 
   @override
   SecondScreenState createState() => SecondScreenState();
@@ -15,19 +14,6 @@ class SelectCourseType extends StatefulWidget {
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class SecondScreenState extends State<SelectCourseType> {
-  @override
-  void initState() {
-    super.initState();
-    if(widget.successPayment != null){
-      if(widget.successPayment =='true'){
-        showToast(title: "Course Addition", description: "Course has been added successfully", state: MotionState.success, context: context);
-      }
-      else if(widget.successPayment =='false'){
-        showToast(title: "Course Addition", description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

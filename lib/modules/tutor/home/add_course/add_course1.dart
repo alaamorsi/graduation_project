@@ -7,7 +7,7 @@ import '../../../../layout/tutor/tutor_cubit/instructor_states.dart';
 import '../../../../shared/component/constant.dart';
 import '../../../../shared/component/components.dart';
 
-class AddCourse extends StatefulWidget {
+class AddCourse extends StatefulWidget{
   final String courseType;
 
   const AddCourse({
@@ -19,7 +19,26 @@ class AddCourse extends StatefulWidget {
   State<AddCourse> createState() => _AddCourseState();
 }
 
-class _AddCourseState extends State<AddCourse> {
+class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async{
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      await InstructorCubit.get(context).onPaymentComplete();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +46,14 @@ class _AddCourseState extends State<AddCourse> {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return BlocConsumer<InstructorCubit, InstructorStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is PaymentManagerSuccessState){
+          showToast(title: "Course Addition", description: "Course has been added successfully", state: MotionState.success, context: context);
+        }
+        else if(state is PaymentManagerErrorState){
+          showToast(title: "Course Addition", description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);
+        }
+      },
       builder: (context, state) {
         var cubit = InstructorCubit.get(context);
         var theme = Theme.of(context);

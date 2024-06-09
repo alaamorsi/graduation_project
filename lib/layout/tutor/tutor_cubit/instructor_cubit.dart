@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/route_manager.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
@@ -13,7 +12,6 @@ import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../modules/tutor/home/add_course/select_course_type.dart';
 import '../../../modules/tutor/home/home.dart';
 import '../../../modules/tutor/notification/notification.dart';
 import '../../../modules/tutor/profile/profile.dart';
@@ -219,28 +217,25 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
 
   Future<void> payManager(int coursePrice, String description) async {
+     onPaymentComplete;
     emit(PaymentManagerLoadingState());
     PaymobManager().getPaymentKey(
       coursePrice,
       "EGP",
       description,
     ).then((String paymentKey) {
-      unawaited(launchUrl(Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey")
-      ).then((success) async{
-        var response = await DioHelper.getData(url: orderId);
-        print(CacheHelper.getData(key: 'orderId')+'######################################abo omar');
-        if (response.statusCode==200) {
-          Get.to(()=>const SelectCourseType(successPayment: 'success',));
-        } else if (response.statusCode==404) {
-          Get.to(()=>const SelectCourseType(successPayment: 'false',));
-        }
-      }).catchError((error) {
-        Get.to(()=>const SelectCourseType(successPayment: 'false',));
-      }));
-      emit(PaymentManagerSuccessState());
-    }).catchError((error) {
-      emit(PaymentManagerErrorState(error));
+      launchUrl(Uri.parse(
+          "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"));
     });
+  }
+  Future<void> onPaymentComplete() async{
+    var response = await DioHelper.getData(url: orderId);
+    if(response.statusCode ==200){
+      emit(PaymentManagerSuccessState());
+    }
+    else{
+      emit(PaymentManagerErrorState());
+    }
   }
 
   Future<int?> logOut(String refreshToken) async {

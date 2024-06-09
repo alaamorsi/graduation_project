@@ -58,6 +58,7 @@ class PaymobManager {
       ],
     });
     CacheHelper.saveData(key: 'orderId', value: response.data["id"]);
+    print('###paymentOrderId###${response.data["id"]}');
     return response.data["id"]; //INTGER
   }
 
