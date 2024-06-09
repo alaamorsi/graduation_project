@@ -66,12 +66,12 @@ class RegisterCubit extends Cubit<RegisterStates> {
       },
     ).then((value) {
       isLoading = false;
-      if (value.toString().contains('200')) {
+      if (value.statusCode==200) {
         emit(RegisterSuccessState());
       }
     }).catchError((error) {
       isLoading = false;
-      if (error.toString().contains('400')) {
+      if (error.statusCode==400) {
         Map<String, dynamic> decodedMap =
             json.encode(error) as Map<String, dynamic>;
         errorResponse = RegisterResponse.fromJson(decodedMap);
@@ -82,7 +82,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
             emit(RegErrorRepeatedUserNameState());
           }
         }
-      } else if (error.toString().contains('500')) {
+      } else if (error.statusCode==500) {
         emit(RegErrorServerErrorState());
       } else {
         emit(RegisterErrorState());
@@ -115,6 +115,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
     required String email,
     required String code,
   }) {
+    isLoading = true;
     emit(CheckCodeConfirmLoadingState());
     DioHelper.postData(
       url: validateEmail,
@@ -124,8 +125,10 @@ class RegisterCubit extends Cubit<RegisterStates> {
         'identityToken': CacheHelper.getData(key: 'iToken'),
       },
     ).then((value) {
+      isLoading = false;
       emit(CheckCodeConfirmSuccessState());
     }).catchError((error) {
+      isLoading = false;
       emit(CheckCodeConfirmErrorState());
     });
   }

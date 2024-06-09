@@ -228,9 +228,10 @@ class InstructorCubit extends Cubit<InstructorStates> {
       unawaited(launchUrl(Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey")
       ).then((success) async{
         var response = await DioHelper.getData(url: orderId);
-        if (response==200) {
+        print(CacheHelper.getData(key: 'orderId')+'######################################abo omar');
+        if (response.statusCode==200) {
           Get.to(()=>const SelectCourseType(successPayment: 'success',));
-        } else if (response==400) {
+        } else if (response.statusCode==404) {
           Get.to(()=>const SelectCourseType(successPayment: 'false',));
         }
       }).catchError((error) {
