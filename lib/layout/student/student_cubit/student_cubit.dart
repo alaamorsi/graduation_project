@@ -72,7 +72,8 @@ class StudentCubit extends Cubit<StudentStates> {
 
   Future<dynamic> getCourses(int pageNumber) async{
     try{
-      Response response = await sendRequest(method: 'get', url: '$getCoursesEndPoint$pageNumber');
+      Response response = await sendRequest(method: 'get', url: getCoursesEndPoint+pageNumber.toString());
+      print(response.hashCode);
       allCourse = response.data.map((course)  {
         CourseModel courseModel = CourseModel(
           course['courseId'],
@@ -83,10 +84,12 @@ class StudentCubit extends Cubit<StudentStates> {
           course['rate'],
           course['isFavourite'],
         );
+        print(courseModel.subject+'####################################################');
         return courseModel;
       });
       emit(StudentGetCoursesSuccessState());
     }catch(error){
+      print(error);
       if (error == 401) {
         emit(SessionEndedState());
       } else if (error is DioException) {
@@ -94,6 +97,7 @@ class StudentCubit extends Cubit<StudentStates> {
         return error.response!.statusCode;
       }
     }
+    print('nulllllllllllllllllllllllllllllllllllllllllllllllllllllllll');
     return null;
   }
 

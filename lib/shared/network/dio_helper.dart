@@ -23,6 +23,7 @@ class DioHelper
   {
     dio.options.headers ={
       'Content-Type':'application/json',
+      'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     return await dio.get(url ,queryParameters: query);
   }

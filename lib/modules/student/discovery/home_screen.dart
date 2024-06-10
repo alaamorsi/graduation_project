@@ -22,10 +22,10 @@ class HomeScreen extends StatelessWidget {
     final List<String> categories = [
       'All',
       'Most Ratified',
-      'Top Seller',
-      'may interest you',
-      'Weekly content',
-      'Recorded Content',
+      // 'Top Seller',
+      // 'may interest you',
+      // 'Weekly content',
+      // 'Recorded Content',
     ];
     var cubit = StudentCubit.get(context);
     var theme = Theme.of(context);
@@ -172,7 +172,34 @@ class HomeScreen extends StatelessWidget {
                                         return Center(child: CircularProgressIndicator(color: Colors.red.shade800,));
                                       }
                                     }
-                                  )
+                                  ),
+                                  FutureBuilder<List<CourseModel>>(
+                                      future: allCourse,
+                                      builder: (BuildContext context, AsyncSnapshot<List<CourseModel>> snapshot){
+                                        if(snapshot.hasError){
+                                          return const Text("something wrong");
+                                        }else if(snapshot.hasData){
+                                          final data = snapshot.data;
+                                          return ListView.builder(
+                                              physics:
+                                              const NeverScrollableScrollPhysics(),
+                                              itemCount: categories.length,
+                                              itemBuilder: (context, index) {
+                                                return courseItem(
+                                                    context: context,
+                                                    course: data![index],
+                                                    color: theme.cardColor,
+                                                    addToWishList: () {
+                                                      cubit.addToWishList(
+                                                          courses[index]);
+                                                    });
+                                              });
+                                        }
+                                        else{
+                                          return Center(child: CircularProgressIndicator(color: Colors.red.shade800,));
+                                        }
+                                      }
+                                  ),
                                 ],
                           ),
                           ),
