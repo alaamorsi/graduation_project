@@ -75,9 +75,9 @@ class StudentCubit extends Cubit<StudentStates> {
           Response response = await sendRequest(method: 'get', url: getCoursesEndPoint);
           print('###################################################');
           print(response);
-          final List decodedData = json.decode(response.data);
-          decodedData.map((movie) => CourseModel.fromJson(movie)).toList();
-          allCourse = decodedData as Future<List<CourseModel>>?;
+          final List<CourseModel> decodedData = json.decode(response.data);
+          decodedData.map((movie) => CourseModel.fromJson(movie as Map<String, dynamic>)).toList();
+          allCourse = Future.value(decodedData);
           emit(StudentGetCoursesSuccessState());
         }
         catch(e){

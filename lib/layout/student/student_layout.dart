@@ -4,10 +4,21 @@ import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
-import 'package:graduation_project/shared/component/constant.dart';
 
-class StudentLayout extends StatelessWidget {
+class StudentLayout extends StatefulWidget {
   const StudentLayout({super.key});
+
+  @override
+  State<StudentLayout> createState() => _StudentLayoutState();
+}
+
+class _StudentLayoutState extends State<StudentLayout> {
+
+  @override
+  void initState(){
+    super.initState();
+    StudentCubit.get(context).getCourses(1);
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StudentCubit,StudentStates>(

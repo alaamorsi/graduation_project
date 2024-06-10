@@ -22,7 +22,7 @@ class CourseModel
     return CourseModel(
       courseId: json["courseId"],
       instProfilePicture: json["instProfilePicture"]??"",
-      rate: json["rate"]??"",
+      rate: json["rate"],
       subject: json["subject"],
       lessonsNumber: json["lessonsNumber"],
       price: json["price"],
