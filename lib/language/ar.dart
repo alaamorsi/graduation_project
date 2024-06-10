@@ -171,4 +171,5 @@ const Map<String, String> ar = {
   "subscriber": "مشتِرك",
   "Coming Soon":"قريبا",
   "Sorry, that option isn't available now":"عذرا، هذا الخيار غير متوفر الآن",
+  "welcome back":"مرحباً بعودتك",
 };
