@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
+import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/notification/notification.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
 import 'package:graduation_project/modules/student/discovery/search_screen.dart';
@@ -68,6 +69,34 @@ class StudentCubit extends Cubit<StudentStates> {
     );
     emit(StartSearchState());
   }
+
+  Future<dynamic> getCourses(int pageNumber) async{
+    try{
+      Response response = await sendRequest(method: 'get', url: '$getCoursesEndPoint$pageNumber');
+      allCourse = response.data.map((course)  {
+        CourseModel courseModel = CourseModel(
+          course['courseId'],
+          course['instProfilePicture'],
+          course['subject'],
+          course['lessonsNumber'],
+          course['price'],
+          course['rate'],
+          course['isFavourite'],
+        );
+        return courseModel;
+      });
+      emit(StudentGetCoursesSuccessState());
+    }catch(error){
+      if (error == 401) {
+        emit(SessionEndedState());
+      } else if (error is DioException) {
+        emit(StudentGetCoursesErrorState());
+        return error.response!.statusCode;
+      }
+    }
+    return null;
+  }
+
 
   Future<void> payManager(int coursePrice,String description) async{
     emit(PaymentManagerLoadingState());
@@ -217,7 +246,7 @@ class StudentCubit extends Cubit<StudentStates> {
     try {
       switch (method.toLowerCase()) {
         case 'get':
-          return await DioHelper.getData(url: url);
+          return await DioHelper.getData(url: url,query: data!);
         case 'post':
           return await DioHelper.postData(url: url, data: data!);
         case 'put':
@@ -265,7 +294,6 @@ class StudentCubit extends Cubit<StudentStates> {
 
   Future<int?> logOut(String refreshToken) async {
     try {
-      Response response =
       await sendRequest(method: 'delete', url: logout, data: {'refreshToken' : refreshToken});
       await clearCache();
       return 200;

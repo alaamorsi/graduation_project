@@ -1,5 +1,7 @@
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../models/courses_model.dart';
+
 bool mode = true;
 bool notification = true;
 String langTitle = 'ar';
@@ -12,6 +14,8 @@ var font= GoogleFonts.changa();
 String? jwt = '';
 String? role = '';
 late bool firstInstall;
+
+Future<List<CourseModel>>? allCourse;
 
 const List<String> subjects = [
   'Arabic',

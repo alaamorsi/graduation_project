@@ -1,24 +1,32 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/modules/student/course_demo/course_comments.dart';
-import 'package:graduation_project/modules/student/course_demo/course_lessons.dart';
+import 'package:graduation_project/models/courses_model.dart';
+// import 'package:graduation_project/modules/student/course_demo/course_comments.dart';
+// import 'package:graduation_project/modules/student/course_demo/course_lessons.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import 'package:graduation_project/shared/component/test.dart';
+// import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/constant.dart';
 
 class CourseDemo extends StatelessWidget {
-  final Course course;
+  final CourseModel course;
   const CourseDemo({super.key,required this.course});
 
   @override
   Widget build(BuildContext context) {
     var cubit = StudentCubit.get(context);
     var theme =Theme.of(context);
+    ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
+    if(course.instProfilePicture!=null){
+      Uint8List picture = base64Decode(course.instProfilePicture as String);
+      image = MemoryImage(picture);
+    }
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){
       },
@@ -38,12 +46,12 @@ class CourseDemo extends StatelessWidget {
                         Row(
                           children: [
                             Text("Instructor : ".tr, style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark),),
-                            Text(course.teacherName,style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
+                            Text("Sameh",style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
                             ),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Text("${"for level".tr} ${course.eduLevel.tr}",
+                        Text("${"for level".tr} ${"primary".tr}",
                           style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark.withOpacity(.7)),
                         ),
                         const SizedBox(height: 20),
@@ -58,9 +66,11 @@ class CourseDemo extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text('${course.videosNumber} ${'lessons'.tr}', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
+                              Text('${course.lessonsNumber} ${'lessons'.tr}', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
                               const Spacer(),
-                              TextButton(onPressed: () {navigateTo(context, CourseLessons(course: course));},
+                              TextButton(onPressed: () {
+                                // navigateTo(context, CourseLessons(course: course));
+                                },
                                 child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
                         InkWell(
@@ -87,7 +97,7 @@ class CourseDemo extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
-                                          image:  NetworkImage(course.teacherImage),
+                                          image: image,
                                           fit: BoxFit.cover,),
                                       ),
                                     ),
@@ -132,92 +142,94 @@ class CourseDemo extends StatelessWidget {
                             children: [
                               Text('Rate And Review'.tr, style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
                               const Spacer(),
-                              TextButton(onPressed: () {navigateTo(context, CourseComments(course: course));},
+                              TextButton(onPressed: () {
+                                // navigateTo(context, CourseComments(course: course));
+                                },
                                 child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
-                        Container(
-                          width: screenWidth,
-                          height: screenHeight/8,
-                          decoration: BoxDecoration(
-                            color: theme.primaryColor.withOpacity(.1),
-                            borderRadius: const BorderRadius.all(Radius.circular(15.0),),
-                          ),
-                          child:Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                                  child: Container(
-                                    width: 55,
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                      color: theme.primaryColor.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(30),
-                                      image: course.review[0].image!=null?
-                                      DecorationImage(
-                                        image:  NetworkImage(course.review[0].image!),
-                                        fit: BoxFit.cover,
-                                      ):
-                                      const DecorationImage(
-                                        image:  AssetImage("Assets/profile/man_1.png"),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      course.review[0].name,
-                                      style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      course.review[0].dateTime,
-                                      style: font.copyWith(fontSize: 12.0,color: Colors.grey),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "${course.review[0].comment}!",
-                                        style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 40,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        color: theme.primaryColor,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Icon(
-                                            Icons.star_rate_rounded,
-                                            size: 20.0,
-                                            color:Colors.white,
-                                          ),
-                                          Text(
-                                            '${course.review[0].rate}',
-                                            style: font.copyWith(fontSize: 12.0,color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        // Container(
+                        //   width: screenWidth,
+                        //   height: screenHeight/8,
+                        //   decoration: BoxDecoration(
+                        //     color: theme.primaryColor.withOpacity(.1),
+                        //     borderRadius: const BorderRadius.all(Radius.circular(15.0),),
+                        //   ),
+                        //   child:Padding(
+                        //     padding: const EdgeInsets.all(10.0),
+                        //     child: Row(
+                        //       children: [
+                        //         Padding(
+                        //           padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                        //           child: Container(
+                        //             width: 55,
+                        //             height: 55,
+                        //             decoration: BoxDecoration(
+                        //               color: theme.primaryColor.withOpacity(0.1),
+                        //               borderRadius: BorderRadius.circular(30),
+                        //               image: course.review[0].image!=null?
+                        //               DecorationImage(
+                        //                 image:  NetworkImage(course.review[0].image!),
+                        //                 fit: BoxFit.cover,
+                        //               ):
+                        //               const DecorationImage(
+                        //                 image:  AssetImage("Assets/profile/man_1.png"),
+                        //                 fit: BoxFit.cover,
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //         Column(
+                        //           mainAxisAlignment: MainAxisAlignment.center,
+                        //           crossAxisAlignment:CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               course.review[0].name,
+                        //               style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
+                        //             ),
+                        //             Text(
+                        //               course.review[0].dateTime,
+                        //               style: font.copyWith(fontSize: 12.0,color: Colors.grey),
+                        //             ),
+                        //             Expanded(
+                        //               child: Text(
+                        //                 "${course.review[0].comment}!",
+                        //                 style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //         const Spacer(),
+                        //         Column(
+                        //           crossAxisAlignment: CrossAxisAlignment.start,
+                        //           children: [
+                        //             Container(
+                        //               width: 40,
+                        //               height: 30,
+                        //               decoration: BoxDecoration(
+                        //                 color: theme.primaryColor,
+                        //                 borderRadius: BorderRadius.circular(5),
+                        //               ),
+                        //               child: Row(
+                        //                 mainAxisAlignment: MainAxisAlignment.center,
+                        //                 children: [
+                        //                   const Icon(
+                        //                     Icons.star_rate_rounded,
+                        //                     size: 20.0,
+                        //                     color:Colors.white,
+                        //                   ),
+                        //                   Text(
+                        //                     '${course.review[0].rate}',
+                        //                     style: font.copyWith(fontSize: 12.0,color: Colors.white),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         )
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

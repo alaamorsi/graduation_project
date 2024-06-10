@@ -9,6 +9,7 @@ import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
+import '../../../models/courses_model.dart';
 import '../../../shared/component/constant.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'wish_list.dart';
@@ -81,10 +82,10 @@ class HomeScreen extends StatelessWidget {
               condition: true,
               builder: (context) => SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(screenWidth *0.01),
                   child: Column(children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth *0.05),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -142,33 +143,38 @@ class HomeScreen extends StatelessWidget {
                                   .toList()),
                           SizedBox(
                             width: double.maxFinite,
-                            height: ((screenHeight / 7) * (categories.length) +
-                                100),
+                            height: ((screenHeight / 7) * (categories.length) + 100),
                             child: TabBarView(
-                                children: categories
-                                    .map((e) => ListView.builder(
-                                        physics:
+                                children: [
+                                FutureBuilder<List<CourseModel>>(
+                                    future: allCourse,
+                                    builder: (BuildContext context, AsyncSnapshot<List<CourseModel>> snapshot){
+                                      if(snapshot.hasError){
+                                        return const Text("something wrong");
+                                      }else if(snapshot.hasData){
+                                        final data = snapshot.data;
+                                        return ListView.builder(
+                                            physics:
                                             const NeverScrollableScrollPhysics(),
-                                        itemCount: categories.length,
-                                        itemBuilder: (context, index) {
-                                          int rate = 0;
-                                          for (var element
-                                              in courses[index].review) {
-                                            rate = rate + element.rate;
-                                          }
-                                          rate = rate ~/
-                                              (courses[index].review.length);
-                                          return courseItem(
-                                              context: context,
-                                              course: courses[index],
-                                              rate: rate,
-                                              color: theme.cardColor,
-                                              addToWishList: () {
-                                                cubit.addToWishList(
-                                                    courses[index]);
-                                              });
-                                        }))
-                                    .toList()),
+                                            itemCount: categories.length,
+                                            itemBuilder: (context, index) {
+                                              return courseItem(
+                                                  context: context,
+                                                  course: data![index],
+                                                  color: theme.cardColor,
+                                                  addToWishList: () {
+                                                    cubit.addToWishList(
+                                                        courses[index]);
+                                                  });
+                                            });
+                                      }
+                                      else{
+                                        return Center(child: CircularProgressIndicator(color: Colors.red.shade800,));
+                                      }
+                                    }
+                                  )
+                                ],
+                          ),
                           ),
                         ],
                       ),

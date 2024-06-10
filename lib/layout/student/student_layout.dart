@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
+import 'package:graduation_project/shared/component/constant.dart';
 
 class StudentLayout extends StatelessWidget {
   const StudentLayout({super.key});

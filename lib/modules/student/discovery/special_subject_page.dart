@@ -19,24 +19,24 @@ class SpecialSubjectPage extends StatelessWidget {
         var theme = Theme.of(context);
         return Scaffold(
           appBar: secondAppbar(context: context, title: subjectName.tr),
-          body:  ListView.builder(
-            shrinkWrap: true,
-            itemBuilder:(context,index){
-              int rate = 0;
-              for (var element in courses[index].review) {
-                rate = rate + element.rate;
-              }
-              rate = rate~/(courses[index].review.length);
-              return courseItem(
-                context: context,
-                course: courses[index],
-                rate: rate,
-                color: theme.cardColor,
-                addToWishList:(){cubit.addToWishList(courses[index]);}
-              );
-            },
-            itemCount: 0,
-          ),
+          // body:  ListView.builder(
+          //   shrinkWrap: true,
+          //   itemBuilder:(context,index){
+          //     int rate = 0;
+          //     for (var element in courses[index].review) {
+          //       rate = rate + element.rate;
+          //     }
+          //     rate = rate~/(courses[index].review.length);
+          //     return courseItem(
+          //       context: context,
+          //       course: courses[index],
+          //       rate: rate,
+          //       color: theme.cardColor,
+          //       addToWishList:(){cubit.addToWishList(courses[index]);}
+          //     );
+          //   },
+          //   itemCount: 0,
+          // ),
         );
       },
     );

@@ -70,9 +70,9 @@ class LoginCubit extends Cubit<LoginStates> {
               key: 'biography',
               value: loginModel.biography ?? "enter your bio here");
           if (loginModel.profilePicture != null) {
-            Uint8List bytes = base64Decode(loginModel.profilePicture!);
-            String pictureStr = base64Encode(bytes);
-            CacheHelper.saveData(key: 'profileStr', value: pictureStr);
+            // Uint8List bytes = base64Decode(loginModel.profilePicture!);
+            // String pictureStr = base64Encode(bytes);
+            CacheHelper.saveData(key: 'profileStr', value: loginModel.profilePicture!);
           }
           emit(LoginSuccessState());
         } else if (!loginModel.emailConfirmed) {

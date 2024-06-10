@@ -18,34 +18,34 @@ class WishListScreen extends StatelessWidget {
           var cubit = StudentCubit.get(context);
         return Scaffold(
           appBar: secondAppbar(context: context, title: 'WishList'.tr),
-          body: ConditionalBuilder(
-              condition: cubit.wishList.isNotEmpty,
-              builder: (context) {
-              return SingleChildScrollView(
-                  child: Column(
-                      children: cubit.wishList.map((course) {
-                        int rate = 0;
-                        for (var element in course.review) {
-                          rate = rate + element.rate;
-                        }
-                        rate = rate~/(course.review.length);
-                        return courseItem(
-                            context: context,
-                            course: course,
-                            rate: rate,
-                            color: theme.cardColor,
-                            addToWishList:(){cubit.addToWishList(course);}
-                        );
-                      }).toList()
-                  ),
-                );
-            },
-            fallback: (context)=> Center(
-                child: Text('Your WishList is Empty'.tr,
-                  style: font.copyWith(color: theme.primaryColor,fontSize: 18.0),
-                ),
-            ),
-          ),
+          // body: ConditionalBuilder(
+          //     condition: cubit.wishList.isNotEmpty,
+          //     builder: (context) {
+          //     return SingleChildScrollView(
+          //         child: Column(
+          //             children: cubit.wishList.map((course) {
+          //               int rate = 0;
+          //               for (var element in course.review) {
+          //                 rate = rate + element.rate;
+          //               }
+          //               rate = rate~/(course.review.length);
+          //               return courseItem(
+          //                   context: context,
+          //                   course: course,
+          //                   rate: rate,
+          //                   color: theme.cardColor,
+          //                   addToWishList:(){cubit.addToWishList(course);}
+          //               );
+          //             }).toList()
+          //         ),
+          //       );
+          //   },
+          //   fallback: (context)=> Center(
+          //       child: Text('Your WishList is Empty'.tr,
+          //         style: font.copyWith(color: theme.primaryColor,fontSize: 18.0),
+          //       ),
+          //   ),
+          // ),
         );
       }
     );

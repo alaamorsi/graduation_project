@@ -1,9 +1,12 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motion_toast/motion_toast.dart';
-import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
-import 'package:graduation_project/shared/component/test.dart';
+// import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../../models/courses_model.dart';
 import 'constant.dart';
 /////////////////////////////////////////////////////
 
@@ -308,39 +311,37 @@ Widget slideItem({
   required String image,
   required void Function()? onTap,
 }) {
-  return Padding(
-    padding: const EdgeInsets.all(9.0),
-    child: InkWell(
-      onTap:onTap,
-      child: Container(
-        padding: const EdgeInsets.all(20.0),
-        width: screenWidth,
-        height: screenHeight/4,
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(.7),
-          borderRadius: const BorderRadius.all(Radius.circular(23.0)), // color: cardColor,
-        ),
-        child:Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image(image: AssetImage(image),fit:BoxFit.cover,height: screenWidth * .36,),
-            const SizedBox(width: 9),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width:screenWidth * .4,
-                  child:Text(title,
-                    style: font.copyWith(fontSize: screenWidth * .066, fontWeight: FontWeight.bold,color: Colors.white),
-                    maxLines: 3,
-                  ),
+  return InkWell(
+    onTap:onTap,
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth *0.05,vertical:screenWidth *0.075),
+      margin:  EdgeInsets.all(screenWidth * 0.02),
+      width: screenWidth * 0.9,
+      height: screenHeight * 0.4,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor.withOpacity(.7),
+        borderRadius: const BorderRadius.all(Radius.circular(23.0)), // color: cardColor,
+      ),
+      child:Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image(image: AssetImage(image),fit:BoxFit.cover,width: screenWidth * .3,),
+          SizedBox(width: screenWidth * .1),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width:screenWidth * .4,
+                child:Text(title,
+                  style: font.copyWith(fontSize: screenWidth * .066, fontWeight: FontWeight.bold,color: Colors.white),
+                  maxLines: 3,
                 ),
-                const SizedBox(height: 50),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     ),
   );
@@ -349,16 +350,22 @@ Widget slideItem({
 // Discovery item
 Widget courseItem({
   required BuildContext context,
-  required Course course,
+  required CourseModel course,
   required Color color,
-  required int rate,
   bool isReserved =false,
   required void Function() addToWishList,
 }) {
+  ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
+  if(course.instProfilePicture!=null){
+    Uint8List picture = base64Decode(course.instProfilePicture as String);
+    image = MemoryImage(picture);
+  }
   return Padding(
     padding: const EdgeInsets.all(9.0),
     child: InkWell(
-      onTap: (){navigateTo(context, CourseDemo(course: course,));},
+      onTap: (){
+          // navigateTo(context, CourseDemo(course: ,));
+        },
       child: Container(
         width: screenWidth,
         height: screenHeight/7,
@@ -379,7 +386,7 @@ Widget courseItem({
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
-                      image:  NetworkImage(course.teacherImage),
+                      image:  image,
                       fit: BoxFit.cover,),
                   ),
                 ),
@@ -397,7 +404,7 @@ Widget courseItem({
                   const SizedBox(height: 5,),
                   Expanded(
                     child: Text(
-                      '${course.videosNumber} ${'lessons'.tr}',
+                      '${course.lessonsNumber} ${'lessons'.tr}',
                       style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
                     ),
                   ),
@@ -409,7 +416,7 @@ Widget courseItem({
                           size: 20.0,
                           color: HexColor("FDBD01"),
                         ),
-                        Text('${rate.toDouble()}',
+                        Text('${course.rate}',
                           style: font.copyWith(fontSize: 12.0,color: Colors.black.withOpacity(.5)),
                         ),
                       ],
@@ -425,7 +432,7 @@ Widget courseItem({
                   Expanded(
                     child: IconButton(
                         onPressed: addToWishList,
-                        icon: course.inFavourite?  Icon(Icons.favorite,color: color,) : Icon(Icons.favorite_border,color: color,)
+                        icon: course.isFavourite?  Icon(Icons.favorite,color: color,) : Icon(Icons.favorite_border,color: color,)
                     ),
                   ),
                   Expanded(
