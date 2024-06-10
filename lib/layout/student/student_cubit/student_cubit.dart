@@ -136,11 +136,6 @@ class StudentCubit extends Cubit<StudentStates> {
     try{
       Response response = await sendRequest(
           method: 'updateImage', url: updateImage, formData: formData);
-
-      // Response response = await DioHelper.updateImage(
-      //   url: updateImage,
-      //   data: formData,
-      // );
       emit(UpdateProfileImageSuccessState());
       return response.statusCode;
     }catch(error){
@@ -191,7 +186,6 @@ class StudentCubit extends Cubit<StudentStates> {
     }
     try{
       Response response =
-      // await DioHelper.patchData(url: updateDataPatch, data: updateData);
       await sendRequest(
           method: 'patch', url: updateDataPatch, listMap: updateData);
       if(updateFirstName) {
@@ -217,7 +211,6 @@ class StudentCubit extends Cubit<StudentStates> {
   Future<dynamic> sendRequest(
       {required String method,
         required String url,
-        String? token,
         Map<String, String>? data,
         List<Map<String, dynamic>>? listMap,
         FormData? formData}) async {
@@ -231,10 +224,10 @@ class StudentCubit extends Cubit<StudentStates> {
           return await DioHelper.putData(url: url, data: data!);
         case 'delete':
           return await DioHelper.delete(
-              url: url, data: data!,);
+            url: url, data: data,);
         case 'patch':
           return await DioHelper.patchData(url: url, data: listMap!);
-        case 'updateImage':
+        case 'updateimage':
           return await DioHelper.updateImage(url: url, data: formData);
         default:
           throw UnsupportedError('Method $method is not supported');
@@ -253,7 +246,6 @@ class StudentCubit extends Cubit<StudentStates> {
             return await sendRequest(
                 method: method,
                 url: url,
-                token: token,
                 data: data,
                 listMap: listMap,
                 formData: formData);
@@ -273,22 +265,18 @@ class StudentCubit extends Cubit<StudentStates> {
 
   Future<int?> logOut(String refreshToken) async {
     try {
-      // Response response = await DioHelper.delete(
-      //   url: logout,
-      //   token: refreshToken,
-      // );
       Response response =
-      await sendRequest(method: 'delete', url: logout, token: refreshToken);
+      await sendRequest(method: 'delete', url: logout, data: {'refreshToken' : refreshToken});
       await clearCache();
       return response.statusCode;
     } catch (error) {
-      if (error == 401) {
-        // emit(LogOutErrorState());
-        // return error.response!.statusCode;
+      if (error is int && error == 401) {
         await clearCache();
+        return 200;
+      } else {
+        return 404;
       }
     }
-    return null;
   }
 
   Future clearCache() async {

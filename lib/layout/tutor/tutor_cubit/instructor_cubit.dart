@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -137,13 +136,14 @@ class InstructorCubit extends Cubit<InstructorStates> {
       });
     }
     try {
-      Response response = await sendRequest(
+      Response<dynamic> response = await sendRequest(
           method: 'updateImage', url: updateImage, formData: formData);
       emit(UpdateProfileImageSuccessState());
-      return response.statusCode;
+      return 200;
     } catch (error) {
       if (error == 401) {
         emit(SessionEndedState());
+        return 401;
       } else if (error is DioException) {
         emit(UpdateProfileImageErrorState());
         return error.response!.statusCode;
@@ -248,15 +248,12 @@ class InstructorCubit extends Cubit<InstructorStates> {
       Response response =
           await sendRequest(method: 'delete', url: logout, data: {'refreshToken' : refreshToken});
       await clearCache();
-      print('from tryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
       return response.statusCode;
     } catch (error) {
       if (error is int && error == 401) {
-        print('from catch ifffffffffffffffffffffffffffffffffffff');
         await clearCache();
         return 200;
       } else {
-        print('from catch elseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
         return 404;
       }
     }
@@ -278,10 +275,10 @@ class InstructorCubit extends Cubit<InstructorStates> {
           return await DioHelper.putData(url: url, data: data!);
         case 'delete':
           return await DioHelper.delete(
-              url: url, data: data!,);
+              url: url, data: data,);
         case 'patch':
           return await DioHelper.patchData(url: url, data: listMap!);
-        case 'updateImage':
+        case 'updateimage':
           return await DioHelper.updateImage(url: url, data: formData);
         default:
           throw UnsupportedError('Method $method is not supported');

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 
@@ -69,12 +67,15 @@ class DioHelper
     FormData? data,
   }) async{
     dio.options.headers ={
+      'Content-Type':'application/json',
       'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
       Response<dynamic> response = await dio.post(url,data: data,);
+      (response.statusCode);
       return response;
     } catch(e){
+      (e);
       rethrow;
     }
   }
