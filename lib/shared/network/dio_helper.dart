@@ -22,10 +22,15 @@ class DioHelper
   })async
   {
     dio.options.headers ={
-      'Content-Type':'application/json',
+      // 'Content-Type':'application/json',
       'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
-    return await dio.get(url ,queryParameters: query);
+    try{
+      var response = await dio.get(url ,queryParameters: query);
+      return response;
+    }catch(e){
+      rethrow;
+    }
   }
 
   static Future<Response> postData ({

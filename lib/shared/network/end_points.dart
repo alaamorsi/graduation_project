@@ -9,4 +9,4 @@ String updateImage='Account/settings/profile-picture';
 String logout='Account/sign-out';
 String updateTokens='Account/tokens';
 String orderId='Course/order-id';
-String getCoursesEndPoint='Course/';
+String getCoursesEndPoint='Course/1';

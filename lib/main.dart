@@ -48,12 +48,12 @@ class MyApp extends StatelessWidget {
     screenHeight = MediaQuery.of(context).size.height;
     int themeId = CacheHelper.getData(key: "themeId")??1;
     langTitle = CacheHelper.getData(key: 'language')??langTitle;
-    return MultiBlocProvider(
+    return MultiBlocProvider (
       providers: [
         BlocProvider(create: (context)=>AppCubit()..changeTheme(themeId)),
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit()),
-        BlocProvider(create: (context)=>StudentCubit()..getUser()..getImage()..getCourses(1)),
+        BlocProvider(create: (context)=>StudentCubit()..getUser()..getImage()),
         BlocProvider(create: (context)=>InstructorCubit()..getData()..getImage()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(

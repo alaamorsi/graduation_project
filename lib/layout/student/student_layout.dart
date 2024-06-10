@@ -12,10 +12,10 @@ class StudentLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<StudentCubit,StudentStates>(
         listener: (context,state) {},
-        builder:(context,state){
+        builder:(context,state) {
           var cubit = StudentCubit.get(context);
           var theme = Theme.of(context);
-          return Scaffold(
+          return Scaffold (
             backgroundColor: theme.scaffoldBackgroundColor,
             body: cubit.screens[cubit.currentIndex],
             bottomNavigationBar:Container(
