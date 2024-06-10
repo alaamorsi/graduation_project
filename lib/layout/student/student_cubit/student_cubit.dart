@@ -268,12 +268,13 @@ class StudentCubit extends Cubit<StudentStates> {
       Response response =
       await sendRequest(method: 'delete', url: logout, data: {'refreshToken' : refreshToken});
       await clearCache();
-      return response.statusCode;
+      return 200;
     } catch (error) {
       if (error is int && error == 401) {
         await clearCache();
         return 200;
       } else {
+        emit(SessionEndedState());
         return 404;
       }
     }
