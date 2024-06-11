@@ -13,46 +13,49 @@ class LessonsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CourseCubit.get(context).initializeFlickManager(CourseCubit.get(context).openedCourse.lessons[CourseCubit.get(context).currentVideoIndex].videoUrl);
     var theme = Theme.of(context);
-    return BlocConsumer<CourseCubit,CourseStates>(
-        listener: (context,state) {},
-        builder:(context,state){
-        var course = CourseCubit.get(context);
-        return Scaffold(
-          appBar: secondAppbar(context: context, title: "lessons".tr),
-          body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FlickVideoPlayer(flickManager: course.flickManager),
-                const SizedBox(height: 20,),
-                Text('Next Lesson'.tr,style: font.copyWith(color: theme.primaryColorDark.withOpacity(.6),fontSize: 16.0,fontWeight: FontWeight.bold)),
-                SizedBox(
-                  height: screenHeight/2.5,
-                  width: double.infinity,
-                  child: ListView.separated(
-                    itemBuilder: (BuildContext context, int index)=>
-                        buildLessonItem(
-                          context: context,
-                          index: index,
-                          course: course.openedCourse,
-                          theme: theme,
-                          playedIndex : course.currentVideoIndex,
-                          onTap: () {
-                            course.playWithName(index,course.openedCourse.lessons[index].videoUrl);
-                          },
-                        ),
-                    separatorBuilder: (BuildContext context, int index)=>const SizedBox(height: 20,),
-                    itemCount: course.openedCourse.videosNumber,),
-                )
-              ],
+    return BlocProvider<CourseCubit>(
+      create: (BuildContext context)=>CourseCubit()..initializeFlickManager(CourseCubit.get(context).openedCourse.lessons[CourseCubit.get(context).currentVideoIndex].videoUrl),
+      lazy: false,
+      child: BlocConsumer<CourseCubit,CourseStates>(
+          listener: (context,state) {},
+          builder:(context,state){
+          var course = CourseCubit.get(context);
+          return Scaffold(
+            appBar: secondAppbar(context: context, title: "lessons".tr),
+            body: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FlickVideoPlayer(flickManager: course.flickManager),
+                  const SizedBox(height: 20,),
+                  Text('Next Lesson'.tr,style: font.copyWith(color: theme.primaryColorDark.withOpacity(.6),fontSize: 16.0,fontWeight: FontWeight.bold)),
+                  SizedBox(
+                    height: screenHeight/2.5,
+                    width: double.infinity,
+                    child: ListView.separated(
+                      itemBuilder: (BuildContext context, int index)=>
+                          buildLessonItem(
+                            context: context,
+                            index: index,
+                            course: course.openedCourse,
+                            theme: theme,
+                            playedIndex : course.currentVideoIndex,
+                            onTap: () {
+                              course.playWithName(index,course.openedCourse.lessons[index].videoUrl);
+                            },
+                          ),
+                      separatorBuilder: (BuildContext context, int index)=>const SizedBox(height: 20,),
+                      itemCount: course.openedCourse.videosNumber,),
+                  )
+                ],
+              ),
             ),
+      );
+          }
           ),
     );
-        }
-        );
   }
 
   Widget buildLessonItem({

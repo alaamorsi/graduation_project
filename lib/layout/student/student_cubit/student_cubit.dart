@@ -70,19 +70,16 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StartSearchState());
   }
 
-  Future getCourses(int pageNumber) async{
+  Future<List<CourseModel>> getAllCourses(int pageNumber) async{
         try{
           Response response = await sendRequest(method: 'get', url: getCoursesEndPoint);
-          print('###################################################');
           print(response);
-          final List<CourseModel> decodedData = json.decode(response.data);
-          decodedData.map((movie) => CourseModel.fromJson(movie as Map<String, dynamic>)).toList();
-          allCourse = Future.value(decodedData);
+          final decodedData = json.decode(response.data);
           emit(StudentGetCoursesSuccessState());
+          return decodedData.map((movie) => CourseModel.fromJson(movie)).toList();
         }
         catch(e){
-          print('Nullllllllllllllllllllllllllllllllllllllll');
-          print(e);
+          throw Exception("Nullllllllllll");
         }
     }
 

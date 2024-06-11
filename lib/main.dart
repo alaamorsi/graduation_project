@@ -58,7 +58,8 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
-        builder: (context,state){
+        builder: (context,state) {
+          allCourse = StudentCubit.get(context).getAllCourses(1);
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: AppCubit.get(context).theme,

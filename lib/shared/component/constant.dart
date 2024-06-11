@@ -15,28 +15,26 @@ String? jwt = '';
 String? role = '';
 late bool firstInstall;
 
-Future<List<CourseModel>>? allCourse;
+late Future<List<CourseModel>> allCourse;
 
 const List<String> subjects = [
   'Arabic',
   'English',
+  'Maths',
+  'Sciences',
+  'SocialStudies',
   'German',
   'Spanish',
   'Italian',
   'French',
-  'Maths',
-  'Sciences',
-  'SocialStudies',
-  'Geography',
   'History',
-  'Philosophy',
-  'Psychology',
+  'Geography',
   'Chemistry',
   'Physics',
+  'Philosophy',
+  'Psychology',
   'Biology',
   'Geology',
-  'ReligiousEducation',
-  'Computer',
   'Economics',
   'Statistics',
 ];

@@ -17,7 +17,6 @@ class _StudentLayoutState extends State<StudentLayout> {
   @override
   void initState(){
     super.initState();
-    StudentCubit.get(context).getCourses(1);
   }
   @override
   Widget build(BuildContext context) {

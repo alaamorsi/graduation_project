@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:get/get.dart';
+import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/test.dart';
 import '../course_cubit/course_cubit.dart';
 import '../course_cubit/course_states.dart';
+import 'Exams.dart';
+import 'assignments.dart';
+import 'chats_screen.dart';
+import 'lessons_screen.dart';
 
 class ClassLeader extends StatelessWidget {
   final MyCourse course;
@@ -12,68 +18,62 @@ class ClassLeader extends StatelessWidget {
   @override Widget build(BuildContext context) {
     return BlocProvider<CourseCubit>(
       create: (BuildContext context)=>CourseCubit()..openCourse(course),
+      lazy: false,
       child:BlocConsumer<CourseCubit,CourseStates>(
           listener: (context,state) {},
           builder:(context,state){
-            var cubit = CourseCubit.get(context);
+            // var cubit = CourseCubit.get(context);
             var theme = Theme.of(context);
             return Scaffold(
               backgroundColor: theme.scaffoldBackgroundColor,
-              body: cubit.screens[cubit.currentIndex],
-              bottomNavigationBar:Container(
-                decoration: BoxDecoration(
-                  color: theme.scaffoldBackgroundColor,
-                ),
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
-                    child: Container(
-                      padding: const EdgeInsets.all(9),
-                      decoration: BoxDecoration(
-                        color: theme.primaryColorLight,
-                        borderRadius: const BorderRadius.all(Radius.circular(18)),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 15,
-                            color: theme.primaryColorDark.withOpacity(.1),
-                            offset: const Offset(0, -5),
-                          )
-                        ],
-                      ),
-                      child: GNav(
-                        hoverColor: theme.canvasColor,
-                        gap: 3,
-                        iconSize: 25,
-                        padding: const EdgeInsets.all(9),
-                        duration: const Duration(milliseconds: 500),
-                        color: theme.primaryColorDark.withOpacity(0.3),//the unselected items
-                        tabBackgroundColor: theme.primaryColor.withOpacity(0.2),//the tabbed item
-                        tabBorderRadius: 15,
-                        activeColor: theme.primaryColor,
-                        tabs: const [
-                          GButton(
-                            icon: Icons.video_collection,
-                            text: 'Lessons',
-                          ),
-                          GButton(
-                            icon: Icons.chat_rounded,
-                            text: 'Chats',
-                          ),
-                          GButton(
-                            icon: Icons.assignment,
-                            text: 'Assignments',
-                          )
-                        ],
-                        selectedIndex: cubit.currentIndex,
-                        onTabChange: (index){
-                          cubit.changeBottomNav(index);
-                          if(index!=0){
-                            cubit.pauseVideo();
-                          }
-                        },
-                      ),
+              appBar: secondAppbar(
+                context: context,
+                title:course.subject.tr,
+              ),
+              body: Padding(padding:  EdgeInsets.symmetric(horizontal: screenWidth * .02),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  children: [
+                    dashboardItem(
+                      context: context,
+                      title: "Lessons",
+                      image: "Assets/for_teacher/recorded.png",
+                      goTo: () {
+                        navigateTo(context, const LessonsScreen());
+                      },
                     ),
-                  ),
+                    dashboardItem(
+                      context: context,
+                      title: "Chat",
+                      image: "Assets/for_teacher/chat.png",
+                      goTo: () {
+                        Get.to(()=>const ChatsScreen());
+                      },
+                    ),
+                    dashboardItem(
+                      context: context,
+                      title: "Exams",
+                      image: "Assets/for_teacher/exam.png",
+                      goTo: () {
+                        Get.to(()=>const ExamsScreen());
+                      },
+                    ),
+                    dashboardItem(
+                      context: context,
+                      title: "Assignments",
+                      image: "Assets/for_teacher/exam.png",
+                      goTo: () {
+                        Get.to(()=>const AssignmentScreen());
+                      },
+                    ),
+                    dashboardItem(
+                      context: context,
+                      title: "Attachments",
+                      image: "Assets/for_teacher/attach.png",
+                      goTo: () {},
+                    ),
+                  ],
                 ),
               ),
             );

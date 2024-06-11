@@ -26,7 +26,7 @@ class DioHelper
       'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
-      var response = await dio.get(url ,queryParameters: query);
+      Response<dynamic> response = await dio.get(url ,queryParameters: query);
       return response;
     }catch(e){
       rethrow;

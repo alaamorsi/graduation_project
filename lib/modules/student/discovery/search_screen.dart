@@ -93,8 +93,6 @@ class _MultiSelectState extends State<MultiSelect> {
     false,
     false,
     false,
-    false,
-    false,
   ];
   final prices=[
     '<${'EGP'.tr}200',
@@ -109,6 +107,7 @@ class _MultiSelectState extends State<MultiSelect> {
 
   List<String> selectedItems =[];
   bool isPrim=true;
+  bool isMidLevel=false;
 
   void itemChange(String itemValue, bool isSelected) {
     setState(() {
@@ -165,30 +164,50 @@ class _MultiSelectState extends State<MultiSelect> {
                     chooses(context, 3,theme),
                     chooses(context, 4,theme),
                   ]),
-              fallback: (context)=>Wrap(
-                  children: [
-                    chooses(context, 0,theme),
-                    chooses(context, 1,theme),
-                    chooses(context, 2,theme),
-                    chooses(context, 3,theme),
-                    chooses(context, 4,theme),
-                    chooses(context, 5,theme),
-                    chooses(context, 6,theme),
-                    chooses(context, 7,theme),
-                    chooses(context, 8,theme),
-                    chooses(context, 9,theme),
-                    chooses(context, 10,theme),
-                    chooses(context, 11,theme),
-                    chooses(context, 12,theme),
-                    chooses(context, 13,theme),
-                    chooses(context, 14,theme),
-                    chooses(context, 15,theme),
-                    chooses(context, 16,theme),
-                    chooses(context, 17,theme),
-                    chooses(context, 18,theme),
-                    chooses(context, 19,theme),
-                    chooses(context, 20,theme),
-                  ]),
+              fallback: (context)=>ConditionalBuilder(
+                condition: isMidLevel,
+                builder: (context) {
+                  return Wrap(
+                      children: [
+                        chooses(context, 0,theme),
+                        chooses(context, 1,theme),
+                        chooses(context, 2,theme),
+                        chooses(context, 3,theme),
+                        chooses(context, 4,theme),
+                        chooses(context, 5,theme),
+                        chooses(context, 6,theme),
+                        chooses(context, 7,theme),
+                        chooses(context, 8,theme),
+                        chooses(context, 9,theme),
+                        chooses(context, 10,theme),
+                        chooses(context, 11,theme),
+                        chooses(context, 12,theme),
+                      ]);},
+                fallback: (context){
+                  return Wrap(
+                      children: [
+                        chooses(context, 0,theme),
+                        chooses(context, 1,theme),
+                        chooses(context, 2,theme),
+                        chooses(context, 3,theme),
+                        chooses(context, 4,theme),
+                        chooses(context, 5,theme),
+                        chooses(context, 6,theme),
+                        chooses(context, 7,theme),
+                        chooses(context, 8,theme),
+                        chooses(context, 9,theme),
+                        chooses(context, 10,theme),
+                        chooses(context, 11,theme),
+                        chooses(context, 12,theme),
+                        chooses(context, 13,theme),
+                        chooses(context, 14,theme),
+                        chooses(context, 15,theme),
+                        chooses(context, 16,theme),
+                        chooses(context, 17,theme),
+                        chooses(context, 18,theme),
+                      ]);
+                  },
+              ),
             ),
             const SizedBox(height: 10.0,),
             Text('Price',style: font.copyWith(color: theme.primaryColorDark,fontSize: 17.0,fontWeight: FontWeight.w500)),
@@ -258,9 +277,14 @@ class _MultiSelectState extends State<MultiSelect> {
                   itemChange(stage[i], false);
                 }
                 if(levelSelections[0]){
-                  isPrim=false;
-                } else if(levelSelections[1]||levelSelections[2]){
                   isPrim=true;
+                  isMidLevel=false;
+                } else if(levelSelections[1]){
+                  isMidLevel=true;
+                  isPrim=false;
+                } else{
+                  isPrim=false;
+                  isMidLevel=false;
                 }
                 itemChange(stage[index], select);
               });
@@ -311,7 +335,7 @@ class _MultiSelectState extends State<MultiSelect> {
               setState(() {
                 itemChange(prices[index], select);
                 pricesSelection[index] = !pricesSelection[index];
-                for(int i=0;i<15;i++) {
+                for(int i=0;i<3;i++) {
                   if(pricesSelection[i]){
                     continue;
                   }

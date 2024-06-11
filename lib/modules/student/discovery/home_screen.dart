@@ -146,7 +146,7 @@ class HomeScreen extends StatelessWidget {
                             height: ((screenHeight / 7) * (categories.length) + 100),
                             child: TabBarView(
                                 children: [
-                                FutureBuilder<List<CourseModel>>(
+                                FutureBuilder(
                                     future: allCourse,
                                     builder: (BuildContext context, AsyncSnapshot<List<CourseModel>> snapshot){
                                       if(snapshot.hasError){
@@ -156,11 +156,11 @@ class HomeScreen extends StatelessWidget {
                                         return ListView.builder(
                                             physics:
                                             const NeverScrollableScrollPhysics(),
-                                            itemCount: categories.length,
+                                            itemCount: data!.length,
                                             itemBuilder: (context, index) {
                                               return courseItem(
                                                   context: context,
-                                                  course: data![index],
+                                                  course: data[index],
                                                   color: theme.cardColor,
                                                   addToWishList: () {
                                                     cubit.addToWishList(

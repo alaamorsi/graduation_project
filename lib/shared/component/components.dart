@@ -550,6 +550,40 @@ Widget themeItem({
   );
 }
 
-
-
+Widget dashboardItem({
+  required BuildContext context,
+  required String title,
+  required String image,
+  required void Function() goTo,
+}) {
+  return InkWell(
+    onTap: goTo,
+    child: Container(
+      padding: EdgeInsets.all(screenWidth * .03),
+      margin: EdgeInsets.all(screenWidth * .03),
+      height: screenHeight * .2,
+      width: screenWidth * .42,
+      decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: [
+            BoxShadow(
+                color: Theme.of(context).cardColor,
+                blurRadius: .9,
+                spreadRadius: .6),
+          ]),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 27,
+            child: Image(image: AssetImage(image))
+          ),
+          SizedBox(height: screenHeight*.02,),
+          Text(title, style: font.copyWith(fontSize: 16.0, color: Theme.of(context).primaryColor),),
+        ],
+      ),
+    ),
+  );
+}
 
