@@ -244,17 +244,19 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
 
   Future<int?> logOut(String refreshToken) async {
+    emit(LogOutLoadingInsState());
     try {
       Response response =
           await sendRequest(method: 'delete', url: logout, data: {'refreshToken' : refreshToken});
       await clearCache();
+      emit(LogOutSuccessState());
       return 200;
     } catch (error) {
       if (error is int && error == 401) {
         await clearCache();
+        emit(LogOutSuccessState());
         return 200;
       } else {
-        emit(SessionEndedState());
         return 404;
       }
     }

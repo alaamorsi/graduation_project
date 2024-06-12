@@ -49,7 +49,7 @@ class PaymentManagerSuccessState extends InstructorStates {}
 class PaymentManagerErrorState extends InstructorStates {}
 
 // log out tutor
-class LogOutLoadingState extends InstructorStates {}
+class LogOutLoadingInsState extends InstructorStates {}
 
 class LogOutSuccessState extends InstructorStates {}
 

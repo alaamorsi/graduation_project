@@ -159,7 +159,7 @@ class HomeScreen extends StatelessWidget {
                                       .toList()),
                               SizedBox(
                                 width: double.maxFinite,
-                                height: (cubit.courses.length * (screenHeight/7)),
+                                height: (cubit.courses.length.toInt()*(screenHeight/7))+60.0,
                                 child: TabBarView(
                                   children: [
                                     coursesCardList(state, cubit, theme, cubit.courses),
@@ -201,11 +201,13 @@ class HomeScreen extends StatelessWidget {
       },
       fallback: (BuildContext context) {
         if(state is StudentGetCoursesLoadingState) {
-          return CircularProgressIndicator(color: theme.canvasColor,);
+          return Center(child: SizedBox(
+            width: 50.0,
+              height: 50.0,
+              child: CircularProgressIndicator(color: theme.primaryColor,)));
         }
         else if(state is StudentGetCoursesErrorState) {
-          return const Center(child: Text("Ops , SomeThing went wrong"));
-
+          return Text("Ops , SomeThing went wrong");
         }
         else{
           return ListView.builder(

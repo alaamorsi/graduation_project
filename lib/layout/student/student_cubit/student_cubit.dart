@@ -72,11 +72,10 @@ class StudentCubit extends Cubit<StudentStates> {
 
   void getCourses() {
     emit(StudentGetCoursesLoadingState());
-    DioHelper.getData(url: getCoursesEndPoint).then((value) {
+    sendRequest(method: 'get', url: getCoursesEndPoint).then((value) {
       courses = (value.data as List).map((course) => CourseModel.fromJson(course)).toList();
       emit(StudentGetCoursesSuccessState());
     }).catchError((error) {
-      print(error.toString());
       emit(StudentGetCoursesErrorState());
     });
   }
@@ -229,12 +228,13 @@ class StudentCubit extends Cubit<StudentStates> {
       {required String method,
       required String url,
       Map<String, String>? data,
+      Map<String, dynamic>? query,
       List<Map<String, dynamic>>? listMap,
       FormData? formData}) async {
     try {
       switch (method.toLowerCase()) {
         case 'get':
-          return await DioHelper.getData(url: url, query: data!);
+          return await DioHelper.getData(url: url,query: query);
         case 'post':
           return await DioHelper.postData(url: url, data: data!);
         case 'put':
@@ -267,6 +267,7 @@ class StudentCubit extends Cubit<StudentStates> {
                 method: method,
                 url: url,
                 data: data,
+                query: query,
                 listMap: listMap,
                 formData: formData);
           } catch (e) {
@@ -284,17 +285,19 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
   Future<int?> logOut(String refreshToken) async {
+    emit(LogOutLoadingState());
     try {
       await sendRequest(
           method: 'delete', url: logout, data: {'refreshToken': refreshToken});
       await clearCache();
+      emit(LogOutSuccessState());
       return 200;
     } catch (error) {
       if (error is int && error == 401) {
         await clearCache();
+        emit(LogOutSuccessState());
         return 200;
       } else {
-        emit(SessionEndedState());
         return 404;
       }
     }
@@ -317,6 +320,6 @@ class StudentCubit extends Cubit<StudentStates> {
     lastName = '';
     bio = '';
     imageProvider = const AssetImage("Assets/profile/man_1.png");
-    emit(LogOutSuccessState());
+    // emit(LogOutSuccessState());
   }
 }
