@@ -146,60 +146,34 @@ class HomeScreen extends StatelessWidget {
                             height: ((screenHeight / 7) * (categories.length) + 100),
                             child: TabBarView(
                                 children: [
-                                FutureBuilder(
-                                    future: allCourse,
-                                    builder: (BuildContext context, AsyncSnapshot<List<CourseModel>> snapshot){
-                                      if(snapshot.hasError){
-                                        return const Text("something wrong");
-                                      }else if(snapshot.hasData){
-                                        final data = snapshot.data;
-                                        return ListView.builder(
-                                            physics:
-                                            const NeverScrollableScrollPhysics(),
-                                            itemCount: data!.length,
-                                            itemBuilder: (context, index) {
-                                              return courseItem(
-                                                  context: context,
-                                                  course: data[index],
-                                                  color: theme.cardColor,
-                                                  addToWishList: () {
-                                                    cubit.addToWishList(
-                                                        courses[index]);
-                                                  });
+                            ListView.builder(
+                            physics:
+                            const NeverScrollableScrollPhysics(),
+                              itemCount: cubit.courses.length,
+                              itemBuilder: (context, index) {
+                                return courseItem(
+                                    context: context,
+                                    course: cubit.courses[index],
+                                    color: theme.cardColor,
+                                    addToWishList: () {
+                                      cubit.addToWishList(
+                                          courses[index]);
+                                    });
+                              }),
+                                  ListView.builder(
+                                      physics:
+                                      const NeverScrollableScrollPhysics(),
+                                      itemCount: categories.length,
+                                      itemBuilder: (context, index) {
+                                        return courseItem(
+                                            context: context,
+                                            course: cubit.courses[index],
+                                            color: theme.cardColor,
+                                            addToWishList: () {
+                                              cubit.addToWishList(
+                                                  courses[index]);
                                             });
-                                      }
-                                      else{
-                                        return Center(child: CircularProgressIndicator(color: Colors.red.shade800,));
-                                      }
-                                    }
-                                  ),
-                                  FutureBuilder<List<CourseModel>>(
-                                      future: allCourse,
-                                      builder: (BuildContext context, AsyncSnapshot<List<CourseModel>> snapshot){
-                                        if(snapshot.hasError){
-                                          return const Text("something wrong");
-                                        }else if(snapshot.hasData){
-                                          final data = snapshot.data;
-                                          return ListView.builder(
-                                              physics:
-                                              const NeverScrollableScrollPhysics(),
-                                              itemCount: categories.length,
-                                              itemBuilder: (context, index) {
-                                                return courseItem(
-                                                    context: context,
-                                                    course: data![index],
-                                                    color: theme.cardColor,
-                                                    addToWishList: () {
-                                                      cubit.addToWishList(
-                                                          courses[index]);
-                                                    });
-                                              });
-                                        }
-                                        else{
-                                          return Center(child: CircularProgressIndicator(color: Colors.red.shade800,));
-                                        }
-                                      }
-                                  ),
+                                      }),
                                 ],
                           ),
                           ),

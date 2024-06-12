@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -38,93 +39,96 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StudentChangeBottomNavState());
   }
 
-  List<Course> wishList=[];
-  void addToWishList(Course course)
-  {
+  List<Course> wishList = [];
+
+  void addToWishList(Course course) {
     course.inFavourite = !course.inFavourite;
-    if(course.inFavourite){
+    if (course.inFavourite) {
       wishList.add(course);
-    }
-    else if (!course.inFavourite){
+    } else if (!course.inFavourite) {
       wishList.remove(course);
     }
     emit(CheckFavoriteState());
   }
 
   bool isFavorite = false;
-  void checkFavorite()
-  {
-    isFavorite =!isFavorite;
+
+  void checkFavorite() {
+    isFavorite = !isFavorite;
     emit(CheckFavoriteState());
   }
 
   bool startSearching = false;
-  void showSearchFilter(context) async
-  {
+
+  void showSearchFilter(context) async {
     await showAdaptiveDialog(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return const MultiSelect();
-        }
-    );
+        });
     emit(StartSearchState());
   }
 
-  Future<List<CourseModel>> getAllCourses(int pageNumber) async{
-        try{
-          Response response = await sendRequest(method: 'get', url: getCoursesEndPoint);
-          print(response);
-          final decodedData = json.decode(response.data);
-          emit(StudentGetCoursesSuccessState());
-          return decodedData.map((movie) => CourseModel.fromJson(movie)).toList();
-        }
-        catch(e){
-          throw Exception("Nullllllllllll");
-        }
-    }
+  List<CourseModel> courses = [];
 
+  void getCourses() {
+    DioHelper.getData(url: getCoursesEndPoint).then((value) {
+      courses = (value.data as List).map((course) => CourseModel.fromJson(course)).toList();
+      emit(StudentGetCoursesSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(StudentGetCoursesErrorState());
+    });
+  }
 
-  Future<void> payManager(int coursePrice,String description) async{
+  Future<void> payManager(int coursePrice, String description) async {
     emit(PaymentManagerLoadingState());
-    PaymobManager().getPaymentKey(
-        coursePrice,"EGP",description,
-    ).then((String paymentKey) {
+    PaymobManager()
+        .getPaymentKey(
+      coursePrice,
+      "EGP",
+      description,
+    )
+        .then((String paymentKey) {
       launchUrl(
-        Uri.parse("https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
+        Uri.parse(
+            "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
       );
       emit(PaymentManagerSuccessState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(PaymentManagerErrorState(error));
     });
   }
 
   //student data
-  String firstName=CacheHelper.getData(key: 'firstName');
-  String lastName=CacheHelper.getData(key: 'lastName');
-  String userName=CacheHelper.getData(key: 'userName');
-  String bio=CacheHelper.getData(key: 'biography')??"";
-  ImageProvider<Object> imageProvider=const AssetImage("Assets/profile/man_1.png");
+  String firstName = CacheHelper.getData(key: 'firstName');
+  String lastName = CacheHelper.getData(key: 'lastName');
+  String userName = CacheHelper.getData(key: 'userName');
+  String bio = CacheHelper.getData(key: 'biography') ?? "";
+  ImageProvider<Object> imageProvider =
+      const AssetImage("Assets/profile/man_1.png");
 
-  void getImage(){
-    if(CacheHelper.getData(key: 'profileStr')!=null){
+  void getImage() {
+    if (CacheHelper.getData(key: 'profileStr') != null) {
       Uint8List picture = base64Decode(CacheHelper.getData(key: 'profileStr'));
       imageProvider = MemoryImage(picture);
-    }else{
+    } else {
       imageProvider = const AssetImage("Assets/profile/man_1.png");
     }
     emit(StudentHasImageState());
   }
-  void getUser(){
-    firstName=CacheHelper.getData(key: 'firstName')??'';
-    lastName=CacheHelper.getData(key: 'lastName')??'';
-    userName=CacheHelper.getData(key: 'userName');
-    bio=CacheHelper.getData(key: 'biography')??"";
+
+  void getUser() {
+    firstName = CacheHelper.getData(key: 'firstName') ?? '';
+    lastName = CacheHelper.getData(key: 'lastName') ?? '';
+    userName = CacheHelper.getData(key: 'userName');
+    bio = CacheHelper.getData(key: 'biography') ?? "";
     emit(GetUserDataSuccessState());
   }
 
-
   File? profileImage;
   var picker = ImagePicker();
+
   Future<void> getProfileImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -138,22 +142,23 @@ class StudentCubit extends Cubit<StudentStates> {
   //update User image
   Future<int?> updateUserProfileImage({
     required File? imageFile,
-  }) async{
+  }) async {
     emit(UpdateProfileImageLoadingState());
-    FormData formData= FormData();
-    if(imageFile != null){
+    FormData formData = FormData();
+    if (imageFile != null) {
       formData = FormData.fromMap({
-        'newPicture':
-        await MultipartFile.fromFile(imageFile.path, filename: imageFile.path.split('/').last,
+        'newPicture': await MultipartFile.fromFile(
+          imageFile.path,
+          filename: imageFile.path.split('/').last,
         ),
       });
     }
-    try{
+    try {
       Response response = await sendRequest(
           method: 'updateImage', url: updateImage, formData: formData);
       emit(UpdateProfileImageSuccessState());
       return response.statusCode;
-    }catch(error){
+    } catch (error) {
       if (error == 401) {
         emit(SessionEndedState());
       } else if (error is DioException) {
@@ -166,54 +171,51 @@ class StudentCubit extends Cubit<StudentStates> {
 
   //update User Data
   Future<int?> updateUserData({
-    required bool updateFirstName ,
-    required bool updateLastName ,
-    required bool updateBio ,
+    required bool updateFirstName,
+    required bool updateLastName,
+    required bool updateBio,
     String? newFirstName,
     String? newLastName,
     String? newBio,
   }) async {
     emit(UpdateUserDataLoadingState());
-    List<Map<String,dynamic>> updateData=  List<Map<String,dynamic>>.empty(growable: true);
-    if(updateFirstName)
-    {
+    List<Map<String, dynamic>> updateData =
+        List<Map<String, dynamic>>.empty(growable: true);
+    if (updateFirstName) {
       updateData.add({
-        'path' : 'firstName',
-        'op' : 'replace',
-        'value' : newFirstName,
+        'path': 'firstName',
+        'op': 'replace',
+        'value': newFirstName,
       });
     }
-    if(updateLastName)
-    {
+    if (updateLastName) {
       updateData.add({
-        'path' : 'lastName',
-        'op' : 'replace',
-        'value' : newLastName,
+        'path': 'lastName',
+        'op': 'replace',
+        'value': newLastName,
       });
     }
-    if(updateBio)
-    {
+    if (updateBio) {
       updateData.add({
-        'path' : 'biography',
-        'op' : 'replace',
-        'value' : newBio,
+        'path': 'biography',
+        'op': 'replace',
+        'value': newBio,
       });
     }
-    try{
-      Response response =
-      await sendRequest(
+    try {
+      Response response = await sendRequest(
           method: 'patch', url: updateDataPatch, listMap: updateData);
-      if(updateFirstName) {
+      if (updateFirstName) {
         emit(UpdateFirstNameSuccessState());
       }
-      if(updateLastName) {
+      if (updateLastName) {
         emit(UpdateLastNameSuccessState());
       }
-      if(updateBio) {
+      if (updateBio) {
         emit(UpdateBioSuccessState());
       }
       return response.statusCode;
-    }catch(error){
+    } catch (error) {
       if (error == 401) {
         emit(SessionEndedState());
       } else if (error is DioException) {
@@ -225,21 +227,23 @@ class StudentCubit extends Cubit<StudentStates> {
 
   Future<dynamic> sendRequest(
       {required String method,
-        required String url,
-        Map<String, String>? data,
-        List<Map<String, dynamic>>? listMap,
-        FormData? formData}) async {
+      required String url,
+      Map<String, String>? data,
+      List<Map<String, dynamic>>? listMap,
+      FormData? formData}) async {
     try {
       switch (method.toLowerCase()) {
         case 'get':
-          return await DioHelper.getData(url: url,query: data!);
+          return await DioHelper.getData(url: url, query: data!);
         case 'post':
           return await DioHelper.postData(url: url, data: data!);
         case 'put':
           return await DioHelper.putData(url: url, data: data!);
         case 'delete':
           return await DioHelper.delete(
-            url: url, data: data,);
+            url: url,
+            data: data,
+          );
         case 'patch':
           return await DioHelper.patchData(url: url, data: listMap!);
         case 'updateimage':
@@ -281,7 +285,8 @@ class StudentCubit extends Cubit<StudentStates> {
 
   Future<int?> logOut(String refreshToken) async {
     try {
-      await sendRequest(method: 'delete', url: logout, data: {'refreshToken' : refreshToken});
+      await sendRequest(
+          method: 'delete', url: logout, data: {'refreshToken': refreshToken});
       await clearCache();
       return 200;
     } catch (error) {

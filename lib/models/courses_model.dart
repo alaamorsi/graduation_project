@@ -1,32 +1,19 @@
-class CourseModel
-{
+class CourseModel {
   late int courseId;
   late String? instProfilePicture;
   late String subject;
   late int lessonsNumber;
   late int price;
   late double rate;
-  late bool isFavourite;
+  late bool favourite;
 
-  CourseModel({
-      required this.courseId,
-      required this.instProfilePicture,
-      required this.subject,
-      required this.lessonsNumber,
-      required this.price,
-      required this.rate,
-      required this.isFavourite
-});
-
-  factory CourseModel.fromJson(Map<String, dynamic> json){
-    return CourseModel(
-      courseId: json["courseId"],
-      instProfilePicture: json["instProfilePicture"]??"",
-      rate: json["rate"],
-      subject: json["subject"],
-      lessonsNumber: json["lessonsNumber"],
-      price: json["price"],
-      isFavourite: json["isFavourite"],
-    );
+  CourseModel.fromJson(Map<String, dynamic> json) {
+    courseId = json["courseId"] ?? 0;
+    instProfilePicture = json["instProfilePicture"] ?? '';
+    rate = json["rate"] ?? 0;
+    subject = json["subject"] ?? '';
+    lessonsNumber = json["lessonsNumber"] ?? 0;
+    price = json["price"] ?? 0;
+    favourite = json["favourite"] ?? false;
   }
 }

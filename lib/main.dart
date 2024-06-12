@@ -53,13 +53,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>AppCubit()..changeTheme(themeId)),
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit()),
-        BlocProvider(create: (context)=>StudentCubit()..getUser()..getImage()),
+        BlocProvider(create: (context)=>StudentCubit()..getUser()..getImage()..getCourses()),
         BlocProvider(create: (context)=>InstructorCubit()..getData()..getImage()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
         builder: (context,state) {
-          allCourse = StudentCubit.get(context).getAllCourses(1);
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: AppCubit.get(context).theme,

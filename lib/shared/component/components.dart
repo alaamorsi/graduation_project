@@ -432,7 +432,7 @@ Widget courseItem({
                   Expanded(
                     child: IconButton(
                         onPressed: addToWishList,
-                        icon: course.isFavourite?  Icon(Icons.favorite,color: color,) : Icon(Icons.favorite_border,color: color,)
+                        icon: course.favourite?  Icon(Icons.favorite,color: color,) : Icon(Icons.favorite_border,color: color,)
                     ),
                   ),
                   Expanded(

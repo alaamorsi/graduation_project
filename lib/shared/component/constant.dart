@@ -15,7 +15,6 @@ String? jwt = '';
 String? role = '';
 late bool firstInstall;
 
-late Future<List<CourseModel>> allCourse;
 
 const List<String> subjects = [
   'Arabic',
