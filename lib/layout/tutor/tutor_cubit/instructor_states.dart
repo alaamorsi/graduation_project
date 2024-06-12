@@ -57,3 +57,10 @@ class LogOutErrorState extends InstructorStates {}
 
 // Session Ended
 class SessionEndedState extends InstructorStates {}
+
+// Publish course states
+class PublishCourseLoadingState extends InstructorStates {}
+
+class PublishCourseSuccessState extends InstructorStates {}
+
+class PublishCourseErrorState extends InstructorStates {}

@@ -20,7 +20,8 @@ class _PublishCourseState extends State<PublishCourse> {
     TextEditingController descriptionController = TextEditingController();
     bool hasIntro = false;
     return BlocConsumer<InstructorCubit, InstructorStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+      },
       builder: (context, state) {
         var cubit = InstructorCubit.get(context);
         var theme = Theme.of(context);
@@ -152,7 +153,11 @@ class _PublishCourseState extends State<PublishCourse> {
                     padding: EdgeInsets.all(screenWidth * .05),
                     child: ElevatedButton(
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {}
+                        if (formKey.currentState!.validate()) {
+                          setState(() {
+                            cubit.isPublished = true;
+                          });
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 2.0,

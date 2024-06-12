@@ -227,6 +227,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
         .then((String paymentKey) {
       launchUrl(Uri.parse(
           "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"));
+      emit(PaymentManagerSuccessState());
     }).catchError((e) {
       print(e.toString());
     });
@@ -335,5 +336,14 @@ class InstructorCubit extends Cubit<InstructorStates> {
     bio = '';
     imageProvider = const AssetImage("Assets/profile/man_1.png");
     emit(LogOutSuccessState());
+  }
+
+  bool isPublished = false;
+  void publishCourse()
+  {
+    if(isPublished)
+      emit(PublishCourseSuccessState());
+    else
+      emit(PublishCourseLoadingState());
   }
 }
