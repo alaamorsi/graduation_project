@@ -36,7 +36,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
             child: ConditionalBuilder(
               condition: true,
               builder: (BuildContext context) => SizedBox(
-                height: screenHeight-100,
+                height: screenHeight-152,
                 child: ListView.builder(
                   itemBuilder: (context, index) => questionItem(context, index, questions[index]),
                   itemCount: questions.length,),
@@ -49,8 +49,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          Expanded(
             child: usedButton(
               atEnd: false,
               text: 'Submit'.tr,

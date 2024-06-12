@@ -70,9 +70,9 @@ class StudentCubit extends Cubit<StudentStates> {
 
   List<CourseModel> courses = [];
 
-  void getCourses() {
+  void getCourses(int pageNumber) {
     emit(StudentGetCoursesLoadingState());
-    sendRequest(method: 'get', url: getCoursesEndPoint).then((value) {
+    sendRequest(method: 'get', url: "$getCoursesEndPoint/$pageNumber").then((value) {
       courses = (value.data as List).map((course) => CourseModel.fromJson(course)).toList();
       emit(StudentGetCoursesSuccessState());
     }).catchError((error) {

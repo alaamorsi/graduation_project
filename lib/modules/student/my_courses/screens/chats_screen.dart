@@ -20,125 +20,149 @@ class _ChatsScreenState extends State<ChatsScreen> {
   Widget build(BuildContext context) {
     TextEditingController messageController = TextEditingController();
     var theme = Theme.of(context);
-    return BlocConsumer<CourseCubit, CourseStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          var student = StudentCubit.get(context);
-          return Scaffold(
-            appBar: secondAppbar(context: context, title: "Chat".tr),
-            body: ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return buildStudentChat(theme: theme, message: messages[index], context: context);
-              },
-              itemCount: messages.length,
-            ),
-            bottomNavigationBar: Padding(
-              padding: const EdgeInsets.only(left: 11, right: 11, bottom: 11),
-              child: Container(
-                padding: const EdgeInsets.all(9),
-                width: double.infinity,
-                height: 90,
-                decoration: BoxDecoration(
-                  color: theme.primaryColorLight,
-                  borderRadius: const BorderRadius.all(Radius.circular(18),),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 15,
-                      color: theme.primaryColorDark.withOpacity(.1),
-                      offset: const Offset(0, -5),
-                    )
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: screenWidth * 3 / 4,
-                      child: defaultFormField(
-                          context: context,
-                          controller: messageController,
-                          type: TextInputType.text,
-                          validate: (s) {
-                            return null;
-                          },
-                          label: "Type your question"
+    return BlocProvider(
+      create: (BuildContext context) => CourseCubit(),
+      child: BlocConsumer<CourseCubit, CourseStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            var student = StudentCubit.get(context);
+            return Scaffold(
+              appBar: secondAppbar(context: context, title: "Chat".tr),
+              body:buildStudentChat(context: context, theme: theme),
+              bottomNavigationBar: Padding(
+                padding: EdgeInsets.only(left: screenWidth * .02,
+                    right: screenWidth * .02,
+                    bottom: screenWidth * .02),
+                child: Container(
+                  padding: EdgeInsets.all(screenWidth * .03),
+                  width: double.infinity,
+                  height: screenHeight * .1,
+                  decoration: BoxDecoration(
+                    color: theme.primaryColorLight,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(screenWidth * .7),),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 15,
+                        color: theme.primaryColorDark.withOpacity(.1),
+                        offset: const Offset(0, -5),
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: screenWidth * .75,
+                        child: defaultFormField(
+                            context: context,
+                            controller: messageController,
+                            type: TextInputType.text,
+                            validate: (s) {
+                              return null;
+                            },
+                            label: "Type your question"
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: IconButton(onPressed: () {
-                        setState(() {
-                          messages.add(Message(
-                            senderUserName: 'sameh',
-                            senderFirstName: student.firstName,
-                            senderLastName: student.lastName,
-                            messageContent: messageController.text,
-                            messageDate: DateTime.now().minute.toString(),
-                            senderProfileImage: student.imageProvider,
-                          ));                        });
-                      }, icon: Icon(Icons.send_rounded, color: theme.primaryColor)),
-                    )
-                  ],
+                      Expanded(
+                        child: IconButton(onPressed: () {
+                          setState(() {
+                            messages.add(Message(
+                              senderUserName: 'sameh',
+                              senderFirstName: student.firstName,
+                              senderLastName: student.lastName,
+                              messageContent: messageController.text,
+                              messageDate: DateTime
+                                  .now()
+                                  .minute
+                                  .toString(),
+                              senderProfileImage: student.imageProvider,
+                            ));
+                          });
+                        }, icon: Icon(Icons.send_rounded, color: theme
+                            .primaryColor)),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        }
-      );
+            );
+          }
+      ),
+    );
   }
+
   Widget buildStudentChat({
     required BuildContext context,
     required ThemeData theme,
-    required Message message,
-  })
-  {
-    if (message.senderUserName == 'sameh'){
-      return userMessageItem(theme: theme, message: message, context: context);
-    }
-    else {
-      return othersMessageItem(theme: theme, message: message);
-    }
+  }) {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        if (messages[index].senderUserName == 'sameh') {
+          return userMessageItem(
+              theme: theme, message: messages[index], context: context);
+        }
+        else {
+          return othersMessageItem(theme: theme, message: messages[index]);
+        }
+      },
+      itemCount: messages.length,
+    );
   }
 }
+
 Widget othersMessageItem({
   required ThemeData theme,
   required Message message,
 })
 {
-  return Padding(
-    padding: const EdgeInsets.only(right: 11,top: 6,bottom: 6,left: 50),
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(.6),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(50.0),
-          bottomRight: Radius.circular(50.0),
-          bottomLeft: Radius.circular(50.0),
-        ),
+  return Container(
+    margin: EdgeInsets.only(right: isArabic?11:50,top: 6,bottom: 6,left: isArabic?50:11),
+    padding: EdgeInsets.all(screenWidth*.03),
+    decoration: BoxDecoration(
+      color: Colors.grey.withOpacity(.6),
+      borderRadius: BorderRadius.only(
+        topLeft: isArabic?const Radius.circular(30):Radius.zero,
+        topRight: isArabic?Radius.zero:const Radius.circular(30),
+        bottomRight:const Radius.circular(30),
+        bottomLeft:const Radius.circular(30),
       ),
-      child:Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          textDirection: TextDirection.rtl,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+    ),
+    child:Row(
+      textDirection: isArabic?TextDirection.rtl:TextDirection.ltr,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if(isArabic)Padding(
+          padding: const EdgeInsets.all(5),
+          child: CircleAvatar(
+            backgroundColor: theme.canvasColor.withOpacity(.4),
+            radius: 25,
+            backgroundImage: const AssetImage("Assets/profile/man_5.png"),
+          ),
+        ),
+        GridView.count(
+          crossAxisCount: 1,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: CircleAvatar(
-                backgroundColor: theme.canvasColor.withOpacity(.4),
-                radius: 25,
-                backgroundImage: const AssetImage("Assets/profile/man_5.png"),
-              ),
+            Text(message.senderUserName,
+              style: font.copyWith(fontSize: screenWidth*0.06,fontWeight: FontWeight.w600,color: theme.primaryColor),
             ),
-            Expanded(
-              child: Text(message.messageContent,
-                maxLines: 4,
-                style: font.copyWith(fontSize: 23.0,fontWeight: FontWeight.w600,color: theme.primaryColorLight),
-              ),
+            Text(
+              textAlign:isArabic?TextAlign.right:TextAlign.left,
+              message.messageContent,
+              maxLines: 4,
+              style: font.copyWith(fontSize: screenWidth*0.05,fontWeight: FontWeight.w400,color: theme.primaryColorLight),
             ),
           ],
         ),
-      ),
+        if(!isArabic)Padding(
+          padding: const EdgeInsets.all(5),
+          child: CircleAvatar(
+            backgroundColor: theme.canvasColor.withOpacity(.4),
+            radius: 25,
+            backgroundImage: const AssetImage("Assets/profile/man_5.png"),
+          ),
+        ),
+      ],
     ),
   );
 }
@@ -149,82 +173,69 @@ Widget userMessageItem({
   required Message message,
 })
 {
-  return Padding(
-    padding: const EdgeInsets.only(right: 50,top: 6,bottom: 6,left: 11),
-    child: Container(
-      decoration: BoxDecoration(
-        color: theme.primaryColor,
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(50.0),
-          bottomRight: Radius.circular(50.0),
-          bottomLeft: Radius.circular(50.0),
-        ),
+  return Container(
+    margin: EdgeInsets.only(left: isArabic?11:50,top: 6,bottom: 6,right: isArabic?50:11),
+    padding: EdgeInsets.all(screenWidth*.03),
+    decoration: BoxDecoration(
+      color: theme.primaryColor,
+      borderRadius: BorderRadius.only(
+        topRight: isArabic?const Radius.circular(30.0):Radius.zero,
+        topLeft: isArabic?Radius.zero:const Radius.circular(30),
+        bottomRight:const Radius.circular(30),
+        bottomLeft:const Radius.circular(30),
       ),
-      child:Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          textDirection: TextDirection.ltr,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: CircleAvatar(
-                backgroundColor: theme.canvasColor.withOpacity(.4),
-                radius: 25,
-                backgroundImage: message.senderProfileImage,
-              ),
-            ),
-            Expanded(
-              child: Text(message.messageContent,
-                maxLines: 4,
-                textAlign:TextAlign.left,
-                style: font.copyWith(fontSize: 23.0,fontWeight: FontWeight.w600,color: theme.primaryColorLight),
-
-              ),
-            ),
-          ],
+    ),
+    child:Row(
+      textDirection: isArabic?TextDirection.rtl:TextDirection.ltr,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Text(message.messageContent,
+            maxLines: 4,
+            textAlign:isArabic?TextAlign.right:TextAlign.left,
+            style: font.copyWith(fontSize: screenWidth*0.05,fontWeight: FontWeight.w600,color: theme.primaryColorLight),
+          ),
         ),
-      ),
+      ],
     ),
   );
 }
 
 List<Message> messages = [
   Message(
-      senderUserName: 'sameh',
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
+      senderUserName: 'Mohamed',
+      senderFirstName: 'Mohamed',
+      senderLastName: 'Ahmed',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'sameh',
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
+      senderUserName: 'Mohamed',
+      senderFirstName: 'Mohamed',
+      senderLastName: 'Ahmed',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'sameh',
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
+      senderUserName: 'Mohamed',
+      senderFirstName: 'Mohamed',
+      senderLastName: 'Ahmed',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'sameh',
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
+      senderUserName: 'Mohamed',
+      senderFirstName: 'Mohamed',
+      senderLastName: 'Ahmed',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'sameh',
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
+      senderUserName: 'Mohamed',
+      senderFirstName: 'Mohamed',
+      senderLastName: 'Ahmed',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'sameh',
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
+      senderUserName: 'Mohamed',
+      senderFirstName: 'Mohamed',
+      senderLastName: 'Ahmed',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
 ];

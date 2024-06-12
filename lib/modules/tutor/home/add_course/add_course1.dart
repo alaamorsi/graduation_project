@@ -237,7 +237,6 @@ class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
                     padding: const EdgeInsets.all(15.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        print("### Course Data : ${cubit.courseSub}##${cubit.courseStage}##${cubit.courseLevel}##${cubit.courseTerm}");
                         if (formKey.currentState!.validate()) {
                           cubit.payManager(
                             int.parse(
@@ -250,7 +249,7 @@ class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
                       style: ElevatedButton.styleFrom(
                         elevation: 2.0,
                         shadowColor: Colors.white,
-                        backgroundColor: Colors.blue,
+                        backgroundColor: theme.cardColor,
                         padding: const EdgeInsets.all(10.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25)),
@@ -288,11 +287,11 @@ Widget selectionField({
   required void Function(String?)? onSelect,
   required context,
 }) {
-  return WillPopScope(
-    onWillPop: () async {
+  return PopScope(
+    onPopInvoked: (bool back) async {
       InstructorCubit.get(context).isBack();
-      return false;
     },
+    canPop: InstructorCubit.get(context).back,
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: DropdownMenu<String>(
@@ -323,4 +322,3 @@ Widget selectionField({
     ),
   );
 }
-

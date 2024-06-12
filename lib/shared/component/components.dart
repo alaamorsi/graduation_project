@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:motion_toast/motion_toast.dart';
 // import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -364,7 +365,7 @@ Widget courseItem({
     padding: const EdgeInsets.all(9.0),
     child: InkWell(
       onTap: (){
-          // navigateTo(context, CourseDemo(course: ,));
+          navigateTo(context, CourseDemo(course: course,));
         },
       child: Container(
         width: screenWidth,

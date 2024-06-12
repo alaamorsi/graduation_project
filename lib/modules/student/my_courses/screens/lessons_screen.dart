@@ -8,19 +8,20 @@ import '../../../../shared/component/test.dart';
 import '../course_cubit/course_cubit.dart';
 import '../course_cubit/course_states.dart';
 
-class LessonsScreen extends StatelessWidget {
-  const LessonsScreen({super.key});
+class LessonsScreen extends StatelessWidget{
+  final MyCourse course;
+  const LessonsScreen({super.key,required this.course});
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return BlocProvider<CourseCubit>(
-      create: (BuildContext context)=>CourseCubit()..initializeFlickManager(CourseCubit.get(context).openedCourse.lessons[CourseCubit.get(context).currentVideoIndex].videoUrl),
-      lazy: false,
+      create: (BuildContext context)=>CourseCubit()..openCourse(course),
       child: BlocConsumer<CourseCubit,CourseStates>(
           listener: (context,state) {},
           builder:(context,state){
           var course = CourseCubit.get(context);
+          course.initializeFlickManager(CourseCubit.get(context).openedCourse.lessons[CourseCubit.get(context).currentVideoIndex].videoUrl);
           return Scaffold(
             appBar: secondAppbar(context: context, title: "lessons".tr),
             body: Padding(

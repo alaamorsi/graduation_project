@@ -8,7 +8,6 @@ import 'package:graduation_project/models/courses_model.dart';
 // import 'package:graduation_project/modules/student/course_demo/course_lessons.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
-// import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
@@ -28,8 +27,7 @@ class CourseDemo extends StatelessWidget {
       image = MemoryImage(picture);
     }
     return BlocConsumer<StudentCubit,StudentStates>(
-      listener: (context , state ){
-      },
+      listener: (context , state ){},
       builder: (context , state ){
         return Scaffold(
             appBar:secondAppbar(
@@ -78,61 +76,59 @@ class CourseDemo extends StatelessWidget {
                             navigateTo(context, const ViewVideoScreen(introUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",));
                           },
                           child: Container(
+                            padding: const EdgeInsets.all(10.0),
                             width: screenWidth,
                             height: screenHeight/8,
                             decoration: BoxDecoration(
                               color: theme.primaryColor.withOpacity(.1),
                               borderRadius: const BorderRadius.all(Radius.circular(23.0),),
                             ),
-                            child:Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                children: [
-                                  //Teacher image
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                    child: Container(
-                                      width: screenHeight/10,
-                                      height: screenHeight/10,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        image: DecorationImage(
-                                          image: image,
-                                          fit: BoxFit.cover,),
-                                      ),
+                            child:Row(
+                              children: [
+                                //Teacher image
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Container(
+                                    width: screenHeight/10,
+                                    height: screenHeight/10,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        image: image,
+                                        fit: BoxFit.cover,),
                                     ),
                                   ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Text("1. introduction ",
-                                          style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
-                                        ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text("1. introduction ",
+                                        style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
                                       ),
-                                      const SizedBox(height: 5,),
-                                      Expanded(
-                                        child: Text(
-                                          '20 mints',
-                                          style: font.copyWith(fontSize: 12.0,color: Colors.grey),
-                                        ),
+                                    ),
+                                    const SizedBox(height: 5,),
+                                    Expanded(
+                                      child: Text(
+                                        '20 mints',
+                                        style: font.copyWith(fontSize: 12.0,color: Colors.grey),
                                       ),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child:
-                                        Icon( Icons.ondemand_video,color: theme.primaryColor,size: 30,),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 15,),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child:
+                                      Icon( Icons.ondemand_video,color: theme.primaryColor,size: 30,),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(width: 15,),
+                              ],
                             ),
                           ),
                         ),
@@ -161,7 +157,7 @@ class CourseDemo extends StatelessWidget {
                       paddingSize: 10,
                       context: context,
                       onPressed:(){
-                        cubit.payManager(course.price,'${CacheHelper.getData(key: 'id')},011,${course.price}');
+                        cubit.payManager(course.price,'${CacheHelper.getData(key: 'id')},${course.courseId},${course.price}');
                         },
                     ),
                   ),
