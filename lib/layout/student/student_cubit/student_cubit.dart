@@ -12,7 +12,6 @@ import 'package:graduation_project/modules/student/payMob_manager/payMob_manager
 import 'package:graduation_project/modules/student/discovery/search_screen.dart';
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
-import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
@@ -39,13 +38,13 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StudentChangeBottomNavState());
   }
 
-  List<Course> wishList = [];
+  List<CourseModel> wishList = [];
 
-  void addToWishList(Course course) {
-    course.inFavourite = !course.inFavourite;
-    if (course.inFavourite) {
+  void addToWishList(CourseModel course) {
+    course.favourite = !course.favourite;
+    if (course.favourite) {
       wishList.add(course);
-    } else if (!course.inFavourite) {
+    } else if (!course.favourite) {
       wishList.remove(course);
     }
     emit(CheckFavoriteState());
@@ -72,6 +71,7 @@ class StudentCubit extends Cubit<StudentStates> {
   List<CourseModel> courses = [];
 
   void getCourses() {
+    emit(StudentGetCoursesLoadingState());
     DioHelper.getData(url: getCoursesEndPoint).then((value) {
       courses = (value.data as List).map((course) => CourseModel.fromJson(course)).toList();
       emit(StudentGetCoursesSuccessState());

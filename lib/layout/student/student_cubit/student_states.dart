@@ -12,6 +12,8 @@ class StudentChangeBottomNavState extends StudentStates {}
 
 class CheckFavoriteState extends StudentStates {}
 
+class StudentGetCoursesLoadingState extends StudentStates {}
+
 class StudentGetCoursesSuccessState extends StudentStates {}
 
 class StudentGetCoursesErrorState extends StudentStates {}

@@ -14,6 +14,6 @@ class CourseModel {
     subject = json["subject"] ?? '';
     lessonsNumber = json["lessonsNumber"] ?? 0;
     price = json["price"] ?? 0;
-    favourite = json["favourite"] ?? false;
+    favourite = json["isFavourite"] ?? false;
   }
 }
