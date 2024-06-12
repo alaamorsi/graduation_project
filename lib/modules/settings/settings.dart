@@ -194,6 +194,7 @@ class SettingsScreen extends StatelessWidget {
                     const SizedBox(
                       width: 20,
                     ),
+                    if(CacheHelper.getData(key: 'role')=='student')
                     BlocConsumer<StudentCubit, StudentStates>(
                       listener: (context, state) {},
                       builder: (context, state) {
@@ -208,6 +209,28 @@ class SettingsScreen extends StatelessWidget {
                               ),
                               Spacer(),
                               if (state is LogOutLoadingState)
+                                SizedBox(height:30.0, width: 30.0 ,
+                                    child: CircularProgressIndicator(color: theme.primaryColor,)),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    if(CacheHelper.getData(key: 'role')=='instructor')
+                      BlocConsumer<InstructorCubit, InstructorStates>(
+                      listener: (context, state) {},
+                      builder: (context, state) {
+                        return Expanded(
+                          child: Row(
+                            children: [
+                              Text(
+                                "Logout".tr,
+                                style: font.copyWith(
+                                    fontSize: 20.0,
+                                    color: theme.primaryColorDark),
+                              ),
+                              Spacer(),
+                              if (state is LogOutLoadingInsState)
                                 SizedBox(height:30.0, width: 30.0 ,
                                     child: CircularProgressIndicator(color: theme.primaryColor,)),
                             ],
