@@ -4,13 +4,17 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/route_manager.dart';
+import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
+import 'package:graduation_project/modules/student/payMob_manager/web_view.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../../modules/tutor/home/home.dart';
 import '../../../modules/tutor/notification/notification.dart';
 import '../../../modules/tutor/profile/profile.dart';
@@ -216,6 +220,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
 
   Future<void> payManager(int coursePrice, String description) async {
+    isLoading = true;
     emit(PaymentManagerLoadingState());
     PaymobManager()
         .getPaymentKey(
@@ -224,10 +229,11 @@ class InstructorCubit extends Cubit<InstructorStates> {
       description,
     )
         .then((String paymentKey) {
-      launchUrl(Uri.parse(
-          "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"));
-        }).catchError((e) {
-      print(e.toString());
+      // launchUrl(Uri.parse(
+      //     "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"));
+      Get.to(()=>WebViewScreen(paymentKey: paymentKey,));
+    }).catchError((e) {
+      emit(PaymentManagerErrorState());
     });
   }
 
@@ -245,8 +251,8 @@ class InstructorCubit extends Cubit<InstructorStates> {
   Future<int?> logOut(String refreshToken) async {
     emit(LogOutLoadingInsState());
     try {
-      Response response =
-          await sendRequest(method: 'delete', url: logout, data: {'refreshToken' : refreshToken});
+      Response response = await sendRequest(
+          method: 'delete', url: logout, data: {'refreshToken': refreshToken});
       await clearCache();
       emit(LogOutSuccessState());
       return 200;
@@ -277,7 +283,9 @@ class InstructorCubit extends Cubit<InstructorStates> {
           return await DioHelper.putData(url: url, data: data!);
         case 'delete':
           return await DioHelper.delete(
-              url: url, data: data,);
+            url: url,
+            data: data,
+          );
         case 'patch':
           return await DioHelper.patchData(url: url, data: listMap!);
         case 'updateimage':
@@ -337,11 +345,28 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
 
   bool isPublished = false;
-  void publishCourse()
-  {
-    if(isPublished)
+
+  void publishCourse() {
+    if (isPublished)
       emit(PublishCourseSuccessState());
     else
       emit(PublishCourseLoadingState());
   }
+
+  bool isLoading = false;
+
+  List<InstructorCourseModel> insCourses=[];
+  void getCourses() {
+    emit(InstructorGetCoursesLoadingState());
+    sendRequest(method: 'get', url: getInstructorCourses)
+        .then((value) {
+      insCourses = (value.data as List)
+          .map((course) => InstructorCourseModel.fromJson(course))
+          .toList();
+      emit(InstructorGetCoursesSuccessState());
+    }).catchError((error) {
+      emit(InstructorGetCoursesErrorState());
+    });
+  }
+
 }

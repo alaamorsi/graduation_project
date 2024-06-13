@@ -10,3 +10,4 @@ String logout='Account/sign-out';
 String updateTokens='Account/tokens';
 String orderIdEndpoint='Course/order-id';
 String getCoursesEndPoint='Course';
+String getInstructorCourses='Course/InstructorCourses';

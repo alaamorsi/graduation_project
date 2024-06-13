@@ -5,18 +5,21 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/route_manager.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
 import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/notification/notification.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
 import 'package:graduation_project/modules/student/discovery/search_screen.dart';
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
+import 'package:graduation_project/modules/student/payMob_manager/web_view.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
 import '../../../shared/component/constant.dart';
 
@@ -72,8 +75,11 @@ class StudentCubit extends Cubit<StudentStates> {
 
   void getCourses(int pageNumber) {
     emit(StudentGetCoursesLoadingState());
-    sendRequest(method: 'get', url: "$getCoursesEndPoint/$pageNumber").then((value) {
-      courses = (value.data as List).map((course) => CourseModel.fromJson(course)).toList();
+    sendRequest(method: 'get', url: "$getCoursesEndPoint/$pageNumber")
+        .then((value) {
+      courses = (value.data as List)
+          .map((course) => CourseModel.fromJson(course))
+          .toList();
       emit(StudentGetCoursesSuccessState());
     }).catchError((error) {
       emit(StudentGetCoursesErrorState());
@@ -81,6 +87,7 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
   Future<void> payManager(int coursePrice, String description) async {
+    isLoading = true;
     emit(PaymentManagerLoadingState());
     PaymobManager()
         .getPaymentKey(
@@ -89,14 +96,16 @@ class StudentCubit extends Cubit<StudentStates> {
       description,
     )
         .then((String paymentKey) {
-      launchUrl(
-        Uri.parse(
-            "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
-      );
+      // launchUrl(
+      //   Uri.parse(
+      //       "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
+      // );
+      Get.to(()=>WebViewScreen(paymentKey: paymentKey,));
     }).catchError((error) {
       emit(PaymentManagerErrorState());
     });
   }
+
   Future<void> onPaymentComplete() async {
     try {
       await DioHelper.getData(
@@ -107,7 +116,6 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(PaymentManagerErrorState());
     }
   }
-
 
   //student data
   String firstName = CacheHelper.getData(key: 'firstName');
@@ -244,7 +252,7 @@ class StudentCubit extends Cubit<StudentStates> {
     try {
       switch (method.toLowerCase()) {
         case 'get':
-          return await DioHelper.getData(url: url,query: query);
+          return await DioHelper.getData(url: url, query: query);
         case 'post':
           return await DioHelper.postData(url: url, data: data!);
         case 'put':
@@ -332,4 +340,5 @@ class StudentCubit extends Cubit<StudentStates> {
     imageProvider = const AssetImage("Assets/profile/man_1.png");
     // emit(LogOutSuccessState());
   }
+  bool isLoading = false;
 }

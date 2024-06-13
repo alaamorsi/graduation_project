@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit()),
         BlocProvider(create: (context)=>StudentCubit()..getUser()..getImage()..getCourses(1)),
-        BlocProvider(create: (context)=>InstructorCubit()..getData()..getImage()),
+        BlocProvider(create: (context)=>InstructorCubit()..getData()..getImage()..getCourses()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},

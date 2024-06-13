@@ -19,3 +19,17 @@ class CourseModel {
     isPublished = json["isPublished"] ?? false;
   }
 }
+
+class InstructorCourseModel{
+  // late int courseId;
+  late String courseName;
+  late double averageRate;
+  late int studentCount;
+
+  InstructorCourseModel.fromJson(Map<String, dynamic> json) {
+    courseName = json["courseName"] ?? '';
+    averageRate = json["averageRate"] ?? 0;
+    studentCount = json["studentCount"] ?? 0;
+    // courseId = json["courseId"];
+  }
+}

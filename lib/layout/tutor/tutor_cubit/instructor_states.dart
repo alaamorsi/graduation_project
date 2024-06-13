@@ -64,3 +64,10 @@ class PublishCourseLoadingState extends InstructorStates {}
 class PublishCourseSuccessState extends InstructorStates {}
 
 class PublishCourseErrorState extends InstructorStates {}
+
+// Instructor Courses
+class InstructorGetCoursesLoadingState extends InstructorStates {}
+
+class InstructorGetCoursesSuccessState extends InstructorStates {}
+
+class InstructorGetCoursesErrorState extends InstructorStates {}

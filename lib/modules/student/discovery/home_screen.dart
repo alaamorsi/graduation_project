@@ -158,7 +158,7 @@ class HomeScreen extends StatelessWidget {
                                       .toList()),
                               SizedBox(
                                 width: double.maxFinite,
-                                height: (cubit.courses.length.toInt()*(screenHeight/7))+60.0,
+                                height: (cubit.courses.length.toInt()*(screenHeight*0.15))+100.0,
                                 child: TabBarView(
                                   children: [
                                     coursesCardList(state, cubit, theme, cubit.courses),

@@ -15,12 +15,7 @@ class TutorCoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<InstructorCubit,InstructorStates>(
-      listener: (context , state ){
-        InstructorCubit.get(context).publishCourse();
-        if(state is PublishCourseLoadingState)
-          Get.off(()=>PublishCourse());
-
-      },
+      listener: (context , state ){},
       builder: (context , state){
         return Scaffold(
           appBar: secondAppbar(

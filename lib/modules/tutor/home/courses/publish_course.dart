@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/modules/tutor/home/courses/courses.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
 import '../../../../layout/tutor/tutor_cubit/instructor_states.dart';
@@ -15,13 +16,20 @@ class PublishCourse extends StatefulWidget {
 
 class _PublishCourseState extends State<PublishCourse> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      InstructorCubit.get(context).isLoading = false;
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController descriptionController = TextEditingController();
     bool hasIntro = false;
     return BlocConsumer<InstructorCubit, InstructorStates>(
-      listener: (context, state) {
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = InstructorCubit.get(context);
         var theme = Theme.of(context);
@@ -49,7 +57,7 @@ class _PublishCourseState extends State<PublishCourse> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: TextFormField(
                       controller: descriptionController,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.text,
                       cursorColor: theme.primaryColor,
                       textAlign: TextAlign.start,
                       maxLines: 5,
@@ -99,7 +107,7 @@ class _PublishCourseState extends State<PublishCourse> {
                     onTap: () async {
                       await cubit.pikeVideoFromGallery();
                       setState(() {
-                        hasIntro=true;
+                        hasIntro = true;
                       });
                     },
                     child: Padding(
@@ -135,9 +143,9 @@ class _PublishCourseState extends State<PublishCourse> {
                   ),
                   if (hasIntro)
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
-                          hasIntro=false;
+                          hasIntro = false;
                         });
                       },
                       child: Container(
@@ -151,40 +159,20 @@ class _PublishCourseState extends State<PublishCourse> {
                   SizedBox(height: screenWidth * .05),
                   Padding(
                     padding: EdgeInsets.all(screenWidth * .05),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          setState(() {
-                            cubit.isPublished = true;
-                          });
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        elevation: 2.0,
-                        shadowColor: Colors.white,
-                        backgroundColor: theme.cardColor,
-                        padding: const EdgeInsets.all(10.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          state is PaymentManagerLoadingState
-                              ? Center(
-                              child: CircularProgressIndicator(
-                                color: theme.primaryColor,
-                              ))
-                              : Text(
-                            'Publish'.tr,
-                            style: font.copyWith(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: usedButton(
+                        text: 'Publish'.tr,
+                        color: theme.primaryColor,
+                        isLoading: cubit.isLoading,
+                        atEnd: false,
+                        context: context,
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            setState(() {
+                              cubit.isPublished = true;
+                               Get.to(()=>const TutorCoursesScreen(subject: 'Arabic',));
+                            });
+                          }
+                        }),
                   ),
                 ],
               ),

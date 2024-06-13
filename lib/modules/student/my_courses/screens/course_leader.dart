@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/test.dart';
@@ -8,29 +9,40 @@ import 'assignments.dart';
 import 'chats_screen.dart';
 import 'lessons_screen.dart';
 
-class ClassLeader extends StatelessWidget {
+class ClassLeader extends StatefulWidget {
   final MyCourse course;
   const ClassLeader({super.key,required this.course});
 
+  @override
+  State<ClassLeader> createState() => _ClassLeaderState();
+}
+
+class _ClassLeaderState extends State<ClassLeader> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      StudentCubit.get(context).isLoading = false;
+    });
+  }
   @override Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: secondAppbar(
         context: context,
-        title:course.subject.tr,
+        title:widget.course.subject.tr,
       ),
       body: Padding(padding:  EdgeInsets.symmetric(horizontal: screenWidth * .02),
-        child: GridView.count(
-          shrinkWrap: true,
-          crossAxisCount: 2,
+        child: Wrap(
           children: [
             dashboardItem(
               context: context,
               title: "Lessons",
               image: "Assets/for_teacher/recorded.png",
               goTo: () {
-                navigateTo(context, LessonsScreen(course: course,));
+                navigateTo(context, LessonsScreen(course: widget.course,));
               },
             ),
             dashboardItem(
@@ -56,12 +68,6 @@ class ClassLeader extends StatelessWidget {
               goTo: () {
                 Get.to(()=>const AssignmentScreen());
               },
-            ),
-            dashboardItem(
-              context: context,
-              title: "Attachments",
-              image: "Assets/for_teacher/attach.png",
-              goTo: () {},
             ),
           ],
         ),
