@@ -93,11 +93,21 @@ class StudentCubit extends Cubit<StudentStates> {
         Uri.parse(
             "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
       );
-      emit(PaymentManagerSuccessState());
     }).catchError((error) {
-      emit(PaymentManagerErrorState(error));
+      emit(PaymentManagerErrorState());
     });
   }
+  Future<void> onPaymentComplete() async {
+    try {
+      await DioHelper.getData(
+          url: orderIdEndpoint,
+          query: {'orderId': CacheHelper.getData(key: 'orderId')});
+      emit(PaymentManagerSuccessState());
+    } catch (e) {
+      emit(PaymentManagerErrorState());
+    }
+  }
+
 
   //student data
   String firstName = CacheHelper.getData(key: 'firstName');

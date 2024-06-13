@@ -6,6 +6,7 @@ class CourseModel {
   late int price;
   late double rate;
   late bool favourite;
+  late bool isPublished;
 
   CourseModel.fromJson(Map<String, dynamic> json) {
     courseId = json["courseId"] ?? 0;
@@ -15,5 +16,6 @@ class CourseModel {
     lessonsNumber = json["lessonsNumber"] ?? 0;
     price = json["price"] ?? 0;
     favourite = json["isFavourite"] ?? false;
+    isPublished = json["isPublished"] ?? false;
   }
 }

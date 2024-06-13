@@ -357,7 +357,7 @@ Widget courseItem({
   required void Function() addToWishList,
 }) {
   ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
-  if(course.instProfilePicture!=null){
+  if(course.instProfilePicture!.isNotEmpty){
     Uint8List picture = base64Decode(course.instProfilePicture as String);
     image = MemoryImage(picture);
   }

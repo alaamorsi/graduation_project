@@ -241,10 +241,8 @@ class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           cubit.payManager(
-                            int.parse(
-                              priceController.text,
-                            ),
-                            '${CacheHelper.getData(key: 'id')},${widget.courseType},${cubit.courseSub},${cubit.courseLevel},${cubit.courseStage},${cubit.courseTerm},${priceController.text}',
+                            30,
+                            'addCourse,${CacheHelper.getData(key: 'id')},${widget.courseType},${cubit.courseSub},${cubit.courseLevel},${cubit.courseStage},${cubit.courseTerm},${priceController.text}',
                           );
                         }
                       },

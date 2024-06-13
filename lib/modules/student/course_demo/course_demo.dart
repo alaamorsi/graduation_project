@@ -7,32 +7,67 @@ import 'package:graduation_project/models/courses_model.dart';
 // import 'package:graduation_project/modules/student/course_demo/course_comments.dart';
 // import 'package:graduation_project/modules/student/course_demo/course_lessons.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
+import 'package:graduation_project/modules/student/my_courses/screens/course_leader.dart';
 import 'package:graduation_project/shared/component/components.dart';
+import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/constant.dart';
 
-class CourseDemo extends StatelessWidget {
+class CourseDemo extends StatefulWidget {
   final CourseModel course;
   const CourseDemo({super.key,required this.course});
+
+  @override
+  State<CourseDemo> createState() => _CourseDemoState();
+}
+
+class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async{
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      await StudentCubit.get(context).onPaymentComplete();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     var cubit = StudentCubit.get(context);
     var theme =Theme.of(context);
     ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
-    if(course.instProfilePicture!=null){
-      Uint8List picture = base64Decode(course.instProfilePicture as String);
+    if(widget.course.instProfilePicture!.isNotEmpty){
+      Uint8List picture = base64Decode(widget.course.instProfilePicture as String);
       image = MemoryImage(picture);
     }
     return BlocConsumer<StudentCubit,StudentStates>(
-      listener: (context , state ){},
+      listener: (context , state ){
+        if(state is PaymentManagerSuccessState){
+          showToast(title: "Course Addition", description: "Course has been added successfully", state: MotionState.success, context: context);
+          // Get.off(()=> );
+        }
+        else if(state is PaymentManagerErrorState){
+          showToast(title: "Course Addition", description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);
+        }
+      },
       builder: (context , state ){
         return Scaffold(
             appBar:secondAppbar(
               context: context,
-              title:course.subject.tr,
+              title:widget.course.subject.tr,
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
@@ -64,7 +99,7 @@ class CourseDemo extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text('${course.lessonsNumber} ${'lessons'.tr}', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
+                              Text('${widget.course.lessonsNumber} ${'lessons'.tr}', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
                               const Spacer(),
                               TextButton(onPressed: () {
                                 // navigateTo(context, CourseLessons(course: course));
@@ -151,13 +186,13 @@ class CourseDemo extends StatelessWidget {
                     child: usedButton(
                       atEnd: false,
                       isLoading: state is PaymentManagerLoadingState,
-                      text: '${"Enroll".tr}-${course.price}${'EGP'.tr}',
+                      text: '${"Enroll".tr}-${widget.course.price}${'EGP'.tr}',
                       color: theme.cardColor,
                       radius: 30,
                       paddingSize: 10,
                       context: context,
                       onPressed:(){
-                        cubit.payManager(course.price,'${CacheHelper.getData(key: 'id')},${course.courseId},${course.price}');
+                        cubit.payManager(widget.course.price,'buyCourse,${CacheHelper.getData(key: 'id')},${widget.course.courseId},${widget.course.price}');
                         },
                     ),
                   ),

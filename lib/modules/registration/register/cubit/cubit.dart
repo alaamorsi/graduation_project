@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/error_response.dart';
@@ -71,22 +72,30 @@ class RegisterCubit extends Cubit<RegisterStates> {
       }
     }).catchError((error) {
       isLoading = false;
-      if (error.statusCode==400) {
-        Map<String, dynamic> decodedMap =
-            json.encode(error) as Map<String, dynamic>;
-        errorResponse = RegisterResponse.fromJson(decodedMap);
-        if (errorResponse!.success == false) {
-          if (errorResponse!.hasRepeatedEmail == true) {
-            emit(RegErrorRepeatedEmailState());
-          } else if (errorResponse!.hasRepeatedUserName == true) {
-            emit(RegErrorRepeatedUserNameState());
+      if (error is DioException) {
+        if (error.response?.statusCode == 400) {
+          // Ensure the response data is a JSON-encodable map
+          var responseData = error.response?.data;
+          if (responseData is Map<String, dynamic>) {
+            errorResponse = RegisterResponse.fromJson(responseData);
+            if (errorResponse?.success == false) {
+              if (errorResponse?.hasRepeatedEmail == true) {
+                emit(RegErrorRepeatedEmailState());
+              } else if (errorResponse?.hasRepeatedUserName == true) {
+                emit(RegErrorRepeatedUserNameState());
+              }
+            }
+          } else {
+            // Handle the case where response data is not a Map
+            emit(RegisterErrorState());
           }
+        } else if (error.response?.statusCode == 500) {
+          emit(RegErrorServerErrorState());
+        } else {
+          emit(RegisterErrorState());
         }
-      } else if (error.statusCode==500) {
-        emit(RegErrorServerErrorState());
-      } else {
-        emit(RegisterErrorState());
       }
+
     });
   }
 

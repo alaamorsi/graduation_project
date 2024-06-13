@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
             appBar: defaultAppBar(
                 context: context,
                 centerTitle: false,
-                title: '${'Hello'.tr}' '${firstName.replaceRange(0, 1, firstName[0].toUpperCase())}',
+                title: '${'Hello'.tr} ${firstName.replaceRange(0, 1, firstName[0].toUpperCase())}',
                 actions: [
                   Container(
                     height: 40,

@@ -2,7 +2,6 @@ abstract class StudentStates {}
 
 class StudentInitialStates extends StudentStates {}
 
-
 ///implemented when app initialize and when data updated
 class GetUserDataSuccessState extends StudentStates {}
 
@@ -24,15 +23,11 @@ class PaymentManagerLoadingState extends StudentStates {}
 
 class PaymentManagerSuccessState extends StudentStates {}
 
-class PaymentManagerErrorState extends StudentStates {
-  final String error;
-
-  PaymentManagerErrorState(this.error);
-}
-
+class PaymentManagerErrorState extends StudentStates {}
 
 // pick image
 class ProfileImagePickedSuccessState extends StudentStates {}
+
 class ProfileImagePickedErrorState extends StudentStates {}
 
 //logout
@@ -47,10 +42,17 @@ class SessionEndedState extends StudentStates {}
 
 // Get user states
 class UpdateUserDataLoadingState extends StudentStates {}
+
 class UpdateFirstNameSuccessState extends StudentStates {}
+
 class UpdateLastNameSuccessState extends StudentStates {}
+
 class UpdateBioSuccessState extends StudentStates {}
+
 class UpdateProfileImageLoadingState extends StudentStates {}
+
 class UpdateProfileImageSuccessState extends StudentStates {}
+
 class UpdateProfileImageErrorState extends StudentStates {}
+
 class UpdateUserDataErrorState extends StudentStates {}
