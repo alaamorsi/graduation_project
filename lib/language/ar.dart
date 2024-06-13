@@ -19,7 +19,7 @@ const Map<String, String> ar = {
   "student account": "حساب الطالب",
   'First name': 'الاسم الأول',
   'Last name': 'الاسم الأخير',
-  'userName':'اسم المستخدم',
+  'User name':'اسم المستخدم',
   'terms of use': 'شروط الاستخدام',
   "create": "انشاء",
   "Have an account already?": "هل لديك حساب بالفعل ؟",
@@ -69,8 +69,8 @@ const Map<String, String> ar = {
   "Get started": "ابدأ الآن",
   "SKIP": "تخطى",
   "Info": "معلومة",
-  "Error": "عفواً",
-  "Success": "عظيم",
+  "Error": "حدث خطأ",
+  "Success": "تم بنجاح",
   "Warning": "تحذير",
   "your email is not confirmed ,check your gmail!":
       "لم يتم تأكيد البريد الإلكتروني، تحقق من بريدك الإلكتروني!",
@@ -172,4 +172,5 @@ const Map<String, String> ar = {
   "Coming Soon":"قريبا",
   "Sorry, that option isn't available now":"عذرا، هذا الخيار غير متوفر الآن",
   "welcome back":"مرحباً بعودتك",
+  "accept the terms of use":"يجب ان توافق على شروط الإستخدام",
 };

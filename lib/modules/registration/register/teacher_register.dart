@@ -25,25 +25,41 @@ class TeacherScreen extends StatelessWidget {
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
         if (state is RegisterSuccessState) {
-          showToast(title: 'Info'.tr, description: "your email is not confirmed ,check your gmail!".tr,context: context, state: MotionState.info);
+          showToast(
+              title: 'Info'.tr,
+              description: "your email is not confirmed ,check your gmail!".tr,
+              context: context,
+              state: MotionState.info);
           RegisterCubit.get(context).sendConfirm(email: emailController.text);
           navigateTo(
               context,
               ConfirmScreen(
                 email: emailController.text,
               ));
-        }
-        else if(state is RegErrorRepeatedEmailState) {
-          showToast(title: 'Warning'.tr, description: "this email is already exist".tr,context: context, state: MotionState.warning);
-        }
-        else if(state is RegErrorRepeatedUserNameState){
-          showToast(title: 'Warning'.tr, description: "this username is  taken , please try another".tr,context: context, state: MotionState.warning);
-        }
-        else if(state is RegErrorServerErrorState){
-          showToast(title: 'Error'.tr, description: "network error".tr,context: context, state: MotionState.error);
-        }
-        else if(state is RegisterErrorState){
-          showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
+        } else if (state is RegErrorRepeatedEmailState) {
+          showToast(
+              title: 'Warning'.tr,
+              description: "this email is already exist".tr,
+              context: context,
+              state: MotionState.warning);
+        } else if (state is RegErrorRepeatedUserNameState) {
+          showToast(
+              title: 'Warning'.tr,
+              description: "this username is  taken , please try another".tr,
+              context: context,
+              state: MotionState.warning);
+        } else if (state is RegErrorServerErrorState) {
+          showToast(
+              title: 'Error'.tr,
+              description: "network error".tr,
+              context: context,
+              state: MotionState.error);
+        } else if (state is RegisterErrorState) {
+          showToast(
+              title: 'Error'.tr,
+              description: "Something went wrong".tr,
+              context: context,
+              state: MotionState.error);
         }
       },
       builder: (context, state) {
@@ -74,13 +90,6 @@ class TeacherScreen extends StatelessWidget {
                             color: theme.primaryColor,
                             size: 36.0,
                           ),
-                          Text(
-                            "login".tr,
-                            style: font.copyWith(
-                                color: theme.primaryColor,
-                                fontSize: 27.0,
-                                fontWeight: FontWeight.bold),
-                          )
                         ],
                       ),
                     ),
@@ -144,7 +153,7 @@ class TeacherScreen extends StatelessWidget {
                           }
                           return null;
                         },
-                        label: 'userName'.tr,
+                        label: 'User name'.tr,
                         suffixIcon: Icons.account_box_rounded),
                     const SizedBox(height: 10.0),
                     defaultFormField(
@@ -211,15 +220,22 @@ class TeacherScreen extends StatelessWidget {
                       isLoading: cubit.isLoading,
                       text: "create".tr,
                       onPressed: () {
-                        if (formKey.currentState!.validate() &&
-                            cubit.acceptCondition) {
-                          cubit.userRegister(
-                              firstName: nameController1.text,
-                              lastName: nameController2.text,
-                              userName: userNameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
-                              role: 'instructor');
+                        if (formKey.currentState!.validate()) {
+                          if (cubit.acceptCondition) {
+                            cubit.userRegister(
+                                firstName: nameController1.text,
+                                lastName: nameController2.text,
+                                userName: userNameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                role: 'instructor');
+                          } else {
+                            showToast(
+                                title: 'Warning'.tr,
+                                description: "accept the terms of use".tr,
+                                context: context,
+                                state: MotionState.warning);
+                          }
                         }
                       },
                       context: context,

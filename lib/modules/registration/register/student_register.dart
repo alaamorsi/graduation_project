@@ -74,13 +74,6 @@ class StudentScreen extends StatelessWidget {
                             color: theme.primaryColor,
                             size: 36.0,
                           ),
-                          Text(
-                            "login".tr,
-                            style: font.copyWith(
-                                color: theme.primaryColor,
-                                fontSize: 27.0,
-                                fontWeight: FontWeight.bold),
-                          )
                         ],
                       ),
                     ),
@@ -211,15 +204,20 @@ class StudentScreen extends StatelessWidget {
                       isLoading: cubit.isLoading,
                       text: "create".tr,
                       onPressed: () {
-                        if (formKey.currentState!.validate() &&
-                            cubit.acceptCondition) {
-                          cubit.userRegister(
-                              firstName: nameController1.text,
-                              lastName: nameController2.text,
-                              userName: userNameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
-                              role: 'student');
+                        if (formKey.currentState!.validate()) {
+                          if(cubit.acceptCondition){
+                            cubit.userRegister(
+                                firstName: nameController1.text,
+                                lastName: nameController2.text,
+                                userName: userNameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                role: 'student'
+                            );
+                          } else{
+                            showToast(title: 'Warning'.tr, description: "accept the terms of use".tr,context: context, state: MotionState.warning);
+
+                          }
                         }
                       },
                       context: context,
