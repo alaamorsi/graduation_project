@@ -57,7 +57,7 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
       listener: (context , state ){
         if(state is PaymentManagerSuccessState){
           showToast(title: "Course Addition", description: "Course has been added successfully", state: MotionState.success, context: context);
-          // Get.off(()=> );
+          Get.off(()=> ClassLeader(course: myCourses[1]));
         }
         else if(state is PaymentManagerErrorState){
           showToast(title: "Course Addition", description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);
