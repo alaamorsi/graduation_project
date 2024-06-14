@@ -35,18 +35,16 @@ class HomeScreen extends StatelessWidget {
             appBar: defaultAppBar(
                 context: context,
                 centerTitle: false,
-                title: '${'Hello'.tr} ${firstName.replaceRange(0, 1, firstName[0].toUpperCase())}',
+                title:
+                    '${'Hello'.tr} ${firstName.replaceRange(0, 1, firstName[0].toUpperCase())}',
                 actions: [
                   Container(
                     height: 40,
                     width: 40,
                     decoration: BoxDecoration(
-                      color: Theme
-                          .of(context)
-                          .primaryColor
-                          .withOpacity(0.3),
+                      color: Theme.of(context).primaryColor.withOpacity(0.3),
                       borderRadius:
-                      const BorderRadius.all(Radius.circular(9.0)),
+                          const BorderRadius.all(Radius.circular(9.0)),
                     ),
                     child: IconButton(
                       onPressed: () {
@@ -55,9 +53,7 @@ class HomeScreen extends StatelessWidget {
                       icon: Icon(
                         Icons.search,
                         size: 25,
-                        color: Theme
-                            .of(context)
-                            .primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
@@ -67,128 +63,134 @@ class HomeScreen extends StatelessWidget {
                       height: 40,
                       width: 40,
                       decoration: BoxDecoration(
-                        color: Theme
-                            .of(context)
-                            .primaryColor
-                            .withOpacity(0.3),
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(9.0)),
+                            const BorderRadius.all(Radius.circular(9.0)),
                       ),
                       child: IconButton(
                         onPressed: () {
                           navigateTo(context, const WishListScreen());
                         },
                         icon: Icon(Icons.favorite,
-                            size: 25, color: Theme
-                                .of(context)
-                                .primaryColor),
+                            size: 25, color: Theme.of(context).primaryColor),
                       ),
                     ),
                   ),
                 ]),
             body: ConditionalBuilder(
               condition: true,
-              builder: (context) =>
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(screenWidth * 0.01),
-                      child: Column(children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.05),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Subjects".tr,
-                                  style: font.copyWith(
-                                      color: theme.primaryColorDark,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                                const Spacer(),
-                              ]),
-                        ),
-                        CarouselSlider(
-                          items: subjects
-                              .map(
-                                (element) =>
-                                slideItem(
-                                    context: context,
-                                    title: element.tr,
-                                    image: "Assets/subjects_icon/$element.png",
-                                    onTap: () {
-                                      Get.to(() =>
-                                          SpecialSubjectPage(
-                                              subjectName: element));
-                                    }),
-                          )
-                              .toList(),
-                          options: CarouselOptions(
-                            height: screenHeight / 4,
-                            initialPage: 0,
-                            viewportFraction: 1,
-                            enableInfiniteScroll: true,
-                            reverse: false,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(seconds: 3),
-                            autoPlayAnimationDuration: const Duration(
-                                seconds: 1),
-                          ),
-                        ),
-                        newDivider(),
-                        DefaultTabController(
-                          length: categories.length,
-                          child: Column(
-                            children: [
-                              TabBar(
-                                  indicatorColor: Colors.transparent,
-                                  tabAlignment: TabAlignment.start,
-                                  isScrollable: true,
-                                  labelStyle: font.copyWith(
-                                      color: theme.primaryColor,
-                                      fontSize: 19.0),
-                                  unselectedLabelStyle: font.copyWith(
-                                      color: Colors.grey, fontSize: 16.0),
-                                  labelPadding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                                  dividerColor: Colors.transparent,
-                                  tabs: categories
-                                      .map((e) => Tab(text: e.tr))
-                                      .toList()),
-                              SizedBox(
-                                width: double.maxFinite,
-                                height: (cubit.courses.length.toInt()*(screenHeight*0.15))+100.0,
-                                child: TabBarView(
-                                  children: [
-                                    coursesCardList(state, cubit, theme, cubit.courses),
-                                    coursesCardList(state, cubit, theme, cubit.courses),
-                                    coursesCardList(state, cubit, theme, cubit.courses),
-                                    coursesCardList(state, cubit, theme, cubit.courses),
-                                    coursesCardList(state, cubit, theme, cubit.courses),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
+              builder: (context) => SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(screenWidth * 0.01),
+                  child: Column(children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Subjects".tr,
+                              style: font.copyWith(
+                                  color: theme.primaryColorDark,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                            const Spacer(),
+                          ]),
                     ),
-                  ),
+                    CarouselSlider(
+                      items: subjects
+                          .map(
+                            (element) => slideItem(
+                                context: context,
+                                title: element.tr,
+                                image: "Assets/subjects_icon/$element.png",
+                                onTap: () {
+                                  Get.to(() =>
+                                      SpecialSubjectPage(subjectName: element));
+                                }),
+                          )
+                          .toList(),
+                      options: CarouselOptions(
+                        height: screenHeight / 4,
+                        initialPage: 0,
+                        viewportFraction: 1,
+                        enableInfiniteScroll: true,
+                        reverse: false,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 3),
+                        autoPlayAnimationDuration: const Duration(seconds: 1),
+                      ),
+                    ),
+                    newDivider(),
+                    DefaultTabController(
+                      length: categories.length,
+                      child: Column(
+                        children: [
+                          TabBar(
+                              indicatorColor: Colors.transparent,
+                              tabAlignment: TabAlignment.start,
+                              isScrollable: true,
+                              labelStyle: font.copyWith(
+                                  color: theme.primaryColor, fontSize: 19.0),
+                              unselectedLabelStyle: font.copyWith(
+                                  color: Colors.grey, fontSize: 16.0),
+                              labelPadding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              dividerColor: Colors.transparent,
+                              tabs: categories
+                                  .map((e) => Tab(text: e.tr))
+                                  .toList()),
+                          SizedBox(
+                            width: double.maxFinite,
+                            height: (cubit.courses.length.toInt() *
+                                    (screenHeight * 0.15)) +
+                                screenHeight/3,
+                            child: TabBarView(
+                              children: [
+                                coursesCardList(
+                                    state, cubit, theme, cubit.courses),
+                                coursesCardList(
+                                    state, cubit, theme, cubit.courses),
+                                coursesCardList(
+                                    state, cubit, theme, cubit.courses),
+                                coursesCardList(
+                                    state, cubit, theme, cubit.courses),
+                                coursesCardList(
+                                    state, cubit, theme, cubit.courses),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+                ),
+              ),
               fallback: (context) =>
-              const Center(child: CircularProgressIndicator()),
+                  const Center(child: CircularProgressIndicator()),
             ),
           );
         });
   }
-  Widget coursesCardList(StudentStates state,StudentCubit cubit,ThemeData theme,List courseTypes){
+
+  Widget coursesCardList(StudentStates state, StudentCubit cubit,
+      ThemeData theme, List courseTypes) {
     return ConditionalBuilder(
-      condition: state is StudentGetCoursesSuccessState,
+      condition: cubit.courses.isNotEmpty,
       builder: (context) {
         return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemCount: courseTypes.length,
             itemBuilder: (context, index) {
+              if (cubit.courses.isEmpty)
+                return Center(
+                  child: Text(
+                    'There are no courses yet',
+                    style: TextStyle(color: Colors.black,fontSize: 18.0,fontWeight: FontWeight.bold),
+                  ),
+                );
               return courseItem(
                   context: context,
                   course: courseTypes[index],
@@ -199,29 +201,38 @@ class HomeScreen extends StatelessWidget {
             });
       },
       fallback: (BuildContext context) {
-        if(state is StudentGetCoursesLoadingState) {
-          return Center(child: SizedBox(
-            width: 50.0,
-              height: 50.0,
-              child: CircularProgressIndicator(color: theme.primaryColor,)));
-        }
-        else if(state is StudentGetCoursesErrorState) {
+        if (state is StudentGetCoursesLoadingState) {
+          return Center(
+              child: SizedBox(
+                  width: 50.0,
+                  height: 50.0,
+                  child: CircularProgressIndicator(
+                    color: theme.primaryColor,
+                  )));
+        } else if (state is StudentGetCoursesErrorState) {
           return const Text("Ops , SomeThing went wrong");
+        } else {
+          return Center(
+            child: Text(
+              'There are no courses yet',
+              style: TextStyle(color: Colors.grey,fontSize: 22.0,fontWeight: FontWeight.bold),
+            ),
+          );
         }
-        else{
-          return ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: courseTypes.length,
-              itemBuilder: (context, index) {
-                return courseItem(
-                    context: context,
-                    course: courseTypes[index],
-                    color: theme.cardColor,
-                    addToWishList: () {
-                      cubit.addToWishList(courseTypes[index]);
-                    });
-              });
-        }
+        // else{
+        //   return ListView.builder(
+        //       physics: const NeverScrollableScrollPhysics(),
+        //       itemCount: courseTypes.length,
+        //       itemBuilder: (context, index) {
+        //         return courseItem(
+        //             context: context,
+        //             course: courseTypes[index],
+        //             color: theme.cardColor,
+        //             addToWishList: () {
+        //               cubit.addToWishList(courseTypes[index]);
+        //             });
+        //       });
+        // }
       },
     );
   }

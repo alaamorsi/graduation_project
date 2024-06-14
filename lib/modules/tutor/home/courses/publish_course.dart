@@ -169,7 +169,7 @@ class _PublishCourseState extends State<PublishCourse> {
                           if (formKey.currentState!.validate()) {
                             setState(() {
                               cubit.isPublished = true;
-                               Get.to(()=>const TutorCoursesScreen(subject: 'Arabic',));
+                               // Get.to(()=>const TutorCoursesScreen(course: ,));
                             });
                           }
                         }),

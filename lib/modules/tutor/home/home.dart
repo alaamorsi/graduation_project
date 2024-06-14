@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -26,10 +27,13 @@ class TutorHomeScreen extends StatelessWidget {
             title: 'Your courses'.tr,
             hasActions: false,
           ),
-          body: ListView.builder(itemBuilder: (
-              BuildContext context, int index) => courseDesign(theme: theme, course: cubit.insCourses[index]),
-            itemCount: cubit.insCourses.length,
-          ),
+          body: ConditionalBuilder(
+              condition: cubit.insCourses.isNotEmpty,
+              builder: (context)=>ListView.builder(itemBuilder: (
+                  BuildContext context, int index) => courseDesign(theme: theme, course: cubit.insCourses[index]),
+                itemCount: cubit.insCourses.length,
+              ),
+              fallback: (context)=>Center(child: CircularProgressIndicator(color: theme.primaryColor,))),
           floatingActionButton:Padding(
             padding: const EdgeInsets.all(20.0),
             child: Row(
@@ -56,7 +60,7 @@ class TutorHomeScreen extends StatelessWidget {
 }){
     return InkWell(
       onTap: (){
-        Get.to(TutorCoursesScreen(subject: course.courseName,));
+        Get.to(TutorCoursesScreen(course: course,));
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),

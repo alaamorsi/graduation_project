@@ -21,7 +21,7 @@ class CourseModel {
 }
 
 class InstructorCourseModel{
-  // late int courseId;
+  late int courseId;
   late String courseName;
   late double averageRate;
   late int studentCount;
@@ -30,6 +30,6 @@ class InstructorCourseModel{
     courseName = json["courseName"] ?? '';
     averageRate = json["averageRate"] ?? 0;
     studentCount = json["studentCount"] ?? 0;
-    // courseId = json["courseId"];
+    courseId = json["id"];
   }
 }

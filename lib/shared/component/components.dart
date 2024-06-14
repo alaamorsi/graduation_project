@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
@@ -632,7 +633,7 @@ Widget dashboardItem({
     onTap: goTo,
     child: Container(
       margin: EdgeInsets.all(screenWidth * .03),
-      height: screenHeight * .4,
+      height: screenHeight * .25,
       width: screenWidth * .42,
       decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
@@ -646,15 +647,17 @@ Widget dashboardItem({
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: screenHeight * .33,
-            width: screenWidth * .42,
-            color: Theme.of(context).cardColor,
-            child: Center(
-              child: CircleAvatar(
-                radius: 39,
-                child: Image(
-                  image: AssetImage(image),
+          Expanded(
+            child: Container(
+              // height: screenHeight * .32,
+              // width: screenWidth * .42,
+              color: Theme.of(context).cardColor,
+              child: Center(
+                child: CircleAvatar(
+                  radius: 39,
+                  child: Image(
+                    image: AssetImage(image),
+                  ),
                 ),
               ),
             ),
