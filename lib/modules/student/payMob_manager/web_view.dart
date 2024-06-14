@@ -7,7 +7,7 @@ import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatelessWidget {
-  WebViewScreen({super.key, required this.paymentKey});
+  const WebViewScreen({super.key, required this.paymentKey});
 
   final String paymentKey;
 
@@ -39,7 +39,7 @@ class WebViewScreen extends StatelessWidget {
             // Handle payment failure if needed
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => FailureScreen()),
+              MaterialPageRoute(builder: (context) => const FailureScreen()),
             );
             return NavigationDecision.prevent;
           }
@@ -51,13 +51,15 @@ class WebViewScreen extends StatelessWidget {
 }
 
 class SuccessScreen extends StatelessWidget {
+  const SuccessScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Payment Success"),
+        title: const Text("Payment Success"),
       ),
-      body: Center(
+      body: const Center(
         child: Text("Payment was successful!"),
       ),
     );
@@ -65,13 +67,15 @@ class SuccessScreen extends StatelessWidget {
 }
 
 class FailureScreen extends StatelessWidget {
+  const FailureScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Payment Failure"),
+        title: const Text("Payment Failure"),
       ),
-      body: Center(
+      body: const Center(
         child: Text("Payment failed, please try again."),
       ),
     );

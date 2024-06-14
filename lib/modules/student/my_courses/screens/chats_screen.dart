@@ -16,6 +16,8 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
+  double dy=0;
+  bool isTyping = false;
   @override
   Widget build(BuildContext context) {
     TextEditingController messageController = TextEditingController();
@@ -23,17 +25,29 @@ class _ChatsScreenState extends State<ChatsScreen> {
     return BlocProvider(
       create: (BuildContext context) => CourseCubit(),
       child: BlocConsumer<CourseCubit, CourseStates>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if(isTyping){
+              setState(() {
+                dy=10;
+              });
+            }else if(!isTyping){
+              setState(() {
+                dy=0;
+              });
+            }
+          },
           builder: (context, state) {
             var student = StudentCubit.get(context);
             return Scaffold(
               appBar: secondAppbar(context: context, title: "Chat".tr),
               body:buildStudentChat(context: context, theme: theme),
-              bottomNavigationBar: Padding(
-                padding: EdgeInsets.only(left: screenWidth * .02,
-                    right: screenWidth * .02,
-                    bottom: screenWidth * .02),
+              bottomNavigationBar: AnimatedSlide(
+                duration: const Duration(seconds: 1),
+                offset: Offset(0, dy),
                 child: Container(
+                  margin: EdgeInsets.only(left: screenWidth * .02,
+                  right: screenWidth * .02,
+                  bottom: screenWidth * .02),
                   padding: EdgeInsets.all(screenWidth * .03),
                   width: double.infinity,
                   height: screenHeight * .1,
@@ -57,6 +71,18 @@ class _ChatsScreenState extends State<ChatsScreen> {
                         child: defaultFormField(
                             context: context,
                             controller: messageController,
+                            onChanged:(value){
+                              if(messageController.text.isNotEmpty){
+                                setState(() {
+                                  isTyping =true;
+                                });
+                              }
+                              else{
+                                setState(() {
+                                  isTyping =false;
+                                });
+                              }
+                            },
                             type: TextInputType.text,
                             validate: (s) {
                               return null;

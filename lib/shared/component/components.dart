@@ -631,7 +631,6 @@ Widget dashboardItem({
   return InkWell(
     onTap: goTo,
     child: Container(
-      padding: EdgeInsets.all(screenWidth * .03),
       margin: EdgeInsets.all(screenWidth * .03),
       height: screenHeight * .4,
       width: screenWidth * .42,
@@ -647,20 +646,26 @@ Widget dashboardItem({
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleAvatar(radius: 27, child: Image(image: AssetImage(image))),
-          SizedBox(
-            height: screenHeight * .02,
-          ),
           Container(
-            padding: EdgeInsets.all(5.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Theme.of(context).primaryColor,width: 2.0)
+            height: screenHeight * .33,
+            width: screenWidth * .42,
+            color: Theme.of(context).cardColor,
+            child: Center(
+              child: CircleAvatar(
+                radius: 39,
+                child: Image(
+                  image: AssetImage(image),
+                ),
+              ),
             ),
-            child: Text(
-              title,
-              style: font.copyWith(
-                  fontSize: 16.0, color: Theme.of(context).primaryColor),
-            ),
+          ),
+          // SizedBox(
+          //   height: screenHeight * .02,
+          // ),
+          Text(
+            title,
+            style: font.copyWith(
+                fontSize: 18.0, color: Theme.of(context).primaryColor),
           ),
         ],
       ),

@@ -8,7 +8,7 @@ import '../../../../layout/tutor/tutor_cubit/instructor_states.dart';
 import '../../../../shared/component/constant.dart';
 import '../../../../shared/component/components.dart';
 
-class AddCourse extends StatefulWidget{
+class AddCourse extends StatefulWidget {
   final String courseType;
 
   const AddCourse({
@@ -20,7 +20,7 @@ class AddCourse extends StatefulWidget{
   State<AddCourse> createState() => _AddCourseState();
 }
 
-class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
+class _AddCourseState extends State<AddCourse> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -28,7 +28,7 @@ class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
   }
 
   @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async{
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       await InstructorCubit.get(context).onPaymentComplete();
@@ -48,12 +48,19 @@ class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
 
     return BlocConsumer<InstructorCubit, InstructorStates>(
       listener: (context, state) {
-        if(state is PaymentManagerSuccessState){
-          showToast(title: "Course Addition", description: "Course has been added successfully", state: MotionState.success, context: context);
-        Get.off(()=>const PublishCourse());
-        }
-        else if(state is PaymentManagerErrorState){
-          showToast(title: "Course Addition", description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);
+        if (state is PaymentManagerSuccessState) {
+          showToast(
+              title: "Course Addition",
+              description: "Course has been added successfully",
+              state: MotionState.success,
+              context: context);
+          Get.off(() => const PublishCourse());
+        } else if (state is PaymentManagerErrorState) {
+          showToast(
+              title: "Course Addition",
+              description: "Sorry, something went wrong during payment process",
+              state: MotionState.error,
+              context: context);
         }
       },
       builder: (context, state) {
@@ -68,30 +75,9 @@ class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
           body: Form(
             key: formKey,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
               child: ListView(
                 children: [
-                  Text(
-                    "Subject".tr,
-                    style: font.copyWith(
-                        color: theme.primaryColorDark,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  selectionField(
-                      context: context,
-                      hint: 'choose subject'.tr,
-                      list: subjects,
-                      theme: theme,
-                      onSelect: (s) {
-                        cubit.subjectSelect(s!);
-                      }),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   Text(
                     "Stage".tr,
                     style: font.copyWith(
@@ -123,14 +109,16 @@ class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
                   const SizedBox(
                     height: 10,
                   ),
-                  selectionField(
+                  selectionFieldDependOnOther(
                       context: context,
                       hint: 'choose Educational level'.tr,
+                      dependentSelection: cubit.courseStage,
                       list: eduLevel,
                       theme: theme,
                       onSelect: (s) {
                         cubit.levelSelect(s!);
-                      }),
+                      },
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -151,6 +139,28 @@ class _AddCourseState extends State<AddCourse>  with WidgetsBindingObserver{
                       theme: theme,
                       onSelect: (s) {
                         cubit.termSelect(s!);
+                      }),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Subject".tr,
+                    style: font.copyWith(
+                        color: theme.primaryColorDark,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  selectionFieldDependOnOther(
+                      context: context,
+                      hint: 'choose subject'.tr,
+                      dependentSelection: cubit.courseStage,
+                      list: subjects,
+                      theme: theme,
+                      onSelect: (s) {
+                        cubit.subjectSelect(s!);
                       }),
                   const SizedBox(
                     height: 20,
@@ -321,4 +331,145 @@ Widget selectionField({
       ),
     ),
   );
+}
+
+Widget selectionFieldDependOnOther({
+  required List<String> list,
+  required String hint,
+  required ThemeData theme,
+  required String dependentSelection,
+  required void Function(String?)? onSelect,
+  required context,
+}) {
+  return PopScope(
+    onPopInvoked: (bool back) async {
+      InstructorCubit.get(context).isBack();
+    },
+    canPop: InstructorCubit.get(context).back,
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+      child: DropdownMenu<String>(
+        menuHeight: screenHeight * 0.12,
+        width: screenWidth * 0.94,
+        hintText: hint,
+        textStyle: font.copyWith(color: theme.primaryColorDark, fontSize: 18.0),
+        dropdownMenuEntries: dropdownMenuEntriesWithSelection(
+            theme: theme, list: list, dependentSelection: dependentSelection),
+        onSelected: onSelect,
+        menuStyle: MenuStyle(
+          backgroundColor:
+              MaterialStatePropertyAll(theme.scaffoldBackgroundColor),
+          side: MaterialStatePropertyAll(
+              BorderSide(color: theme.primaryColorDark)),
+        ),
+      ),
+    ),
+  );
+}
+
+List<DropdownMenuEntry<String>> dropdownMenuEntriesWithSelection({
+  required ThemeData theme,
+  required List<String> list,
+  required String dependentSelection,
+}) {
+  var newList =[];
+  if(list == eduLevel){
+    if (dependentSelection == 'PrimaryStage') {
+      return list
+          .map((e) => DropdownMenuEntry<String>(
+          value: e,
+          label: e.tr,
+          labelWidget: Text(
+            e.tr,
+            style: font.copyWith(
+                color: theme.primaryColorDark,
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold),
+          )))
+          .toList();
+    } else {
+      newList = [
+        'FirstYear',
+        'SecondYear',
+        'ThirdYear'
+      ];
+      return newList
+          .map((e) => DropdownMenuEntry<String>(
+          value: e,
+          label: e.tr,
+          labelWidget: Text(
+            e.tr,
+            style: font.copyWith(
+                color: theme.primaryColorDark,
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold),
+          )))
+          .toList();
+    }
+  }
+  else{
+    if (dependentSelection == 'PrimaryStage') {
+      newList=[
+        'Arabic',
+        'English',
+        'Maths',
+        'Sciences',
+        'SocialStudies',
+      ];
+      return newList
+          .map((e) => DropdownMenuEntry<String>(
+          value: e,
+          label: e.tr,
+          labelWidget: Text(
+            e.tr,
+            style: font.copyWith(
+                color: theme.primaryColorDark,
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold),
+          )))
+          .toList();
+    }
+    else if (dependentSelection == 'PreparatoryStage') {
+      newList=[
+        'Arabic',
+        'English',
+        'Maths',
+        'Sciences',
+        'SocialStudies',
+        'German',
+        'Spanish',
+        'Italian',
+        'French',
+        'History',
+        'Geography',
+        'Chemistry',
+        'Physics',
+      ];
+      return newList
+          .map((e) => DropdownMenuEntry<String>(
+          value: e,
+          label: e.tr,
+          labelWidget: Text(
+            e.tr,
+            style: font.copyWith(
+                color: theme.primaryColorDark,
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold),
+          )))
+          .toList();
+    } else {
+      return list
+          .map((e) => DropdownMenuEntry<String>(
+          value: e,
+          label: e.tr,
+          labelWidget: Text(
+            e.tr,
+            style: font.copyWith(
+                color: theme.primaryColorDark,
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold),
+          )))
+          .toList();
+    }
+  }
 }
