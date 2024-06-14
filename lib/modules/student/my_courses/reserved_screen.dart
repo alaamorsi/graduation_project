@@ -15,60 +15,88 @@ class ReservedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List <double> progress=[0,10,50];
-    var theme= Theme.of(context);
+    List<double> progress = [0, 10, 50];
+    var theme = Theme.of(context);
+    var cubit = StudentCubit.get(context);
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
             appBar: defaultAppBar(
               context: context,
-              title:"Enrolled Courses".tr,
+              title: "Enrolled Courses".tr,
               hasActions: false,
             ),
-            body: ConditionalBuilder(
-              condition: myCourses.isNotEmpty,
-              builder: (context) => Padding(
-                padding: const EdgeInsets.all(10),
-                child: ListView.builder(
+            body: Padding(
+              padding: EdgeInsets.all(screenWidth * .02),
+              child: ConditionalBuilder(
+                condition: cubit.enrolledCourses.isNotEmpty,
+                builder: (context) => ListView.builder(
                     itemCount: myCourses.length,
-                    itemBuilder: (context ,index){
+                    itemBuilder: (context, index) {
                       return paidCourse(
                           context: context,
                           course: myCourses[index],
                           theme: theme,
-                          courseProgress: progress[index]
-                      );
-                    }
-                ),
+                          courseProgress: progress[index]);
+                    }),
+                fallback: (BuildContext context) {
+                  if (state is StudentGetCoursesLoadingState) {
+                    return Center(
+                        child: SizedBox(
+                            width: 50.0,
+                            height: 50.0,
+                            child: CircularProgressIndicator(
+                              color: theme.primaryColor,
+                            )));
+                  } else if (state is StudentGetCoursesErrorState) {
+                    return Text("Ops , SomeThing went wrong".tr);
+                  } else {
+                    return Center(
+                        child: Text('You are not in class yet'.tr,
+                            style: font.copyWith(
+                                color: theme.primaryColor,
+                                fontSize: screenWidth * 0.07,
+                                fontWeight: FontWeight.bold)
+                        ),
+                    );
+                  }
+                },
               ),
-              fallback: (context) => Center(child: Text('You are not in class yet'.tr)),
             ),
           );
-      }
-    );
+        });
   }
+
   // paid course item
   Widget paidCourse({
     required BuildContext context,
     required MyCourse course,
     required ThemeData theme,
-    bool isReserved =false,
+    bool isReserved = false,
     bool isFavourite = false,
     required double courseProgress,
   }) {
     return Padding(
       padding: const EdgeInsets.all(9.0),
       child: InkWell(
-        onTap: (){navigateTo(context, ClassLeader(course: course,));},
+        onTap: () {
+          navigateTo(
+              context,
+              ClassLeader(
+                course: course,
+              ));
+        },
         child: Container(
           width: screenWidth,
-          height: screenHeight/7,
+          height: screenHeight / 7,
           decoration: BoxDecoration(
             color: theme.primaryColor.withOpacity(.1),
-            borderRadius: const BorderRadius.all(Radius.circular(23.0),),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(23.0),
+            ),
           ),
-          child:Padding(
+          child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
@@ -76,12 +104,13 @@ class ReservedScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Container(
-                    width: screenHeight/10,
-                    height: screenHeight/10,
+                    width: screenHeight / 10,
+                    height: screenHeight / 10,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(image: NetworkImage(course.teacherImage),fit: BoxFit.cover)
-                    ),
+                        image: DecorationImage(
+                            image: NetworkImage(course.teacherImage),
+                            fit: BoxFit.cover)),
                   ),
                 ),
                 Column(
@@ -90,12 +119,17 @@ class ReservedScreen extends StatelessWidget {
                   children: [
                     Text(
                       course.subject.tr,
-                      style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
+                      style: font.copyWith(
+                          fontSize: 18.0, color: theme.primaryColor),
                     ),
-                    const SizedBox(height: 5,),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Text(
                       '${course.videosNumber}${'lessons'.tr}',
-                      style: font.copyWith(fontSize: 12.0,color: theme.primaryColorDark.withOpacity(.5)),
+                      style: font.copyWith(
+                          fontSize: 12.0,
+                          color: theme.primaryColorDark.withOpacity(.5)),
                     ),
                   ],
                 ),
@@ -104,10 +138,13 @@ class ReservedScreen extends StatelessWidget {
                   radius: 40,
                   lineWidth: 6,
                   animation: true,
-                  percent: courseProgress/100,
+                  percent: courseProgress / 100,
                   center: Text(
                     "$courseProgress%",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0,color: theme.primaryColorDark),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.0,
+                        color: theme.primaryColorDark),
                   ),
                   circularStrokeCap: CircularStrokeCap.round,
                   progressColor: theme.primaryColor,

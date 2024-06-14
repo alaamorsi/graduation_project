@@ -17,6 +17,12 @@ class StudentGetCoursesSuccessState extends StudentStates {}
 
 class StudentGetCoursesErrorState extends StudentStates {}
 
+class StudentGetCoursesEnrolledLoadingState extends StudentStates {}
+
+class StudentGetCoursesEnrolledSuccessState extends StudentStates {}
+
+class StudentGetCoursesEnrolledErrorState extends StudentStates {}
+
 class StartSearchState extends StudentStates {}
 
 class PaymentManagerLoadingState extends StudentStates {}

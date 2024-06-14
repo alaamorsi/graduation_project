@@ -11,4 +11,5 @@ String updateTokens='Account/tokens';
 String orderIdEndpoint='Course/order-id';
 String getCoursesEndPoint='Course';
 String getInstructorCourses='Course/instructor-courses';
+String studentGetEnrolledCourses='Course/';
 String instructorCoursePublish='Course/publish/';

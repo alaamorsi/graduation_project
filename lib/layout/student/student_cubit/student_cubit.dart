@@ -86,6 +86,21 @@ class StudentCubit extends Cubit<StudentStates> {
     });
   }
 
+  List<CourseModel> enrolledCourses = [];
+
+  void getEnrolledCourses(int pageNumber) {
+    emit(StudentGetCoursesEnrolledLoadingState());
+    sendRequest(method: 'get', url: "$studentGetEnrolledCourses$pageNumber/for-student")
+        .then((value) {
+      enrolledCourses = (value.data as List)
+          .map((course) => CourseModel.fromJson(course))
+          .toList();
+      emit(StudentGetCoursesEnrolledSuccessState());
+    }).catchError((error) {
+      emit(StudentGetCoursesEnrolledErrorState());
+    });
+  }
+
   Future<void> payManager(int coursePrice, String description) async {
     isLoading = true;
     emit(PaymentManagerLoadingState());
