@@ -173,4 +173,7 @@ const Map<String, String> ar = {
   "Sorry, that option isn't available now":"عذرا، هذا الخيار غير متوفر الآن",
   "welcome back":"مرحباً بعودتك",
   "accept the terms of use":"يجب ان توافق على شروط الإستخدام",
+  "Your course is not published ,Publish Now ?":"لم يتم نشر الدورة التدريبية الخاصة بك ،انشر الآن ؟",
+  "Not now":"ليس الآن",
+  "Publish":"نشر",
 };

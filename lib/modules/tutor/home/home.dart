@@ -30,7 +30,7 @@ class TutorHomeScreen extends StatelessWidget {
           body: ConditionalBuilder(
               condition: cubit.insCourses.isNotEmpty,
               builder: (context)=>ListView.builder(itemBuilder: (
-                  BuildContext context, int index) => courseDesign(theme: theme, course: cubit.insCourses[index]),
+                  BuildContext context, int index) => courseDesign(theme: theme,context:context, course: cubit.insCourses[index]),
                 itemCount: cubit.insCourses.length,
               ),
               fallback: (context)=>Center(child: CircularProgressIndicator(color: theme.primaryColor,))),
@@ -56,11 +56,13 @@ class TutorHomeScreen extends StatelessWidget {
   }
   Widget courseDesign({
     required ThemeData theme,
+    required BuildContext context,
     required InstructorCourseModel course,
 }){
     return InkWell(
       onTap: (){
         Get.to(TutorCoursesScreen(course: course,));
+        InstructorCubit.get(context).showPopMassage(context,false,course.courseId);
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),

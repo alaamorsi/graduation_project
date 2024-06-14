@@ -174,4 +174,7 @@ const Map<String, String> en = {
   "Coming Soon":"Coming Soon",
   "Sorry, that option isn't available now":"Sorry, that option isn't available now",
   "accept the terms of use":"Must accept the terms of use",
+  "Your course is not published ,Publish Now ?":"Your course is not published ,Publish Now ?",
+  "Not now":"Not now",
+  "Publish":"Publish",
 };

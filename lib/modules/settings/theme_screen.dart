@@ -22,7 +22,7 @@ class ThemeScreen extends StatelessWidget {
           backgroundColor: theme.scaffoldBackgroundColor,
           appBar: secondAppbar(context: context, title:"Theme".tr,),
           body: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(screenWidth*.02),
             child: Column(
                 children: [
                   //app mode

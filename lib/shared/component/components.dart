@@ -1,13 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:motion_toast/motion_toast.dart';
-
-// import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../../models/courses_model.dart';
 import 'constant.dart';
@@ -588,36 +584,34 @@ Widget themeItem({
   required IconData icon,
   required void Function() tap,
 }) {
-  return Padding(
-    padding: const EdgeInsets.all(8),
-    child: InkWell(
-      onTap: tap,
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        height: screenWidth / 2.5,
-        width: screenWidth / 2.5,
-        decoration: BoxDecoration(
-          color: cardColor.withOpacity(.2),
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 54, color: cardColor),
-            const SizedBox(
-              width: 20,
+  return InkWell(
+    onTap: tap,
+    child: Container(
+      margin:  EdgeInsets.all(screenWidth*.03),
+      padding: EdgeInsets.all(screenWidth*.03),
+      height: screenWidth * .42,
+      width: screenWidth * .42,
+      decoration: BoxDecoration(
+        color: cardColor.withOpacity(.2),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 54, color: cardColor),
+          const SizedBox(
+            width: 20,
+          ),
+          Text(
+            title,
+            style: font.copyWith(
+              fontSize: 18.0,
+              color: Colors.white,
             ),
-            Text(
-              title,
-              style: font.copyWith(
-                fontSize: 18.0,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     ),
   );
@@ -633,7 +627,7 @@ Widget dashboardItem({
     onTap: goTo,
     child: Container(
       margin: EdgeInsets.all(screenWidth * .03),
-      height: screenHeight * .25,
+      height: screenHeight * .27,
       width: screenWidth * .42,
       decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
@@ -649,8 +643,6 @@ Widget dashboardItem({
         children: [
           Expanded(
             child: Container(
-              // height: screenHeight * .32,
-              // width: screenWidth * .42,
               color: Theme.of(context).cardColor,
               child: Center(
                 child: CircleAvatar(
@@ -662,13 +654,13 @@ Widget dashboardItem({
               ),
             ),
           ),
-          // SizedBox(
-          //   height: screenHeight * .02,
-          // ),
-          Text(
-            title,
-            style: font.copyWith(
-                fontSize: 18.0, color: Theme.of(context).primaryColor),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: screenHeight*0.01),
+            child: Text(
+              title,
+              style: font.copyWith(
+                  fontSize: screenWidth*0.06, color: Theme.of(context).primaryColor),
+            ),
           ),
         ],
       ),

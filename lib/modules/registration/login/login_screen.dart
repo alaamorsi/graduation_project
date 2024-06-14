@@ -177,54 +177,6 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30.0),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Theme.of(context).primaryColorDark,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5.0,
-                        ),
-                        Text(
-                          'or'.tr,
-                          style: font.copyWith(
-                              fontSize: 15.0,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                        const SizedBox(
-                          width: 5.0,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Theme.of(context).primaryColorDark,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30.0),
-                    //google logo
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            radius: 20.0,
-                            foregroundImage: const AssetImage("Assets/google.png"),
-                            child: InkWell(
-                              onTap: () {},
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),

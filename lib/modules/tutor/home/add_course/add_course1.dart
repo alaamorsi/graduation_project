@@ -372,7 +372,6 @@ List<DropdownMenuEntry<String>> dropdownMenuEntriesWithSelection({
   required List<String> list,
   required String dependentSelection,
 }) {
-  var newList =[];
   if(list == eduLevel){
     if (dependentSelection == 'PrimaryStage') {
       return list
@@ -388,7 +387,8 @@ List<DropdownMenuEntry<String>> dropdownMenuEntriesWithSelection({
           )))
           .toList();
     } else {
-      newList = [
+      //اعدادي وثانوي
+      List<String> newList  = [
         'FirstYear',
         'SecondYear',
         'ThirdYear'
@@ -409,7 +409,7 @@ List<DropdownMenuEntry<String>> dropdownMenuEntriesWithSelection({
   }
   else{
     if (dependentSelection == 'PrimaryStage') {
-      newList=[
+      List<String> newList =[
         'Arabic',
         'English',
         'Maths',
@@ -430,7 +430,7 @@ List<DropdownMenuEntry<String>> dropdownMenuEntriesWithSelection({
           .toList();
     }
     else if (dependentSelection == 'PreparatoryStage') {
-      newList=[
+      List<String> newList =[
         'Arabic',
         'English',
         'Maths',

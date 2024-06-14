@@ -32,7 +32,7 @@ class SettingsScreen extends StatelessWidget {
             title: "Settings".tr,
           ),
           body: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding:  EdgeInsets.all(screenWidth * 0.02),
             child: Column(children: [
               //app language
               InkWell(

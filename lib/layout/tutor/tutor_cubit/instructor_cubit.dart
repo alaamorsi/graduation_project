@@ -13,8 +13,9 @@ import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+// import 'package:url_launcher/url_launcher.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
+import '../../../modules/tutor/home/courses/courses.dart';
 import '../../../modules/tutor/home/home.dart';
 import '../../../modules/tutor/notification/notification.dart';
 import '../../../modules/tutor/profile/profile.dart';
@@ -37,8 +38,8 @@ class InstructorCubit extends Cubit<InstructorStates> {
     emit(InstructorChangeBottomNavState());
   }
 
+  String courseStage='PrimaryStage';
   late String courseSub;
-  late String courseStage;
   late String courseLevel;
   late String courseTerm;
 
@@ -140,7 +141,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       });
     }
     try {
-      Response<dynamic> response = await sendRequest(
+      await sendRequest(
           method: 'updateImage', url: updateImage, formData: formData);
       emit(UpdateProfileImageSuccessState());
       return 200;
@@ -251,7 +252,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
   Future<int?> logOut(String refreshToken) async {
     emit(LogOutLoadingInsState());
     try {
-      Response response = await sendRequest(
+      await sendRequest(
           method: 'delete', url: logout, data: {'refreshToken': refreshToken});
       await clearCache();
       emit(LogOutSuccessState());
@@ -345,14 +346,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
 
   bool isPublished = false;
-
-  void publishCourse() {
-    if (isPublished)
-      emit(PublishCourseSuccessState());
-    else
-      emit(PublishCourseLoadingState());
-  }
-
   bool isLoading = false;
 
   List<InstructorCourseModel> insCourses=[];
@@ -368,5 +361,30 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(InstructorGetCoursesErrorState());
     });
   }
+  Future<void> showPopMassage(context,bool isPublish,int id) async {
+    if(!isPublish){
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return DialogScreen(courseId: id,);
+          });
+      emit(ShowPopMassageState());
+    }
+  }
 
+  Future<void> publishCourse(int courseId) async {
+    emit(PublishCourseLoadingState());
+    try {
+      await sendRequest(
+          method: 'post', url: "$instructorCoursePublish$courseId");
+      print(courseId);
+      emit(PublishCourseSuccessState());
+    } catch (error) {
+      if (error is int && error == 401) {
+        emit(SessionEndedState());
+      } else {
+        emit(PublishCourseErrorState());
+      }
+    }
+  }
 }

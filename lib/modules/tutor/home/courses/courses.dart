@@ -15,20 +15,16 @@ class TutorCoursesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<InstructorCubit,InstructorStates>(
-      listener: (context , state ){
-        showAdaptiveDialog(context: context, builder: (context)=>const Dialog(
-          child: Text('Course not published yet'),
-        ));
-      },
-      builder: (context , state){
+    return BlocConsumer<InstructorCubit, InstructorStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
         return Scaffold(
           appBar: secondAppbar(
             context: context,
-            title:course.courseName.tr,
+            title: course.courseName.tr,
           ),
           body: SingleChildScrollView(
-            child: Padding(padding: EdgeInsets.all(screenWidth*0.02),
+            child: Padding(padding: EdgeInsets.all(screenWidth * 0.02),
               child: Wrap(
                 children: [
                   dashboardItem(
@@ -77,6 +73,76 @@ class TutorCoursesScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class DialogScreen extends StatefulWidget {
+  final int courseId;
+  const DialogScreen({super.key, required this.courseId});
+
+  @override
+  State<DialogScreen> createState() => _DialogScreenState();
+}
+
+class _DialogScreenState extends State<DialogScreen> {
+
+  void cansel() {
+    Navigator.pop(context);
+  }
+
+  void submit() {
+    Navigator.pop(context);
+    InstructorCubit.get(context).publishCourse(widget.courseId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    return Dialog(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      child: Container(
+        padding: EdgeInsets.all(screenWidth*0.03),
+        height: screenHeight*0.3,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Publish'.tr,
+              style: font.copyWith(color: theme.primaryColorDark, fontSize: 16.0),),
+            SizedBox(height: screenHeight*0.02,),
+            Text("Your course is not published ,Publish Now ?".tr,
+              style: font.copyWith(color: theme.primaryColorDark, fontSize: 16.0),),
+            SizedBox(height: screenHeight*0.02,),
+            Row(
+              children: [
+                ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                          theme.scaffoldBackgroundColor),
+                      side: MaterialStatePropertyAll(
+                          BorderSide(color: theme.primaryColor)),
+                    ),
+                    onPressed: cansel,
+                    child: Text('Not now'.tr, style: font.copyWith(
+                        color: theme.primaryColor, fontSize: 15.0),)
+                ),
+                const SizedBox(width: 5,),
+                Expanded(
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                              theme.primaryColor)
+                      ),
+                      onPressed: submit,
+                      child: Text('Publish'.tr,
+                        style: font.copyWith(color: Colors.white, fontSize: 16.0),)
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

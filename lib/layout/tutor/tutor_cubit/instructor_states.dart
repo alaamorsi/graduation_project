@@ -71,3 +71,5 @@ class InstructorGetCoursesLoadingState extends InstructorStates {}
 class InstructorGetCoursesSuccessState extends InstructorStates {}
 
 class InstructorGetCoursesErrorState extends InstructorStates {}
+
+class ShowPopMassageState extends InstructorStates {}

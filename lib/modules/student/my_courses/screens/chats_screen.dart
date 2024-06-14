@@ -25,11 +25,11 @@ class _ChatsScreenState extends State<ChatsScreen> {
     var theme = Theme.of(context);
     return BlocProvider(
       create: (BuildContext context) => CourseCubit(),
-      child:
-          BlocConsumer<CourseCubit, CourseStates>(listener: (context, state) {
+      child: BlocConsumer<CourseCubit, CourseStates>(
+          listener: (context, state) {
         if (isTyping) {
           setState(() {
-            dy = 10;
+            dy = 2;
           });
         } else if (!isTyping) {
           setState(() {
