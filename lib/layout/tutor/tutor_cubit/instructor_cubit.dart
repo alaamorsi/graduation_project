@@ -9,10 +9,12 @@ import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
 import 'package:graduation_project/modules/student/payMob_manager/web_view.dart';
 import 'package:graduation_project/shared/component/constant.dart';
+import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
+
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
 import '../../../modules/tutor/home/courses/courses.dart';
@@ -38,7 +40,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
     emit(InstructorChangeBottomNavState());
   }
 
-  String courseStage='PrimaryStage';
+  String courseStage = 'PrimaryStage';
   late String courseSub;
   late String courseLevel;
   late String courseTerm;
@@ -232,7 +234,9 @@ class InstructorCubit extends Cubit<InstructorStates> {
         .then((String paymentKey) {
       // launchUrl(Uri.parse(
       //     "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"));
-      Get.to(()=>WebViewScreen(paymentKey: paymentKey,));
+      Get.to(() => WebViewScreen(
+            paymentKey: paymentKey,
+          ));
     }).catchError((e) {
       emit(PaymentManagerErrorState());
     });
@@ -283,10 +287,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
         case 'put':
           return await DioHelper.putData(url: url, data: data!);
         case 'delete':
-          return await DioHelper.delete(
-            url: url,
-            data: data,
-          );
+          return await DioHelper.delete(url: url, data: data);
         case 'patch':
           return await DioHelper.patchData(url: url, data: listMap!);
         case 'updateimage':
@@ -348,11 +349,11 @@ class InstructorCubit extends Cubit<InstructorStates> {
   bool isPublished = false;
   bool isLoading = false;
 
-  List<InstructorCourseModel> insCourses=[];
+  List<InstructorCourseModel> insCourses = [];
+
   void getCourses() {
     emit(InstructorGetCoursesLoadingState());
-    sendRequest(method: 'get', url: getInstructorCourses)
-        .then((value) {
+    sendRequest(method: 'get', url: getInstructorCourses).then((value) {
       insCourses = (value.data as List)
           .map((course) => InstructorCourseModel.fromJson(course))
           .toList();
@@ -361,12 +362,15 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(InstructorGetCoursesErrorState());
     });
   }
-  Future<void> showPopMassage(context,bool isPublish,int id) async {
-    if(!isPublish){
+
+  Future<void> showPopMassage(context, bool isPublish, int id) async {
+    if (!isPublish) {
       await showDialog(
           context: context,
           builder: (BuildContext context) {
-            return DialogScreen(courseId: id,);
+            return DialogScreen(
+              courseId: id,
+            );
           });
       emit(ShowPopMassageState());
     }
@@ -376,8 +380,14 @@ class InstructorCubit extends Cubit<InstructorStates> {
     emit(PublishCourseLoadingState());
     try {
       await sendRequest(
-          method: 'post', url: "$instructorCoursePublish$courseId");
-      print(courseId);
+          method: 'post',
+          url: '$instructorCoursePublish${courseId.toString()}',
+          data: {});
+      for (var element in insCourses) {
+        if (element.courseId == courseId) {
+          element.isPublished = true;
+        }
+      }
       emit(PublishCourseSuccessState());
     } catch (error) {
       if (error is int && error == 401) {

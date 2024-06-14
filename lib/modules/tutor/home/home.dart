@@ -62,7 +62,7 @@ class TutorHomeScreen extends StatelessWidget {
     return InkWell(
       onTap: (){
         Get.to(TutorCoursesScreen(course: course,));
-        InstructorCubit.get(context).showPopMassage(context,false,course.courseId);
+        InstructorCubit.get(context).showPopMassage(context,course.isPublished,course.courseId);
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),

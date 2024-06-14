@@ -20,6 +20,15 @@ class TutorCoursesScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: secondAppbar(
+            hasAction: !course.isPublished,
+            actionIcon: Row(
+              children: [
+                Text('Publish'.tr,style: font.copyWith(color: Theme.of(context).primaryColor),),
+                IconButton(onPressed: (){
+                  InstructorCubit.get(context).publishCourse(course.courseId);
+                }, icon: Icon(Icons.check_box)),
+              ],
+            ),
             context: context,
             title: course.courseName.tr,
           ),

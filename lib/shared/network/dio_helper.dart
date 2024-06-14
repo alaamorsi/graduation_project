@@ -40,6 +40,7 @@ class DioHelper
   }) async{
     dio.options.headers ={
       'Content-Type':'application/json',
+      'Authorization':'Bearer ${CacheHelper.getData(key: 'jwt')}',
     };
     try{
       Response<dynamic> response = await dio.post(url,data: data,);
