@@ -112,7 +112,7 @@ class _AddCourseState extends State<AddCourse> with WidgetsBindingObserver {
                   selectionFieldDependOnOther(
                       context: context,
                       hint: 'choose Educational level'.tr,
-                      dependentSelection: cubit.courseStage,
+                      dependentSelection: cubit.courseStage??'PrimaryStage',
                       list: eduLevel,
                       theme: theme,
                       onSelect: (s) {
@@ -156,7 +156,7 @@ class _AddCourseState extends State<AddCourse> with WidgetsBindingObserver {
                   selectionFieldDependOnOther(
                       context: context,
                       hint: 'choose subject'.tr,
-                      dependentSelection: cubit.courseStage,
+                      dependentSelection: cubit.courseStage??'PrimaryStage',
                       list: subjects,
                       theme: theme,
                       onSelect: (s) {
