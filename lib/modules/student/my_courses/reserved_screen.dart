@@ -54,10 +54,7 @@ class ReservedScreen extends StatelessWidget {
                   } else {
                     return Center(
                         child: Text('You are not in class yet'.tr,
-                            style: font.copyWith(
-                                color: theme.primaryColor,
-                                fontSize: screenWidth * 0.07,
-                                fontWeight: FontWeight.bold)
+                          style: font.copyWith(color: theme.primaryColor,fontSize: screenWidth*0.06),
                         ),
                     );
                   }

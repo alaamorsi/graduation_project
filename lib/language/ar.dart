@@ -176,4 +176,5 @@ const Map<String, String> ar = {
   "Your course is not published ,Publish Now ?":"لم يتم نشر الدورة التدريبية الخاصة بك ،انشر الآن ؟",
   "Not now":"ليس الآن",
   "Publish":"نشر",
+  "Live content":"محتوى اسبوعي",
 };

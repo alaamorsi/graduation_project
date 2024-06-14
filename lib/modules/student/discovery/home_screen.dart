@@ -207,36 +207,36 @@ class HomeScreen extends StatelessWidget {
       fallback: (BuildContext context) {
         if (state is StudentGetCoursesLoadingState) {
           return Center(
-              child: SizedBox(
-                  width: 50.0,
-                  height: 50.0,
-                  child: CircularProgressIndicator(
-                    color: theme.primaryColor,
-                  )));
+            child: SizedBox(
+              width: 50.0,
+              height: 50.0,
+              child: CircularProgressIndicator(
+                color: theme.primaryColor,
+              ),
+            ),
+          );
         } else if (state is StudentGetCoursesErrorState) {
           return const Text("Ops , SomeThing went wrong");
-        } else {
+        } else if(cubit.courses.isEmpty){
           return Center(
             child: Text(
               'There are no courses yet',
-              style: font.copyWith(color: theme.primaryColor,fontSize: screenWidth*0.07,fontWeight: FontWeight.bold)
+              style: font.copyWith(
+                  color: theme.primaryColor, fontSize: screenWidth * 0.06),
             ),
           );
         }
-        // else{
-        //   return ListView.builder(
-        //       physics: const NeverScrollableScrollPhysics(),
-        //       itemCount: courseTypes.length,
-        //       itemBuilder: (context, index) {
-        //         return courseItem(
-        //             context: context,
-        //             course: courseTypes[index],
-        //             color: theme.cardColor,
-        //             addToWishList: () {
-        //               cubit.addToWishList(courseTypes[index]);
-        //             });
-        //       });
-        // }
+        else{
+          return Center(
+            child: SizedBox(
+              width: 50.0,
+              height: 50.0,
+              child: CircularProgressIndicator(
+                color: theme.primaryColor,
+              ),
+            ),
+          );
+        }
       },
     );
   }

@@ -177,4 +177,5 @@ const Map<String, String> en = {
   "Your course is not published ,Publish Now ?":"Your course is not published ,Publish Now ?",
   "Not now":"Not now",
   "Publish":"Publish",
+  "Live content":"Live content",
 };
