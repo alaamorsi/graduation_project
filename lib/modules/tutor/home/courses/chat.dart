@@ -15,12 +15,24 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  double dy=0;
+  bool isTyping = false;
   @override
   Widget build(BuildContext context) {
     TextEditingController messageController = TextEditingController();
     var theme = Theme.of(context);
     return BlocConsumer<InstructorCubit, InstructorStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(isTyping){
+            setState(() {
+              dy=10;
+            });
+          }else if(!isTyping){
+            setState(() {
+              dy=0;
+            });
+          }
+        },
         builder: (context, state) {
           var teacher = InstructorCubit.get(context);
           return Scaffold(
@@ -32,16 +44,20 @@ class _ChatScreenState extends State<ChatScreen> {
               },
               itemCount: messages.length,
             ),
-            bottomNavigationBar: Padding(
-              padding: const EdgeInsets.only(left: 11, right: 11, bottom: 11),
+            bottomNavigationBar: AnimatedSlide(
+              duration: const Duration(milliseconds: 500),
+              offset: Offset(0, dy),
               child: Container(
-                padding: const EdgeInsets.all(9),
+                margin: EdgeInsets.only(left: screenWidth * .02,
+                    right: screenWidth * .02,
+                    bottom: screenWidth * .02),
+                padding: EdgeInsets.all(screenWidth * .03),
                 width: double.infinity,
                 height: 90,
                 decoration: BoxDecoration(
                   color: theme.primaryColorLight,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(18),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(screenWidth * .7),
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -55,10 +71,22 @@ class _ChatScreenState extends State<ChatScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: screenWidth * 3 / 4,
+                      width: screenWidth * 0.75,
                       child: defaultFormField(
                           context: context,
                           controller: messageController,
+                          onChanged:(value){
+                            if(messageController.text.isNotEmpty){
+                              setState(() {
+                                isTyping =true;
+                              });
+                            }
+                            else{
+                              setState(() {
+                                isTyping =false;
+                              });
+                            }
+                          },
                           type: TextInputType.text,
                           validate: (s) {
                             return null;
