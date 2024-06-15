@@ -30,7 +30,7 @@ class WebViewScreen extends StatelessWidget {
             if (CacheHelper.getData(key: 'role') == 'student') {
               Future.delayed(const Duration(seconds: 3)).then((value) {
                 Get.off(() => ClassLeader(
-                      course: myCourses[1],
+                      course: courses[1],
                     ));
               });
             }

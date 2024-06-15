@@ -24,7 +24,6 @@ class HomeScreen extends StatelessWidget {
       'Live content',
       'Recorded Content',
     ];
-
     var cubit = StudentCubit.get(context);
     var theme = Theme.of(context);
     String firstName = CacheHelper.getData(key: 'firstName').toString();
@@ -144,21 +143,19 @@ class HomeScreen extends StatelessWidget {
                                   .toList()),
                           SizedBox(
                             width: double.maxFinite,
-                            height: (cubit.courses.length.toInt() *
-                                    (screenHeight * 0.15)) +
-                                screenHeight / 3,
+                            height: screenHeight * 0.7,
                             child: TabBarView(
                               children: [
                                 coursesCardList(
-                                    state, cubit, theme, cubit.courses),
+                                    state, cubit, theme, cubit.allCourses),
                                 coursesCardList(
-                                    state, cubit, theme, cubit.courses),
+                                    state, cubit, theme, cubit.topRatedCourses),
                                 coursesCardList(
-                                    state, cubit, theme, cubit.courses),
+                                    state, cubit, theme, cubit.allCourses),
                                 coursesCardList(
-                                    state, cubit, theme, cubit.courses),
+                                    state, cubit, theme, cubit.allCourses),
                                 coursesCardList(
-                                    state, cubit, theme, cubit.courses),
+                                    state, cubit, theme, cubit.allCourses),
                               ],
                             ),
                           ),
@@ -175,23 +172,22 @@ class HomeScreen extends StatelessWidget {
         });
   }
 
-  Widget coursesCardList(StudentStates state, StudentCubit cubit,
-      ThemeData theme, List courseTypes) {
+  Widget coursesCardList(StudentStates state, StudentCubit cubit, ThemeData theme, List courseTypes)
+  {
     return ConditionalBuilder(
-      condition: cubit.courses.isNotEmpty,
+      condition: cubit.allCourses.isNotEmpty,
       builder: (context) {
         return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemCount: courseTypes.length,
             itemBuilder: (context, index) {
-              if (cubit.courses.isEmpty) {
-                return const Center(
+              if (cubit.allCourses.isEmpty) {
+                return Center(
                   child: Text(
                     'There are no courses yet',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold),
+                    style: font.copyWith(
+                        color: theme.primaryColor,
+                        fontSize: screenWidth * 0.06),
                   ),
                 );
               }
@@ -205,7 +201,7 @@ class HomeScreen extends StatelessWidget {
             });
       },
       fallback: (BuildContext context) {
-        if (state is StudentGetCoursesLoadingState) {
+        if (state is GetCoursesLoadingState) {
           return Center(
             child: SizedBox(
               width: 50.0,
@@ -215,15 +211,11 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           );
-        } else if (state is StudentGetCoursesErrorState) {
-          return const Text("Ops , SomeThing went wrong");
-        } else if(cubit.courses.isEmpty){
-          return Center(
-            child: Text(
-              'There are no courses yet',
-              style: font.copyWith(
-                  color: theme.primaryColor, fontSize: screenWidth * 0.06),
-            ),
+        } else if (state is GetCoursesErrorState) {
+          return Text("Ops , SomeThing went wrong",
+            style: font.copyWith(
+              color: theme.primaryColor,
+              fontSize: screenWidth * 0.06),
           );
         }
         else{

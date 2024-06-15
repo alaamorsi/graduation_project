@@ -9,14 +9,14 @@ import '../course_cubit/course_cubit.dart';
 import '../course_cubit/course_states.dart';
 
 class LessonsScreen extends StatelessWidget{
-  final MyCourse course;
+  final Course course;
   const LessonsScreen({super.key,required this.course});
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return BlocProvider<CourseCubit>(
-      create: (BuildContext context)=>CourseCubit()..openCourse(course),
+      create: (BuildContext context)=>CourseCubit(),
       child: BlocConsumer<CourseCubit,CourseStates>(
           listener: (context,state) {},
           builder:(context,state){

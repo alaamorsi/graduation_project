@@ -16,7 +16,7 @@ class CourseModel {
     lessonsNumber = json["lessonsNumber"] ?? 0;
     price = json["price"] ?? 0;
     favourite = json["isFavourite"] ?? false;
-    isPublished = json["isPublished"] ?? false;
+    isPublished = json["isPublish"] ?? false;
   }
 }
 
@@ -32,6 +32,6 @@ class InstructorCourseModel {
     averageRate = json["averageRate"] ?? 0;
     studentCount = json["studentCount"] ?? 0;
     courseId = json["id"];
-    isPublished = json["isPublished"] ?? false;
+    isPublished = json["isPublish"] ?? false;
   }
 }

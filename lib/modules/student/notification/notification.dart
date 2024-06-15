@@ -34,7 +34,9 @@ class NotificationsScreen extends StatelessWidget {
               },
               fallback: (context)=> Center(
                 child: Text("You don't have Notifications yet".tr,
-                  style: font.copyWith(color: theme.primaryColor,fontSize: screenWidth*0.06),
+                  style: font.copyWith(
+                      color: theme.primaryColor,
+                      fontSize: screenWidth * 0.06),
                 ),
               ),
             ),

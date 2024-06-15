@@ -66,10 +66,25 @@ class PublishCourseSuccessState extends InstructorStates {}
 class PublishCourseErrorState extends InstructorStates {}
 
 // Instructor Courses
-class InstructorGetCoursesLoadingState extends InstructorStates {}
+class GetInstCoursesLoadingState extends InstructorStates {}
 
-class InstructorGetCoursesSuccessState extends InstructorStates {}
+class GetInstCoursesSuccessState extends InstructorStates {}
 
-class InstructorGetCoursesErrorState extends InstructorStates {}
+class GetInstCoursesErrorState extends InstructorStates {}
 
+// for publish course
 class ShowPopMassageState extends InstructorStates {}
+
+// course lessons
+class GetInstCourseLessonsLoadingState extends InstructorStates {}
+
+class GetInstCourseLessonsSuccessState extends InstructorStates {}
+
+class GetInstCourseLessonsErrorState extends InstructorStates {}
+
+// add lesson
+class AddLessonLoadingState extends InstructorStates {}
+
+class AddLessonSuccessState extends InstructorStates {}
+
+class AddLessonErrorState extends InstructorStates {}

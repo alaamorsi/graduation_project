@@ -19,80 +19,122 @@ class TutorHomeScreen extends StatelessWidget {
     var theme = Theme.of(context);
     var cubit = InstructorCubit.get(context);
     return BlocConsumer<InstructorCubit, InstructorStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return Scaffold(
-          appBar: defaultAppBar(
-            context: context,
-            title: 'Your courses'.tr,
-            hasActions: false,
-          ),
-          body: ConditionalBuilder(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return Scaffold(
+            appBar: defaultAppBar(
+              context: context,
+              title: 'Your courses'.tr,
+              hasActions: false,
+            ),
+            body: ConditionalBuilder(
               condition: cubit.insCourses.isNotEmpty,
-              builder: (context)=>ListView.builder(itemBuilder: (
-                  BuildContext context, int index) => courseDesign(theme: theme,context:context, course: cubit.insCourses[index]),
+              builder: (context) => ListView.builder(
+                itemBuilder: (BuildContext context, int index) => courseDesign(
+                    theme: theme,
+                    context: context,
+                    course: cubit.insCourses[index]),
                 itemCount: cubit.insCourses.length,
               ),
-              fallback: (context)=>Center(child: CircularProgressIndicator(color: theme.primaryColor,))),
-          floatingActionButton:Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  onPressed: (){
-                    Get.to(()=>const SelectCourseType());
-                  },
-                  backgroundColor: theme.primaryColor,
-                  tooltip: 'Create a new course',
-                  child: const Icon(Icons.add,color: Colors.white,),
+              fallback: (BuildContext context) => ConditionalBuilder(
+                condition: state is GetInstCoursesLoadingState,
+                builder: (context) => Center(
+                  child: CircularProgressIndicator(
+                    color: theme.primaryColor,
+                  ),
                 ),
-              ],
+                fallback: (BuildContext context) {
+                  if (state is GetInstCoursesErrorState) {
+                    return Center(
+                      child: Text(
+                        'Ops , SomeThing went wrong',
+                        style: font.copyWith(
+                            color: Colors.grey,
+                            fontSize: screenWidth * 0.06),
+                      ),
+                    );
+                  } else{
+                    return Center(
+                      child: Text(
+                        'There are no courses yet',
+                        style: font.copyWith(
+                            color: theme.primaryColor,
+                            fontSize: screenWidth * 0.06),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-        );
-      }
-    );
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FloatingActionButton(
+                    onPressed: () {
+                      Get.to(() => const SelectCourseType());
+                    },
+                    backgroundColor: theme.primaryColor,
+                    tooltip: 'Create a new course'.tr,
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
+
   Widget courseDesign({
     required ThemeData theme,
     required BuildContext context,
     required InstructorCourseModel course,
-}){
+  }) {
     return InkWell(
-      onTap: (){
-        Get.to(TutorCoursesScreen(course: course,));
-        InstructorCubit.get(context).showPopMassage(context,course.isPublished,course.courseId);
+      onTap: () {
+        Get.to(TutorCoursesScreen(
+          course: course,
+        ));
+        InstructorCubit.get(context)
+            .showPopMassage(context, course.isPublished, course.courseId);
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child:Container(
+        child: Container(
           width: screenWidth,
-          height: screenHeight/5,
+          height: screenHeight / 5,
           decoration: BoxDecoration(
             color: theme.primaryColor.withOpacity(.4),
-            borderRadius: const BorderRadius.all(Radius.circular(20.0),),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(20.0),
+            ),
           ),
-          child:Padding(
+          child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Row(
               children: [
                 //image
                 Container(
-                  width: screenHeight/9,
-                  height: screenHeight/9,
+                  width: screenHeight / 9,
+                  height: screenHeight / 9,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                        image:  AssetImage('Assets/subjects_icon/${course.courseName}.png'),
+                        image: AssetImage(
+                            'Assets/subjects_icon/${course.courseName}.png'),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
-                      )
-                  ),
+                      )),
                 ),
-                const SizedBox(width: 30,),
+                const SizedBox(
+                  width: 30,
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,15 +142,26 @@ class TutorHomeScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         course.courseName.tr,
-                        style: font.copyWith(fontSize: 23.0,color: Colors.white),
+                        style:
+                            font.copyWith(fontSize: 23.0, color: Colors.white),
                       ),
                     ),
                     Expanded(
                       child: Row(
                         children: [
-                          Icon(Icons.star_rate_rounded,color: course.averageRate>0?HexColor("FDBD01"):Colors.white,size: 30,),
-                          Text(course.averageRate>0?'${course.averageRate}':'--',
-                            style: font.copyWith(fontSize: 20.0,color: Colors.white),
+                          Icon(
+                            Icons.star_rate_rounded,
+                            color: course.averageRate > 0
+                                ? HexColor("FDBD01")
+                                : Colors.white,
+                            size: 30,
+                          ),
+                          Text(
+                            course.averageRate > 0
+                                ? '${course.averageRate}'
+                                : '--',
+                            style: font.copyWith(
+                                fontSize: 20.0, color: Colors.white),
                           ),
                         ],
                       ),
@@ -116,10 +169,24 @@ class TutorHomeScreen extends StatelessWidget {
                     Expanded(
                       child: Row(
                         children: [
-                          course.studentCount>1? const Icon(Icons.groups,color:Colors.white,size: 30,): const Icon(Icons.person,color:Colors.white,size: 27,),
-                          const SizedBox(width: 5,),
-                          Text('${course.studentCount} ${'subscriber'.tr}',
-                            style: font.copyWith(fontSize: 18.0,color: Colors.white),
+                          course.studentCount > 1
+                              ? const Icon(
+                                  Icons.groups,
+                                  color: Colors.white,
+                                  size: 30,
+                                )
+                              : const Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                  size: 27,
+                                ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '${course.studentCount} ${'subscriber'.tr}',
+                            style: font.copyWith(
+                                fontSize: 18.0, color: Colors.white),
                           ),
                         ],
                       ),
@@ -134,5 +201,4 @@ class TutorHomeScreen extends StatelessWidget {
       ),
     );
   }
-
 }

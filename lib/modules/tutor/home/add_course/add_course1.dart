@@ -176,7 +176,7 @@ class _AddCourseState extends State<AddCourse> with WidgetsBindingObserver {
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
                     child: TextFormField(
                       controller: priceController,
                       keyboardType: TextInputType.number,
@@ -303,10 +303,10 @@ Widget selectionField({
     },
     canPop: InstructorCubit.get(context).back,
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
       child: DropdownMenu<String>(
-        menuHeight: 200,
-        width: screenWidth - 60,
+        menuHeight: screenHeight * 0.2,
+        width: screenWidth * 0.94,
         hintText: hint,
         textStyle: font.copyWith(color: theme.primaryColorDark, fontSize: 18.0),
         dropdownMenuEntries: list
@@ -347,9 +347,9 @@ Widget selectionFieldDependOnOther({
     },
     canPop: InstructorCubit.get(context).back,
     child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
       child: DropdownMenu<String>(
-        menuHeight: screenHeight * 0.12,
+        menuHeight: screenHeight * 0.2,
         width: screenWidth * 0.94,
         hintText: hint,
         textStyle: font.copyWith(color: theme.primaryColorDark, fontSize: 18.0),

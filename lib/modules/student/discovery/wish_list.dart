@@ -38,7 +38,9 @@ class WishListScreen extends StatelessWidget {
             },
             fallback: (context)=> Center(
                 child: Text('Your WishList is Empty'.tr,
-                  style: font.copyWith(color: theme.primaryColor,fontSize: 18.0),
+                  style: font.copyWith(
+                      color: theme.primaryColor,
+                      fontSize: screenWidth * 0.06),
                 ),
             ),
           ),

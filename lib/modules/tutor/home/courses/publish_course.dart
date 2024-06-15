@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/modules/tutor/home/courses/courses.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
 import '../../../../layout/tutor/tutor_cubit/instructor_states.dart';
@@ -103,44 +102,44 @@ class _PublishCourseState extends State<PublishCourse> {
                         fontSize: screenWidth * .05),
                   ),
                   SizedBox(height: screenWidth * .05),
-                  InkWell(
-                    onTap: () async {
-                      await cubit.pikeVideoFromGallery();
-                      setState(() {
-                        hasIntro = true;
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                          height: 43,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 9, vertical: 3),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).primaryColor.withOpacity(0.3),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(9.0)),
-                          ),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "From gallery",
-                                  style: font.copyWith(
-                                      color: theme.primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Icon(Icons.video_collection,
-                                    color: theme.primaryColor, size: 30)
-                              ])),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () async {
+                  //     await cubit.pikeVideoFromGallery();
+                  //     setState(() {
+                  //       hasIntro = true;
+                  //     });
+                  //   },
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(10.0),
+                  //     child: Container(
+                  //         height: 43,
+                  //         padding: const EdgeInsets.symmetric(
+                  //             horizontal: 9, vertical: 3),
+                  //         alignment: Alignment.center,
+                  //         decoration: BoxDecoration(
+                  //           color:
+                  //               Theme.of(context).primaryColor.withOpacity(0.3),
+                  //           borderRadius:
+                  //               const BorderRadius.all(Radius.circular(9.0)),
+                  //         ),
+                  //         child: Row(
+                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //             children: [
+                  //               Text(
+                  //                 "From gallery",
+                  //                 style: font.copyWith(
+                  //                     color: theme.primaryColor,
+                  //                     fontWeight: FontWeight.bold,
+                  //                     fontSize: 20),
+                  //               ),
+                  //               const SizedBox(
+                  //                 width: 10,
+                  //               ),
+                  //               Icon(Icons.video_collection,
+                  //                   color: theme.primaryColor, size: 30)
+                  //             ])),
+                  //   ),
+                  // ),
                   if (hasIntro)
                     InkWell(
                       onTap: () {

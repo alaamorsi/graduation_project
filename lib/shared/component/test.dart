@@ -269,6 +269,23 @@ class Lesson {
     this.image,
   });
 }
+List<Lesson> lessons=[
+    Lesson(
+        lessonName: "hello world",
+        videoUrl: "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+        image: 'https://media.istockphoto.com/id/1478239832/photo/bee-on-coneflower.jpg?s=1024x1024&w=is&k=20&c=yXYXo6SbCnYWHsY7j9JE9mvn7C7GHLbL2qaIVEskeec=',
+        lessonTime: 3.24),
+    Lesson(
+        lessonName: "second lesson",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        image: 'https://media.istockphoto.com/id/669593632/vector/moon-bunny.jpg?s=1024x1024&w=is&k=20&c=8Dz2T-bIH1T2D_6G-U7-CgWysiFCfsut-iueRy7BPeA=',
+        lessonTime: 9.22),
+    Lesson(
+        lessonName: "test test",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        image: 'https://media.istockphoto.com/id/455450437/vector/crazy-asian-with-astro-gun.jpg?s=1024x1024&w=is&k=20&c=nIE9OmmKmnAfCmCynfukea2mzEggicmXtoZqYGEjHWk=',
+        lessonTime: 10),
+  ];
 
 List<MyCourse> myCourses=[
   MyCourse(

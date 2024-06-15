@@ -150,7 +150,6 @@ const Map<String, String> ar = {
   'SixthYear':'السنة السادسة',
   'First': 'الاول',
   'Second': 'الثاني',
-  "You Didn't have notifications": "لبس لديك إشعارات",
   'Your courses': 'كورساتك',
   "Course Type?": "نوع الكورس؟",
   "Recorded lessons": "دروس مسجلة",
@@ -177,4 +176,8 @@ const Map<String, String> ar = {
   "Not now":"ليس الآن",
   "Publish":"نشر",
   "Live content":"محتوى اسبوعي",
+  "Lessons":"الدروس",
+  "Students":"الطلاب",
+  "Assignments":"الواجبات",
+  "Attachments":"الملحقات",
 };

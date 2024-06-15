@@ -10,7 +10,7 @@ import 'chats_screen.dart';
 import 'lessons_screen.dart';
 
 class ClassLeader extends StatefulWidget {
-  final MyCourse course;
+  final Course course;
   const ClassLeader({super.key,required this.course});
 
   @override

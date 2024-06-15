@@ -71,33 +71,45 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StartSearchState());
   }
 
-  List<CourseModel> courses = [];
+  List<CourseModel> allCourses = [];
+  List<CourseModel> enrolledCourses = [];
+  List<CourseModel> topRatedCourses = [];
 
   void getCourses(int pageNumber) {
-    emit(StudentGetCoursesLoadingState());
-    sendRequest(method: 'get', url: "$getCoursesEndPoint/$pageNumber")
+    emit(GetCoursesLoadingState());
+    sendRequest(method: 'get', url: "$getAllCoursesEndPoint$pageNumber")
         .then((value) {
-      courses = (value.data as List)
+      allCourses = (value.data as List)
           .map((course) => CourseModel.fromJson(course))
           .toList();
-      emit(StudentGetCoursesSuccessState());
+      emit(GetCoursesSuccessState());
     }).catchError((error) {
-      emit(StudentGetCoursesErrorState());
+      emit(GetCoursesErrorState());
     });
   }
-
-  List<CourseModel> enrolledCourses = [];
-
   void getEnrolledCourses(int pageNumber) {
-    emit(StudentGetCoursesEnrolledLoadingState());
-    sendRequest(method: 'get', url: "$studentGetEnrolledCourses$pageNumber/for-student")
+    emit(GetCoursesEnrolledLoadingState());
+    //getAllCoursesEndPoint is equal to getEnrolledCoursesEndPoint
+    sendRequest(method: 'get', url: "Course/${pageNumber.toString()}/for-student")
         .then((value) {
       enrolledCourses = (value.data as List)
           .map((course) => CourseModel.fromJson(course))
           .toList();
-      emit(StudentGetCoursesEnrolledSuccessState());
+      emit(GetCoursesEnrolledSuccessState());
     }).catchError((error) {
-      emit(StudentGetCoursesEnrolledErrorState());
+      emit(GetCoursesEnrolledErrorState());
+    });
+  }
+  void getTopRatedCourses() {
+    emit(GetTopRatedCoursesLoadingState());
+    sendRequest(method: 'get', url:getTopRatedCoursesEndPoint)
+        .then((value) {
+      topRatedCourses = (value.data as List)
+          .map((course) => CourseModel.fromJson(course))
+          .toList();
+      emit(GetTopRatedCoursesSuccessState());
+    }).catchError((error) {
+      emit(GetTopRatedCoursesErrorState());
     });
   }
 

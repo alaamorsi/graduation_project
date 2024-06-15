@@ -11,17 +11,23 @@ class StudentChangeBottomNavState extends StudentStates {}
 
 class CheckFavoriteState extends StudentStates {}
 
-class StudentGetCoursesLoadingState extends StudentStates {}
+class GetCoursesLoadingState extends StudentStates {}
 
-class StudentGetCoursesSuccessState extends StudentStates {}
+class GetCoursesSuccessState extends StudentStates {}
 
-class StudentGetCoursesErrorState extends StudentStates {}
+class GetCoursesErrorState extends StudentStates {}
 
-class StudentGetCoursesEnrolledLoadingState extends StudentStates {}
+class GetTopRatedCoursesLoadingState extends StudentStates {}
 
-class StudentGetCoursesEnrolledSuccessState extends StudentStates {}
+class GetTopRatedCoursesSuccessState extends StudentStates {}
 
-class StudentGetCoursesEnrolledErrorState extends StudentStates {}
+class GetTopRatedCoursesErrorState extends StudentStates {}
+
+class GetCoursesEnrolledLoadingState extends StudentStates {}
+
+class GetCoursesEnrolledSuccessState extends StudentStates {}
+
+class GetCoursesEnrolledErrorState extends StudentStates {}
 
 class StartSearchState extends StudentStates {}
 

@@ -28,15 +28,12 @@ class TutorNotifications extends StatelessWidget {
           ),
         ),
         fallback: (context) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Text("You Didn't have notifications".tr,
-              style: font.copyWith(fontSize: 22.0,color: theme.primaryColorDark),
-              textAlign:TextAlign.center,
-            ),
+          child: Text("You don't have Notifications yet".tr,
+              style: font.copyWith( color: theme.primaryColor,
+                  fontSize: screenWidth * 0.06),
+             ),
           ),
         ),
-      ),
     );
   }
 }

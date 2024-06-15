@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_cubit.dart';
 import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_states.dart';
 import 'package:graduation_project/models/courses_model.dart';
+import 'package:graduation_project/modules/tutor/home/courses/lessons/lessons.dart';
+import 'package:graduation_project/modules/tutor/home/courses/show-students.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-import 'add_videos.dart';
 import 'chat.dart';
 
 class TutorCoursesScreen extends StatelessWidget {
@@ -26,7 +27,7 @@ class TutorCoursesScreen extends StatelessWidget {
                 Text('Publish'.tr,style: font.copyWith(color: Theme.of(context).primaryColor),),
                 IconButton(onPressed: (){
                   InstructorCubit.get(context).publishCourse(course.courseId);
-                }, icon: Icon(Icons.check_box)),
+                }, icon: const Icon(Icons.check_box)),
               ],
             ),
             context: context,
@@ -38,39 +39,35 @@ class TutorCoursesScreen extends StatelessWidget {
                 children: [
                   dashboardItem(
                     context: context,
-                    title: "Add Video",
-                    image: "Assets/for_teacher/addVideo.png",
+                    title: "Lessons".tr,
+                    image: "Assets/for_teacher/play.png",
                     goTo: () {
-                      navigateTo(context, const AddVideos());
+                      navigateTo(context, Lessons(courseId: course.courseId,));
                     },
                   ),
                   dashboardItem(
                     context: context,
-                    title: "Students",
+                    title: "Students".tr,
                     image: "Assets/for_teacher/students.png",
-                    goTo: () {},
+                    goTo: () {
+                      navigateTo(context, ShowStudents(courseId: course.courseId,));
+                    },
                   ),
                   dashboardItem(
                     context: context,
-                    title: "Exams",
+                    title: "Assignments".tr,
                     image: "Assets/for_teacher/exam.png",
                     goTo: () {},
                   ),
                   dashboardItem(
                     context: context,
-                    title: "Assignments",
-                    image: "Assets/for_teacher/exam.png",
-                    goTo: () {},
-                  ),
-                  dashboardItem(
-                    context: context,
-                    title: "Attachment",
+                    title: "Attachments".tr,
                     image: "Assets/for_teacher/attach.png",
                     goTo: () {},
                   ),
                   dashboardItem(
                     context: context,
-                    title: "Chat",
+                    title: "Chat".tr,
                     image: "Assets/for_teacher/chat.png",
                     goTo: () {
                       navigateTo(context, const ChatScreen());
@@ -120,6 +117,7 @@ class _DialogScreenState extends State<DialogScreen> {
               style: font.copyWith(color: theme.primaryColorDark, fontSize: 16.0),),
             SizedBox(height: screenHeight*0.02,),
             Text("Your course is not published ,Publish Now ?".tr,
+              textAlign: TextAlign.center,
               style: font.copyWith(color: theme.primaryColorDark, fontSize: 16.0),),
             SizedBox(height: screenHeight*0.02,),
             Row(

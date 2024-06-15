@@ -1,14 +1,16 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-import 'package:graduation_project/shared/component/test.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
-import 'screens/course_leader.dart';
+import '../../../models/courses_model.dart';
+// import 'screens/course_leader.dart';
 
 class ReservedScreen extends StatelessWidget {
   const ReservedScreen({super.key});
@@ -32,16 +34,16 @@ class ReservedScreen extends StatelessWidget {
               child: ConditionalBuilder(
                 condition: cubit.enrolledCourses.isNotEmpty,
                 builder: (context) => ListView.builder(
-                    itemCount: myCourses.length,
+                    itemCount: cubit.enrolledCourses.length,
                     itemBuilder: (context, index) {
                       return paidCourse(
                           context: context,
-                          course: myCourses[index],
+                          course: cubit.enrolledCourses[index],
                           theme: theme,
                           courseProgress: progress[index]);
                     }),
                 fallback: (BuildContext context) {
-                  if (state is StudentGetCoursesLoadingState) {
+                  if (state is GetCoursesLoadingState) {
                     return Center(
                         child: SizedBox(
                             width: 50.0,
@@ -49,7 +51,7 @@ class ReservedScreen extends StatelessWidget {
                             child: CircularProgressIndicator(
                               color: theme.primaryColor,
                             )));
-                  } else if (state is StudentGetCoursesErrorState) {
+                  } else if (state is GetCoursesErrorState) {
                     return Text("Ops , SomeThing went wrong".tr);
                   } else {
                     return Center(
@@ -68,87 +70,88 @@ class ReservedScreen extends StatelessWidget {
   // paid course item
   Widget paidCourse({
     required BuildContext context,
-    required MyCourse course,
+    required CourseModel course,
     required ThemeData theme,
     bool isReserved = false,
     bool isFavourite = false,
     required double courseProgress,
   }) {
-    return Padding(
-      padding: const EdgeInsets.all(9.0),
-      child: InkWell(
-        onTap: () {
-          navigateTo(
-              context,
-              ClassLeader(
-                course: course,
-              ));
-        },
-        child: Container(
-          width: screenWidth,
-          height: screenHeight / 7,
-          decoration: BoxDecoration(
-            color: theme.primaryColor.withOpacity(.1),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(23.0),
-            ),
+    ImageProvider<Object> image = const AssetImage("Assets/profile/man_1.png");
+    if (course.instProfilePicture!.isNotEmpty) {
+      Uint8List picture = base64Decode(course.instProfilePicture as String);
+      image = MemoryImage(picture);
+    }
+    return InkWell(
+      onTap: () {
+        // navigateTo(
+        //     context,
+        //     ClassLeader(
+        //       course: course,
+        //     ));
+      },
+      child: Container(
+        margin: EdgeInsets.all(screenWidth*.02),
+        padding: EdgeInsets.all(screenWidth*.03),
+        width: screenWidth,
+        height: screenHeight / 7,
+        decoration: BoxDecoration(
+          color: theme.primaryColor.withOpacity(.1),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(23.0),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
+        ),
+        child: Row(
+          children: [
+            //Teacher image
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Container(
+                width: screenHeight / 10,
+                height: screenHeight / 10,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        image: image,
+                        fit: BoxFit.cover)),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //Teacher image
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Container(
-                    width: screenHeight / 10,
-                    height: screenHeight / 10,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: NetworkImage(course.teacherImage),
-                            fit: BoxFit.cover)),
-                  ),
+                Text(
+                  course.subject.tr,
+                  style: font.copyWith(
+                      fontSize: 18.0, color: theme.primaryColor),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      course.subject.tr,
-                      style: font.copyWith(
-                          fontSize: 18.0, color: theme.primaryColor),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '${course.videosNumber}${'lessons'.tr}',
-                      style: font.copyWith(
-                          fontSize: 12.0,
-                          color: theme.primaryColorDark.withOpacity(.5)),
-                    ),
-                  ],
+                const SizedBox(
+                  height: 5,
                 ),
-                const Spacer(),
-                CircularPercentIndicator(
-                  radius: 40,
-                  lineWidth: 6,
-                  animation: true,
-                  percent: courseProgress / 100,
-                  center: Text(
-                    "$courseProgress%",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15.0,
-                        color: theme.primaryColorDark),
-                  ),
-                  circularStrokeCap: CircularStrokeCap.round,
-                  progressColor: theme.primaryColor,
+                Text(
+                  '${course.lessonsNumber}${'lessons'.tr}',
+                  style: font.copyWith(
+                      fontSize: 12.0,
+                      color: theme.primaryColorDark.withOpacity(.5)),
                 ),
               ],
             ),
-          ),
+            const Spacer(),
+            CircularPercentIndicator(
+              radius: 40,
+              lineWidth: 6,
+              animation: true,
+              percent: courseProgress / 100,
+              center: Text(
+                "$courseProgress%",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                    color: theme.primaryColorDark),
+              ),
+              circularStrokeCap: CircularStrokeCap.round,
+              progressColor: theme.primaryColor,
+            ),
+          ],
         ),
       ),
     );

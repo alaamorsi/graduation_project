@@ -151,7 +151,6 @@ const Map<String, String> en = {
   'SixthYear':'Sixth Year',
   'First': 'First',
   'Second': 'Second',
-  "You Didn't have notifications": "You Didn't have notifications",
   'Your courses': 'Your courses',
   "Course Type?": "Course Type?",
   "Recorded lessons": "Recorded lessons",
@@ -178,4 +177,8 @@ const Map<String, String> en = {
   "Not now":"Not now",
   "Publish":"Publish",
   "Live content":"Live content",
+  "Lessons":"Lessons",
+  "Students":"Students",
+  "Assignments":"Assignments",
+  "Attachments":"Attachments",
 };

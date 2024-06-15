@@ -6,17 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 import 'package:graduation_project/models/courses_model.dart';
+import 'package:graduation_project/models/lesson_model.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
 import 'package:graduation_project/modules/student/payMob_manager/web_view.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
-
-// import 'package:url_launcher/url_launcher.dart';
-// import 'package:webview_flutter/webview_flutter.dart';
+import 'package:video_player/video_player.dart';
 import '../../../modules/tutor/home/courses/courses.dart';
 import '../../../modules/tutor/home/home.dart';
 import '../../../modules/tutor/notification/notification.dart';
@@ -103,30 +101,39 @@ class InstructorCubit extends Cubit<InstructorStates> {
     }
   }
 
-  List<File?> videos = [];
   File? video;
+  DateTime? videoPeriod;
+  VideoPlayerController? _controller;
 
   Future<void> pikeVideoFromGallery() async {
     final pickedVideo = await picker.pickVideo(source: ImageSource.gallery);
     if (pickedVideo != null) {
       video = File(pickedVideo.path);
-      videos.add(video);
+      _controller = VideoPlayerController.file(video!)
+        ..initialize().then((_) {
+          videoPeriod = _controller!.value.duration as DateTime?;
+        });
+      print(videoPeriod);
       emit(VideoPickedSuccessState());
     } else {
       emit(VideoPickedErrorState());
     }
   }
 
-  Future<void> pikeVideoFromCamera() async {
-    final pickedVideo = await picker.pickVideo(source: ImageSource.camera);
-    if (pickedVideo != null) {
-      video = File(pickedVideo.path);
-      videos.add(video);
-      emit(VideoPickedSuccessState());
-    } else {
-      emit(VideoPickedErrorState());
-    }
-  }
+  // Future<void> pikeVideoFromCamera() async {
+  //   final pickedVideo = await picker.pickVideo(source: ImageSource.camera);
+  //   if (pickedVideo != null) {
+  //     video = File(pickedVideo.path);
+  //     _controller = VideoPlayerController.file(video!)
+  //       ..initialize().then((_) {
+  //         videoPeriod = _controller!.value.duration as DateTime?;
+  //       });
+  //     print(videoPeriod);
+  //     emit(VideoPickedSuccessState());
+  //   } else {
+  //     emit(VideoPickedErrorState());
+  //   }
+  // }
 
   //update User image
   Future<int?> updateUserProfileImage({
@@ -350,16 +357,18 @@ class InstructorCubit extends Cubit<InstructorStates> {
   bool isLoading = false;
 
   List<InstructorCourseModel> insCourses = [];
+  List<LessonModel> lessons = [];
 
   void getCourses() {
-    emit(InstructorGetCoursesLoadingState());
+    print(CacheHelper.getData(key: 'jwt'));
+    emit(GetInstCoursesLoadingState());
     sendRequest(method: 'get', url: getInstructorCourses).then((value) {
       insCourses = (value.data as List)
           .map((course) => InstructorCourseModel.fromJson(course))
           .toList();
-      emit(InstructorGetCoursesSuccessState());
+      emit(GetInstCoursesSuccessState());
     }).catchError((error) {
-      emit(InstructorGetCoursesErrorState());
+      emit(GetInstCoursesErrorState());
     });
   }
 
@@ -381,11 +390,12 @@ class InstructorCubit extends Cubit<InstructorStates> {
     try {
       await sendRequest(
           method: 'post',
-          url: '$instructorCoursePublish${courseId.toString()}',
+          url: '$instructorCoursePublish$courseId',
           data: {});
-      for (var element in insCourses) {
-        if (element.courseId == courseId) {
-          element.isPublished = true;
+      for (int i=0;i<insCourses.length;i++) {
+        if (insCourses[i].courseId == courseId) {
+          insCourses[i].isPublished = true;
+          break;
         }
       }
       emit(PublishCourseSuccessState());
@@ -397,4 +407,51 @@ class InstructorCubit extends Cubit<InstructorStates> {
       }
     }
   }
+
+  void getLessons() {
+    lessons=[];
+    emit(GetInstCourseLessonsLoadingState());
+    sendRequest(method: 'get', url: instGetLessons).then((value) {
+      lessons = (value.data as List)
+          .map((course) => LessonModel.fromJson(course))
+          .toList();
+      emit(GetInstCourseLessonsSuccessState());
+    }).catchError((error) {
+      emit(GetInstCourseLessonsErrorState());
+    });
+  }
+
+  Future<void> addLesson({
+    required int courseId,
+    required String name,
+    required File? video,
+    required String period,
+  }) async {
+      emit(AddLessonLoadingState());
+      FormData formData = FormData();
+      if (video != null) {
+        formData = FormData.fromMap({
+          'courseId':courseId,
+          'name':name,
+          'video':await MultipartFile.fromFile(
+            video.path,
+            filename: video.path.split('/').last,
+          ),
+          'period':period,
+        });
+      }
+      print(period);
+      try {
+        await sendRequest(
+            method: 'updateimage', url: instAddLessons, formData: formData);
+        emit(AddLessonSuccessState());
+      } catch (error) {
+        if (error == 401) {
+          emit(SessionEndedState());
+        } else if (error is DioException) {
+          emit(AddLessonErrorState());
+        }
+      }
+  }
+
 }
