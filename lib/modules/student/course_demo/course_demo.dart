@@ -88,7 +88,7 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Text("${"for level".tr} : ${cubit.courseDetails.academicLevel.tr}",
+                        Text("${"for level".tr} :::: ${cubit.courseDetails.academicLevel.tr}",
                           style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark.withOpacity(.9)),
                         ),
                         const SizedBox(height: 20),
