@@ -41,6 +41,8 @@ class GetCoursesEnrolledErrorState extends StudentStates {}
 
 // search
 class StartSearchState extends StudentStates {}
+class ChangeTheSearchCategoryState extends StudentStates {}
+class ShowSearchFilterState extends StudentStates {}
 
 class SearchLoadingState extends StudentStates {}
 

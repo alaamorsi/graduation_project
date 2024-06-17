@@ -9,7 +9,6 @@ import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
 import 'package:graduation_project/modules/student/my_courses/screens/course_leader.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
@@ -61,7 +60,7 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
       listener: (context , state ){
         if(state is PaymentManagerSuccessState){
           showToast(title: "Course Addition", description: "Course has been added successfully", state: MotionState.success, context: context);
-          Get.off(()=> ClassLeader(course: courses[1]));
+          Get.off(()=> ClassLeader(course:widget.course));
         }
         else if(state is PaymentManagerErrorState){
           showToast(title: "Course Addition", description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);

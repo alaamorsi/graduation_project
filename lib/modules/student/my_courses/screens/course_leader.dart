@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
+import 'package:graduation_project/models/courses_model.dart';
+import 'package:graduation_project/modules/student/my_courses/screens/add_rate.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-import 'package:graduation_project/shared/component/test.dart';
 import 'Exams.dart';
 import 'assignments.dart';
 import 'chats_screen.dart';
-import 'lessons_screen.dart';
 
 class ClassLeader extends StatefulWidget {
-  final Course course;
+  final CourseModel course;
   const ClassLeader({super.key,required this.course});
 
   @override
@@ -42,7 +42,7 @@ class _ClassLeaderState extends State<ClassLeader> {
               title: "Lessons",
               image: "Assets/for_teacher/recorded.png",
               goTo: () {
-                navigateTo(context, LessonsScreen(course: widget.course,));
+                // navigateTo(context, LessonsScreen(course: widget.course,));
               },
             ),
             dashboardItem(
@@ -68,6 +68,26 @@ class _ClassLeaderState extends State<ClassLeader> {
               goTo: () {
                 Get.to(()=>const AssignmentScreen());
               },
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              shape:const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+              onPressed: () {
+                Get.to(()=>RateScreen(courseId: widget.course.courseId));
+              },
+              backgroundColor: theme.primaryColor,
+              tooltip: 'addRate'.tr,
+              child: const Icon(
+                Icons.star_rate_rounded,
+                color: Colors.white,
+              ),
             ),
           ],
         ),

@@ -4,13 +4,13 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/modules/student/my_courses/screens/course_leader.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../models/courses_model.dart';
-// import 'screens/course_leader.dart';
 
 class ReservedScreen extends StatelessWidget {
   const ReservedScreen({super.key});
@@ -83,11 +83,7 @@ class ReservedScreen extends StatelessWidget {
     }
     return InkWell(
       onTap: () {
-        // navigateTo(
-        //     context,
-        //     ClassLeader(
-        //       course: course,
-        //     ));
+        Get.to(()=>ClassLeader(course: course,));
       },
       child: Container(
         margin: EdgeInsets.all(screenWidth*.02),

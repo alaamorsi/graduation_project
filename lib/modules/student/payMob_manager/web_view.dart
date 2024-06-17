@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:graduation_project/modules/student/my_courses/screens/course_leader.dart';
-import 'package:graduation_project/modules/tutor/home/courses/publish_course.dart';
-import 'package:graduation_project/shared/component/test.dart';
+// import 'package:get/get.dart';
+// import 'package:graduation_project/modules/student/my_courses/screens/course_leader.dart';
+// import 'package:graduation_project/modules/tutor/home/courses/publish_course.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -24,14 +23,12 @@ class WebViewScreen extends StatelessWidget {
             // Navigate to the success screen
             if (CacheHelper.getData(key: 'role') == 'instructor') {
               Future.delayed(const Duration(seconds: 3)).then((value) {
-                Get.off(() => const PublishCourse());
+                // Get.off(() => const PublishCourse());
               });
             }
             if (CacheHelper.getData(key: 'role') == 'student') {
               Future.delayed(const Duration(seconds: 3)).then((value) {
-                Get.off(() => ClassLeader(
-                      course: courses[1],
-                    ));
+                // Get.off(() => ClassLeader(course: ,));
               });
             }
             return NavigationDecision.prevent;
