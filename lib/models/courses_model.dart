@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class CourseModel {
   late int courseId;
   late String? instProfilePicture;
@@ -33,5 +35,23 @@ class InstructorCourseModel {
     studentCount = json["studentCount"] ?? 0;
     courseId = json["id"];
     isPublished = json["isPublish"] ?? false;
+  }
+}
+
+class CourseDetailsModel{
+  late String instructorName;
+  late String academicLevel;
+  late String lessonName;
+  late String url;
+  late String period;
+  late String courseDescription;
+
+  CourseDetailsModel.fromJson(Map<String,dynamic> json){
+    instructorName = json['instructorName']??'';
+    academicLevel = json['academicLevel']??'';
+    lessonName = json['lessonName']??'';
+    url = json['url']??'';
+    period = json['period']??'';
+    courseDescription = json['courseDescription']??'';
   }
 }

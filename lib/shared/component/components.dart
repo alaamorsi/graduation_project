@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/modules/student/course_demo/course_demo.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:hexcolor/hexcolor.dart';

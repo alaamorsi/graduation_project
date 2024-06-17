@@ -27,6 +27,7 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
   @override
   void initState() {
     super.initState();
+    StudentCubit.get(context).getCourseDetails(widget.course.courseId);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -48,6 +49,9 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
   Widget build(BuildContext context) {
     var cubit = StudentCubit.get(context);
     var theme =Theme.of(context);
+    String time = cubit.courseDetails.period.split('.')[0];
+    String url = cubit.courseDetails.url.substring(7);
+    url = 'https://digitutor.runasp.net/$url';
     ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
     if(widget.course.instProfilePicture!.isNotEmpty){
       Uint8List picture = base64Decode(widget.course.instProfilePicture as String);
@@ -79,18 +83,18 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
                         Row(
                           children: [
                             Text("Instructor : ".tr, style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark),),
-                            Text("Sameh",style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
+                            Text(cubit.courseDetails.instructorName,style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
                             ),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Text("${"for level".tr} ${"primary".tr}",
-                          style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark.withOpacity(.7)),
+                        Text("${"for level".tr} : ${cubit.courseDetails.academicLevel.tr}",
+                          style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark.withOpacity(.9)),
                         ),
                         const SizedBox(height: 20),
-                        Text("Description".tr, style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                        Text('Description'.tr, style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
                         Text(
-                          "Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description ",
+                          cubit.courseDetails.courseDescription,
                           style: font.copyWith(fontSize: 13.0,color: theme.primaryColorDark.withOpacity(.5)),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
@@ -108,7 +112,7 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
                         const SizedBox(height: 10,),
                         InkWell(
                           onTap: (){
-                            navigateTo(context, const ViewVideoScreen(introUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",));
+                            navigateTo(context, ViewVideoScreen(introUrl: url,));
                           },
                           child: Container(
                             padding: const EdgeInsets.all(10.0),
@@ -139,14 +143,14 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: Text("1. introduction ",
+                                      child: Text("1. ${cubit.courseDetails.lessonName} ",
                                         style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
                                       ),
                                     ),
                                     const SizedBox(height: 5,),
                                     Expanded(
                                       child: Text(
-                                        '20 mints',
+                                        time,
                                         style: font.copyWith(fontSize: 12.0,color: Colors.grey),
                                       ),
                                     ),
