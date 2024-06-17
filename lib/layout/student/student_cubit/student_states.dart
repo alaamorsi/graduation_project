@@ -11,26 +11,44 @@ class StudentChangeBottomNavState extends StudentStates {}
 
 class CheckFavoriteState extends StudentStates {}
 
+// all Courses
 class GetCoursesLoadingState extends StudentStates {}
 
 class GetCoursesSuccessState extends StudentStates {}
 
 class GetCoursesErrorState extends StudentStates {}
 
+//top rated Courses
 class GetTopRatedCoursesLoadingState extends StudentStates {}
 
 class GetTopRatedCoursesSuccessState extends StudentStates {}
 
 class GetTopRatedCoursesErrorState extends StudentStates {}
 
+//top rated Courses
+class GetTopSalesCoursesLoadingState extends StudentStates {}
+
+class GetTopSalesCoursesSuccessState extends StudentStates {}
+
+class GetTopSalesCoursesErrorState extends StudentStates {}
+
+//enrolled Courses
 class GetCoursesEnrolledLoadingState extends StudentStates {}
 
 class GetCoursesEnrolledSuccessState extends StudentStates {}
 
 class GetCoursesEnrolledErrorState extends StudentStates {}
 
+// search
 class StartSearchState extends StudentStates {}
 
+class SearchLoadingState extends StudentStates {}
+
+class SearchSuccessState extends StudentStates {}
+
+class SearchErrorState extends StudentStates {}
+
+//
 class PaymentManagerLoadingState extends StudentStates {}
 
 class PaymentManagerSuccessState extends StudentStates {}

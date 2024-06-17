@@ -71,11 +71,26 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StartSearchState());
   }
 
+  List<CourseModel> searchList = [];
+  void searchFunction(String? keyWord, String searchBy) {
+    emit(SearchLoadingState());
+    sendRequest(method: 'get', url: "$getAllCoursesEndPoint/$searchBy/$keyWord")
+        .then((value) {
+      searchList = (value.data as List)
+          .map((course) => CourseModel.fromJson(course))
+          .toList();
+      emit(SearchSuccessState());
+    }).catchError((error) {
+      emit(SearchErrorState());
+    });
+  }
   List<CourseModel> allCourses = [];
   List<CourseModel> enrolledCourses = [];
   List<CourseModel> topRatedCourses = [];
+  List<CourseModel> topSalesCourses = [];
 
   void getCourses(int pageNumber) {
+    print(CacheHelper.getData(key: 'jwt'));
     emit(GetCoursesLoadingState());
     sendRequest(method: 'get', url: "$getAllCoursesEndPoint$pageNumber")
         .then((value) {
@@ -112,7 +127,44 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(GetTopRatedCoursesErrorState());
     });
   }
-
+  void getTopSalesCourses() {
+    emit(GetTopSalesCoursesLoadingState());
+    sendRequest(method: 'get', url:getTopSalesCoursesEndPoint)
+        .then((value) {
+      topSalesCourses = (value.data as List)
+          .map((course) => CourseModel.fromJson(course))
+          .toList();
+      emit(GetTopSalesCoursesSuccessState());
+    }).catchError((error) {
+      emit(GetTopSalesCoursesErrorState());
+    });
+  }
+  void getCourseDetails(int courseId) {
+    emit(GetCoursesLoadingState());
+    sendRequest(method: 'get', url: "$getAllCoursesEndPoint$courseId")
+        .then((value) {
+      allCourses = (value.data as List)
+          .map((course) => CourseModel.fromJson(course))
+          .toList();
+      emit(GetCoursesSuccessState());
+      print(CacheHelper.getData(key: 'jwt'));
+    }).catchError((error) {
+      emit(GetCoursesErrorState());
+    });
+  }
+  void addToFavourite(int courseId) {
+    emit(GetCoursesLoadingState());
+    sendRequest(method: 'post', url: "$addToFavouriteEndPoint$courseId")
+        .then((value) {
+      allCourses = (value.data as List)
+          .map((course) => CourseModel.fromJson(course))
+          .toList();
+      emit(GetCoursesSuccessState());
+      print(CacheHelper.getData(key: 'jwt'));
+    }).catchError((error) {
+      emit(GetCoursesErrorState());
+    });
+  }
   Future<void> payManager(int coursePrice, String description) async {
     isLoading = true;
     emit(PaymentManagerLoadingState());

@@ -151,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                                 coursesCardList(
                                     state, cubit, theme, cubit.topRatedCourses),
                                 coursesCardList(
-                                    state, cubit, theme, cubit.allCourses),
+                                    state, cubit, theme, cubit.topSalesCourses),
                                 coursesCardList(
                                     state, cubit, theme, cubit.allCourses),
                                 coursesCardList(

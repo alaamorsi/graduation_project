@@ -40,6 +40,7 @@ class ViewVideoScreenState extends State<ViewVideoScreen> {
     flickManager.dispose(); // Dispose of the flick manager when the screen is disposed
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StudentCubit,StudentStates>(

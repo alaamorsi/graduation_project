@@ -14,12 +14,12 @@ import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
 import '../../../modules/tutor/home/courses/courses.dart';
 import '../../../modules/tutor/home/home.dart';
 import '../../../modules/tutor/notification/notification.dart';
 import '../../../modules/tutor/profile/profile.dart';
 import 'instructor_states.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 
 class InstructorCubit extends Cubit<InstructorStates> {
   InstructorCubit() : super(InstructorInitialStates());
@@ -102,18 +102,25 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }
 
   File? video;
-  DateTime? videoPeriod;
-  VideoPlayerController? _controller;
+  String? videoPeriod;
 
   Future<void> pikeVideoFromGallery() async {
+    int h = 0;
+    int m = 0;
+    int s = 0;
+    var dateTime = DateTime.now();
     final pickedVideo = await picker.pickVideo(source: ImageSource.gallery);
     if (pickedVideo != null) {
       video = File(pickedVideo.path);
-      _controller = VideoPlayerController.file(video!)
-        ..initialize().then((_) {
-          videoPeriod = _controller!.value.duration as DateTime?;
-        });
-      print(videoPeriod);
+      final FlutterFFprobe flutterFProm = FlutterFFprobe();
+      flutterFProm.getMediaInformation(video!.path).then((info) {
+        int t = info.getMediaProperties()!['duration'];
+        if (t >= 3600) h = t ~/ 3600;
+        if (t >= 60) m = t ~/ 60 % 60;
+        s = t % 60;
+        print(info);
+      });
+      videoPeriod = "2024-${dateTime.month}-${dateTime.day}T$h:$m:${s}Z";
       emit(VideoPickedSuccessState());
     } else {
       emit(VideoPickedErrorState());
@@ -425,7 +432,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
     required int courseId,
     required String name,
     required File? video,
-    required String period,
+    required String? period,
   }) async {
       emit(AddLessonLoadingState());
       FormData formData = FormData();
@@ -440,7 +447,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
           'period':period,
         });
       }
-      print(period);
       try {
         await sendRequest(
             method: 'updateimage', url: instAddLessons, formData: formData);

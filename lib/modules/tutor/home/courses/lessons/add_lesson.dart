@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -9,7 +8,6 @@ import '../../../../../shared/component/constant.dart';
 
 class AddLessons extends StatelessWidget {
   final int courseId;
-
   const AddLessons({super.key, required this.courseId});
 
   @override
@@ -35,11 +33,12 @@ class AddLessons extends StatelessWidget {
                   defaultFormField(context: context,
                       controller: nameController,
                       type: TextInputType.text,
+                      radius: 9,
+                      width: 1,
                       validate: (s){
                         if(s!.isEmpty) {
                           return "PleaseEnterTheLessonName";
                         }
-                        return null;
                       },
                       label: "LessonName"),
                   InkWell(
@@ -47,10 +46,7 @@ class AddLessons extends StatelessWidget {
                       await cubit.pikeVideoFromGallery();
                     },
                     child: Container(
-                        height: screenHeight * .09,
-                        margin: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.01,
-                            vertical: screenHeight * .01),
+                        margin: EdgeInsets.symmetric(vertical: screenHeight * .01),
                         padding: EdgeInsets.symmetric(
                             horizontal: screenWidth * 0.03,
                             vertical: screenHeight * .02),
@@ -60,8 +56,7 @@ class AddLessons extends StatelessWidget {
                               .of(context)
                               .primaryColor
                               .withOpacity(0.3),
-                          borderRadius: const BorderRadius.all(Radius.circular(
-                              9.0)),
+                          borderRadius: const BorderRadius.all(Radius.circular(9.0)),
                         ),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,7 +65,7 @@ class AddLessons extends StatelessWidget {
                                   color: theme.primaryColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),),
-                              const SizedBox(width: 10,),
+                              // const SizedBox(width: 10,),
                               Icon(Icons.video_collection,
                                   color: theme.primaryColor, size: 30)
                             ]
@@ -81,19 +76,11 @@ class AddLessons extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       if (formKey.currentState!.validate()) {
-                        cubit.addLesson(
-                            courseId: courseId,
-                            name: nameController.text,
-                            video: cubit.video,
-                            period: "${DateTime.now().day}T${cubit.videoPeriod}Z"
-                        );
+                        cubit.addLesson(courseId: courseId, name: nameController.text, video: cubit.video, period: cubit.videoPeriod);
                       }
                     },
                     child: Container(
-                        height: screenHeight * .09,
-                        margin: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.01,
-                            vertical: screenHeight * .01),
+                        margin: EdgeInsets.symmetric(vertical: screenHeight * .01),
                         padding: EdgeInsets.symmetric(
                             horizontal: screenWidth * 0.03,
                             vertical: screenHeight * .02),
@@ -122,6 +109,7 @@ class AddLessons extends StatelessWidget {
     );
   }
 }
+
 //                      InkWell(
 //                         onTap: () async{
 //                           await cubit.pikeVideoFromCamera();

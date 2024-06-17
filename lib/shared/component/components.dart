@@ -62,11 +62,14 @@ Widget defaultFormField({
   bool thereSuffix = true,
   bool therePrefix = true,
   bool isClickable = true,
+  int maxLines=1,
   double radius = 25.0,
+  double width = 1.2,
 }) =>
     TextFormField(
       controller: controller,
       keyboardType: type,
+      maxLines: maxLines,
       obscureText: isPassword,
       enabled: isClickable,
       cursorColor: Colors.black,
@@ -91,16 +94,9 @@ Widget defaultFormField({
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius),
-          borderSide: const BorderSide(
-            color: Colors.black87,
-            width: 1.2,
-          ),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius),
-          borderSide: const BorderSide(
-            color: Colors.black87,
-            width: 1.2,
+          borderSide: BorderSide(
+            color:Theme.of(context).primaryColorDark,
+            width: width,
           ),
         ),
       ),
