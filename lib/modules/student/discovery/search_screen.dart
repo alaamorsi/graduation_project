@@ -1,5 +1,4 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/constant.dart';
@@ -14,20 +13,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<String> category = [
-    "CourseName",
-    "CourseAcademicYear",
-    "InstructorName",
-    "CourseStage",
-  ];
-  final categorySelections = [
-    false,
-    false,
-    false,
-    false,
-  ];
-  String? catSearchBy;
-  bool startSearch = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +37,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       cursorColor: Colors.black,
                       textAlign: TextAlign.start,
                       onFieldSubmitted: (value){
-                        if (value.isNotEmpty && catSearchBy!.isNotEmpty) {
-                          cubit.searchFunction(searchController.text, catSearchBy!);
-                        } else {
-                          print("nullll");
-                        }
-                      },
-                      onChanged: (s){
-                        setState(() {
-                          if (searchController.text.isNotEmpty) {
-                            startSearch = true;
-                          } else {
-                            startSearch = false;
-                          }
-                        });
+                        cubit.searchText = searchController.text;
+                        cubit.startSearchFunction(value);
                       },
                       validator: (value){
                         return null;
@@ -111,13 +85,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
               SizedBox(height: screenHeight * .02),
-              if (startSearch)
+              if (cubit.startSearch)
                 Wrap(
                   children: [
-                    searchBy(context, 0, theme),
-                    searchBy(context, 1, theme),
-                    searchBy(context, 2, theme),
-                    searchBy(context, 3, theme),
+                    searchBy(context, 0, theme,cubit),
+                    searchBy(context, 1, theme,cubit),
+                    searchBy(context, 2, theme,cubit),
+                    searchBy(context, 3, theme,cubit),
+                    IconButton(onPressed: (){
+                      cubit.searchFunction(cubit.searchText, cubit.catSearchBy!);
+                    }, icon: Icon(Icons.search,color: theme.primaryColor,)),
                   ],
                 ),
               ConditionalBuilder(
@@ -145,7 +122,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget searchBy(BuildContext context, int index, theme) => Padding(
+  Widget searchBy(BuildContext context, int index, theme,StudentCubit cubit) => Padding(
         padding: EdgeInsets.symmetric(
             horizontal: screenWidth * .005, vertical: screenWidth * .003),
         child: FilterChip(
@@ -153,25 +130,16 @@ class _SearchScreenState extends State<SearchScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(screenWidth * .03),
             ),
-            label: Text(category[index].tr),
+            label: Text(cubit.category[index].tr),
             labelStyle: font.copyWith(
               fontSize: 12.0,
               color: Colors.white,
             ),
-            selected: categorySelections[index],
+            selected: cubit.categorySelections[index],
             backgroundColor: Colors.grey,
             selectedColor: theme.primaryColor,
             onSelected: (bool select) {
-              setState(() {
-                for (int i = 0; i < 4; i++) {
-                  if (i == index) {
-                    categorySelections[index] = !categorySelections[index];
-                    continue;
-                  }
-                  categorySelections[i] = false;
-                }
-                catSearchBy = category[index];
-              });
+              cubit.changeTheSearchByFunction(index);
             }),
       );
 }

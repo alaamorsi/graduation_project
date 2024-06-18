@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,7 @@ class TutorCoursesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme =Theme.of(context);
     return BlocConsumer<InstructorCubit, InstructorStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -24,7 +26,7 @@ class TutorCoursesScreen extends StatelessWidget {
             hasAction: !course.isPublished,
             actionIcon: Row(
               children: [
-                Text('Publish'.tr,style: font.copyWith(color: Theme.of(context).primaryColor),),
+                Text('Publish'.tr,style: font.copyWith(color: theme.primaryColor),),
                 IconButton(onPressed: (){
                   InstructorCubit.get(context).publishCourse(course.courseId);
                 }, icon: const Icon(Icons.check_box)),

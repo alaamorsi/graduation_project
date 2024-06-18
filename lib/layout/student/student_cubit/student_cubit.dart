@@ -61,6 +61,22 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(CheckFavoriteState());
   }
 
+  List<String> category = [
+    "CourseName",
+    "CourseAcademicYear",
+    "InstructorName",
+    "CourseStage",
+  ];
+  final categorySelections = [
+    false,
+    false,
+    false,
+    false,
+  ];
+  String? catSearchBy;
+  String? searchText;
+  bool startSearch = false;
+  List<CourseModel> searchList = [];
   bool startSearching = false;
 
   void showSearchFilter(context) async {
@@ -69,11 +85,28 @@ class StudentCubit extends Cubit<StudentStates> {
         builder: (BuildContext context) {
           return const MultiSelect();
         });
-    emit(StartSearchState());
+    emit(ShowSearchFilterState());
   }
 
-  List<CourseModel> searchList = [];
-
+  void startSearchFunction(String text){
+    if (text.isNotEmpty) {
+      startSearch = true;
+    } else {
+      startSearch = false;
+    }
+    emit(StartSearchState());
+  }
+  void changeTheSearchByFunction(int index){
+    for (int i = 0; i < 4; i++) {
+      if (i == index) {
+        categorySelections[index] = !categorySelections[index];
+        continue;
+      }
+      categorySelections[i] = false;
+    }
+    catSearchBy = category[index];
+    emit(ChangeTheSearchCategoryState());
+  }
   void searchFunction(String? keyWord, String searchBy) {
     emit(SearchLoadingState());
     sendRequest(method: 'get', url: "$getAllCoursesEndPoint/$searchBy/$keyWord")
@@ -144,20 +177,18 @@ class StudentCubit extends Cubit<StudentStates> {
     });
   }
 
-  CourseDetailsModel courseDetails = CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
+  CourseDetailsModel courseDetails={} as CourseDetailsModel;
 
   Future getCourseDetails(int courseId) async{
-    emit(GetCoursesDetailsLoadingState());
+    emit(GetCoursesLoadingState());
    try{
-     courseDetails = CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
      var result = await sendRequest(method: 'get', url: "$getCourseDetailsEndPoint$courseId");
-     print(result);
      courseDetails = CourseDetailsModel.fromJson(result.data);
-     emit(GetCoursesDetailsSuccessState());
+     print(courseDetails.period);
+     emit(GetCoursesSuccessState());
    }
    catch(e){
-     print(e);
-     emit(GetCoursesDetailsErrorState());
+     emit(GetCoursesErrorState());
    }
   }
 
@@ -169,6 +200,7 @@ class StudentCubit extends Cubit<StudentStates> {
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetCoursesSuccessState());
+      print(CacheHelper.getData(key: 'jwt'));
     }).catchError((error) {
       emit(GetCoursesErrorState());
     });
