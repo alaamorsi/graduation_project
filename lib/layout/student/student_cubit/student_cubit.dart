@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
@@ -145,20 +144,20 @@ class StudentCubit extends Cubit<StudentStates> {
     });
   }
 
-  CourseDetailsModel courseDetails={} as CourseDetailsModel;
+  CourseDetailsModel courseDetails = CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
 
   Future getCourseDetails(int courseId) async{
-    emit(GetCoursesLoadingState());
+    emit(GetCoursesDetailsLoadingState());
    try{
+     courseDetails = CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
      var result = await sendRequest(method: 'get', url: "$getCourseDetailsEndPoint$courseId");
      print(result);
      courseDetails = CourseDetailsModel.fromJson(result.data);
-     print(courseDetails.period);
-     emit(GetCoursesSuccessState());
+     emit(GetCoursesDetailsSuccessState());
    }
    catch(e){
      print(e);
-     emit(GetCoursesErrorState());
+     emit(GetCoursesDetailsErrorState());
    }
   }
 
@@ -170,7 +169,6 @@ class StudentCubit extends Cubit<StudentStates> {
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetCoursesSuccessState());
-      print(CacheHelper.getData(key: 'jwt'));
     }).catchError((error) {
       emit(GetCoursesErrorState());
     });

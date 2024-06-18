@@ -18,6 +18,13 @@ class GetCoursesSuccessState extends StudentStates {}
 
 class GetCoursesErrorState extends StudentStates {}
 
+// all Courses Details
+class GetCoursesDetailsLoadingState extends StudentStates {}
+
+class GetCoursesDetailsSuccessState extends StudentStates {}
+
+class GetCoursesDetailsErrorState extends StudentStates {}
+
 //top rated Courses
 class GetTopRatedCoursesLoadingState extends StudentStates {}
 

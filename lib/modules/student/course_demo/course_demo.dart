@@ -27,7 +27,6 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
   @override
   void initState() {
     super.initState();
-    StudentCubit.get(context).getCourseDetails(widget.course.courseId);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -50,8 +49,12 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
     var cubit = StudentCubit.get(context);
     var theme =Theme.of(context);
     String time = cubit.courseDetails.period.split('.')[0];
-    String url = cubit.courseDetails.url.substring(7);
-    url = 'https://digitutor.runasp.net/$url';
+    String url='';
+    if(cubit.courseDetails.url!=''&&cubit.courseDetails.url.isNotEmpty)
+      {
+        String url = cubit.courseDetails.url.substring(7);
+        url = 'https://digitutor.runasp.net/$url';
+      }
     ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
     if(widget.course.instProfilePicture!.isNotEmpty){
       Uint8List picture = base64Decode(widget.course.instProfilePicture as String);
@@ -88,7 +91,7 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Text("${"for level".tr} :::: ${cubit.courseDetails.academicLevel.tr}",
+                        Text("${"for level".tr} : ${cubit.courseDetails.academicLevel.tr}",
                           style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark.withOpacity(.9)),
                         ),
                         const SizedBox(height: 20),
@@ -110,6 +113,7 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
                                 },
                                 child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
+                        if(cubit.courseDetails.lessonName.isNotEmpty||cubit.courseDetails.lessonName!='')
                         InkWell(
                           onTap: (){
                             navigateTo(context, ViewVideoScreen(introUrl: url,));

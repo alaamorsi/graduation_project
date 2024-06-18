@@ -38,7 +38,7 @@ class InstructorCourseModel {
   }
 }
 
-class CourseDetailsModel{
+class CourseDetailsModel {
   late String instructorName;
   late String academicLevel;
   late String lessonName;
@@ -46,12 +46,21 @@ class CourseDetailsModel{
   late String period;
   late String courseDescription;
 
-  CourseDetailsModel.fromJson(Map<String,dynamic> json){
-    instructorName = json['instructorName']??'';
-    academicLevel = json['academicLevel']??'';
-    lessonName = json['lessonName']??'';
-    url = json['url']??'';
-    period = json['period']??'';
-    courseDescription = json['courseDescription']??'';
+  CourseDetailsModel.fromJson(Map<String, dynamic> json) {
+    instructorName = json['instructorName'] ?? '';
+    academicLevel = json['academicLevel'] ?? '';
+    lessonName = json['lessonName'] ?? '';
+    url = json['url'] ?? '';
+    period = json['period'] ?? '';
+    courseDescription = json['courseDescription'] ?? '';
   }
+
+  CourseDetailsModel(
+      {
+      required this.instructorName,
+      required this.academicLevel,
+      required this.lessonName,
+      required this.url,
+      required this.period,
+      required this.courseDescription});
 }

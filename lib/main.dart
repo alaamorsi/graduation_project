@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>AppCubit()..changeTheme(themeId)),
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit()),
-        BlocProvider(create: (context)=>StudentCubit()..getUser()..getImage()..getCourses(1)..getEnrolledCourses(1)..getTopRatedCourses()..getTopSalesCourses()),
+        BlocProvider(create: (context)=>StudentCubit()..getCourses(1)..getTopRatedCourses()..getTopSalesCourses()..getEnrolledCourses(1)..getUser()..getImage()),
         BlocProvider(create: (context)=>InstructorCubit()..getData()..getImage()..getCourses()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(

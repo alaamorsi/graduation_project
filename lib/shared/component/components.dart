@@ -402,6 +402,7 @@ Widget courseItem({
   }
   return InkWell(
     onTap: () {
+      StudentCubit.get(context).getCourseDetails(course.courseId);
       navigateTo(
           context,
           CourseDemo(
