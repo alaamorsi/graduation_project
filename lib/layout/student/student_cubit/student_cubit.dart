@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
@@ -86,6 +85,42 @@ class StudentCubit extends Cubit<StudentStates> {
     }).catchError((error) {
       emit(SearchErrorState());
     });
+  }
+
+  List<String> category = [
+    "CourseName",
+    "CourseAcademicYear",
+    "InstructorName",
+    "CourseStage",
+  ];
+  final categorySelections = [
+    false,
+    false,
+    false,
+    false,
+  ];
+  String? catSearchBy;
+  String? searchText;
+  bool startSearch = false;
+
+  void startSearchFunction(String text){
+    if (text.isNotEmpty) {
+      startSearch = true;
+    } else {
+      startSearch = false;
+    }
+    emit(StartSearchState());
+  }
+  void changeTheSearchByFunction(int index){
+    for (int i = 0; i < 4; i++) {
+      if (i == index) {
+        categorySelections[index] = !categorySelections[index];
+        continue;
+      }
+      categorySelections[i] = false;
+    }
+    catSearchBy = category[index];
+    emit(ChangeTheSearchCategoryState());
   }
 
   List<CourseModel> allCourses = [];

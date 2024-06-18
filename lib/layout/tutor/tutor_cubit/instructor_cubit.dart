@@ -114,7 +114,8 @@ class InstructorCubit extends Cubit<InstructorStates> {
       video = File(pickedVideo.path);
       final FlutterFFprobe flutterFProm = FlutterFFprobe();
       flutterFProm.getMediaInformation(video!.path).then((info) {
-        int t = info.getMediaProperties()!['duration'];
+        String tt = info.getMediaProperties()!['duration'];
+        int t = int.parse(tt.split('.')[0]);
         if (t >= 3600) h = t ~/ 3600;
         if (t >= 60) m = t ~/ 60 % 60;
         s = t % 60;
@@ -448,8 +449,8 @@ class InstructorCubit extends Cubit<InstructorStates> {
         });
       }
       try {
-        await sendRequest(
-            method: 'updateimage', url: instAddLessons, formData: formData);
+        var result = await DioHelper.updateImage(url: instAddLessons,data: formData);
+        print(result.hashCode);
         emit(AddLessonSuccessState());
       } catch (error) {
         if (error == 401) {
