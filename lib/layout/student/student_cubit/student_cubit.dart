@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
@@ -61,22 +62,6 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(CheckFavoriteState());
   }
 
-  List<String> category = [
-    "CourseName",
-    "CourseAcademicYear",
-    "InstructorName",
-    "CourseStage",
-  ];
-  final categorySelections = [
-    false,
-    false,
-    false,
-    false,
-  ];
-  String? catSearchBy;
-  String? searchText;
-  bool startSearch = false;
-  List<CourseModel> searchList = [];
   bool startSearching = false;
 
   void showSearchFilter(context) async {
@@ -85,28 +70,11 @@ class StudentCubit extends Cubit<StudentStates> {
         builder: (BuildContext context) {
           return const MultiSelect();
         });
-    emit(ShowSearchFilterState());
-  }
-
-  void startSearchFunction(String text){
-    if (text.isNotEmpty) {
-      startSearch = true;
-    } else {
-      startSearch = false;
-    }
     emit(StartSearchState());
   }
-  void changeTheSearchByFunction(int index){
-    for (int i = 0; i < 4; i++) {
-      if (i == index) {
-        categorySelections[index] = !categorySelections[index];
-        continue;
-      }
-      categorySelections[i] = false;
-    }
-    catSearchBy = category[index];
-    emit(ChangeTheSearchCategoryState());
-  }
+
+  List<CourseModel> searchList = [];
+
   void searchFunction(String? keyWord, String searchBy) {
     emit(SearchLoadingState());
     sendRequest(method: 'get', url: "$getAllCoursesEndPoint/$searchBy/$keyWord")
@@ -177,17 +145,20 @@ class StudentCubit extends Cubit<StudentStates> {
     });
   }
 
-  CourseDetailsModel courseDetails={} as CourseDetailsModel;
+  CourseDetailsModel courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
 
   Future getCourseDetails(int courseId) async{
     emit(GetCoursesLoadingState());
    try{
+     courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
      var result = await sendRequest(method: 'get', url: "$getCourseDetailsEndPoint$courseId");
+     print(result);
      courseDetails = CourseDetailsModel.fromJson(result.data);
      print(courseDetails.period);
      emit(GetCoursesSuccessState());
    }
    catch(e){
+     print(e);
      emit(GetCoursesErrorState());
    }
   }
