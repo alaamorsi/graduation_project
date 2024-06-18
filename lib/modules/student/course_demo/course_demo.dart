@@ -22,24 +22,14 @@ class CourseDemo extends StatefulWidget {
   State<CourseDemo> createState() => _CourseDemoState();
 }
 
-class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
+class _CourseDemoState extends State<CourseDemo>{
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async{
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
-      await StudentCubit.get(context).onPaymentComplete();
-    }
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -199,7 +189,7 @@ class _CourseDemoState extends State<CourseDemo> with WidgetsBindingObserver{
                       paddingSize: 10,
                       context: context,
                       onPressed:(){
-                        cubit.payManager(widget.course.price,'buyCourse,${CacheHelper.getData(key: 'id')},${widget.course.courseId},${widget.course.price}');
+                        cubit.payManager(widget.course.price,'buyCourse,${CacheHelper.getData(key: 'id')},${widget.course.courseId},${widget.course.price}',widget.course);
                         },
                     ),
                   ),

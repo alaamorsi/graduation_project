@@ -212,7 +212,7 @@ class StudentCubit extends Cubit<StudentStates> {
     });
   }
 
-  Future<void> payManager(int coursePrice, String description) async {
+  Future<void> payManager(int coursePrice, String description,CourseModel course) async {
     isLoading = true;
     emit(PaymentManagerLoadingState());
     PaymobManager()
@@ -227,7 +227,7 @@ class StudentCubit extends Cubit<StudentStates> {
       //       "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
       // );
       Get.to(() => WebViewScreen(
-            paymentKey: paymentKey,
+            paymentKey: paymentKey, course: course,
           ));
     }).catchError((error) {
       emit(PaymentManagerErrorState());
