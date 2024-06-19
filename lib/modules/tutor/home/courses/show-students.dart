@@ -14,7 +14,7 @@ class ShowStudents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    InstructorCubit.get(context).getLessons();
+    InstructorCubit.get(context).getStudents(courseId);
     return BlocConsumer<InstructorCubit, InstructorStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -28,11 +28,11 @@ class ShowStudents extends StatelessWidget {
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: screenWidth *.02),
             child: ConditionalBuilder(
-              condition: true,
+              condition: state is InstGetStudentsSuccessState ||cubit.students.isNotEmpty,
               builder: (context) {
                 return ListView.builder(
-                  itemBuilder: (BuildContext context, int index)=>studentCard(color: theme.cardColor, studentName: 'sameh Ahmed', studentImage: ''),
-                  itemCount: 3,
+                  itemBuilder: (BuildContext context, int index)=>studentCard(color: theme.cardColor, studentName: cubit.students[index].name, studentImage: cubit.students[index].image),
+                  itemCount: cubit.students.length,
                 );
               },
               fallback: (context){
@@ -69,7 +69,7 @@ class ShowStudents extends StatelessWidget {
     required String studentImage,
     required Color color,
   }){
-    ImageProvider<Object> image = const AssetImage("Assets/profile/man_1.png");
+    ImageProvider<Object> image = const AssetImage("Assets/profile/man_4.png");
     if (studentImage !='') {
       Uint8List picture = base64Decode(studentImage);
       image = MemoryImage(picture);

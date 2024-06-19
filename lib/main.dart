@@ -29,6 +29,7 @@ void main() async{
   notification = CacheHelper.getData(key: 'notification')??notification;
   firstInstall= CacheHelper.getData(key: 'firstInstall')??true;
   jwt = CacheHelper.getData(key: 'jwt')??jwt;
+  print(jwt);
   role = CacheHelper.getData(key: 'role')??role;
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(

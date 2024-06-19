@@ -11,6 +11,7 @@ class WishListScreen extends StatelessWidget {
   const WishListScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    StudentCubit.get(context).getFavouriteList();
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -19,17 +20,17 @@ class WishListScreen extends StatelessWidget {
         return Scaffold(
           appBar: secondAppbar(context: context, title: 'WishList'.tr),
           body: ConditionalBuilder(
-              condition: cubit.wishList.isNotEmpty,
+              condition: state is GetFavouriteListSuccessState ||cubit.favouriteList.isNotEmpty,
               builder: (context) {
               return SingleChildScrollView(
                   child: Column(
-                      children: cubit.wishList.map((course) {
+                      children: cubit.favouriteList.map((course) {
                         return courseItem(
                             context: context,
                             course: course,
                             color: theme.cardColor,
                             addToWishList:(){
-                              cubit.addToWishList(course);
+                              cubit.addToFavourite(course);
                             }
                         );
                       }).toList()

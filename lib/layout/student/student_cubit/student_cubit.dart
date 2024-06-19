@@ -21,6 +21,7 @@ import 'package:image_picker/image_picker.dart';
 
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
+import '../../../models/lesson_model.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
 import '../../../shared/component/constant.dart';
 
@@ -40,25 +41,6 @@ class StudentCubit extends Cubit<StudentStates> {
   void changeBottomNav(int index) {
     currentIndex = index;
     emit(StudentChangeBottomNavState());
-  }
-
-  List<CourseModel> wishList = [];
-
-  void addToWishList(CourseModel course) {
-    course.favourite = !course.favourite;
-    if (course.favourite) {
-      wishList.add(course);
-    } else if (!course.favourite) {
-      wishList.remove(course);
-    }
-    emit(CheckFavoriteState());
-  }
-
-  bool isFavorite = false;
-
-  void checkFavorite() {
-    isFavorite = !isFavorite;
-    emit(CheckFavoriteState());
   }
 
   bool startSearching = false;
@@ -132,7 +114,7 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(GetCoursesLoadingState());
     sendRequest(method: 'get', url: "$getAllCoursesEndPoint$pageNumber")
         .then((value) {
-      allCourses = (value.data as List)
+      allCourses = (value.data)
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetCoursesSuccessState());
@@ -147,7 +129,7 @@ class StudentCubit extends Cubit<StudentStates> {
     sendRequest(
             method: 'get', url: "Course/${pageNumber.toString()}/for-student")
         .then((value) {
-      enrolledCourses = (value.data as List)
+      enrolledCourses = (value.data)
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetCoursesEnrolledSuccessState());
@@ -159,7 +141,7 @@ class StudentCubit extends Cubit<StudentStates> {
   void getTopRatedCourses() {
     emit(GetTopRatedCoursesLoadingState());
     sendRequest(method: 'get', url: getTopRatedCoursesEndPoint).then((value) {
-      topRatedCourses = (value.data as List)
+      topRatedCourses = (value.data)
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetTopRatedCoursesSuccessState());
@@ -171,7 +153,7 @@ class StudentCubit extends Cubit<StudentStates> {
   void getTopSalesCourses() {
     emit(GetTopSalesCoursesLoadingState());
     sendRequest(method: 'get', url: getTopSalesCoursesEndPoint).then((value) {
-      topSalesCourses = (value.data as List)
+      topSalesCourses = (value.data)
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetTopSalesCoursesSuccessState());
@@ -198,17 +180,36 @@ class StudentCubit extends Cubit<StudentStates> {
    }
   }
 
-  void addToFavourite(int courseId) {
-    emit(GetCoursesLoadingState());
-    sendRequest(method: 'post', url: "$addToFavouriteEndPoint$courseId")
+  List<CourseModel> favouriteList = [];
+
+  void addToFavourite(CourseModel course) {
+    emit(AddToFavouriteLoadingState());
+    sendRequest(method: 'post', url: "$addToFavouriteEndPoint${course.courseId}")
         .then((value) {
-      allCourses = (value.data as List)
-          .map((course) => CourseModel.fromJson(course))
-          .toList();
-      emit(GetCoursesSuccessState());
-      print(CacheHelper.getData(key: 'jwt'));
+          for(int i=0;i<favouriteList.length;i++){
+            if(course.favourite){
+              favouriteList.remove(course);
+            }
+            else{
+              favouriteList.add(course);
+            }
+          }
+          course.favourite = !course.favourite;
+      emit(AddToFavouriteSuccessState());
     }).catchError((error) {
-      emit(GetCoursesErrorState());
+      emit(AddToFavouriteErrorState());
+    });
+  }
+  void getFavouriteList () {
+    emit(GetFavouriteListLoadingState());
+    sendRequest(method: 'post', url: getFavourites)
+        .then((value) {
+          favouriteList = (value.data)
+            .map((course) => CourseModel.fromJson(course))
+            .toList();
+      emit(GetFavouriteListSuccessState());
+    }).catchError((error) {
+      emit(GetFavouriteListErrorState());
     });
   }
 
@@ -470,4 +471,19 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
   bool isLoading = false;
+
+  List<LessonModel> lessons = [];
+  void getLessons(int courseId) {
+    lessons=[];
+    emit(GetCourseLessonsLoadingState());
+    sendRequest(method: 'get', url: "$lessonEndPoint/$courseId").then((value) {
+      lessons = (value.data)
+          .map((course) => LessonModel.fromJson(course))
+          .toList();
+      emit(GetCourseLessonsSuccessState());
+    }).catchError((error) {
+      emit(GetCourseLessonsErrorState());
+    });
+  }
+
 }

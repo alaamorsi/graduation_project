@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/discovery/search_screen.dart';
 import 'package:graduation_project/modules/student/discovery/special_subject_page.dart';
 import 'package:graduation_project/shared/component/components.dart';
@@ -174,7 +175,7 @@ class HomeScreen extends StatelessWidget {
         });
   }
 
-  Widget coursesCardList(StudentStates state, StudentCubit cubit, ThemeData theme, List courseTypes)
+  Widget coursesCardList(StudentStates state, StudentCubit cubit, ThemeData theme, List<CourseModel> courseTypes)
   {
     return ConditionalBuilder(
       condition: cubit.allCourses.isNotEmpty,
@@ -198,7 +199,7 @@ class HomeScreen extends StatelessWidget {
                   course: courseTypes[index],
                   color: theme.cardColor,
                   addToWishList: () {
-                    cubit.addToWishList(courseTypes[index]);
+                    cubit.addToFavourite(courseTypes[index]);
                   });
             });
       },

@@ -1,3 +1,4 @@
+//registration
 String login='Account/login';
 String signUp='Account/sign-up';
 String sendCode='Account/code-in-email';
@@ -9,12 +10,20 @@ String updateImage='Account/settings/profile-picture';
 String logout='Account/sign-out';
 String updateTokens='Account/tokens';
 String orderIdEndpoint='Course/order-id';
+
+//for both instructor & student
+String lessonEndPoint='Course/lesson';
+
+//student
 String getAllCoursesEndPoint='Course/';
 String getCourseDetailsEndPoint='Course/details/';
 String getTopRatedCoursesEndPoint='Course/top-rated';
 String getTopSalesCoursesEndPoint='Course/top-sales';
-String getInstructorCourses='Course/instructor-courses';
 String addToFavouriteEndPoint='Course/favourite/';
+String getFavourites='Course/favourites';
+
+//instructor
+String getInstructorCourses='Course/instructor-courses';
 String instructorCoursePublish='Course/publish/';
-String instAddLessons='Course/lesson';
-String instGetLessons='Course/lessons';
+String instGetStudents='Course/students/';
+

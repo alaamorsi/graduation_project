@@ -15,7 +15,7 @@ class Lessons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    InstructorCubit.get(context).getLessons();
+    InstructorCubit.get(context).getLessons(courseId);
     return BlocConsumer<InstructorCubit, InstructorStates>(
       listener: (context, state) {},
       builder: (context, state) {

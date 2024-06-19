@@ -88,3 +88,10 @@ class AddLessonLoadingState extends InstructorStates {}
 class AddLessonSuccessState extends InstructorStates {}
 
 class AddLessonErrorState extends InstructorStates {}
+
+// course students
+class InstGetStudentsLoadingState extends InstructorStates {}
+
+class InstGetStudentsSuccessState extends InstructorStates {}
+
+class InstGetStudentsErrorState extends InstructorStates {}

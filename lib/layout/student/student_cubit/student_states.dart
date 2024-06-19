@@ -9,7 +9,6 @@ class StudentHasImageState extends StudentStates {}
 
 class StudentChangeBottomNavState extends StudentStates {}
 
-class CheckFavoriteState extends StudentStates {}
 
 // all Courses
 class GetCoursesLoadingState extends StudentStates {}
@@ -45,6 +44,20 @@ class GetCoursesEnrolledLoadingState extends StudentStates {}
 class GetCoursesEnrolledSuccessState extends StudentStates {}
 
 class GetCoursesEnrolledErrorState extends StudentStates {}
+
+// add to favourite
+class AddToFavouriteLoadingState extends StudentStates {}
+
+class AddToFavouriteSuccessState extends StudentStates {}
+
+class AddToFavouriteErrorState extends StudentStates {}
+
+// get favourite list
+class GetFavouriteListLoadingState extends StudentStates {}
+
+class GetFavouriteListSuccessState extends StudentStates {}
+
+class GetFavouriteListErrorState extends StudentStates {}
 
 // search
 class StartSearchState extends StudentStates {}
@@ -95,3 +108,10 @@ class UpdateProfileImageSuccessState extends StudentStates {}
 class UpdateProfileImageErrorState extends StudentStates {}
 
 class UpdateUserDataErrorState extends StudentStates {}
+
+// course lessons
+class GetCourseLessonsLoadingState extends StudentStates {}
+
+class GetCourseLessonsSuccessState extends StudentStates {}
+
+class GetCourseLessonsErrorState extends StudentStates {}

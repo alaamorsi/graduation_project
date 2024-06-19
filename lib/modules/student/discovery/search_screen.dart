@@ -1,9 +1,11 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
+import '../../../layout/student/student_cubit/student_states.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -21,103 +23,108 @@ class _SearchScreenState extends State<SearchScreen> {
     var cubit = StudentCubit.get(context);
     ThemeData theme = Theme.of(context);
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(screenWidth * .02),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: screenHeight * .02),
-              Row(
+      body: BlocConsumer<StudentCubit, StudentStates>(
+        listener: (context, state) {},
+        builder: (context, state){
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(screenWidth * .02),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
-                    child: TextFormField(
-                      controller: searchController,
-                      keyboardType: TextInputType.text,
-                      cursorColor: Colors.black,
-                      textAlign: TextAlign.start,
-                      onFieldSubmitted: (value){
-                        cubit.searchText = searchController.text;
-                        cubit.startSearchFunction(value);
-                      },
-                      validator: (value){
-                        return null;
-                      },
-                      style: const TextStyle(color: Colors.black87, fontSize: 16.0),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: "enter the search word",
+                  SizedBox(height: screenHeight * .02),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: TextFormField(
+                          controller: searchController,
+                          keyboardType: TextInputType.text,
+                          cursorColor: Colors.black,
+                          textAlign: TextAlign.start,
+                          onFieldSubmitted: (value){
+                            cubit.searchText = searchController.text;
+                            cubit.startSearchFunction(value);
+                          },
+                          validator: (value){
+                            return null;
+                          },
+                          style: const TextStyle(color: Colors.black87, fontSize: 16.0),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: "enter the search word",
 
-                        hintStyle: const TextStyle(color: Colors.grey, fontSize: 13.0),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color:Theme.of(context).primaryColorDark,
+                            hintStyle: const TextStyle(color: Colors.grey, fontSize: 13.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                              BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                color:Theme.of(context).primaryColorDark,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: screenWidth * .01),
+                        height: screenWidth * .11,
+                        width: screenWidth * .11,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor.withOpacity(0.3),
+                          borderRadius:
+                          const BorderRadius.all(Radius.circular(9.0)),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            StudentCubit.get(context).showSearchFilter(context);
+                          },
+                          icon: Icon(Icons.filter_alt_rounded,
+                              size: screenWidth * .07,
+                              color: Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: screenWidth * .01),
-                    height: screenWidth * .11,
-                    width: screenWidth * .11,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.3),
-                      borderRadius:
-                      const BorderRadius.all(Radius.circular(9.0)),
+                  SizedBox(height: screenHeight * .02),
+                  if (cubit.startSearch)
+                    Wrap(
+                      children: [
+                        searchBy(context, 0, theme,cubit),
+                        searchBy(context, 1, theme,cubit),
+                        searchBy(context, 2, theme,cubit),
+                        searchBy(context, 3, theme,cubit),
+                        IconButton(onPressed: (){
+                          cubit.searchFunction(cubit.searchText, cubit.catSearchBy!);
+                        }, icon: Icon(Icons.search,color: theme.primaryColor,)),
+                      ],
                     ),
-                    child: IconButton(
-                      onPressed: () {
-                        StudentCubit.get(context).showSearchFilter(context);
-                      },
-                      icon: Icon(Icons.filter_alt_rounded,
-                          size: screenWidth * .07,
-                          color: Theme.of(context).primaryColor),
+                  ConditionalBuilder(
+                    condition: state is SearchSuccessState ||cubit.searchList.isNotEmpty,
+                    builder: (context) => ListView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) => courseItem(
+                          context: context,
+                          course: cubit.searchList[index],
+                          color: theme.primaryColor,
+                          addToWishList: () {
+                            cubit.addToFavourite(cubit.searchList[index]);
+                          }),
+                      itemCount: cubit.searchList.length,
                     ),
+                    fallback: (context) => cubit.startSearching
+                        ? const Center(child: CircularProgressIndicator())
+                        : Container(),
                   ),
                 ],
               ),
-              SizedBox(height: screenHeight * .02),
-              if (cubit.startSearch)
-                Wrap(
-                  children: [
-                    searchBy(context, 0, theme,cubit),
-                    searchBy(context, 1, theme,cubit),
-                    searchBy(context, 2, theme,cubit),
-                    searchBy(context, 3, theme,cubit),
-                    IconButton(onPressed: (){
-                      cubit.searchFunction(cubit.searchText, cubit.catSearchBy!);
-                    }, icon: Icon(Icons.search,color: theme.primaryColor,)),
-                  ],
-                ),
-              ConditionalBuilder(
-                condition: cubit.searchList.isNotEmpty,
-                builder: (context) => ListView.builder(
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => courseItem(
-                      context: context,
-                      course: cubit.searchList[index],
-                      color: theme.primaryColor,
-                      addToWishList: () {
-                        cubit.addToWishList(cubit.searchList[index]);
-                      }),
-                  itemCount: cubit.searchList.length,
-                ),
-                fallback: (context) => cubit.startSearching
-                    ? const Center(child: CircularProgressIndicator())
-                    : Container(),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        }
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/models/lesson_model.dart';
+import 'package:graduation_project/models/students_model.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
 import 'package:graduation_project/modules/student/payMob_manager/web_view.dart';
 import 'package:graduation_project/shared/component/constant.dart';
@@ -365,7 +366,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
   bool isLoading = false;
 
   List<InstructorCourseModel> insCourses = [];
-  List<LessonModel> lessons = [];
 
   void getCourses() {
     print(CacheHelper.getData(key: 'jwt'));
@@ -416,12 +416,13 @@ class InstructorCubit extends Cubit<InstructorStates> {
     }
   }
 
-  void getLessons() {
+  List<LessonModel> lessons = [];
+  Future<void> getLessons(int courseId) async{
     lessons=[];
     emit(GetInstCourseLessonsLoadingState());
-    sendRequest(method: 'get', url: instGetLessons).then((value) {
-      lessons = (value.data as List)
-          .map((course) => LessonModel.fromJson(course))
+    sendRequest(method: 'get', url: "$lessonEndPoint/$courseId").then((value) {
+      lessons = (value.data)
+          .map((lesson) => LessonModel.fromJson(lesson))
           .toList();
       emit(GetInstCourseLessonsSuccessState());
     }).catchError((error) {
@@ -449,7 +450,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
         });
       }
       try {
-        var result = await DioHelper.updateImage(url: instAddLessons,data: formData);
+        var result = await DioHelper.updateImage(url: lessonEndPoint,data: formData);
         print(result.hashCode);
         emit(AddLessonSuccessState());
       } catch (error) {
@@ -459,6 +460,21 @@ class InstructorCubit extends Cubit<InstructorStates> {
           emit(AddLessonErrorState());
         }
       }
+  }
+
+  // course Students
+  List<StudentModel> students = [];
+  Future<void> getStudents(int courseId) async{
+    students=[];
+    emit(InstGetStudentsLoadingState());
+    sendRequest(method: 'get', url: "$instGetStudents$courseId").then((value) {
+      students = (value.data)
+          .map((student) => StudentModel.fromJson(student))
+          .toList();
+      emit(InstGetStudentsSuccessState());
+    }).catchError((error) {
+      emit(InstGetStudentsErrorState());
+    });
   }
 
 }
