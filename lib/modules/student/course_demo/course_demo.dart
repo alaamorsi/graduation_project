@@ -42,7 +42,7 @@ class _CourseDemoState extends State<CourseDemo>{
     if(cubit.courseDetails.url!=''&&cubit.courseDetails.url.isNotEmpty)
       {
         String url = cubit.courseDetails.url.substring(7);
-        url = 'https://digitutor.runasp.net/$url';
+        url = 'https://digitutors.runasp.net/$url';
       }
     ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
     if(widget.course.instProfilePicture!.isNotEmpty){

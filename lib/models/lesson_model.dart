@@ -1,11 +1,11 @@
 class LessonModel {
-  late String name;
+  late String lessonName;
   late String period;
-  late String video;
+  late String videoUrl;
 
   LessonModel.fromJson(Map<String, dynamic> json) {
-    name = json["name"];
-    period = json["period"];
-    video = json["video"];
+    lessonName = json["lessonName"]??'';
+    period = json["period"]??'';
+    videoUrl = json["videoUrl"]??'';
   }
 }

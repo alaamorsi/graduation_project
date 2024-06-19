@@ -107,7 +107,7 @@ class Lessons extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                lesson.name,
+                lesson.lessonName,
                 style: font.copyWith(fontSize: 16.0, color: color),
               ),
               const SizedBox(

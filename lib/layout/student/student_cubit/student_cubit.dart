@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
@@ -14,10 +15,12 @@ import 'package:graduation_project/modules/student/discovery/search_screen.dart'
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
 import 'package:graduation_project/modules/student/payMob_manager/web_view.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
+import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
@@ -114,7 +117,7 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(GetCoursesLoadingState());
     sendRequest(method: 'get', url: "$getAllCoursesEndPoint$pageNumber")
         .then((value) {
-      allCourses = (value.data)
+      allCourses = (value.data as List)
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetCoursesSuccessState());
@@ -129,7 +132,7 @@ class StudentCubit extends Cubit<StudentStates> {
     sendRequest(
             method: 'get', url: "Course/${pageNumber.toString()}/for-student")
         .then((value) {
-      enrolledCourses = (value.data)
+      enrolledCourses = (value.data as List)
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetCoursesEnrolledSuccessState());
@@ -141,7 +144,7 @@ class StudentCubit extends Cubit<StudentStates> {
   void getTopRatedCourses() {
     emit(GetTopRatedCoursesLoadingState());
     sendRequest(method: 'get', url: getTopRatedCoursesEndPoint).then((value) {
-      topRatedCourses = (value.data)
+      topRatedCourses = (value.data as List)
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetTopRatedCoursesSuccessState());
@@ -153,7 +156,7 @@ class StudentCubit extends Cubit<StudentStates> {
   void getTopSalesCourses() {
     emit(GetTopSalesCoursesLoadingState());
     sendRequest(method: 'get', url: getTopSalesCoursesEndPoint).then((value) {
-      topSalesCourses = (value.data)
+      topSalesCourses = (value.data as List)
           .map((course) => CourseModel.fromJson(course))
           .toList();
       emit(GetTopSalesCoursesSuccessState());
@@ -477,13 +480,72 @@ class StudentCubit extends Cubit<StudentStates> {
     lessons=[];
     emit(GetCourseLessonsLoadingState());
     sendRequest(method: 'get', url: "$lessonEndPoint/$courseId").then((value) {
-      lessons = (value.data)
+      lessons = (value.data as List)
           .map((course) => LessonModel.fromJson(course))
           .toList();
       emit(GetCourseLessonsSuccessState());
     }).catchError((error) {
       emit(GetCourseLessonsErrorState());
     });
+  }
+
+  late CourseModel openedCourse;
+  void openCourse(CourseModel course) {
+    openedCourse  = course;
+    emit(OpenCourseState());
+  }
+
+  List<String> titles = [
+    'Lessons',
+    'Chats',
+    'Assignments',
+  ];
+  late FlickManager flickManager;
+  int currentVideoIndex = 0;
+
+  // void initializeFlickManager(String lessonUrl) {
+  //   flickManager = FlickManager(
+  //     videoPlayerController: VideoPlayerController.networkUrl(Uri.parse(lessonUrl),
+  //     ),
+  //     autoPlay: true,
+  //     onVideoEnd: () {
+  //       playNextVideo(currentVideoIndex);
+  //     },
+  //   );
+  //   emit(InitializeFlickManagerState());
+  // }
+
+  // void playNextVideo(int currentVideo) {
+  //   currentVideoIndex = ((currentVideo + 1) % openedCourse.lessons.length);
+  //   flickManager.handleChangeVideo(
+  //     VideoPlayerController.networkUrl(Uri.parse(openedCourse.lessons[currentVideoIndex].videoUrl)),
+  //   );
+  //   emit(PlayNextVideoState());
+  // }
+
+  void playWithName(int index,String lessonUrl) {
+    flickManager.handleChangeVideo(
+      VideoPlayerController.networkUrl(Uri.parse(lessonUrl)),
+    );
+    currentVideoIndex = index;
+    emit(InitVideoState());
+  }
+
+  // void playPreviousVideo(int currentVideo) {
+  //   currentVideoIndex = ((currentVideo - 1) % openedCourse.lessons.length);
+  //   flickManager.handleChangeVideo(
+  //     VideoPlayerController.networkUrl(Uri.parse(openedCourse.lessons[currentVideoIndex].videoUrl)),
+  //   );
+  //   emit(PlayPreviousVideoState());
+  // }
+
+  void disposeVideo() {
+    flickManager.dispose();
+    emit(DisposeVideoState());
+  }
+  void pauseVideo() {
+    flickManager.flickControlManager?.pause();
+    emit(DisposeVideoState());
   }
 
 }

@@ -115,3 +115,17 @@ class GetCourseLessonsLoadingState extends StudentStates {}
 class GetCourseLessonsSuccessState extends StudentStates {}
 
 class GetCourseLessonsErrorState extends StudentStates {}
+
+class CourseChangeBottomNavState extends StudentStates {}
+
+class OpenCourseState extends StudentStates {}
+
+class InitVideoState extends StudentStates {}
+
+class DisposeVideoState extends StudentStates {}
+
+class InitializeFlickManagerState extends StudentStates {}
+
+class PlayNextVideoState extends StudentStates {}
+
+class PlayPreviousVideoState extends StudentStates {}

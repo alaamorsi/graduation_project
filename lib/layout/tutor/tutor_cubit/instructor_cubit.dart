@@ -120,9 +120,9 @@ class InstructorCubit extends Cubit<InstructorStates> {
         if (t >= 3600) h = t ~/ 3600;
         if (t >= 60) m = t ~/ 60 % 60;
         s = t % 60;
+        videoPeriod = "2024-08-08T${h.toString().padLeft(2,'0')}:${m.toString().padLeft(2,'0')}:${s.toString().padLeft(2,'0')}Z";
         print(info);
       });
-      videoPeriod = "2024-${dateTime.month}-${dateTime.day}T$h:$m:${s}Z";
       emit(VideoPickedSuccessState());
     } else {
       emit(VideoPickedErrorState());
@@ -421,11 +421,13 @@ class InstructorCubit extends Cubit<InstructorStates> {
     lessons=[];
     emit(GetInstCourseLessonsLoadingState());
     sendRequest(method: 'get', url: "$lessonEndPoint/$courseId").then((value) {
-      lessons = (value.data)
+      print(value.data);
+      lessons = (value.data as List)
           .map((lesson) => LessonModel.fromJson(lesson))
           .toList();
       emit(GetInstCourseLessonsSuccessState());
     }).catchError((error) {
+      print(error);
       emit(GetInstCourseLessonsErrorState());
     });
   }
@@ -437,6 +439,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
     required String? period,
   }) async {
       emit(AddLessonLoadingState());
+      print(period);
       FormData formData = FormData();
       if (video != null) {
         formData = FormData.fromMap({
@@ -451,7 +454,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       }
       try {
         var result = await DioHelper.updateImage(url: lessonEndPoint,data: formData);
-        print(result.hashCode);
+        print(result.data);
         emit(AddLessonSuccessState());
       } catch (error) {
         if (error == 401) {

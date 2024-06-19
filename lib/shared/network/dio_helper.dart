@@ -9,7 +9,7 @@ class DioHelper
   {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://digitutor.runasp.net/api/',
+        baseUrl: 'https://digitutors.runasp.net/api/',
         receiveDataWhenStatusError: true,
       ),
     );
