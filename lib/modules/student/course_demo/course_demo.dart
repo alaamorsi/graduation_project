@@ -43,7 +43,7 @@ class _CourseDemoState extends State<CourseDemo>{
         url = 'https://digitutors.runasp.net/$url';
       }
     ImageProvider<Object> image = iWillReturnImage(widget.course.instProfilePicture);
-    ImageProvider<Object> reviewImage = iWillReturnImage(cubit.reviews[0].profilePicture);
+    ImageProvider<Object> reviewImage = iWillReturnImage(cubit.courseDetails.reviews[0].profilePicture);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){
         if(state is PaymentManagerSuccessState){
@@ -237,7 +237,7 @@ class _CourseDemoState extends State<CourseDemo>{
                                             color:Colors.white,
                                           ),
                                           Text(
-                                            "${cubit.reviews[0].rateValue}",
+                                            "${cubit.courseDetails.reviews[0].rateValue}",
                                             style: font.copyWith(fontSize: 12.0,color: Colors.white),
                                           ),
                                         ],

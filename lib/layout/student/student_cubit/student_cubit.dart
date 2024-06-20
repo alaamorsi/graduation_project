@@ -162,22 +162,17 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
 
-  CourseDetailsModel courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
-  List<ReviewModel> reviews =[];
+  CourseDetailsModel courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '', reviews: [],);
   Future getCourseDetails(int courseId) async{
-    emit(GetCoursesLoadingState());
+    emit(GetCoursesDetailsLoadingState());
     try{
-      reviews=[];
-      courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
+      courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '', reviews: []);
      var result = await sendRequest(method: 'get', url: "$getCourseDetailsEndPoint$courseId");
      courseDetails = CourseDetailsModel.fromJson(result.data);
-     reviews =(result.data['reviews'] as List)
-         .map((review) => ReviewModel.fromJson(review))
-         .toList();
-     emit(GetCoursesSuccessState());
+     emit(GetCoursesDetailsSuccessState());
    }
    catch(e){
-     emit(GetCoursesErrorState());
+     emit(GetCoursesDetailsErrorState());
    }
   }
 

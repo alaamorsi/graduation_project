@@ -43,6 +43,7 @@ class CourseDetailsModel {
   late String url;
   late String period;
   late String courseDescription;
+  late List<ReviewModel> reviews;
 
   CourseDetailsModel.fromJson(Map<String, dynamic> json) {
     instructorName = json['instructorName'] ?? '';
@@ -51,24 +52,29 @@ class CourseDetailsModel {
     url = json['url'] ?? '';
     period = json['period'] ?? '';
     courseDescription = json['courseDescription'] ?? '';
+    json['reviews'].forEach((element) {
+      reviews.add(ReviewModel.fromJson(element));
+    });
   }
 
   CourseDetailsModel(
-      {
-      required this.instructorName,
+      {required this.instructorName,
       required this.academicLevel,
       required this.lessonName,
       required this.url,
       required this.period,
-      required this.courseDescription});
+      required this.courseDescription,
+      required this.reviews});
 }
 
 class ReviewModel {
+  late String studentName;
   late int studentId;
   late String profilePicture;
   late int rateValue;
 
   ReviewModel.fromJson(Map<String, dynamic> json) {
+    studentName = json["studentName"];
     studentId = json["studentId"];
     profilePicture = json["profilePicture"] ?? '';
     rateValue = json["rateValue"] ?? 1;

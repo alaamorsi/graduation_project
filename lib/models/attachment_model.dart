@@ -3,7 +3,7 @@ class AttachmentModel {
   late String description;
 
   AttachmentModel.fromJson(Map<String, dynamic> json) {
-    file = json["file"]??'';
+    file = json["url"]??'';
     description = json["description"]??'';
   }
 }

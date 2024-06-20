@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class AddAssignmentScreen extends StatelessWidget {
     var theme = Theme.of(context);
     var cubit = InstructorCubit.get(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: secondAppbar(context: context, title: "AddAssignment".tr),
       body: Padding(
@@ -67,7 +69,7 @@ class AddAssignmentScreen extends StatelessWidget {
                         example: "day(05-20) time(23:59)",
                         message: "AddAssignmentDeadline",
                         maxLength: null,
-                        type: TextInputType.datetime),
+                        type: TextInputType.text),
                     SizedBox(height: screenHeight * .011),
                     Text(
                       "Grade",

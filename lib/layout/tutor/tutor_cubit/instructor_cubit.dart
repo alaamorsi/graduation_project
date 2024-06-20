@@ -505,7 +505,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       ),
     });
     sendRequest(
-        method: 'post',
+        method: 'updateimage',
         url: addAttachmentEndPoint,
         formData:formData
     ).then((value) {
@@ -528,22 +528,22 @@ class InstructorCubit extends Cubit<InstructorStates> {
     });
   }
 
-  void addAssignment(int courseId,String description,int grade,DateTime deadLine,File? file) async{
+  Future<void> addAssignment(int courseId,String description,int grade,DateTime deadLine,File? file) async{
     emit(AddAssignmentLoadingState());
     FormData formData = FormData();
-    print(deadLine);
-    formData = FormData.fromMap({
+    var date = '${deadLine.toIso8601String()}Z';
+    formData = FormData.fromMap ({
       'courseId':courseId,
       'description':description,
       'grade':grade,
-      'deadLine':"${deadLine.toIso8601String()}Z",
+      'deadLine':date,
       'file':await MultipartFile.fromFile(
         file!.path,
         filename: file.path.split('/').last,
       ),
     });
     sendRequest(
-        method: 'post',
+        method: 'updateimage',
         url: addAssignmentEndPoint,
         formData:formData
     ).then((value) {
