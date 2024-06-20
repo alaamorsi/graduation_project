@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -44,12 +42,8 @@ class _CourseDemoState extends State<CourseDemo>{
         url = cubit.courseDetails.url.substring(8);
         url = 'https://digitutors.runasp.net/$url';
       }
-    print(url);
-    ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
-    if(widget.course.instProfilePicture!.isNotEmpty){
-      Uint8List picture = base64Decode(widget.course.instProfilePicture as String);
-      image = MemoryImage(picture);
-    }
+    ImageProvider<Object> image = iWillReturnImage(widget.course.instProfilePicture);
+    ImageProvider<Object> reviewImage = iWillReturnImage(cubit.reviews[0].profilePicture);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){
         if(state is PaymentManagerSuccessState){
@@ -200,9 +194,8 @@ class _CourseDemoState extends State<CourseDemo>{
                                     decoration: BoxDecoration(
                                       color: theme.primaryColor.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(30),
-                                      image:
-                                      DecorationImage(
-                                        image:  AssetImage("Assets/profile/man_3.png"),
+                                      image: DecorationImage(
+                                        image: reviewImage,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -218,7 +211,7 @@ class _CourseDemoState extends State<CourseDemo>{
                                     ),
                                     Expanded(
                                       child: Text(
-                                        'thats owsem',
+                                        "ggggggggggggggggggggggggggggg",
                                         style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
                                       ),
                                     ),
@@ -244,7 +237,7 @@ class _CourseDemoState extends State<CourseDemo>{
                                             color:Colors.white,
                                           ),
                                           Text(
-                                            '3',
+                                            "${cubit.reviews[0].rateValue}",
                                             style: font.copyWith(fontSize: 12.0,color: Colors.white),
                                           ),
                                         ],

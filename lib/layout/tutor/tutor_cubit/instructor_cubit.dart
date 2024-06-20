@@ -23,7 +23,7 @@ import '../../../modules/tutor/notification/notification.dart';
 import '../../../modules/tutor/profile/profile.dart';
 import 'instructor_states.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
-// import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
 // import 'package:open_file/open_file.dart';
 
 
@@ -531,6 +531,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
   void addAssignment(int courseId,String description,int grade,DateTime deadLine,File? file) async{
     emit(AddAssignmentLoadingState());
     FormData formData = FormData();
+    print(deadLine);
     formData = FormData.fromMap({
       'courseId':courseId,
       'description':description,
@@ -564,20 +565,20 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(InstGetAssignmentsErrorState());
     });
   }
+  late File pickedFile;
+  Future<void> pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type:FileType.custom,
+        allowedExtensions: ['pdf','ppt','doc']
+    );
+    if (result != null) {
+      pickedFile = File(result.files.single.path!);
+      emit(FilePickedSuccessState());
+    } else {
+      emit(FilePickedErrorState());
+    }
+  }
 
-  // File?  pickedFile;
-  // Future<void> pickFile() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //       type:FileType.custom,
-  //       allowedExtensions: ['pdf','ppt','doc']
-  //   );
-  //   pickedFile = File(result!.files.single.path as String);
-  //   if(pickedFile != null){
-  //     emit(FilePickedSuccessState());
-  //   } else{
-  //     emit(FilePickedErrorState());
-  //   }
-  // }
 
   // void openFile(PlatformFile? file){
   //   if(file != null){

@@ -34,7 +34,7 @@ class ShowStudents extends StatelessWidget {
                 itemCount: cubit.students.length,),
               fallback: (BuildContext context) =>
                   ConditionalBuilder(
-                    condition: state is InstGetStudentsErrorState && cubit.students.isEmpty,
+                    condition: state is InstGetStudentsErrorState || cubit.students.isEmpty,
                     builder: (BuildContext context)=> Center(child: Text("You don't have any students yet",
                       style: font.copyWith(
                           color: theme.primaryColor,

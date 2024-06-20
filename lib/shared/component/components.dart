@@ -395,11 +395,7 @@ Widget courseItem({
   bool isReserved = false,
   required void Function() addToWishList,
 }) {
-  ImageProvider<Object> image = const AssetImage("Assets/profile/man_1.png");
-  if (course.instProfilePicture!.isNotEmpty) {
-    Uint8List picture = base64Decode(course.instProfilePicture as String);
-    image = MemoryImage(picture);
-  }
+  ImageProvider<Object> image = iWillReturnImage(course.instProfilePicture);
   return InkWell(
     onTap: () {
       StudentCubit.get(context).getCourseDetails(course.courseId);
@@ -664,4 +660,13 @@ Widget dashboardItem({
       ),
     ),
   );
+}
+
+ImageProvider<Object> iWillReturnImage(String? pictureUrl){
+  ImageProvider<Object> image = const AssetImage("Assets/profile/man_1.png");
+  if (pictureUrl!.isNotEmpty) {
+    Uint8List picture = base64Decode(pictureUrl);
+    image = MemoryImage(picture);
+  }
+  return image;
 }

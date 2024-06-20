@@ -26,13 +26,13 @@ class AssignmentsScreen extends StatelessWidget{
             body: Padding(
               padding: EdgeInsets.all(screenWidth*.02),
               child: ConditionalBuilder(
-                condition: cubit.assignments.isNotEmpty,
+                condition: state is InstGetAssignmentsSuccessState || cubit.assignments.isNotEmpty,
                 builder: (BuildContext context) => ListView.builder(
                   itemBuilder: (BuildContext context, int index)=> assignmentItem(assignment: cubit.assignments[index],theme: theme),
                   itemCount: cubit.assignments.length,),
                 fallback: (BuildContext context) =>
                   ConditionalBuilder(
-                    condition: cubit.assignments.isEmpty,
+                    condition:state is InstGetAssignmentsErrorState || cubit.assignments.isEmpty,
                     builder: (BuildContext context)=> Center(child: Text("There are not Assignments yet".tr,
                       style: font.copyWith(
                           color: theme.primaryColor,
@@ -76,10 +76,11 @@ class AssignmentsScreen extends StatelessWidget{
       },
       child: Container(
         margin: EdgeInsets.all(screenWidth*.02),
+        padding: EdgeInsets.all(screenWidth*.03),
         width: screenWidth,
-        height: screenHeight/8,
+        height: screenHeight*.13,
         decoration: BoxDecoration(
-          color: theme.primaryColorLight.withOpacity(.3),
+          color: theme.primaryColor.withOpacity(.3),
           borderRadius: const BorderRadius.all(Radius.circular(23.0),),
         ),
         child:Row(

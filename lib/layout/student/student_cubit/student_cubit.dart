@@ -161,20 +161,22 @@ class StudentCubit extends Cubit<StudentStates> {
     });
   }
 
-  CourseDetailsModel courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
 
+  CourseDetailsModel courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
+  List<ReviewModel> reviews =[];
   Future getCourseDetails(int courseId) async{
     emit(GetCoursesLoadingState());
-   try{
-     courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
+    try{
+      reviews=[];
+      courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '');
      var result = await sendRequest(method: 'get', url: "$getCourseDetailsEndPoint$courseId");
-     print(result);
      courseDetails = CourseDetailsModel.fromJson(result.data);
-     print(courseDetails.period);
+     reviews =(result.data['reviews'] as List)
+         .map((review) => ReviewModel.fromJson(review))
+         .toList();
      emit(GetCoursesSuccessState());
    }
    catch(e){
-     print(e);
      emit(GetCoursesErrorState());
    }
   }
@@ -220,12 +222,7 @@ class StudentCubit extends Cubit<StudentStates> {
       coursePrice,
       "EGP",
       description,
-    )
-        .then((String paymentKey) {
-      // launchUrl(
-      //   Uri.parse(
-      //       "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"),
-      // );
+    ).then((String paymentKey) {
       Get.to(() => WebViewScreen(
             paymentKey: paymentKey, course: course,
           ));
@@ -395,7 +392,6 @@ class StudentCubit extends Cubit<StudentStates> {
         case 'updateimage':
           return await DioHelper.updateImage(url: url, data: formData);
         default:
-          print('Method $method is not supported');
           throw UnsupportedError('Method $method is not supported');
       }
     } catch (e) {

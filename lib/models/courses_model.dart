@@ -62,3 +62,15 @@ class CourseDetailsModel {
       required this.period,
       required this.courseDescription});
 }
+
+class ReviewModel {
+  late int studentId;
+  late String profilePicture;
+  late int rateValue;
+
+  ReviewModel.fromJson(Map<String, dynamic> json) {
+    studentId = json["studentId"];
+    profilePicture = json["profilePicture"] ?? '';
+    rateValue = json["rateValue"] ?? 1;
+  }
+}

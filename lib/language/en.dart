@@ -119,7 +119,7 @@ const Map<String, String> en = {
   "code is not correct":"Code is not correct",
   "code is correct":"Now you can change your password",
   "password updated success":"Password has been updated success",
-  "welcome back":"Logged in successfully",
+  "welcome back":"Welcome back",
   "login success":"Logged in successfully",
   "logOut Success":"Logged out successfully",
   "we sent you verification code ,check your gmail!":"We sent you verification code ,check your gmail!",
