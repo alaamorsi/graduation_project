@@ -11,6 +11,7 @@ import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/constant.dart';
+import 'course_comments.dart';
 import 'course_lessons.dart';
 
 class CourseDemo extends StatefulWidget {
@@ -176,10 +177,85 @@ class _CourseDemoState extends State<CourseDemo>{
                               Text('Rate And Review'.tr, style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
                               const Spacer(),
                               TextButton(onPressed: () {
-                                // navigateTo(context, CourseComments(course: course));
+                                navigateTo(context, CourseComments(course: widget.course));
                                 },
                                 child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
+                        Container(
+                          width: screenWidth,
+                          height: screenHeight/8,
+                          decoration: BoxDecoration(
+                            color: theme.primaryColor.withOpacity(.1),
+                            borderRadius: const BorderRadius.all(Radius.circular(15.0),),
+                          ),
+                          child:Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                                  child: Container(
+                                    width: 55,
+                                    height: 55,
+                                    decoration: BoxDecoration(
+                                      color: theme.primaryColor.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(30),
+                                      image:
+                                      DecorationImage(
+                                        image:  AssetImage("Assets/profile/man_3.png"),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment:CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "sameh ahmed",
+                                      style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        'thats owsem',
+                                        style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: theme.primaryColor,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(
+                                            Icons.star_rate_rounded,
+                                            size: 20.0,
+                                            color:Colors.white,
+                                          ),
+                                          Text(
+                                            '3',
+                                            style: font.copyWith(fontSize: 12.0,color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

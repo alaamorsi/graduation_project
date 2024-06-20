@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import 'package:graduation_project/shared/component/test.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
+import '../../../models/courses_model.dart';
 import '../../../shared/component/constant.dart';
 
 class CourseComments extends StatelessWidget {
-  final Course course;
+  final CourseModel course;
   const CourseComments({super.key,required this.course});
 
   @override
@@ -35,12 +35,11 @@ class CourseComments extends StatelessWidget {
                           buildReviewItem(
                               context: context,
                               index: index,
-                              course: course,
                               color: theme.primaryColor,
                               theme: theme
                           ),
                       separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 10.0,),
-                      itemCount: course.review.length,
+                      itemCount: 3,
                     ),
                     fallback: (context)=>const Center(child: CircularProgressIndicator()),
                   ),
@@ -76,7 +75,7 @@ class CourseComments extends StatelessWidget {
   Widget buildReviewItem({
     required BuildContext context,
     required int index,
-    required Course course,
+    // required Course course,
     required Color color,
     required ThemeData theme,
   })
@@ -100,12 +99,7 @@ class CourseComments extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(30),
-                  image: course.review[index].image!=null?
-                  DecorationImage(
-                    image:  NetworkImage(course.review[index].image!),
-                    fit: BoxFit.cover,
-                  ):
-                  DecorationImage(
+                  image: DecorationImage(
                     image:  AssetImage("Assets/profile/man_${index+1}.png"),
                     fit: BoxFit.cover,
                   ),
@@ -117,16 +111,12 @@ class CourseComments extends StatelessWidget {
               crossAxisAlignment:CrossAxisAlignment.start,
               children: [
                 Text(
-                  course.review[index].name,
+                  "name",
                   style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  course.review[index].dateTime,
-                  style: font.copyWith(fontSize: 12.0,color: Colors.grey),
                 ),
                 Expanded(
                   child: Text(
-                    '${course.review[index].comment}!',
+                    'greet!',
                     style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
                   ),
                 ),
@@ -152,7 +142,7 @@ class CourseComments extends StatelessWidget {
                         color:Colors.white,
                       ),
                       Text(
-                        '${course.review[index].rate}',
+                        '3',
                         style: font.copyWith(fontSize: 12.0,color: Colors.white),
                       ),
                     ],
