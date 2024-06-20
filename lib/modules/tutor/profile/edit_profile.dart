@@ -105,13 +105,13 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                         String base64Image = base64Encode(imageBytes);
                                         await CacheHelper.saveData(key: 'profileStr', value: base64Image);
                                         cubit.getImage();
-                                        showToast(title: 'Greet', description: "Image has been saved successfully",context: context, state: MotionState.success);
+                                        showToast(title: 'Success'.tr, description: "Image has been saved successfully",context: context, state: MotionState.success);
                                       }
                                       else if(response == 401){
-                                        showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
+                                        showToast(title: 'Warning'.tr, description: "Your section has been end",context: context, state: MotionState.warning);
                                       }
                                       else{
-                                        showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
+                                        showToast(title: 'Error'.tr, description: "Something went wrong",context: context, state: MotionState.error);
                                       }
                                     }
                                   },
@@ -127,7 +127,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                     ),
                     const SizedBox(height: 15.0,),
                     //Edit First Name
-                    Text("First Name",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
+                    Text("First Name".tr,style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     Container(
                       decoration: const BoxDecoration(
                         border: Border(
@@ -148,7 +148,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                            Text("First name",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
+                                            Text("First name".tr,style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
                                             editFormField(
                                                 context: context,
                                                 controller: firstNameController,
@@ -164,7 +164,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                               children: [
                                                 TextButton(
                                                     onPressed: (){Navigator.pop(context);},
-                                                    child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                                                    child: Text('back'.tr,style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
                                                 ),
                                                 const SizedBox(width: 5,),
                                                 ElevatedButton(
@@ -180,16 +180,17 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                                       );
                                                       if(response ==200){
                                                         await CacheHelper.saveData(key: 'firstName', value: firstNameController.text);
-                                                        showToast(title: 'Greet', description: "First name has been updated successfully",context: context, state: MotionState.success);
+                                                        showToast(title: 'Success'.tr, description: "First name has been updated successfully",context: context, state: MotionState.success);
                                                       }
                                                       else if(response == 401){
-                                                        showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
+                                                        showToast(title: 'Warning'.tr, description: "Your section has been end",context: context, state: MotionState.warning);
                                                       }
                                                       else{
-                                                        showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
+                                                        showToast(title: 'Error'.tr, description: "Something went wrong",context: context, state: MotionState.error);
                                                       }
+                                                      navigator!.pop();
                                                     },
-                                                    child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                                                    child: Text('submit'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
                                                 ),
                                               ],
                                             ),
@@ -206,7 +207,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                     ),
                     const SizedBox(height: 10.0,),
                     //Edit Last Name
-                    Text("Last Name",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
+                    Text("Last Name".tr,style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     Container(
                       decoration: const BoxDecoration(
                         border: Border(
@@ -227,7 +228,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text("Last name",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
+                                            Text("Last name".tr,style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
                                             editFormField(
                                                 context: context,
                                                 controller: lastNameController,
@@ -243,7 +244,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                               children: [
                                                 TextButton(
                                                     onPressed: (){Navigator.pop(context);},
-                                                    child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                                                    child: Text('back'.tr,style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
                                                 ),
                                                 const SizedBox(width: 5,),
                                                 ElevatedButton(
@@ -259,16 +260,17 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                                       );
                                                       if(response ==200){
                                                         await CacheHelper.saveData(key: 'lastName', value: lastNameController.text);
-                                                        showToast(title: 'Greet', description: "Last name has been updated successfully",context: context, state: MotionState.success);
+                                                        showToast(title: 'Success'.tr, description: "name has been updated successfully".tr,context: context, state: MotionState.success);
                                                       }
                                                       else if(response == 401){
-                                                        showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
+                                                        showToast(title: 'Warning'.tr, description: "session has been end".tr,context: context, state: MotionState.warning);
                                                       }
                                                       else{
-                                                        showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
+                                                        showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
                                                       }
+                                                      navigator!.pop();
                                                     },
-                                                    child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                                                    child: Text('submit'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
                                                 ),
                                               ],
                                             ),
@@ -285,7 +287,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                     ),
                     const SizedBox(height: 10.0),
                     //Edit Bio
-                    Text("Bio",style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
+                    Text("Bio".tr,style: font.copyWith(color: Colors.grey,fontSize: 11.0),),
                     Container(
                       decoration: const BoxDecoration(
                         border: Border(
@@ -306,7 +308,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text("bio",style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
+                                          Text("bio".tr,style: font.copyWith(color: theme.primaryColor,fontSize: 22.0)),
                                           editFormField(
                                               context: context,
                                               controller: bioController,
@@ -319,7 +321,7 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                             children: [
                                               TextButton(
                                                   onPressed: (){Navigator.pop(context);},
-                                                  child: Text('back',style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
+                                                  child: Text('back'.tr,style: font.copyWith(color: theme.primaryColor,fontSize: 15.0),)
                                               ),
                                               const SizedBox(width: 5,),
                                               ElevatedButton(
@@ -335,16 +337,17 @@ class _TutorEditProfileState extends State<TutorEditProfile> {
                                                     );
                                                     if(response ==200){
                                                       await CacheHelper.saveData(key: 'biography', value: bioController.text);
-                                                      showToast(title: 'Success', description: "Bio has been updated successfully",context: context, state: MotionState.success);
+                                                      showToast(title: 'Success'.tr, description: "bio has been updated successfully".tr,context: context, state: MotionState.success);
                                                     }
                                                     else if(response == 401){
-                                                      showToast(title: 'Warning', description: "Your section has been end",context: context, state: MotionState.warning);
+                                                      showToast(title: 'Warning'.tr, description: "session has been end".tr,context: context, state: MotionState.warning);
                                                     }
                                                     else{
-                                                      showToast(title: 'Error', description: "Something went wrong",context: context, state: MotionState.error);
+                                                      showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
                                                     }
+                                                    navigator!.pop();
                                                   },
-                                                  child: Text('submit',style: font.copyWith(color: Colors.white,fontSize: 16.0),)
+                                                  child: Text('submit'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
                                               ),
                                             ],
                                           ),

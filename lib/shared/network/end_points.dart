@@ -21,9 +21,14 @@ String getTopRatedCoursesEndPoint='Course/top-rated';
 String getTopSalesCoursesEndPoint='Course/top-sales';
 String addToFavouriteEndPoint='Course/favourite/';
 String getFavourites='Course/favourites';
+String getAttachmentsEndPoint='Course/attachment/';
+String getAssignmentsEndPoint='Course/assignments/';
 
 //instructor
 String getInstructorCourses='Course/instructor-courses';
 String instructorCoursePublish='Course/publish/';
 String instGetStudents='Course/students/';
+String addAttachmentEndPoint='Course/attachment';
+String addAssignmentEndPoint='Course/assignment';
+String addDescriptionEndPoint='Course/description/';
 

@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
+import 'package:graduation_project/models/assignment_model.dart';
+import 'package:graduation_project/models/attachment_model.dart';
 import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/notification/notification.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
@@ -15,15 +16,10 @@ import 'package:graduation_project/modules/student/discovery/search_screen.dart'
 import 'package:graduation_project/modules/student/discovery/home_screen.dart';
 import 'package:graduation_project/modules/student/payMob_manager/web_view.dart';
 import 'package:graduation_project/modules/student/profile/profile.dart';
-import 'package:graduation_project/shared/component/test.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
 import 'package:graduation_project/shared/network/end_points.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
-
-// import 'package:url_launcher/url_launcher.dart';
-// import 'package:webview_flutter/webview_flutter.dart';
 import '../../../models/lesson_model.dart';
 import '../../../modules/student/my_courses/reserved_screen.dart';
 import '../../../shared/component/constant.dart';
@@ -205,9 +201,9 @@ class StudentCubit extends Cubit<StudentStates> {
   }
   void getFavouriteList () {
     emit(GetFavouriteListLoadingState());
-    sendRequest(method: 'post', url: getFavourites)
+    sendRequest(method: 'get', url: getFavourites)
         .then((value) {
-          favouriteList = (value.data)
+          favouriteList = (value.data as List)
             .map((course) => CourseModel.fromJson(course))
             .toList();
       emit(GetFavouriteListSuccessState());
@@ -488,64 +484,37 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(GetCourseLessonsErrorState());
     });
   }
-
-  late CourseModel openedCourse;
-  void openCourse(CourseModel course) {
-    openedCourse  = course;
-    emit(OpenCourseState());
+  List<AttachmentModel> attachments = [];
+  void getAttachments(int courseId) {
+    emit(GetCourseAttachmentsLoadingState());
+    sendRequest(method: 'get', url: "$getAttachmentsEndPoint$courseId").then((value) {
+      attachments = (value.data as List)
+          .map((attachment) => AttachmentModel.fromJson(attachment))
+          .toList();
+      emit(GetCourseAttachmentsSuccessState());
+    }).catchError((error) {
+      emit(GetCourseAttachmentsErrorState());
+    });
   }
-
-  List<String> titles = [
-    'Lessons',
-    'Chats',
-    'Assignments',
-  ];
-  late FlickManager flickManager;
-  int currentVideoIndex = 0;
-
-  // void initializeFlickManager(String lessonUrl) {
-  //   flickManager = FlickManager(
-  //     videoPlayerController: VideoPlayerController.networkUrl(Uri.parse(lessonUrl),
-  //     ),
-  //     autoPlay: true,
-  //     onVideoEnd: () {
-  //       playNextVideo(currentVideoIndex);
-  //     },
-  //   );
-  //   emit(InitializeFlickManagerState());
-  // }
-
-  // void playNextVideo(int currentVideo) {
-  //   currentVideoIndex = ((currentVideo + 1) % openedCourse.lessons.length);
-  //   flickManager.handleChangeVideo(
-  //     VideoPlayerController.networkUrl(Uri.parse(openedCourse.lessons[currentVideoIndex].videoUrl)),
-  //   );
-  //   emit(PlayNextVideoState());
-  // }
-
-  void playWithName(int index,String lessonUrl) {
-    flickManager.handleChangeVideo(
-      VideoPlayerController.networkUrl(Uri.parse(lessonUrl)),
-    );
-    currentVideoIndex = index;
-    emit(InitVideoState());
+  List<AssignmentModel> assignments = [];
+  void getAssignments(int courseId) {
+    emit(GetCourseAssignmentsLoadingState());
+    sendRequest(method: 'get', url: "$getAssignmentsEndPoint$courseId").then((value) {
+      assignments = (value.data as List)
+          .map((assignment) => AssignmentModel.fromJson(assignment))
+          .toList();
+      emit(GetCourseAssignmentsSuccessState());
+    }).catchError((error) {
+      emit(GetCourseAssignmentsErrorState());
+    });
   }
-
-  // void playPreviousVideo(int currentVideo) {
-  //   currentVideoIndex = ((currentVideo - 1) % openedCourse.lessons.length);
-  //   flickManager.handleChangeVideo(
-  //     VideoPlayerController.networkUrl(Uri.parse(openedCourse.lessons[currentVideoIndex].videoUrl)),
-  //   );
-  //   emit(PlayPreviousVideoState());
-  // }
-
-  void disposeVideo() {
-    flickManager.dispose();
-    emit(DisposeVideoState());
-  }
-  void pauseVideo() {
-    flickManager.flickControlManager?.pause();
-    emit(DisposeVideoState());
+  void addRate(int courseId,double rate,String review) {
+    emit(AddRateLoadingState());
+    sendRequest(method: 'post', url: "$getAllCoursesEndPoint$courseId/rate?rate=$rate").then((value) {
+      emit(AddRateSuccessState());
+    }).catchError((error) {
+      emit(AddRateErrorState());
+    });
   }
 
 }

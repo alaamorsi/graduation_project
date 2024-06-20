@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
+import 'package:graduation_project/models/assignment_model.dart';
+import 'package:graduation_project/models/attachment_model.dart';
 import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/models/lesson_model.dart';
 import 'package:graduation_project/models/students_model.dart';
@@ -21,6 +23,9 @@ import '../../../modules/tutor/notification/notification.dart';
 import '../../../modules/tutor/profile/profile.dart';
 import 'instructor_states.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:open_file/open_file.dart';
+
 
 class InstructorCubit extends Cubit<InstructorStates> {
   InstructorCubit() : super(InstructorInitialStates());
@@ -68,8 +73,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
   String lastName = CacheHelper.getData(key: 'lastName');
   String userName = CacheHelper.getData(key: 'userName');
   String bio = CacheHelper.getData(key: 'biography') ?? "";
-  ImageProvider<Object> imageProvider =
-      const AssetImage("Assets/profile/man_1.png");
+  ImageProvider<Object> imageProvider = const AssetImage("Assets/profile/man_1.png");
 
   void getImage() {
     if (CacheHelper.getData(key: 'profileStr') != null) {
@@ -109,7 +113,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
     int h = 0;
     int m = 0;
     int s = 0;
-    var dateTime = DateTime.now();
     final pickedVideo = await picker.pickVideo(source: ImageSource.gallery);
     if (pickedVideo != null) {
       video = File(pickedVideo.path);
@@ -121,7 +124,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
         if (t >= 60) m = t ~/ 60 % 60;
         s = t % 60;
         videoPeriod = "2024-08-08T${h.toString().padLeft(2,'0')}:${m.toString().padLeft(2,'0')}:${s.toString().padLeft(2,'0')}Z";
-        print(info);
       });
       emit(VideoPickedSuccessState());
     } else {
@@ -248,8 +250,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       description,
     )
         .then((String paymentKey) {
-      // launchUrl(Uri.parse(
-      //     "https://accept.paymob.com/api/acceptance/iframes/830423?payment_token=$paymentKey"));
+
       Get.to(() => WebViewScreen(
             paymentKey: paymentKey,
           ));
@@ -439,7 +440,6 @@ class InstructorCubit extends Cubit<InstructorStates> {
     required String? period,
   }) async {
       emit(AddLessonLoadingState());
-      print(period);
       FormData formData = FormData();
       if (video != null) {
         formData = FormData.fromMap({
@@ -465,13 +465,27 @@ class InstructorCubit extends Cubit<InstructorStates> {
       }
   }
 
+
+  //add description
+  void addDescription(int courseId,String description) {
+    emit(AddDescriptionLoadingState());
+    sendRequest(
+      method: 'post',
+      url: "$addDescriptionEndPoint$courseId",
+      data: {'description':description}
+    ).then((value) {
+      emit(AddDescriptionSuccessState());
+    }).catchError((error) {
+      emit(AddDescriptionErrorState());
+    });
+  }
   // course Students
   List<StudentModel> students = [];
   Future<void> getStudents(int courseId) async{
     students=[];
     emit(InstGetStudentsLoadingState());
     sendRequest(method: 'get', url: "$instGetStudents$courseId").then((value) {
-      students = (value.data)
+      students = (value.data as List)
           .map((student) => StudentModel.fromJson(student))
           .toList();
       emit(InstGetStudentsSuccessState());
@@ -479,5 +493,97 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(InstGetStudentsErrorState());
     });
   }
+  void addAttachment(int courseId,String description,File? file) async{
+    emit(AddAttachmentLoadingState());
+    FormData formData = FormData();
+    formData = FormData.fromMap({
+      'courseId':courseId,
+      'description':description,
+      'file':await MultipartFile.fromFile(
+        file!.path,
+        filename: file.path.split('/').last,
+      ),
+    });
+    sendRequest(
+        method: 'post',
+        url: addAttachmentEndPoint,
+        formData:formData
+    ).then((value) {
+      emit(AddAttachmentSuccessState());
+    }).catchError((error) {
+      emit(AddAttachmentErrorState());
+    });
+  }
 
+  List<AttachmentModel> attachments = [];
+  void getAttachments(int courseId) {
+    emit(InstGetAttachmentsLoadingState());
+    sendRequest(method: 'get', url: "$getAttachmentsEndPoint$courseId").then((value) {
+      attachments = (value.data as List)
+          .map((attachment) => AttachmentModel.fromJson(attachment))
+          .toList();
+      emit(InstGetAttachmentsSuccessState());
+    }).catchError((error) {
+      emit(InstGetAttachmentsErrorState());
+    });
+  }
+
+  void addAssignment(int courseId,String description,int grade,DateTime deadLine,File? file) async{
+    emit(AddAssignmentLoadingState());
+    FormData formData = FormData();
+    formData = FormData.fromMap({
+      'courseId':courseId,
+      'description':description,
+      'grade':grade,
+      'deadLine':"${deadLine.toIso8601String()}Z",
+      'file':await MultipartFile.fromFile(
+        file!.path,
+        filename: file.path.split('/').last,
+      ),
+    });
+    sendRequest(
+        method: 'post',
+        url: addAssignmentEndPoint,
+        formData:formData
+    ).then((value) {
+      emit(AddAssignmentSuccessState());
+    }).catchError((error) {
+      emit(AddAssignmentErrorState());
+    });
+  }
+
+  List<AssignmentModel> assignments = [];
+  void getAssignments(int courseId) {
+    emit(InstGetAssignmentsLoadingState());
+    sendRequest(method: 'get', url: "$getAssignmentsEndPoint$courseId").then((value) {
+      assignments = (value.data as List)
+          .map((assignment) => AssignmentModel.fromJson(assignment))
+          .toList();
+      emit(InstGetAssignmentsSuccessState());
+    }).catchError((error) {
+      emit(InstGetAssignmentsErrorState());
+    });
+  }
+
+  late dynamic pickedFile;
+  Future<void> pickFile() async {
+    pickedFile = await FilePicker.platform.pickFiles(
+        type:FileType.custom,
+        allowedExtensions: ['pdf','ppt','png','jpg','jpeg']
+    );
+    if(pickedFile != null){
+      emit(FilePickedSuccessState());
+    } else{
+      emit(FilePickedErrorState());
+    }
+  }
+
+  void openFile(PlatformFile? file){
+    if(file != null){
+      OpenFile.open(file.path);
+      emit(FileOpenedSuccessState());
+    } else{
+      emit(FileOpenedErrorState());
+    }
+  }
 }

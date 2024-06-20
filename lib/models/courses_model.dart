@@ -1,5 +1,3 @@
-import 'package:get/get.dart';
-
 class CourseModel {
   late int courseId;
   late String? instProfilePicture;

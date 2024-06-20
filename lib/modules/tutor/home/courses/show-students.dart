@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/models/students_model.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
 import '../../../../../layout/tutor/tutor_cubit/instructor_states.dart';
@@ -14,7 +15,6 @@ class ShowStudents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    InstructorCubit.get(context).getStudents(courseId);
     return BlocConsumer<InstructorCubit, InstructorStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -29,35 +29,19 @@ class ShowStudents extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: screenWidth *.02),
             child: ConditionalBuilder(
               condition: state is InstGetStudentsSuccessState ||cubit.students.isNotEmpty,
-              builder: (context) {
-                return ListView.builder(
-                  itemBuilder: (BuildContext context, int index)=>studentCard(color: theme.cardColor, studentName: cubit.students[index].name, studentImage: cubit.students[index].image),
-                  itemCount: cubit.students.length,
-                );
-              },
-              fallback: (context){
-                if(state is GetInstCourseLessonsErrorState){
-                  return Center(
-                    child: Text(
-                      "You don't have any students yet",
+              builder: (BuildContext context) => ListView.builder(
+                itemBuilder: (BuildContext context, int index)=> studentCard(color: theme.cardColor, student: cubit.students[index]),
+                itemCount: cubit.students.length,),
+              fallback: (BuildContext context) =>
+                  ConditionalBuilder(
+                    condition: state is InstGetStudentsErrorState && cubit.students.isEmpty,
+                    builder: (BuildContext context)=> Center(child: Text("You don't have any students yet",
                       style: font.copyWith(
                           color: theme.primaryColor,
                           fontSize: screenWidth * 0.06),
-                    ),
-                  );
-                }
-                else{
-                  return Center(
-                    child: SizedBox(
-                      width: 50.0,
-                      height: 50.0,
-                      child: CircularProgressIndicator(
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                  );
-                }
-              },
+                    ),),
+                    fallback: (BuildContext context)=> Center(child: CircularProgressIndicator(color: theme.primaryColor,)),
+                  ),
             ),
           ),
         );
@@ -65,13 +49,12 @@ class ShowStudents extends StatelessWidget {
     );
   }
   Widget studentCard({
-    required String studentName,
-    required String studentImage,
+    required StudentModel student,
     required Color color,
   }){
     ImageProvider<Object> image = const AssetImage("Assets/profile/man_4.png");
-    if (studentImage !='') {
-      Uint8List picture = base64Decode(studentImage);
+    if (student.image !='') {
+      Uint8List picture = base64Decode(student.image);
       image = MemoryImage(picture);
     }
     return Container(
@@ -86,7 +69,7 @@ class ShowStudents extends StatelessWidget {
         ),
       ),
       child: Stack(
-        alignment: Alignment.topLeft,
+        alignment: isArabic?Alignment.topLeft:Alignment.topRight,
         children: [
           const Icon(Icons.clear_outlined,color: Colors.white,),
           Row(
@@ -102,7 +85,7 @@ class ShowStudents extends StatelessWidget {
               ),
               SizedBox(width: screenWidth*.02,),
               Text(
-                studentName,
+                student.name,
                 style: font.copyWith(fontSize: 16.0, color: Colors.white),
               ),
             ],

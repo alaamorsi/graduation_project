@@ -1,16 +1,17 @@
-import 'package:flick_video_player/flick_video_player.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
 import 'package:graduation_project/models/courses_model.dart';
+import 'watch_lesson_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import '../../../../shared/component/constant.dart';
-import '../../../../shared/component/test.dart';
-import '../course_cubit/course_cubit.dart';
-import '../course_cubit/course_states.dart';
-
+import 'package:graduation_project/models/lesson_model.dart';
+import '../../../../../shared/component/constant.dart';
 class LessonsScreen extends StatelessWidget{
   final CourseModel course;
   const LessonsScreen({super.key,required this.course});
@@ -22,61 +23,54 @@ class LessonsScreen extends StatelessWidget{
         listener: (context,state) {},
         builder:(context,state){
         var cubit = StudentCubit.get(context);
-        // cubit.initializeFlickManager(cubit.openedCourse.lessons[cubit.currentVideoIndex].videoUrl);
         return Scaffold(
           appBar: secondAppbar(context: context, title: "lessons".tr),
           body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FlickVideoPlayer(flickManager: cubit.flickManager),
-                const SizedBox(height: 20,),
-                Text('Next Lesson'.tr,style: font.copyWith(color: theme.primaryColorDark.withOpacity(.6),fontSize: 16.0,fontWeight: FontWeight.bold)),
-                // SizedBox(
-                //   height: screenHeight/2.5,
-                //   width: double.infinity,
-                //   child: ListView.separated(
-                //     itemBuilder: (BuildContext context, int index)=>
-                //         buildLessonItem(
-                //           context: context,
-                //           index: index,
-                //           course: cubit.openedCourse,
-                //           theme: theme,
-                //           playedIndex : cubit.currentVideoIndex,
-                //           onTap: () {
-                //             cubit.playWithName(index,cubit.openedCourse.lessons[index].videoUrl);
-                //           },
-                //         ),
-                //     separatorBuilder: (BuildContext context, int index)=>const SizedBox(height: 20,),
-                //     itemCount: cubit.openedCourse.videosNumber,),
-                // )
-              ],
+            padding: EdgeInsets.all(screenWidth*.02),
+            child: ConditionalBuilder(
+              condition: state is GetCourseLessonsSuccessState ||cubit.assignments.isNotEmpty,
+              builder: (BuildContext context) => ListView.builder(
+                itemBuilder: (BuildContext context, int index)=> buildLessonItem(lesson: cubit.lessons[index], theme: theme, course: course,index: index),
+                itemCount: cubit.lessons.length,),
+              fallback: (BuildContext context) =>
+                  ConditionalBuilder(
+                    condition: state is GetCourseLessonsErrorState && cubit.assignments.isEmpty,
+                    builder: (BuildContext context)=> Center(child: Text("There isn't lessons yet",
+                      style: font.copyWith(
+                          color: theme.primaryColor,
+                          fontSize: screenWidth * 0.06),
+                    ),),
+                    fallback: (BuildContext context)=> Center(child: CircularProgressIndicator(color: theme.primaryColor,)),
+                  ),
             ),
           ),
-    );
-        }
         );
+      }
+    );
   }
 
   Widget buildLessonItem({
-    required BuildContext context,
+    required LessonModel lesson,
     required int index,
-    required int playedIndex,
-    required MyCourse course,
     required ThemeData theme,
-    required void Function() onTap,
+    required CourseModel course,
   })
   {
-    int munit = course.lessons[index].lessonTime.toInt();
-    double second = (course.lessons[index].lessonTime % 1)*60;
+    ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
+    if(course.instProfilePicture!.isNotEmpty){
+      Uint8List picture = base64Decode(course.instProfilePicture as String);
+      image = MemoryImage(picture);
+    }
     return InkWell(
-      onTap: onTap,
+      onTap: (){
+        Get.to(()=>WatchLessonScreen(lesson: lesson, index: index,));
+      },
       child: Container(
+        margin: EdgeInsets.all(screenWidth*.02),
         width: screenWidth,
         height: screenHeight/8,
         decoration: BoxDecoration(
-          color: theme.primaryColorLight.withOpacity(.3),
+          color: theme.primaryColor.withOpacity(.2),
           borderRadius: const BorderRadius.all(Radius.circular(23.0),),
         ),
         child:Row(
@@ -90,7 +84,7 @@ class LessonsScreen extends StatelessWidget{
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                    image:  NetworkImage(course.lessons[index].image!),
+                    image:  image,
                     fit: BoxFit.cover,),
                 ),
               ),
@@ -100,11 +94,11 @@ class LessonsScreen extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10,),
-                Text(course.lessons[index].lessonName,
+                Text(lesson.lessonName,
                   style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
                 ),
                 const SizedBox(height: 5,),
-                Text("$munit ${"m".tr} ${second.toInt()} ${"s".tr}",
+                Text(lesson.period,
                   style: font.copyWith(fontSize: 12.0,color: theme.primaryColorDark.withOpacity(.5)),
                 ),
                 const SizedBox(height: 10,),
@@ -115,9 +109,7 @@ class LessonsScreen extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: index==playedIndex?
-                  Icon( Icons.play_circle,color: theme.primaryColor,size: 33,):
-                  const Icon(Icons.play_circle_outline,color: Colors.grey,size: 30,),
+                  child: Icon( Icons.play_circle,color: theme.primaryColor,size: 33,)
                 ),
               ],
             ),

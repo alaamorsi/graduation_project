@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
+import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
 import 'package:graduation_project/shared/component/test.dart';
-import '../../../../shared/component/components.dart';
-import '../../../../shared/component/constant.dart';
-import '../course_cubit/course_cubit.dart';
-import '../course_cubit/course_states.dart';
+import '../../../shared/component/components.dart';
+import '../../../shared/component/constant.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});
@@ -23,97 +22,94 @@ class _ChatsScreenState extends State<ChatsScreen> {
   Widget build(BuildContext context) {
     TextEditingController messageController = TextEditingController();
     var theme = Theme.of(context);
-    return BlocProvider(
-      create: (BuildContext context) => CourseCubit(),
-      child: BlocConsumer<CourseCubit, CourseStates>(
-          listener: (context, state) {
-        if (isTyping) {
-          setState(() {
-            dy = 2;
-          });
-        } else if (!isTyping) {
-          setState(() {
-            dy = 0;
-          });
-        }
-      }, builder: (context, state) {
-        var student = StudentCubit.get(context);
-        return Scaffold(
-          appBar: secondAppbar(context: context, title: "Chat".tr),
-          body: buildStudentChat(context: context, theme: theme),
-          bottomNavigationBar: AnimatedSlide(
-            duration: const Duration(milliseconds: 500),
-            offset: Offset(0, dy),
-            child: Container(
-              margin: EdgeInsets.only(
-                  left: screenWidth * .02,
-                  right: screenWidth * .02,
-                  bottom: screenWidth * .02),
-              padding: EdgeInsets.all(screenWidth * .03),
-              width: double.infinity,
-              height: screenHeight * .1,
-              decoration: BoxDecoration(
-                color: theme.primaryColorLight,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(screenWidth * .7),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 15,
-                    color: theme.primaryColorDark.withOpacity(.1),
-                    offset: const Offset(0, -5),
-                  )
-                ],
+    return  BlocConsumer<StudentCubit, StudentStates>(
+        listener: (context, state) {
+          if (isTyping) {
+            setState(() {
+              dy = 2;
+            });
+          } else if (!isTyping) {
+            setState(() {
+              dy = 0;
+            });
+          }
+        }, builder: (context, state) {
+      var student = StudentCubit.get(context);
+      return Scaffold(
+        appBar: secondAppbar(context: context, title: "Chat".tr),
+        body: buildStudentChat(context: context, theme: theme),
+        bottomNavigationBar: AnimatedSlide(
+          duration: const Duration(milliseconds: 500),
+          offset: Offset(0, dy),
+          child: Container(
+            margin: EdgeInsets.only(
+                left: screenWidth * .02,
+                right: screenWidth * .02,
+                bottom: screenWidth * .02),
+            padding: EdgeInsets.all(screenWidth * .03),
+            width: double.infinity,
+            height: screenHeight * .1,
+            decoration: BoxDecoration(
+              color: theme.primaryColorLight,
+              borderRadius: BorderRadius.all(
+                Radius.circular(screenWidth * .7),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: screenWidth * .75,
-                    child: defaultFormField(
-                        context: context,
-                        controller: messageController,
-                        onChanged: (value) {
-                          if (messageController.text.isNotEmpty) {
-                            setState(() {
-                              isTyping = true;
-                            });
-                          } else {
-                            setState(() {
-                              isTyping = false;
-                            });
-                          }
-                        },
-                        type: TextInputType.text,
-                        validate: (s) {
-                          return null;
-                        },
-                        label: "Type your question"),
-                  ),
-                  Expanded(
-                    child: IconButton(
-                        onPressed: () {
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 15,
+                  color: theme.primaryColorDark.withOpacity(.1),
+                  offset: const Offset(0, -5),
+                )
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: screenWidth * .75,
+                  child: defaultFormField(
+                      context: context,
+                      controller: messageController,
+                      onChanged: (value) {
+                        if (messageController.text.isNotEmpty) {
                           setState(() {
-                            messages.add(Message(
-                              senderUserName: 'sameh',
-                              senderFirstName: student.firstName,
-                              senderLastName: student.lastName,
-                              messageContent: messageController.text,
-                              messageDate: DateTime.now().minute.toString(),
-                              senderProfileImage: student.imageProvider,
-                            ));
+                            isTyping = true;
                           });
-                        },
-                        icon: Icon(Icons.send_rounded,
-                            color: theme.primaryColor)),
-                  )
-                ],
-              ),
+                        } else {
+                          setState(() {
+                            isTyping = false;
+                          });
+                        }
+                      },
+                      type: TextInputType.text,
+                      validate: (s) {
+                        return null;
+                      },
+                      label: "Type your question"),
+                ),
+                Expanded(
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          messages.add(Message(
+                            senderUserName: 'sameh',
+                            senderFirstName: student.firstName,
+                            senderLastName: student.lastName,
+                            messageContent: messageController.text,
+                            messageDate: DateTime.now().minute.toString(),
+                            senderProfileImage: student.imageProvider,
+                          ));
+                        });
+                      },
+                      icon: Icon(Icons.send_rounded,
+                          color: theme.primaryColor)),
+                )
+              ],
             ),
           ),
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 
   Widget buildStudentChat({

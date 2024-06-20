@@ -20,22 +20,19 @@ class WishListScreen extends StatelessWidget {
         return Scaffold(
           appBar: secondAppbar(context: context, title: 'WishList'.tr),
           body: ConditionalBuilder(
-              condition: state is GetFavouriteListSuccessState ||cubit.favouriteList.isNotEmpty,
+              condition: state is GetFavouriteListSuccessState || cubit.favouriteList.isNotEmpty,
               builder: (context) {
-              return SingleChildScrollView(
-                  child: Column(
-                      children: cubit.favouriteList.map((course) {
-                        return courseItem(
-                            context: context,
-                            course: course,
-                            color: theme.cardColor,
-                            addToWishList:(){
-                              cubit.addToFavourite(course);
-                            }
-                        );
-                      }).toList()
+              return ListView.builder(
+                  itemBuilder: (BuildContext context, int index) =>courseItem(
+                      context: context,
+                      course: cubit.favouriteList[index],
+                      color: theme.cardColor,
+                      addToWishList:(){
+                        cubit.addToFavourite(cubit.favouriteList[index]);
+                      }
                   ),
-                );
+                itemCount: cubit.favouriteList.length,
+              );
             },
             fallback: (context)=> Center(
                 child: Text('Your WishList is Empty'.tr,

@@ -116,16 +116,23 @@ class GetCourseLessonsSuccessState extends StudentStates {}
 
 class GetCourseLessonsErrorState extends StudentStates {}
 
-class CourseChangeBottomNavState extends StudentStates {}
+// course attachments
+class GetCourseAttachmentsLoadingState extends StudentStates {}
 
-class OpenCourseState extends StudentStates {}
+class GetCourseAttachmentsSuccessState extends StudentStates {}
 
-class InitVideoState extends StudentStates {}
+class GetCourseAttachmentsErrorState extends StudentStates {}
 
-class DisposeVideoState extends StudentStates {}
+// course attachments
+class GetCourseAssignmentsLoadingState extends StudentStates {}
 
-class InitializeFlickManagerState extends StudentStates {}
+class GetCourseAssignmentsSuccessState extends StudentStates {}
 
-class PlayNextVideoState extends StudentStates {}
+class GetCourseAssignmentsErrorState extends StudentStates {}
 
-class PlayPreviousVideoState extends StudentStates {}
+//add rate
+class AddRateLoadingState extends StudentStates {}
+
+class AddRateSuccessState extends StudentStates {}
+
+class AddRateErrorState extends StudentStates {}

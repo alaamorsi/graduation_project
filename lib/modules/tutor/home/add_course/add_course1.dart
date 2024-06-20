@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/modules/tutor/home/courses/publish_course.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
 import '../../../../layout/tutor/tutor_cubit/instructor_states.dart';
@@ -54,7 +53,7 @@ class _AddCourseState extends State<AddCourse> with WidgetsBindingObserver {
               description: "Course has been added successfully",
               state: MotionState.success,
               context: context);
-          Get.off(() => const PublishCourse());
+          Get.back();
         } else if (state is PaymentManagerErrorState) {
           showToast(
               title: "Course Addition",

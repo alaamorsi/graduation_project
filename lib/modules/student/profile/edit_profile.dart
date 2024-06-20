@@ -186,6 +186,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                       else{
                                                         showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
                                                       }
+                                                      navigator!.pop();
                                                     },
                                                     child: Text('save'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
                                                 ),
@@ -265,6 +266,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                       else{
                                                         showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
                                                       }
+                                                      navigator!.pop();
                                                     },
                                                     child: Text('save'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
                                                 ),
@@ -341,6 +343,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                     else{
                                                       showToast(title: 'Error'.tr, description: "Something went wrong".tr,context: context, state: MotionState.error);
                                                     }
+                                                    navigator!.pop();
                                                   },
                                                   child: Text('save'.tr,style: font.copyWith(color: Colors.white,fontSize: 16.0),)
                                               ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/models/courses_model.dart';
-import 'package:graduation_project/modules/student/my_courses/screens/course_leader.dart';
-import 'package:graduation_project/modules/tutor/home/courses/publish_course.dart';
+import 'package:graduation_project/modules/student/my_courses/course_leader.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -23,7 +22,7 @@ class WebViewScreen extends StatelessWidget {
             // Navigate to the success screen
             if (CacheHelper.getData(key: 'role') == 'instructor') {
               Future.delayed(const Duration(seconds: 3)).then((value) {
-                Get.off(() => const PublishCourse());
+                Get.back();
               });
             }
             if (CacheHelper.getData(key: 'role') == 'student') {

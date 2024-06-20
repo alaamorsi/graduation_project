@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/models/assignment_model.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-import '../../../../shared/component/components.dart';
+import '../../../../../shared/component/components.dart';
 
-class AssignmentScreen extends StatelessWidget {
-  const AssignmentScreen({super.key});
-//ناقص الفانكشن الي بيتجيت الassignment
+class ShowAssignmentScreen extends StatelessWidget {
+  final AssignmentModel assignment;
+  const ShowAssignmentScreen({super.key, required this.assignment});
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);

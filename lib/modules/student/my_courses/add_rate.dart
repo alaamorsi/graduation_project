@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import '../../../../shared/component/constant.dart';
+import '../../../shared/component/constant.dart';
 
 class RateScreen extends StatefulWidget {
   final int courseId;
@@ -14,6 +14,7 @@ class RateScreen extends StatefulWidget {
 
 class _RateScreenState extends State<RateScreen> {
   List<bool> stars =[false,false,false,false,false];
+  var rate = 1.0;
   @override
   Widget build(BuildContext context) {
     TextEditingController rateController = TextEditingController();
@@ -25,7 +26,9 @@ class _RateScreenState extends State<RateScreen> {
         context: context,
         title: "reviewTheCourse".tr,
         hasAction: true,
-        actionIcon: TextButton(onPressed: (){}, child: Text("publish".tr,style: font.copyWith(color: theme.primaryColor)))
+        actionIcon: TextButton(onPressed: (){
+          cubit.addRate(widget.courseId, rate, '');
+        }, child: Text("publish".tr,style: font.copyWith(color: theme.primaryColor)))
       ),
       body: Container(
         padding: EdgeInsets.all(screenWidth * 0.05),
@@ -55,7 +58,9 @@ class _RateScreenState extends State<RateScreen> {
                 controller: rateController,
                 type: TextInputType.text,
                 radius: 11,
-                validate: (s){},
+                validate: (s){
+                  return null;
+                },
                 label: "describeYourExperience(Optional)".tr,
             ),
           ],
@@ -81,6 +86,7 @@ class _RateScreenState extends State<RateScreen> {
                   stars[i]=false;
                 }
               }
+              rate = (index+1).toDouble();
             });
           },
           icon: lite?

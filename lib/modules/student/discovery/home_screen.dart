@@ -69,6 +69,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       child: IconButton(
                         onPressed: () {
+                          cubit.getFavouriteList();
                           navigateTo(context, const WishListScreen());
                         },
                         icon: Icon(Icons.favorite,

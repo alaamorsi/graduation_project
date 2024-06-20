@@ -53,6 +53,8 @@ dependencies:
   flutter_locales: ^3.0.1
   carousel_slider: ^4.2.1
   percent_indicator: ^4.2.3
+  file_picker: ^8.0.5
+  open_file: ^3.3.2
   ###########network########
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
@@ -66,8 +68,8 @@ dependencies:
   freezed: ^2.4.6
   freezed_annotation: ^2.4.1
 #  appinio_video_player:
-  video_player: 2.8.2
-  flick_video_player: ^0.7.0
+  video_player: ^2.8.7
+  flick_video_player: ^0.8.0
   flutter_ffmpeg: ^0.4.2
 #  flutter_stripe: ^9.3.0
   webview_flutter: ^2.0.0

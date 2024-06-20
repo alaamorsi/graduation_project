@@ -2,7 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-import '../../../../shared/component/components.dart';
+import '../../../shared/component/components.dart';
 
 class ExamsScreen extends StatefulWidget {
   const ExamsScreen({super.key});

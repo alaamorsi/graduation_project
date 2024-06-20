@@ -4,31 +4,20 @@ import 'package:get/get.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
 import 'package:graduation_project/models/courses_model.dart';
-import 'package:graduation_project/modules/student/my_courses/screens/add_rate.dart';
-import 'package:graduation_project/modules/student/my_courses/screens/lessons_screen.dart';
+import 'package:graduation_project/modules/student/my_courses/add_rate.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
-import 'Exams.dart';
-import 'assignments.dart';
+import 'assignments/assignments.dart';
+import 'attachments/attachments.dart';
+import 'lessons/lessons_screen.dart';
 import 'chats_screen.dart';
 
-class ClassLeader extends StatefulWidget {
+class ClassLeader extends StatelessWidget {
   final CourseModel course;
   const ClassLeader({super.key,required this.course});
 
   @override
-  State<ClassLeader> createState() => _ClassLeaderState();
-}
 
-class _ClassLeaderState extends State<ClassLeader> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      StudentCubit.get(context).isLoading = false;
-    });
-  }
   @override Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return BlocConsumer<StudentCubit,StudentStates>(
@@ -39,7 +28,7 @@ class _ClassLeaderState extends State<ClassLeader> {
           backgroundColor: theme.scaffoldBackgroundColor,
           appBar: secondAppbar(
             context: context,
-            title:widget.course.subject.tr,
+            title:course.subject.tr,
           ),
           body: Padding(padding:  EdgeInsets.symmetric(horizontal: screenWidth * .02),
             child: Wrap(
@@ -49,9 +38,8 @@ class _ClassLeaderState extends State<ClassLeader> {
                   title: "Lessons",
                   image: "Assets/for_teacher/recorded.png",
                   goTo: () {
-                    cubit.openCourse(widget.course);
-                    // cubit.initializeFlickManager(cubit.openedCourse.lessons[cubit.currentVideoIndex].videoUrl);
-                    navigateTo(context, LessonsScreen(course: widget.course,));
+                    cubit.getLessons(course.courseId);
+                    Get.to(()=>LessonsScreen(course: course,));
                   },
                 ),
                 dashboardItem(
@@ -64,18 +52,20 @@ class _ClassLeaderState extends State<ClassLeader> {
                 ),
                 dashboardItem(
                   context: context,
-                  title: "Exams",
+                  title: "Assignments",
                   image: "Assets/for_teacher/exam.png",
                   goTo: () {
-                    Get.to(()=>const ExamsScreen());
+                    cubit.getAssignments(course.courseId);
+                    Get.to(()=> AssignmentsScreen(course: course,));
                   },
                 ),
                 dashboardItem(
                   context: context,
-                  title: "Assignments",
-                  image: "Assets/for_teacher/exam.png",
+                  title: "Attachments",
+                  image: "Assets/for_teacher/attach.png",
                   goTo: () {
-                    Get.to(()=>const AssignmentScreen());
+                    cubit.getAttachments(course.courseId);
+                    Get.to(()=>AttachmentsScreen(course: course,));
                   },
                 ),
               ],
@@ -89,7 +79,7 @@ class _ClassLeaderState extends State<ClassLeader> {
                 FloatingActionButton(
                   shape:const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
                   onPressed: () {
-                    Get.to(()=>RateScreen(courseId: widget.course.courseId));
+                    Get.to(()=>RateScreen(courseId: course.courseId));
                   },
                   backgroundColor: theme.primaryColor,
                   tooltip: 'addRate'.tr,

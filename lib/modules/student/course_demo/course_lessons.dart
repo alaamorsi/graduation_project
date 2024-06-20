@@ -2,27 +2,31 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/models/courses_model.dart';
+import 'package:graduation_project/models/lesson_model.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
-import 'package:graduation_project/shared/component/test.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/constant.dart';
 
 class CourseLessons extends StatelessWidget {
-  final Course course;
-  const CourseLessons({super.key,required this.course});
+  final CourseModel course;
+  final ImageProvider<Object> image;
+  final String url;
+  const CourseLessons({super.key,required this.course, required this.image, required this.url});
 
   @override
   Widget build(BuildContext context) {
     var theme =Theme.of(context);
+    var cubit = StudentCubit.get(context);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){},
       builder: (context , state ){
         return Scaffold(
           appBar:secondAppbar(
             context: context,
-            title: '${course.videosNumber} ${'lessons'.tr}',
+            title: '${course.lessonsNumber} ${'lessons'.tr}',
           ),
           body: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -36,14 +40,11 @@ class CourseLessons extends StatelessWidget {
                           buildLessonItem(
                               context: context,
                               index: index,
-                              title: "lesson",
-                              course: course,
-                              color: theme.primaryColor,
+                              lesson: cubit.lessons[index],
                               theme: theme,
-                              introUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                           ),
                       separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 10.0,),
-                      itemCount: course.videosNumber,
+                      itemCount: course.lessonsNumber,
                     ),
                     fallback: (context)=>const Center(child: CircularProgressIndicator()),
                   ),
@@ -79,15 +80,13 @@ class CourseLessons extends StatelessWidget {
   Widget buildLessonItem({
     required BuildContext context,
     required int index,
-    required String title,
-    required Course course,
-    required String introUrl,
-    required Color color,
+    required LessonModel lesson,
     required ThemeData theme,
   })
   {
+    String time =lesson.period.split('.')[0];
     return InkWell(
-      onTap: (){index==0?navigateTo(context, ViewVideoScreen(introUrl: introUrl,)):null;},
+      onTap: (){index==0?navigateTo(context, ViewVideoScreen(introUrl: url,)):null;},
       child: Container(
         width: screenWidth,
         height: screenHeight/8,
@@ -108,7 +107,7 @@ class CourseLessons extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
-                      image:  NetworkImage(course.teacherImage),
+                      image:  image,
                       fit: BoxFit.cover,),
                   ),
                 ),
@@ -118,14 +117,14 @@ class CourseLessons extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Text(index==0?"1. introduction":"${index+1}. $title",
+                    child: Text(index==0?"1. introduction":"${index+1}. ${lesson.lessonName}",
                       style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
                     ),
                   ),
                   const SizedBox(height: 5,),
                   Expanded(
                     child: Text(
-                      '45 mints',
+                      time,
                       style: font.copyWith(fontSize: 12.0,color: theme.primaryColorDark.withOpacity(.5)),
                     ),
                   ),
@@ -137,7 +136,7 @@ class CourseLessons extends StatelessWidget {
                 children: [
                   Expanded(
                     child: index==0?
-                    Icon( Icons.ondemand_video,color: color,size: 30,):
+                    Icon( Icons.ondemand_video,color: theme.primaryColor,size: 30,):
                     const Icon(Icons.lock_outline,color: Colors.grey,size: 30,),
                   ),
                 ],

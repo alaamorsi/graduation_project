@@ -4,7 +4,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/modules/student/my_courses/screens/course_leader.dart';
+import 'package:graduation_project/modules/student/my_courses/course_leader.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:percent_indicator/percent_indicator.dart';

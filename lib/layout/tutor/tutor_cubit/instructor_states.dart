@@ -95,3 +95,45 @@ class InstGetStudentsLoadingState extends InstructorStates {}
 class InstGetStudentsSuccessState extends InstructorStates {}
 
 class InstGetStudentsErrorState extends InstructorStates {}
+
+// attachments
+class InstGetAttachmentsLoadingState extends InstructorStates {}
+
+class InstGetAttachmentsSuccessState extends InstructorStates {}
+
+class InstGetAttachmentsErrorState extends InstructorStates {}
+
+class AddAttachmentLoadingState extends InstructorStates {}
+
+class AddAttachmentSuccessState extends InstructorStates {}
+
+class AddAttachmentErrorState extends InstructorStates {}
+
+// assignments
+class InstGetAssignmentsLoadingState extends InstructorStates {}
+
+class InstGetAssignmentsSuccessState extends InstructorStates {}
+
+class InstGetAssignmentsErrorState extends InstructorStates {}
+
+class AddAssignmentLoadingState extends InstructorStates {}
+
+class AddAssignmentSuccessState extends InstructorStates {}
+
+class AddAssignmentErrorState extends InstructorStates {}
+
+//add description
+class AddDescriptionLoadingState extends InstructorStates {}
+
+class AddDescriptionSuccessState extends InstructorStates {}
+
+class AddDescriptionErrorState extends InstructorStates {}
+
+// file
+class FilePickedSuccessState extends InstructorStates {}
+
+class FilePickedErrorState extends InstructorStates {}
+
+class FileOpenedSuccessState extends InstructorStates {}
+
+class FileOpenedErrorState extends InstructorStates {}

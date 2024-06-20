@@ -1,14 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_cubit.dart';
 import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_states.dart';
 import 'package:graduation_project/models/courses_model.dart';
-import 'package:graduation_project/modules/tutor/home/courses/lessons/lessons.dart';
-import 'package:graduation_project/modules/tutor/home/courses/show-students.dart';
+import 'add_description.dart';
+import 'lessons/lessons.dart';
+import 'show-students.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
+import 'assignments/assignments.dart';
+import 'attachments/attachments.dart';
 import 'chat.dart';
 
 class TutorCoursesScreen extends StatelessWidget {
@@ -21,6 +23,7 @@ class TutorCoursesScreen extends StatelessWidget {
     return BlocConsumer<InstructorCubit, InstructorStates>(
       listener: (context, state) {},
       builder: (context, state) {
+        var cubit = InstructorCubit.get(context);
         return Scaffold(
           appBar: secondAppbar(
             hasAction: !course.isPublished,
@@ -44,7 +47,8 @@ class TutorCoursesScreen extends StatelessWidget {
                     title: "Lessons".tr,
                     image: "Assets/for_teacher/play.png",
                     goTo: () {
-                      navigateTo(context, Lessons(courseId: course.courseId,));
+                      cubit.getLessons(course.courseId);
+                      Get.to(() => Lessons(courseId: course.courseId,));
                     },
                   ),
                   dashboardItem(
@@ -52,31 +56,57 @@ class TutorCoursesScreen extends StatelessWidget {
                     title: "Students".tr,
                     image: "Assets/for_teacher/students.png",
                     goTo: () {
-                      navigateTo(context, ShowStudents(courseId: course.courseId,));
+                      cubit.getStudents(course.courseId);
+                      Get.to(() => ShowStudents(courseId: course.courseId,));
                     },
                   ),
                   dashboardItem(
                     context: context,
                     title: "Assignments".tr,
                     image: "Assets/for_teacher/exam.png",
-                    goTo: () {},
+                    goTo: () {
+                      cubit.getAssignments(course.courseId);
+                      Get.to(() => AssignmentsScreen(course: course,));
+                    },
                   ),
                   dashboardItem(
                     context: context,
                     title: "Attachments".tr,
                     image: "Assets/for_teacher/attach.png",
-                    goTo: () {},
+                    goTo: () {
+                      cubit.getAttachments(course.courseId);
+                      Get.to(() => AttachmentsScreen(course: course,));
+                    },
                   ),
                   dashboardItem(
                     context: context,
                     title: "Chat".tr,
                     image: "Assets/for_teacher/chat.png",
                     goTo: () {
-                      navigateTo(context, const ChatScreen());
+                      Get.to(() => const ChatScreen());
                     },
                   ),
                 ],
               ),
+            ),
+          ),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    Get.to(() => AddDescription(course: course,));
+                  },
+                  backgroundColor: theme.primaryColor,
+                  tooltip: 'Edit'.tr,
+                  child: const Icon(
+                    Icons.edit_note,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ),
         );

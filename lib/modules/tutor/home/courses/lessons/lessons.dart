@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/lesson_model.dart';
+import 'package:graduation_project/modules/student/my_courses/lessons/watch_lesson_screen.dart';
 import 'package:graduation_project/modules/tutor/home/courses/lessons/add_lesson.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../../../layout/tutor/tutor_cubit/instructor_cubit.dart';
@@ -27,38 +28,22 @@ class Lessons extends StatelessWidget {
             title: "Lessons",
           ),
           body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth *.02),
+            padding: EdgeInsets.all(screenWidth*.02),
             child: ConditionalBuilder(
-              condition: cubit.lessons.isNotEmpty,
-              builder: (context) {
-                return ListView.builder(
-                  itemBuilder: (BuildContext context, int index)=>lessonItem(lesson: cubit.lessons[index], color: theme.primaryColor),
-                  itemCount: 3,
-                );
-              },
-              fallback: (context){
-                if(state is GetInstCourseLessonsErrorState){
-                  return Center(
-                    child: Text(
-                      'You did not add any lessons yet',
+              condition: state is GetInstCourseLessonsSuccessState ||cubit.lessons.isNotEmpty,
+              builder: (BuildContext context) => ListView.builder(
+                itemBuilder: (BuildContext context, int index)=> buildLessonItem(lesson: cubit.lessons[index], theme: theme, cubit: cubit,index: index),
+                itemCount: cubit.lessons.length,),
+              fallback: (BuildContext context) =>
+                  ConditionalBuilder(
+                    condition: state is GetInstCourseLessonsErrorState && cubit.lessons.isEmpty,
+                    builder: (BuildContext context)=> Center(child: Text("There isn't lessons yet".tr,
                       style: font.copyWith(
                           color: theme.primaryColor,
                           fontSize: screenWidth * 0.06),
-                    ),
-                  );
-                }
-                else{
-                  return Center(
-                    child: SizedBox(
-                      width: 50.0,
-                      height: 50.0,
-                      child: CircularProgressIndicator(
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                  );
-                }
-              },
+                    ),),
+                    fallback: (BuildContext context)=> Center(child: CircularProgressIndicator(color: theme.primaryColor,)),
+                  ),
             ),
           ),
           floatingActionButton: Padding(
@@ -84,43 +69,69 @@ class Lessons extends StatelessWidget {
       },
     );
   }
-  Widget lessonItem({
+
+  Widget buildLessonItem({
     required LessonModel lesson,
-    required Color color,
-  }){
-    return Container(
-      padding: EdgeInsets.all(screenWidth * 0.02),
-      margin: EdgeInsets.all(screenWidth * 0.02),
-      width: screenWidth,
-      height: screenHeight * 0.14,
-      decoration: BoxDecoration(
-        color: color.withOpacity(.1),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(23.0),
+    required int index,
+    required ThemeData theme,
+    required InstructorCubit cubit,
+  })
+  {
+    return InkWell(
+      onTap: (){
+        Get.to(()=>WatchLessonScreen(lesson: lesson, index: index,));
+      },
+      child: Container(
+        margin: EdgeInsets.all(screenWidth*.02),
+        width: screenWidth,
+        height: screenHeight/8,
+        decoration: BoxDecoration(
+          color: theme.primaryColor.withOpacity(.2),
+          borderRadius: const BorderRadius.all(Radius.circular(23.0),),
         ),
-      ),
-      child: Row(
-        children: [
-          //Teacher image
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                lesson.lessonName,
-                style: font.copyWith(fontSize: 16.0, color: color),
+        child:Row(
+          children: [
+            //Teacher image
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Container(
+                width: screenHeight/10,
+                height: screenHeight/10,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image:  cubit.imageProvider,
+                    fit: BoxFit.cover,),
+                ),
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                lesson.period,
-                style: font.copyWith(
-                    fontSize: 12.0, color: Colors.black.withOpacity(.5)),
-              )
-            ],
-          ),
-        ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10,),
+                Text(lesson.lessonName,
+                  style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
+                ),
+                const SizedBox(height: 5,),
+                Text(lesson.period,
+                  style: font.copyWith(fontSize: 12.0,color: theme.primaryColorDark.withOpacity(.5)),
+                ),
+                const SizedBox(height: 10,),
+              ],
+            ),
+            const Spacer(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Icon( Icons.play_circle,color: theme.primaryColor,size: 33,)
+                ),
+              ],
+            ),
+            const SizedBox(width: 15,),
+          ],
+        ),
       ),
     );
   }

@@ -15,7 +15,15 @@ class AddLessons extends StatelessWidget {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     return BlocConsumer<InstructorCubit, InstructorStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is AddDescriptionSuccessState){
+          showToast(title: "Success".tr, description: "lesson has been added successfully".tr, state: MotionState.success, context: context);
+          Get.back();
+        }
+        if(state is AddDescriptionErrorState){
+          showToast(title: "Error".tr, description: "Something went wrong".tr, state: MotionState.error, context: context);
+        }
+      },
       builder: (context, state) {
         var cubit = InstructorCubit.get(context);
         var theme = Theme.of(context);
@@ -28,25 +36,48 @@ class AddLessons extends StatelessWidget {
             key: formKey,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * .03),
-              child: ListView(
+              child: Column(
                 children: [
-                  defaultFormField(context: context,
-                      controller: nameController,
-                      type: TextInputType.text,
-                      radius: 9,
-                      width: 1,
-                      validate: (s){
-                        if(s!.isEmpty) {
-                          return "PleaseEnterTheLessonName";
-                        }
-                      },
-                      label: "LessonName"),
+                  TextFormField(
+                    controller: nameController,
+                    keyboardType: TextInputType.text,
+                    cursorColor: theme.primaryColor,
+                    textAlign: TextAlign.start,
+                    maxLength: 100,
+                    maxLines: 5,
+                    minLines: 1,
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'PleaseEnterTheLessonName'.tr;
+                      }
+                      return null;
+                    },
+                    style: TextStyle(color: theme.primaryColor, fontSize: 16.0),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(.1),
+                      hintText: "LessonName".tr,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                        borderSide: BorderSide(
+                            color: theme.primaryColor, width: 1),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                        borderSide: BorderSide(
+                          color: theme.primaryColorDark,
+                          width: .8,
+                        ),
+                      ),
+                    ),
+                  ),
                   InkWell(
                     onTap: () async {
                       await cubit.pikeVideoFromGallery();
                     },
                     child: Container(
-                        margin: EdgeInsets.symmetric(vertical: screenHeight * .01),
+                      height: screenWidth*.45,
+                        margin: EdgeInsets.symmetric(vertical: screenHeight * .01,horizontal: screenWidth*.23),
                         padding: EdgeInsets.symmetric(
                             horizontal: screenWidth * 0.03,
                             vertical: screenHeight * .02),
@@ -58,10 +89,10 @@ class AddLessons extends StatelessWidget {
                               .withOpacity(0.3),
                           borderRadius: const BorderRadius.all(Radius.circular(9.0)),
                         ),
-                        child: Row(
+                        child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("addFromGallery", style: font.copyWith(
+                              Text("addFromGallery".tr, style: font.copyWith(
                                   color: theme.primaryColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),),
@@ -72,34 +103,20 @@ class AddLessons extends StatelessWidget {
                         )
                     ),
                   ),
-                  SizedBox(height: screenHeight*.6,),
-                  InkWell(
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        cubit.addLesson(courseId: courseId, name: nameController.text, video: cubit.video, period: cubit.videoPeriod);
+                  const Spacer(),
+                  usedButton(
+                      text: 'Upload'.tr,
+                      color: theme.primaryColor,
+                      isLoading: state is AddLessonLoadingState,
+                      atEnd: false,
+                      context: context,
+                      paddingSize: 20,
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          cubit.addLesson(courseId: courseId, name: nameController.text, video: cubit.video, period: cubit.videoPeriod);
+                        }
                       }
-                    },
-                    child: Container(
-                        margin: EdgeInsets.symmetric(vertical: screenHeight * .01),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.03,
-                            vertical: screenHeight * .02),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Theme
-                              .of(context)
-                              .primaryColor
-                              .withOpacity(0.3),
-                          borderRadius: const BorderRadius.all(Radius.circular(
-                              9.0)),
-                        ),
-                        child: Text(
-                          "Upload".tr, style: font.copyWith(color: theme
-                            .primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),)
-                    ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -109,28 +126,3 @@ class AddLessons extends StatelessWidget {
     );
   }
 }
-
-//                      InkWell(
-//                         onTap: () async{
-//                           await cubit.pikeVideoFromCamera();
-//                         },
-//                         child: Padding(padding: const EdgeInsets.all(10.0),
-//                           child:Container(
-//                               height: 43,
-//                               padding: const EdgeInsets.symmetric(horizontal: 9,vertical: 3),
-//                               alignment: Alignment.center,
-//                               decoration: BoxDecoration(
-//                                 color: Theme.of(context).primaryColor.withOpacity(0.3),
-//                                 borderRadius: const BorderRadius.all(Radius.circular(9.0)),
-//                               ),
-//                               child: Row(
-//                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                                 children: [
-//                                   Text("From camera",style: font.copyWith(color: theme.primaryColor,fontWeight: FontWeight.bold,fontSize: 20),),
-//                                   const SizedBox(width: 10,),
-//                                   Icon(Icons.camera,color: theme.primaryColor,size: 30)
-//                                 ]
-//                               )
-//                           ),
-//                         ),
-//                       ),

@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/models/courses_model.dart';
-// import 'package:graduation_project/modules/student/course_demo/course_comments.dart';
-// import 'package:graduation_project/modules/student/course_demo/course_lessons.dart';
 import 'package:graduation_project/modules/student/course_demo/view_video_screen.dart';
-import 'package:graduation_project/modules/student/my_courses/screens/course_leader.dart';
+import 'package:graduation_project/modules/student/my_courses/course_leader.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
 import '../../../layout/student/student_cubit/student_states.dart';
 import '../../../shared/component/constant.dart';
+import 'course_lessons.dart';
 
 class CourseDemo extends StatefulWidget {
   final CourseModel course;
@@ -39,11 +38,12 @@ class _CourseDemoState extends State<CourseDemo>{
     var theme =Theme.of(context);
     String time = cubit.courseDetails.period.split('.')[0];
     String url='';
-    if(cubit.courseDetails.url!=''&&cubit.courseDetails.url.isNotEmpty)
+    if(cubit.courseDetails.url!='')
       {
-        String url = cubit.courseDetails.url.substring(7);
+        url = cubit.courseDetails.url.substring(8);
         url = 'https://digitutors.runasp.net/$url';
       }
+    print(url);
     ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
     if(widget.course.instProfilePicture!.isNotEmpty){
       Uint8List picture = base64Decode(widget.course.instProfilePicture as String);
@@ -98,7 +98,12 @@ class _CourseDemoState extends State<CourseDemo>{
                               Text('${widget.course.lessonsNumber} ${'lessons'.tr}', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
                               const Spacer(),
                               TextButton(onPressed: () {
-                                // navigateTo(context, CourseLessons(course: course));
+                                cubit.getLessons(widget.course.courseId);
+                                navigateTo(context, CourseLessons(
+                                  image: image,
+                                  url: url,
+                                  course: widget.course,
+                                ));
                                 },
                                 child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
