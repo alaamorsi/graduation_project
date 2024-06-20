@@ -106,7 +106,7 @@ class AddAssignmentScreen extends StatelessWidget {
                               size: screenWidth * .2,
                             ),
                             onPressed: () async {
-                              cubit.pickFile();
+                              // cubit.pickFile();
                             },
                           ),
                         ),
@@ -125,12 +125,12 @@ class AddAssignmentScreen extends StatelessWidget {
                         color: theme.cardColor,
                         context: context,
                         onPressed: () {
-                          cubit.addAssignment(
-                              courseId,
-                              descriptionController.text,
-                              int.parse(gradeController.text),
-                              DateTime.parse(deadlineController.text),
-                              cubit.pickedFile);
+                          // cubit.addAssignment(
+                          //     courseId,
+                          //     descriptionController.text,
+                          //     int.parse(gradeController.text),
+                          //     DateTime.parse(deadlineController.text),
+                          //     cubit.pickedFile);
                         },
                       ),
                     ),

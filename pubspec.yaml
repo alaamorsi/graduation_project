@@ -53,8 +53,8 @@ dependencies:
   flutter_locales: ^3.0.1
   carousel_slider: ^4.2.1
   percent_indicator: ^4.2.3
-  file_picker: ^8.0.5
-  open_file: ^3.3.2
+#  file_picker: ^8.0.5
+#  open_file: ^3.3.2
   ###########network########
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1

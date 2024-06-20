@@ -79,7 +79,7 @@ class Lessons extends StatelessWidget {
   {
     return InkWell(
       onTap: (){
-        Get.to(()=>WatchLessonScreen(lesson: lesson, index: index,));
+        Get.to(()=>WatchLessonScreen(lesson: lesson, index: index, lessons: cubit.lessons,));
       },
       child: Container(
         margin: EdgeInsets.all(screenWidth*.02),

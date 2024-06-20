@@ -30,7 +30,7 @@ class LessonsScreen extends StatelessWidget{
             child: ConditionalBuilder(
               condition: state is GetCourseLessonsSuccessState ||cubit.assignments.isNotEmpty,
               builder: (BuildContext context) => ListView.builder(
-                itemBuilder: (BuildContext context, int index)=> buildLessonItem(lesson: cubit.lessons[index], theme: theme, course: course,index: index),
+                itemBuilder: (BuildContext context, int index)=> buildLessonItem(lesson: cubit.lessons[index], theme: theme, course: course,index: index, cubit: cubit),
                 itemCount: cubit.lessons.length,),
               fallback: (BuildContext context) =>
                   ConditionalBuilder(
@@ -54,6 +54,7 @@ class LessonsScreen extends StatelessWidget{
     required int index,
     required ThemeData theme,
     required CourseModel course,
+    required StudentCubit cubit,
   })
   {
     ImageProvider<Object> image=const AssetImage("Assets/profile/man_1.png");
@@ -63,7 +64,7 @@ class LessonsScreen extends StatelessWidget{
     }
     return InkWell(
       onTap: (){
-        Get.to(()=>WatchLessonScreen(lesson: lesson, index: index,));
+        Get.to(()=>WatchLessonScreen(lesson: lesson, index: index, lessons: cubit.lessons,));
       },
       child: Container(
         margin: EdgeInsets.all(screenWidth*.02),

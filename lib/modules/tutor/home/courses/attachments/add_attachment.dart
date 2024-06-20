@@ -75,7 +75,7 @@ class AddAttachmentScreen extends StatelessWidget {
                                 size: screenWidth * .2,
                               ),
                               onPressed: () async {
-                                cubit.pickFile();
+                                // cubit.pickFile();
                               },
                             ),
                           ),
@@ -94,10 +94,10 @@ class AddAttachmentScreen extends StatelessWidget {
                           color: theme.cardColor,
                           context: context,
                           onPressed: () {
-                            cubit.addAttachment(
-                                courseId,
-                                descriptionController.text,
-                                cubit.pickedFile);
+                            // cubit.addAttachment(
+                            //     courseId,
+                            //     descriptionController.text,
+                            //     cubit.pickedFile);
                           },
                         ),
                       ),

@@ -1,7 +1,6 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
 import 'package:graduation_project/models/lesson_model.dart';
@@ -11,8 +10,9 @@ import 'package:video_player/video_player.dart';
 
 class WatchLessonScreen extends StatefulWidget {
   final LessonModel lesson;
+  final List<LessonModel> lessons;
   final int index;
-  const WatchLessonScreen({super.key, required this.lesson, required this.index});
+  const WatchLessonScreen({super.key, required this.lesson, required this.index, required this.lessons});
 
   @override
   WatchLessonScreenState createState() =>WatchLessonScreenState();
@@ -30,36 +30,40 @@ class WatchLessonScreenState extends State<WatchLessonScreen> {
   String newUrl(String url){
   String newUrl = url.substring(8);
   newUrl = 'https://digitutors.runasp.net/$newUrl';
-  print(newUrl);
   return newUrl;
   }
   void initializeFlickManager() {
 
-    flickManager = FlickManager(
-      videoPlayerController: VideoPlayerController.networkUrl(Uri.parse(newUrl(widget.lesson.videoUrl)),
-      ),
-      autoPlay: true, // Automatically start playing the video
-      onVideoEnd: () {
-        if(widget.index+2>lessons.length){
-          playNextVideo(StudentCubit.get(context).lessons[0]);
-        }
-        else{
-          playNextVideo(StudentCubit.get(context).lessons[widget.index+1]);
-        }
-      },
-    );
+      try {
+        String url = newUrl(widget.lesson.videoUrl);
+        print(url);
+        flickManager = FlickManager(
+          videoPlayerController: VideoPlayerController.networkUrl(Uri.parse(url)),
+          autoPlay: true,
+          onVideoEnd: () {
+            if (widget.index + 2 > StudentCubit.get(context).lessons.length) {
+              playNextVideo(widget.lessons[0]);
+            } else {
+              playNextVideo(widget.lessons[widget.index + 1]);
+            }
+          },
+        );
+      } catch (e) {
+        print('Error initializing FlickManager: $e');}
   }
 
   void playNextVideo(LessonModel lesson) {
+    String url = newUrl(lesson.videoUrl);
     flickManager.handleChangeVideo(
-      VideoPlayerController.networkUrl(Uri.parse(newUrl(lesson.videoUrl))),
+      VideoPlayerController.networkUrl(Uri.parse(url)),
     );
   }
 
 
   void playPreviousVideo(LessonModel lesson) {
+    String url = newUrl(lesson.videoUrl);
     flickManager.handleChangeVideo(
-      VideoPlayerController.networkUrl(Uri.parse(newUrl(lesson.videoUrl))),
+      VideoPlayerController.networkUrl(Uri.parse(url)),
     );
   }
 
@@ -81,7 +85,7 @@ class WatchLessonScreenState extends State<WatchLessonScreen> {
           return Scaffold(
             appBar:secondAppbar(
               context: context,
-              title: 'Introduction'.tr,
+              title: widget.lesson.lessonName,
             ),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
