@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -19,7 +18,7 @@ class AddAssignmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController descriptionController = TextEditingController();
-    TextEditingController deadlineController = TextEditingController();
+    TimeOfDay? time = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
     TextEditingController gradeController = TextEditingController();
     var theme = Theme.of(context);
     var cubit = InstructorCubit.get(context);
@@ -32,6 +31,8 @@ class AddAssignmentScreen extends StatelessWidget {
         child: BlocConsumer<InstructorCubit, InstructorStates>(
             listener: (context, state) {
               if(state is AddAssignmentSuccessState){
+                cubit.clear();
+                cubit.getAssignments(courseId);
                 showToast(title: "Success".tr, description: "Assignment has been added successfully".tr, state: MotionState.success, context: context);
                 Get.back();
               } else if(state is AddAssignmentErrorState){
@@ -63,13 +64,29 @@ class AddAssignmentScreen extends StatelessWidget {
                           color: theme.primaryColor, fontSize: 18),
                     ),
                     SizedBox(height: screenHeight * .011),
-                    specificFormField(
-                        controller: deadlineController,
-                        theme: theme,
-                        example: "day(05-20) time(23:59)",
-                        message: "AddAssignmentDeadline",
-                        maxLength: null,
-                        type: TextInputType.text),
+                    InkWell(
+                      onTap: ()async{
+                        time  = await cubit.showTime(context, time);
+                      },
+                      child: Container(
+                        height: screenHeight*.11,
+                        width: screenWidth*.8,
+                        decoration: BoxDecoration(
+                          color: theme.primaryColor.withOpacity(.2),
+                          borderRadius: BorderRadius.circular(15)
+                        ),
+                        child:  Center(child: Row(
+                          children: [
+                            const Text(
+                                "AddAssignmentDeadline"
+                            ),
+                            if(time != null)Text(
+                                "${time!.hour}:${time!.minute}"
+                            ),
+                          ],
+                        )),
+                      ),
+                    ),
                     SizedBox(height: screenHeight * .011),
                     Text(
                       "Grade",
@@ -94,6 +111,7 @@ class AddAssignmentScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        (cubit.pickedFile == null) ?
                         Container(
                           height: screenWidth * .4,
                           width: screenWidth * .4,
@@ -111,7 +129,8 @@ class AddAssignmentScreen extends StatelessWidget {
                               cubit.pickFile();
                             },
                           ),
-                        ),
+                        ):
+                        selectedFile(cubit.file),
                       ],
                     ),
                     const Spacer(),
@@ -128,11 +147,11 @@ class AddAssignmentScreen extends StatelessWidget {
                         context: context,
                         onPressed: () {
                           cubit.addAssignment(
-                              courseId,
-                              descriptionController.text,
-                              int.parse(gradeController.text),
-                              DateTime.parse(deadlineController.text),
-                              cubit.pickedFile
+                              courseId: courseId,
+                              description:descriptionController.text,
+                              grade:int.parse(gradeController.text),
+                              deadLine: "${time!.hour}:${time!.minute}:00",
+                              file:cubit.pickedFile
                           );
                         },
                       ),
@@ -187,4 +206,5 @@ class AddAssignmentScreen extends StatelessWidget {
       ),
     );
   }
+
 }

@@ -292,7 +292,7 @@ class StudentCubit extends Cubit<StudentStates> {
     }
     try {
       Response response = await sendRequest(
-          method: 'updateImage', url: updateImage, formData: formData);
+          method: 'postWithFormData', url: updateImage, formData: formData);
       emit(UpdateProfileImageSuccessState());
       return response.statusCode;
     } catch (error) {
@@ -370,7 +370,7 @@ class StudentCubit extends Cubit<StudentStates> {
       List<Map<String, dynamic>>? listMap,
       FormData? formData}) async {
     try {
-      switch (method.toLowerCase()) {
+      switch (method) {
         case 'get':
           return await DioHelper.getData(url: url, query: query);
         case 'post':
@@ -384,7 +384,7 @@ class StudentCubit extends Cubit<StudentStates> {
           );
         case 'patch':
           return await DioHelper.patchData(url: url, data: listMap!);
-        case 'updateimage':
+        case 'postWithFormData':
           return await DioHelper.updateImage(url: url, data: formData);
         default:
           throw UnsupportedError('Method $method is not supported');

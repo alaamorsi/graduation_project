@@ -32,7 +32,7 @@ class AssignmentsScreen extends StatelessWidget{
                   itemCount: cubit.assignments.length,),
                 fallback: (BuildContext context) =>
                   ConditionalBuilder(
-                    condition:state is InstGetAssignmentsErrorState || cubit.assignments.isEmpty,
+                    condition:state is InstGetAssignmentsErrorState && cubit.assignments.isEmpty,
                     builder: (BuildContext context)=> Center(child: Text("There are not Assignments yet".tr,
                       style: font.copyWith(
                           color: theme.primaryColor,

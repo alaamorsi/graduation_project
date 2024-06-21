@@ -134,6 +134,10 @@ class FilePickedSuccessState extends InstructorStates {}
 
 class FilePickedErrorState extends InstructorStates {}
 
+class FileClearState extends InstructorStates {}
+
 class FileOpenedSuccessState extends InstructorStates {}
 
 class FileOpenedErrorState extends InstructorStates {}
+
+class TimePickedSuccessState extends InstructorStates {}

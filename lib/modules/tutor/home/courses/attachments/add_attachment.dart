@@ -16,8 +16,7 @@ class AddAttachmentScreen extends StatelessWidget {
     var theme = Theme.of(context);
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController descriptionController = TextEditingController();
-    TextEditingController deadlineController = TextEditingController();
-    TextEditingController gradeController = TextEditingController();
+    var cubit = InstructorCubit.get(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: secondAppbar(context: context, title: "Assignment".tr),
@@ -26,6 +25,7 @@ class AddAttachmentScreen extends StatelessWidget {
           child: BlocConsumer<InstructorCubit, InstructorStates>(
               listener: (context, state) {
                 if(state is AddAttachmentSuccessState){
+                  cubit.getAttachments(courseId);
                   showToast(title: "Success".tr, description: "Attachment has been added successfully".tr, state: MotionState.success, context: context);
                   Get.back();
                 } else if(state is AddAttachmentErrorState){
@@ -33,7 +33,6 @@ class AddAttachmentScreen extends StatelessWidget {
                 }
               },
               builder: (context, state) {
-                var cubit = InstructorCubit.get(context);
                 return Form(
                   key: formKey,
                   child: Column(
@@ -61,6 +60,7 @@ class AddAttachmentScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          (cubit.pickedFile == null) ?
                           Container(
                             height: screenWidth * .4,
                             width: screenWidth * .4,
@@ -78,7 +78,8 @@ class AddAttachmentScreen extends StatelessWidget {
                                 // cubit.pickFile();
                               },
                             ),
-                          ),
+                          ):
+                          selectedFile(cubit.file),
                         ],
                       ),
                       const Spacer(),
@@ -94,10 +95,10 @@ class AddAttachmentScreen extends StatelessWidget {
                           color: theme.cardColor,
                           context: context,
                           onPressed: () {
-                            // cubit.addAttachment(
-                            //     courseId,
-                            //     descriptionController.text,
-                            //     cubit.pickedFile);
+                            cubit.addAttachment(
+                                courseId,
+                                descriptionController.text,
+                                cubit.pickedFile);
                           },
                         ),
                       ),

@@ -162,7 +162,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
     }
     try {
       await sendRequest(
-          method: 'updateImage', url: updateImage, formData: formData);
+          method: 'postWithFormData', url: updateImage, formData: formData);
       emit(UpdateProfileImageSuccessState());
       return 200;
     } catch (error) {
@@ -296,7 +296,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       List<Map<String, dynamic>>? listMap,
       FormData? formData}) async {
     try {
-      switch (method.toLowerCase()) {
+      switch (method) {
         case 'get':
           return await DioHelper.getData(url: url);
         case 'post':
@@ -307,7 +307,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
           return await DioHelper.delete(url: url, data: data);
         case 'patch':
           return await DioHelper.patchData(url: url, data: listMap!);
-        case 'updateimage':
+        case 'postWithFormData':
           return await DioHelper.updateImage(url: url, data: formData);
         default:
           throw UnsupportedError('Method $method is not supported');
@@ -505,7 +505,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       ),
     });
     sendRequest(
-        method: 'updateimage',
+        method: 'postWithFormData',
         url: addAttachmentEndPoint,
         formData:formData
     ).then((value) {
@@ -517,6 +517,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
 
   List<AttachmentModel> attachments = [];
   void getAttachments(int courseId) {
+    attachments = [];
     emit(InstGetAttachmentsLoadingState());
     sendRequest(method: 'get', url: "$getAttachmentsEndPoint$courseId").then((value) {
       attachments = (value.data as List)
@@ -528,10 +529,17 @@ class InstructorCubit extends Cubit<InstructorStates> {
     });
   }
 
-  Future<void> addAssignment(int courseId,String description,int grade,DateTime deadLine,File? file) async{
+  Future<void> addAssignment({
+      required int courseId,
+      required String description,
+      required int grade,
+      required String deadLine,
+      required File? file
+  }) async{
     emit(AddAssignmentLoadingState());
     FormData formData = FormData();
-    var date = '${deadLine.toIso8601String()}Z';
+    var date = '2024-06-30T${deadLine}Z';
+    print(date);
     formData = FormData.fromMap ({
       'courseId':courseId,
       'description':description,
@@ -543,7 +551,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       ),
     });
     sendRequest(
-        method: 'updateimage',
+        method: 'postWithFormData',
         url: addAssignmentEndPoint,
         formData:formData
     ).then((value) {
@@ -555,6 +563,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
 
   List<AssignmentModel> assignments = [];
   void getAssignments(int courseId) {
+    assignments = [];
     emit(InstGetAssignmentsLoadingState());
     sendRequest(method: 'get', url: "$getAssignmentsEndPoint$courseId").then((value) {
       assignments = (value.data as List)
@@ -565,12 +574,16 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(InstGetAssignmentsErrorState());
     });
   }
-  late File pickedFile;
+  File? pickedFile;
+  PlatformFile? file;
   Future<void> pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    pickedFile = null;
+    file = null;
+    final result = await FilePicker.platform.pickFiles(
         type:FileType.custom,
-        allowedExtensions: ['pdf','ppt','doc']
+        allowedExtensions: ['pdf','doc']
     );
+    file = result?.files.first;
     if (result != null) {
       pickedFile = File(result.files.single.path!);
       emit(FilePickedSuccessState());
@@ -578,8 +591,21 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(FilePickedErrorState());
     }
   }
+  void clear(){
+    pickedFile = null;
+    file = null;
+    emit(FileClearState());
+  }
 
-
+  Future<TimeOfDay> showTime(context, time)async {
+    TimeOfDay? newTime = await showTimePicker(context: context,initialTime: time!);
+    if(newTime != null){
+      time = newTime;
+      emit(TimePickedSuccessState());
+    }
+    print(time);
+    return time;
+  }
   // void openFile(PlatformFile? file){
   //   if(file != null){
   //     OpenFile.open(file.path);

@@ -8,6 +8,8 @@ import 'package:motion_toast/motion_toast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../../models/courses_model.dart';
 import 'constant.dart';
+import 'package:file_picker/file_picker.dart';
+
 /////////////////////////////////////////////////////
 
 Widget usedButton({
@@ -622,7 +624,7 @@ Widget dashboardItem({
     child: Container(
       margin: EdgeInsets.all(screenWidth * .03),
       height: screenHeight * .27,
-      width: screenWidth * .42,
+      width: screenWidth * .41,
       decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.circular(5),
@@ -669,4 +671,65 @@ ImageProvider<Object> iWillReturnImage(String? pictureUrl){
     image = MemoryImage(picture);
   }
   return image;
+}
+
+Widget selectedFile(PlatformFile? file){
+  if(file != null){
+    final kb = file.size /1024;
+    final mb = kb / 1024;
+    final fileSize = mb>=1? '${mb.toStringAsFixed(2)} MB' : '${kb.toStringAsFixed(2)} KB';
+    final extension = file.extension ?? 'none';
+    final color = getColor(extension);
+    return SizedBox(
+      height: screenWidth * .4,
+      width: screenWidth * .4,
+      child: Stack(
+          alignment: isArabic?Alignment.topLeft:Alignment.topRight,
+          children:[
+          const Icon(Icons.clear_outlined,color: Colors.white,),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(11),
+                  ),
+                  child: Text(
+                    '.$extension',
+                    style: font.copyWith(fontSize: 28,color:Colors.white),
+                  ),
+                ),
+              ),
+              const SizedBox(height:10),
+              Text(
+                file.name,
+                style:font.copyWith(fontSize: 18,fontWeight: FontWeight.bold),
+                overflow:TextOverflow.ellipsis,
+              ),
+              Text(
+                fileSize,
+                style:font.copyWith(fontSize: 16),
+              ),
+            ],
+          ),
+        ]
+      )
+    );
+  } else{
+    return const SizedBox();
+  }
+
+}
+Color getColor(String extension){
+  if(extension == 'pdf'){
+    return Colors.red.shade600;
+  }if(extension == 'doc'){
+    return Colors.green.shade600;
+  } else{
+    return Colors.grey.shade600;
+  }
 }
