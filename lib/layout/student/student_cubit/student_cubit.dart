@@ -181,8 +181,9 @@ class StudentCubit extends Cubit<StudentStates> {
 
   void addToFavourite(CourseModel course) {
     emit(AddToFavouriteLoadingState());
-    sendRequest(method: 'post', url: "$addToFavouriteEndPoint${course.courseId}")
+    sendRequest(method: 'post', url: "$addToFavouriteEndPoint${course.courseId}",data: {})
         .then((value) {
+          print(value);
           for(int i=0;i<favouriteList.length;i++){
             if(course.favourite){
               favouriteList.remove(course);
@@ -194,6 +195,7 @@ class StudentCubit extends Cubit<StudentStates> {
           course.favourite = !course.favourite;
       emit(AddToFavouriteSuccessState());
     }).catchError((error) {
+      print(error);
       emit(AddToFavouriteErrorState());
     });
   }
