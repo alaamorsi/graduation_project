@@ -686,7 +686,7 @@ Widget selectedFile(PlatformFile? file){
       child: Stack(
           alignment: isArabic?Alignment.topLeft:Alignment.topRight,
           children:[
-          const Icon(Icons.clear_outlined,color: Colors.white,),
+          const Icon(Icons.clear_outlined,color: Colors.black,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -544,7 +544,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       'courseId':courseId,
       'description':description,
       'grade':grade,
-      'deadLine':date,
+      'deadLine':'2025-09-09T01:01:01.123Z',
       'file':await MultipartFile.fromFile(
         file!.path,
         filename: file.path.split('/').last,

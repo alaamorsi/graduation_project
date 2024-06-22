@@ -26,7 +26,7 @@ class AssignmentsScreen extends StatelessWidget{
             body: Padding(
               padding: EdgeInsets.all(screenWidth*.02),
               child: ConditionalBuilder(
-                condition: cubit.assignments.isNotEmpty,
+                condition: cubit.assignments.isNotEmpty || state is GetCourseAssignmentsSuccessState,
                 builder: (BuildContext context) => ListView.builder(
                   itemBuilder: (BuildContext context, int index)=> assignmentItem(assignment: cubit.assignments[index],theme: theme),
                   itemCount: cubit.assignments.length,),

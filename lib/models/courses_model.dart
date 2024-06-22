@@ -70,13 +70,13 @@ class CourseDetailsModel {
 class ReviewModel {
   late String studentName;
   late int studentId;
-  late String profilePicture;
   late int rateValue;
+  late String profilePicture;
 
   ReviewModel.fromJson(Map<String, dynamic> json) {
     studentName = json["studentName"];
     studentId = json["studentId"];
-    profilePicture = json["profilePicture"] ?? '';
     rateValue = json["rateValue"] ?? 1;
+    profilePicture = json["profilePicture"] ?? '';
   }
 }
