@@ -123,12 +123,18 @@ class GetCourseAttachmentsSuccessState extends StudentStates {}
 
 class GetCourseAttachmentsErrorState extends StudentStates {}
 
-// course attachments
+// course assignments
 class GetCourseAssignmentsLoadingState extends StudentStates {}
 
 class GetCourseAssignmentsSuccessState extends StudentStates {}
 
 class GetCourseAssignmentsErrorState extends StudentStates {}
+
+class AddAssignmentSolutionLoadingState extends StudentStates {}
+
+class AddAssignmentSolutionSuccessState extends StudentStates {}
+
+class AddAssignmentSolutionErrorState extends StudentStates {}
 
 //add rate
 class AddRateLoadingState extends StudentStates {}
@@ -136,3 +142,11 @@ class AddRateLoadingState extends StudentStates {}
 class AddRateSuccessState extends StudentStates {}
 
 class AddRateErrorState extends StudentStates {}
+
+//file
+// file
+class FilePickedSuccessState extends StudentStates {}
+
+class FilePickedErrorState extends StudentStates {}
+
+class FileClearState extends StudentStates {}

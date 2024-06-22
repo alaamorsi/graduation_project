@@ -538,13 +538,12 @@ class InstructorCubit extends Cubit<InstructorStates> {
   }) async{
     emit(AddAssignmentLoadingState());
     FormData formData = FormData();
-    var date = '2024-06-30T${deadLine}Z';
-    print(date);
+    String date = '2024-06-30T${deadLine}Z';
     formData = FormData.fromMap ({
       'courseId':courseId,
       'description':description,
       'grade':grade,
-      'deadLine':'2025-09-09T01:01:01.123Z',
+      'deadLine':date,
       'file':await MultipartFile.fromFile(
         file!.path,
         filename: file.path.split('/').last,
@@ -574,6 +573,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(InstGetAssignmentsErrorState());
     });
   }
+
   File? pickedFile;
   PlatformFile? file;
   Future<void> pickFile() async {
@@ -581,7 +581,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
     file = null;
     final result = await FilePicker.platform.pickFiles(
         type:FileType.custom,
-        allowedExtensions: ['pdf','doc']
+        allowedExtensions: ['pdf','txt','ppt']
     );
     file = result?.files.first;
     if (result != null) {
@@ -591,6 +591,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
       emit(FilePickedErrorState());
     }
   }
+
   void clear(){
     pickedFile = null;
     file = null;

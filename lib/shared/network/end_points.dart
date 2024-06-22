@@ -23,6 +23,7 @@ String addToFavouriteEndPoint='Course/favourite/';
 String getFavourites='Course/favourites';
 String getAttachmentsEndPoint='Course/attachment/';
 String getAssignmentsEndPoint='Course/assignments/';
+String uploadSolutionEndPoint='Course/solution';
 
 //instructor
 String getInstructorCourses='Course/instructor-courses';

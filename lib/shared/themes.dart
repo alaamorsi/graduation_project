@@ -55,12 +55,12 @@ ThemeData orangeDarkTheme = ThemeData(
 );
 
 ThemeData greenDarkTheme = ThemeData(
-  scaffoldBackgroundColor: HexColor("#2C3539"), //Gunmetal
+  scaffoldBackgroundColor: Colors.black, //Gunmetal
   primaryColor: HexColor("#056608"),  //Deep Green //for first items
   cardColor: HexColor("#08A04B"),  //Irish Green //for first items
   canvasColor: HexColor("#54c571"), //Zombie Green // for third items
   primaryColorDark: Colors.white,
-  primaryColorLight: Colors.black,
+  primaryColorLight: HexColor("#2C3539"),
 );
 
 ThemeData blueDarkTheme = ThemeData(

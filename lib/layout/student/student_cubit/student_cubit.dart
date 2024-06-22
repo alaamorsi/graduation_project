@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
@@ -168,7 +169,6 @@ class StudentCubit extends Cubit<StudentStates> {
     try{
       courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '', reviews: []);
      var result = await sendRequest(method: 'get', url: "$getCourseDetailsEndPoint$courseId");
-     print(result);
      courseDetails = CourseDetailsModel.fromJson(result);
      emit(GetCoursesDetailsSuccessState());
    }
@@ -500,6 +500,52 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(GetCourseAssignmentsErrorState());
     });
   }
+
+  Future<void> uploadSolution({
+    required int assignmentId,
+    required String description,
+    required File? file
+  }) async{
+    emit(AddAssignmentSolutionLoadingState());
+    FormData formData = FormData();
+    formData = FormData.fromMap ({
+      'assignmentId':assignmentId,
+      'description':description,
+      'file':await MultipartFile.fromFile(
+        file!.path,
+        filename: file.path.split('/').last,
+      ),
+    });
+    sendRequest(
+        method: 'postWithFormData',
+        url: uploadSolutionEndPoint,
+        formData:formData
+    ).then((value) {
+      emit(AddAssignmentSolutionSuccessState());
+    }).catchError((error) {
+      emit(AddAssignmentSolutionErrorState());
+    });
+  }
+
+  File? pickedFile;
+  PlatformFile? file;
+  Future<void> pickFile() async {
+    pickedFile = null;
+    file = null;
+    final result = await FilePicker.platform.pickFiles(
+        type:FileType.custom,
+        allowedExtensions: ['pdf','txt','ppt']
+    );
+    file = result?.files.first;
+    if (result != null) {
+      pickedFile = File(result.files.single.path!);
+      emit(FilePickedSuccessState());
+    } else {
+      emit(FilePickedErrorState());
+    }
+  }
+
+
   void addRate(int courseId,double rate,String review) {
     emit(AddRateLoadingState());
     sendRequest(method: 'post', url: "$getAllCoursesEndPoint$courseId/rate?rate=$rate").then((value) {
@@ -508,5 +554,4 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(AddRateErrorState());
     });
   }
-
 }
