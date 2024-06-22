@@ -26,7 +26,7 @@ class ShowAssignmentScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        String extension = assignment.file.split('.')[2];
+        String extension = assignment.file.split('.')[1];
         var cubit = StudentCubit.get(context);
         return Scaffold(
           backgroundColor: theme.scaffoldBackgroundColor,

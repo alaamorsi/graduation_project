@@ -19,7 +19,8 @@ class ShowFileState extends State<ShowFile> {
     return Scaffold(
       appBar: secondAppbar(context: context, title: "PDF"),
       body: PDF(
-        nightMode: mode,
+        nightMode: !mode,
+        autoSpacing: false,
         onViewCreated: (PDFViewController pdfViewController) async {
           _pdfViewController.complete(pdfViewController);
           shot = pdfViewController;
