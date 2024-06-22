@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -43,7 +44,6 @@ class _CourseDemoState extends State<CourseDemo>{
         url = 'https://digitutors.runasp.net/$url';
       }
     ImageProvider<Object> image = iWillReturnImage(widget.course.instProfilePicture);
-    ImageProvider<Object> reviewImage = iWillReturnImage(cubit.courseDetails.reviews[0].profilePicture);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){
         if(state is PaymentManagerSuccessState){
@@ -175,77 +175,88 @@ class _CourseDemoState extends State<CourseDemo>{
                                 },
                                 child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                         const SizedBox(height: 10,),
-                        Container(
-                          width: screenWidth,
-                          height: screenHeight/8,
-                          decoration: BoxDecoration(
-                            color: theme.primaryColor.withOpacity(.1),
-                            borderRadius: const BorderRadius.all(Radius.circular(15.0),),
-                          ),
-                          child:Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                                  child: Container(
-                                    width: 55,
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                      color: theme.primaryColor.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(30),
-                                      image: DecorationImage(
-                                        image: reviewImage,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:CrossAxisAlignment.start,
+                        ConditionalBuilder(
+                          condition: cubit.courseDetails.reviews.isNotEmpty,
+                          builder: (BuildContext context) {
+                            ImageProvider<Object> reviewImage = iWillReturnImage(cubit.courseDetails.reviews[0].profilePicture);
+                            return Container(
+                              width: screenWidth,
+                              height: screenHeight/8,
+                              decoration: BoxDecoration(
+                                color: theme.primaryColor.withOpacity(.1),
+                                borderRadius: const BorderRadius.all(Radius.circular(15.0),),
+                              ),
+                              child:Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
                                   children: [
-                                    Text(
-                                      "sameh ahmed",
-                                      style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "ggggggggggggggggggggggggggggg",
-                                        style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                                      child: Container(
+                                        width: 55,
+                                        height: 55,
+                                        decoration: BoxDecoration(
+                                          color: theme.primaryColor.withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(30),
+                                          image: DecorationImage(
+                                            image: reviewImage,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          cubit.courseDetails.reviews[0].studentName,
+                                          style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            cubit.courseDetails.reviews[0].feedback,
+                                            style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            color: theme.primaryColor,
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Icons.star_rate_rounded,
+                                                size: 20.0,
+                                                color:Colors.white,
+                                              ),
+                                              Text(
+                                                "${cubit.courseDetails.reviews[0].rateValue}",
+                                                style: font.copyWith(fontSize: 12.0,color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                                const Spacer(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 40,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        color: theme.primaryColor,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Icon(
-                                            Icons.star_rate_rounded,
-                                            size: 20.0,
-                                            color:Colors.white,
-                                          ),
-                                          Text(
-                                            "${cubit.courseDetails.reviews[0].rateValue}",
-                                            style: font.copyWith(fontSize: 12.0,color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                              ),
+                            );
+                          },
+                          fallback: (BuildContext context)=>Center(child: Text(
+                            "There is no reviews yet",
+                            style: font.copyWith(color: theme.primaryColorDark,fontSize: 16),
                             ),
                           ),
                         ),

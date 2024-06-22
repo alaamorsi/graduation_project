@@ -71,12 +71,14 @@ class ReviewModel {
   late String studentName;
   late int studentId;
   late int rateValue;
+  late String feedback;
   late String profilePicture;
 
   ReviewModel.fromJson(Map<String, dynamic> json) {
     studentName = json["studentName"];
     studentId = json["studentId"];
     rateValue = json["rateValue"] ?? 1;
+    feedback = json["feedback"] ?? "";
     profilePicture = json["profilePicture"] ?? '';
   }
 }

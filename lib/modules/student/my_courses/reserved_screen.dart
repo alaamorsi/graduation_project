@@ -46,8 +46,8 @@ class ReservedScreen extends StatelessWidget {
                   if (state is GetCoursesLoadingState) {
                     return Center(
                         child: SizedBox(
-                            width: 50.0,
-                            height: 50.0,
+                            width: screenWidth*.2,
+                            height: screenWidth*.2,
                             child: CircularProgressIndicator(
                               color: theme.primaryColor,
                             )));
@@ -87,9 +87,9 @@ class ReservedScreen extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.all(screenWidth*.02),
-        padding: EdgeInsets.all(screenWidth*.03),
+        padding: EdgeInsets.all(screenWidth*.02),
         width: screenWidth,
-        height: screenHeight / 7,
+        height: screenHeight * .14,
         decoration: BoxDecoration(
           color: theme.primaryColor.withOpacity(.1),
           borderRadius: const BorderRadius.all(
@@ -99,17 +99,15 @@ class ReservedScreen extends StatelessWidget {
         child: Row(
           children: [
             //Teacher image
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Container(
-                width: screenHeight / 10,
-                height: screenHeight / 10,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                        image: image,
-                        fit: BoxFit.cover)),
-              ),
+            Container(
+              width: screenHeight / 10,
+              height: screenHeight / 10,
+              margin: EdgeInsets.symmetric(horizontal:screenWidth*.02),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      image: image,
+                      fit: BoxFit.cover)),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +131,7 @@ class ReservedScreen extends StatelessWidget {
             ),
             const Spacer(),
             CircularPercentIndicator(
-              radius: 40,
+              radius: screenHeight*.05,
               lineWidth: 6,
               animation: true,
               percent: courseProgress / 100,
