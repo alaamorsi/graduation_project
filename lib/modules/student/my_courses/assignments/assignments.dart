@@ -28,7 +28,7 @@ class AssignmentsScreen extends StatelessWidget{
               child: ConditionalBuilder(
                 condition: cubit.assignments.isNotEmpty || state is GetCourseAssignmentsSuccessState,
                 builder: (BuildContext context) => ListView.builder(
-                  itemBuilder: (BuildContext context, int index)=> assignmentItem(assignment: cubit.assignments[index],theme: theme),
+                  itemBuilder: (BuildContext context, int index)=> assignmentItem(assignment: cubit.assignments[index],theme: theme, index: index+1),
                   itemCount: cubit.assignments.length,),
                 fallback: (BuildContext context) =>
                   ConditionalBuilder(
@@ -50,11 +50,12 @@ class AssignmentsScreen extends StatelessWidget{
   Widget assignmentItem({
     required AssignmentModel assignment,
     required ThemeData theme,
+    required int index,
   })
   {
     return InkWell(
       onTap: (){
-        Get.to(()=>ShowAssignmentScreen(assignment: assignment,));
+        Get.to(()=>ShowAssignmentScreen(assignment: assignment, index: index,));
       },
       child: Container(
         margin: EdgeInsets.all(screenWidth*.02),
