@@ -13,3 +13,16 @@ class AssignmentModel {
     file = json["file"]??'';
   }
 }
+class SolutionModel {
+  late int studentId;
+  late String fullName;
+  late String description;
+  late String solutionUrl;
+
+  SolutionModel.fromJson(Map<String, dynamic> json) {
+    studentId = json["studentId"];
+    fullName = json["fullName"]??'';
+    description = json["description"]??'';
+    solutionUrl = json["solutionUrl"]??'';
+  }
+}

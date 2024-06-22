@@ -6,6 +6,7 @@ import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_cubit.dar
 import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_states.dart';
 import 'package:graduation_project/models/assignment_model.dart';
 import 'package:graduation_project/models/courses_model.dart';
+import 'package:graduation_project/modules/tutor/home/courses/assignments/show_assignment.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import '../../../../../shared/component/constant.dart';
 import 'add_assignment.dart';
@@ -28,7 +29,7 @@ class AssignmentsScreen extends StatelessWidget{
               child: ConditionalBuilder(
                 condition: state is InstGetAssignmentsSuccessState || cubit.assignments.isNotEmpty,
                 builder: (BuildContext context) => ListView.builder(
-                  itemBuilder: (BuildContext context, int index)=> assignmentItem(assignment: cubit.assignments[index],theme: theme),
+                  itemBuilder: (BuildContext context, int index)=> assignmentItem(assignment: cubit.assignments[index],theme: theme, cubit: cubit),
                   itemCount: cubit.assignments.length,),
                 fallback: (BuildContext context) =>
                   ConditionalBuilder(
@@ -69,10 +70,13 @@ class AssignmentsScreen extends StatelessWidget{
   Widget assignmentItem({
     required AssignmentModel assignment,
     required ThemeData theme,
+    required InstructorCubit cubit,
   })
   {
     return InkWell(
       onTap: (){
+        cubit.getSolutions(assignment.id);
+        Get.to(()=>ShowAssignmentSolutionScreen(assignment:assignment));
       },
       child: Container(
         margin: EdgeInsets.all(screenWidth*.02),

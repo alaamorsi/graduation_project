@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
 import 'package:graduation_project/models/assignment_model.dart';
-import 'package:graduation_project/modules/student/my_courses/assignments/show_file.dart';
+import 'package:graduation_project/modules/show_file.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import '../../../../../shared/component/components.dart';
 
@@ -85,8 +85,8 @@ class ShowAssignmentScreen extends StatelessWidget {
                         width: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: Colors.red.shade600),
-                        child: Center(child: Text(".$extension")),
+                            color: Colors.red.shade300),
+                        child: Center(child: Text(".$extension",)),
                       ),
                     ),
                   ],

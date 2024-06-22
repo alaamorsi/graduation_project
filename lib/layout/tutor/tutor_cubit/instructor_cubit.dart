@@ -24,7 +24,6 @@ import '../../../modules/tutor/profile/profile.dart';
 import 'instructor_states.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:file_picker/file_picker.dart';
-// import 'package:open_file/open_file.dart';
 
 
 class InstructorCubit extends Cubit<InstructorStates> {
@@ -607,6 +606,36 @@ class InstructorCubit extends Cubit<InstructorStates> {
     print(time);
     return time;
   }
+
+  List<SolutionModel> assignmentSolutions = [];
+  void getSolutions(int assignmentId) {
+    assignmentSolutions = [];
+    emit(InstGetAssignmentsLoadingState());
+    sendRequest(method: 'get', url: "Course/assignment/$assignmentId/solutions").then((value) {
+      assignmentSolutions = (value.data as List)
+          .map((solution) => SolutionModel.fromJson(solution))
+          .toList();
+      emit(InstGetAssignmentsSuccessState());
+    }).catchError((error) {
+      emit(InstGetAssignmentsErrorState());
+    });
+  }
+
+  Future<void> addGrade(int studentId,int assignmentId,double grade) async{
+    emit(AddGradeForSolutionLoadingState());
+    try{
+      await sendRequest(method: 'post', url: "Course/$studentId/$assignmentId/grade/$grade",data: {});
+      emit(AddGradeForSolutionSuccessState());
+    }catch(error){
+      if(error == 401){
+        emit(SessionEndedState());
+      }
+      else{
+        emit(AddGradeForSolutionErrorState());
+      }
+    }
+  }
+
   // void openFile(PlatformFile? file){
   //   if(file != null){
   //     OpenFile.open(file.path);

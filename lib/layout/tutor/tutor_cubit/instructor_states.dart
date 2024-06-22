@@ -111,16 +111,14 @@ class AddAttachmentErrorState extends InstructorStates {}
 
 // assignments
 class InstGetAssignmentsLoadingState extends InstructorStates {}
-
 class InstGetAssignmentsSuccessState extends InstructorStates {}
-
 class InstGetAssignmentsErrorState extends InstructorStates {}
-
 class AddAssignmentLoadingState extends InstructorStates {}
-
 class AddAssignmentSuccessState extends InstructorStates {}
-
 class AddAssignmentErrorState extends InstructorStates {}
+class AddGradeForSolutionLoadingState extends InstructorStates {}
+class AddGradeForSolutionSuccessState extends InstructorStates {}
+class AddGradeForSolutionErrorState extends InstructorStates {}
 
 //add description
 class AddDescriptionLoadingState extends InstructorStates {}
