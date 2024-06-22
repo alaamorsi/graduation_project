@@ -136,6 +136,12 @@ class AddAssignmentSolutionSuccessState extends StudentStates {}
 
 class AddAssignmentSolutionErrorState extends StudentStates {}
 
+class GetAssignmentGradeLoadingState extends StudentStates {}
+
+class GetAssignmentGradeSuccessState extends StudentStates {}
+
+class GetAssignmentGradeErrorState extends StudentStates {}
+
 //add rate
 class AddRateLoadingState extends StudentStates {}
 

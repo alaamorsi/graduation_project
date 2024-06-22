@@ -12,6 +12,7 @@ import 'package:graduation_project/models/lesson_model.dart';
 import 'package:graduation_project/models/students_model.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
 import 'package:graduation_project/modules/student/payMob_manager/web_view.dart';
+import 'package:graduation_project/modules/tutor/home/courses/assignments/show_assignment.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
@@ -634,6 +635,15 @@ class InstructorCubit extends Cubit<InstructorStates> {
         emit(AddGradeForSolutionErrorState());
       }
     }
+  }
+
+  void showAddGradeForm(BuildContext context, {required int studentId, required int assignmentId}) async {
+    await showAdaptiveDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AddGrade(studentId: studentId, assignmentId: assignmentId,);
+        });
+    emit(ShowAddGradeDialogState());
   }
 
   // void openFile(PlatformFile? file){

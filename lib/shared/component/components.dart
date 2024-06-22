@@ -733,3 +733,11 @@ Color getColor(String extension){
     return Colors.grey.shade600;
   }
 }
+String changeNumTo2Digits(int num){
+  if(num < 10){
+    return "0""$num";
+  }
+  else{
+    return num.toString();
+  }
+}

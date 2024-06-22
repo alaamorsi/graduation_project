@@ -27,21 +27,30 @@ class AssignmentsScreen extends StatelessWidget {
             body: Padding(
               padding: EdgeInsets.all(screenWidth * .02),
               child: ConditionalBuilder(
-                condition: cubit.assignments.isNotEmpty ||
-                    state is GetCourseAssignmentsSuccessState,
-                builder: (BuildContext context) => ListView.builder(
+                condition: cubit.assignments.isNotEmpty || state is GetCourseAssignmentsSuccessState,
+                builder: (BuildContext context) =>
+                  cubit.assignments.isNotEmpty ?
+                  ListView.builder(
                   itemBuilder: (BuildContext context, int index) =>
                       assignmentItem(
                           assignment: cubit.assignments[index],
                           theme: theme,
-                          index: index + 1),
+                          index: index + 1,
+                          cubit: cubit
+                      ),
                   itemCount: cubit.assignments.length,
-                ),
+                ) :
+                  Text(
+                    "There are not Assignments yet",
+                    style: font.copyWith(
+                        color: theme.primaryColor,
+                        fontSize: screenWidth * 0.06),
+                  ),
                 fallback: (BuildContext context) => ConditionalBuilder(
-                  condition: cubit.assignments.isEmpty,
+                  condition: state is GetCourseAssignmentsErrorState,
                   builder: (BuildContext context) => Center(
                     child: Text(
-                      "There are not Assignments yet",
+                      "Something went wrong",
                       style: font.copyWith(
                           color: theme.primaryColor,
                           fontSize: screenWidth * 0.06),
@@ -61,10 +70,12 @@ class AssignmentsScreen extends StatelessWidget {
   Widget assignmentItem({
     required AssignmentModel assignment,
     required ThemeData theme,
+    required StudentCubit cubit,
     required int index,
   }) {
     return InkWell(
-      onTap: () {
+      onTap: () async{
+        await cubit.getSolutionGrade(assignment.id);
         Get.to(() => ShowAssignmentScreen(
               assignment: assignment,
               index: index,

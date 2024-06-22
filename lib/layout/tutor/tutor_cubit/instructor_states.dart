@@ -119,6 +119,7 @@ class AddAssignmentErrorState extends InstructorStates {}
 class AddGradeForSolutionLoadingState extends InstructorStates {}
 class AddGradeForSolutionSuccessState extends InstructorStates {}
 class AddGradeForSolutionErrorState extends InstructorStates {}
+class ShowAddGradeDialogState extends InstructorStates {}
 
 //add description
 class AddDescriptionLoadingState extends InstructorStates {}

@@ -30,7 +30,7 @@ class ShowAssignmentScreen extends StatelessWidget {
         var cubit = StudentCubit.get(context);
         return Scaffold(
           backgroundColor: theme.scaffoldBackgroundColor,
-          appBar: secondAppbar(context: context, title: "Assignment".tr),
+          appBar: secondAppbar(context: context, title: "${"Assignment".tr} $index"),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -39,7 +39,7 @@ class ShowAssignmentScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      "Assignment $index",
+                      "${cubit.gradeModel!.grade??""}/${assignment.grade}",
                       style: font.copyWith(
                         color: Theme
                             .of(context)
@@ -92,6 +92,8 @@ class ShowAssignmentScreen extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
+                cubit.hasGrade?
+                const SizedBox():
                 usedButton(
                   paddingSize: 10,
                   radius: 5,
@@ -106,6 +108,16 @@ class ShowAssignmentScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 15.0),
+                cubit.hasGrade?
+                usedButton(
+                  paddingSize: 10,
+                  radius: 5,
+                  atEnd: false,
+                  text: 'submitted',
+                  color: theme.primaryColor,
+                  context: context,
+                  onPressed: () {},
+                ):
                 usedButton(
                   paddingSize: 10,
                   radius: 5,

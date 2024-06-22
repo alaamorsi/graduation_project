@@ -1,5 +1,4 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -30,7 +29,7 @@ class ShowAssignmentSolutionScreen extends StatelessWidget{
                 builder: (BuildContext context) {
                   return cubit.assignmentSolutions.isNotEmpty?
                   ListView.builder(
-                  itemBuilder: (BuildContext context, int index)=> solutionItem(solution: cubit.assignmentSolutions[index],theme: theme),
+                  itemBuilder: (BuildContext context, int index)=> solutionItem(solution: cubit.assignmentSolutions[index],theme: theme, context: context),
                   itemCount: cubit.assignmentSolutions.length) :
                   Center(
                     child: Text("There are not Solutions yet".tr,
@@ -62,6 +61,7 @@ class ShowAssignmentSolutionScreen extends StatelessWidget{
   Widget solutionItem({
     required SolutionModel solution,
     required ThemeData theme,
+    required BuildContext context,
   })
   {
     String extension = solution.solutionUrl.split('.')[1];
@@ -89,7 +89,7 @@ class ShowAssignmentSolutionScreen extends StatelessWidget{
                     Icon(Icons.person,size: screenWidth*.08,),
                     SizedBox(width: screenWidth*.02,),
                     SizedBox(
-                      width: screenWidth*.5,
+                      width: screenWidth*.45,
                       child: Text(solution.fullName,
                         overflow: TextOverflow.ellipsis,
                         style: font.copyWith(fontSize: 23.0,color: theme.primaryColorDark),
@@ -97,9 +97,12 @@ class ShowAssignmentSolutionScreen extends StatelessWidget{
                     ),
                     SizedBox(width: screenWidth*.1,),
                     Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                       decoration: BoxDecoration(
+                        color: theme.canvasColor,
+                        borderRadius: BorderRadius.circular(11)
                       ),
-                      child: Text("${solution.studentId}/${assignment.grade}"),
+                      child: Text("${solution.grade??"  "}/${solution.maxGrade}"),
                     ),
                   ]
                 ),
@@ -132,7 +135,11 @@ class ShowAssignmentSolutionScreen extends StatelessWidget{
                       ),
                     ),
                     SizedBox(width: screenWidth*.27,),
-                    Text("AddGrade",style: font.copyWith(fontSize: 18,color: theme.primaryColor),),
+                    InkWell(
+                      onTap: (){
+                        InstructorCubit.get(context).showAddGradeForm(context,assignmentId: assignment.id,studentId: solution.studentId);
+                      },
+                        child: Text("AddGrade",style: font.copyWith(fontSize: 18,color: theme.primaryColor),)),
                   ],
                 ),
               ],
@@ -143,3 +150,56 @@ class ShowAssignmentSolutionScreen extends StatelessWidget{
     );
   }
 }
+
+class AddGrade extends StatefulWidget {
+  final int studentId;
+  final int assignmentId;
+  const AddGrade({super.key, required this.studentId, required this.assignmentId});
+
+  @override
+  State<AddGrade> createState() => _AddGradeState();
+}
+
+class _AddGradeState extends State<AddGrade> {
+  TextEditingController controller  = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    var theme  = Theme.of(context);
+    var cubit = InstructorCubit.get(context);
+    return AlertDialog.adaptive(
+      title: const Text("EnterTheGrade"),
+      content: Container(
+        height: screenHeight*.07,
+        width: screenWidth*.4,
+        decoration: BoxDecoration(
+          color: theme.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(9),
+        ),
+        child: defaultFormField(
+            context: context,
+            controller: controller,
+            validate: (e){
+              return null;
+            },
+            label: "EnterGrade",
+            type: TextInputType.number
+        ),
+      ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Spacer(),
+            TextButton(onPressed: (){
+              cubit.addGrade(widget.studentId, widget.assignmentId,double.parse(controller.text));
+              cubit.getSolutions(widget.assignmentId);
+              Get.back();
+            }, child: const Text("Submit")
+            )
+          ],
+        )
+      ],
+    );
+  }
+}
+

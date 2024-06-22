@@ -548,12 +548,41 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
 
-  void addRate(int courseId,double rate,String review) {
+  Future<void> addRate(int courseId,double rate,String review) async {
     emit(AddRateLoadingState());
-    sendRequest(method: 'post', url: "$getAllCoursesEndPoint$courseId/rate?rate=$rate").then((value) {
+    try{
+      await sendRequest(method: 'post', url: "$getAllCoursesEndPoint$courseId/rate?rate=$rate");
       emit(AddRateSuccessState());
-    }).catchError((error) {
-      emit(AddRateErrorState());
-    });
+    }catch(error){
+      if(error == 401){
+        emit(SessionEndedState());
+      }
+      else{
+        emit(AddRateErrorState());
+      }
+    }
   }
+
+  GradeModel? gradeModel;
+  bool hasGrade = false;
+  Future<void> getSolutionGrade(int assignmentId) async {
+    hasGrade = false;
+    emit(GetAssignmentGradeLoadingState());
+    try{
+      var response = await sendRequest(method: 'get', url: "Course/$assignmentId/grade");
+      gradeModel = GradeModel.fromJson(response.data);
+      hasGrade =true;
+      emit(GetAssignmentGradeSuccessState());
+    }
+    catch(error){
+      hasGrade =false;
+      if(error == 401){
+        emit(SessionEndedState());
+      }
+      else{
+        emit(GetAssignmentGradeErrorState());
+      }
+    }
+  }
+
 }

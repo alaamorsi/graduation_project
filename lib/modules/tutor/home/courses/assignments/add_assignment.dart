@@ -70,21 +70,21 @@ class AddAssignmentScreen extends StatelessWidget {
                       },
                       child: Container(
                         height: screenHeight*.11,
-                        width: screenWidth*.8,
+                        padding: EdgeInsets.symmetric(horizontal: screenWidth*.1),
+                        margin: EdgeInsets.only(right: screenWidth*.5),
                         decoration: BoxDecoration(
                           color: theme.primaryColor.withOpacity(.2),
                           borderRadius: BorderRadius.circular(15)
                         ),
-                        child:  Center(child: Row(
+                        child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                                "AddAssignmentDeadline"
-                            ),
                             if(time != null)Text(
-                                "${time!.hour}:${time!.minute}"
+                                "${time!.hour}:${time!.minute}",
+                              style: font.copyWith(color: theme.primaryColorDark,fontSize: 20),
                             ),
                           ],
-                        )),
+                        ),
                       ),
                     ),
                     SizedBox(height: screenHeight * .011),
@@ -146,11 +146,13 @@ class AddAssignmentScreen extends StatelessWidget {
                         color: theme.cardColor,
                         context: context,
                         onPressed: () {
+                          String hours = changeNumTo2Digits(time!.hour);
+                          String minutes = changeNumTo2Digits(time!.minute);
                           cubit.addAssignment(
                               courseId: courseId,
                               description:descriptionController.text,
                               grade:int.parse(gradeController.text),
-                              deadLine: "${time!.hour}:${time!.minute}:00",
+                              deadLine: "$hours:$minutes:00",
                               file:cubit.pickedFile
                           );
                         },
