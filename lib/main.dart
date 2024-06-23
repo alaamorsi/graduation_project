@@ -8,7 +8,7 @@ import 'package:graduation_project/shared/bloc_observer.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'package:graduation_project/shared/network/dio_helper.dart';
-import 'package:signalr_netcore/ihub_protocol.dart';
+// import 'package:signalr_netcore/ihub_protocol.dart';
 import 'layout/student/student_cubit/student_cubit.dart';
 import 'layout/tutor/tutor_cubit/instructor_cubit.dart';
 import 'modules/registration/login/cubit/cubit.dart';
@@ -26,15 +26,18 @@ void main() async {
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
-  var messageHeaders =MessageHeaders();
-  messageHeaders.setHeaderValue("Authorization", 'Bearer ${CacheHelper.getData(key: 'jwt')}');
+  // var messageHeaders = MessageHeaders();
+  // messageHeaders.setHeaderValue('Authorization','Bearer ${CacheHelper.getData(key: 'jwt')}');
+  // messageHeaders['Authorization'] = 'Bearer $jwtToken';
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
 
   hubConnection = HubConnectionBuilder().withUrl(
     "https://digitutors.runasp.net/chat", options: HttpConnectionOptions(
-    headers: messageHeaders
+    accessTokenFactory: ()async{
+      return  '${CacheHelper.getData(key: 'jwt')}';
+    }
   ),).build();
 
   mode = CacheHelper.getData(key: 'appMode') ?? mode;
