@@ -21,6 +21,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     hubConnection.start()?.then((value){
+      //handle the on to show the messages
       hubConnection.on("getMessage", (List<Object?>? list){
         print("Signal R #######################################");
         print(list![0].toString());
@@ -85,15 +86,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     Expanded(
                       child: IconButton(
                           onPressed: () {
-                            setState(() {
-                              hubConnection.invoke(
-                                  "SendMessage",
-                                  args: <Object>[
-                                    messageController.text,
-                                    widget.courseId
-                                  ]
-                              );
-                            });
+                            hubConnection.invoke(
+                                "SendMessage",
+                                args: <Object>[
+                                  messageController.text,
+                                  widget.courseId
+                                ]
+                            );
+                            print(messageController.text,);
                           },
                           icon: Icon(
                             Icons.send_rounded,

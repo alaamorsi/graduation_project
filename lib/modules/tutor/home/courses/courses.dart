@@ -83,6 +83,7 @@ class TutorCoursesScreen extends StatelessWidget {
                     title: "Chat".tr,
                     image: "Assets/for_teacher/chat.png",
                     goTo: () {
+                      print(course.courseId);
                       Get.to(() => ChatScreen(courseId: course.courseId,));
                     },
                   ),
