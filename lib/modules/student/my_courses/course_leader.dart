@@ -47,7 +47,7 @@ class ClassLeader extends StatelessWidget {
                   title: "Chat",
                   image: "Assets/for_teacher/chat.png",
                   goTo: () {
-                    Get.to(()=>const ChatsScreen());
+                    Get.to(()=>ChatsScreen(courseId: course.courseId,));
                   },
                 ),
                 dashboardItem(

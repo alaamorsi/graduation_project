@@ -8,39 +8,39 @@ import '../../../shared/component/components.dart';
 import '../../../shared/component/constant.dart';
 
 class ChatsScreen extends StatefulWidget {
-  const ChatsScreen({super.key});
+  final int courseId;
+  const ChatsScreen({super.key, required this.courseId});
 
   @override
   State<ChatsScreen> createState() => _ChatsScreenState();
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
-  double dy = 0;
-  bool isTyping = false;
-
+  @override
+  void initState() {
+    hubConnection.start()?.then((value){
+      hubConnection.on("getMessage", (List<Object?>? list){
+        print("Signal R #######################################");
+        print(list![0].toString());
+        print(list[1].toString());
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     TextEditingController messageController = TextEditingController();
     var theme = Theme.of(context);
     return  BlocConsumer<StudentCubit, StudentStates>(
-        listener: (context, state) {
-          if (isTyping) {
-            setState(() {
-              dy = 2;
-            });
-          } else if (!isTyping) {
-            setState(() {
-              dy = 0;
-            });
-          }
-        }, builder: (context, state) {
+        listener: (context, state) {},
+        builder: (context, state) {
       var student = StudentCubit.get(context);
       return Scaffold(
         appBar: secondAppbar(context: context, title: "Chat".tr),
         body: buildStudentChat(context: context, theme: theme),
         bottomNavigationBar: AnimatedSlide(
           duration: const Duration(milliseconds: 500),
-          offset: Offset(0, dy),
+          offset: Offset(0, 0),
           child: Container(
             margin: EdgeInsets.only(
                 left: screenWidth * .02,
@@ -70,17 +70,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                   child: defaultFormField(
                       context: context,
                       controller: messageController,
-                      onChanged: (value) {
-                        if (messageController.text.isNotEmpty) {
-                          setState(() {
-                            isTyping = true;
-                          });
-                        } else {
-                          setState(() {
-                            isTyping = false;
-                          });
-                        }
-                      },
+                      onChanged: (value) {},
                       type: TextInputType.text,
                       validate: (s) {
                         return null;
@@ -91,14 +81,13 @@ class _ChatsScreenState extends State<ChatsScreen> {
                   child: IconButton(
                       onPressed: () {
                         setState(() {
-                          messages.add(Message(
-                            senderUserName: 'sameh',
-                            senderFirstName: student.firstName,
-                            senderLastName: student.lastName,
-                            messageContent: messageController.text,
-                            messageDate: DateTime.now().minute.toString(),
-                            senderProfileImage: student.imageProvider,
-                          ));
+                          hubConnection.invoke(
+                              "SendMessage",
+                              args: <Object>[
+                                messageController.text,
+                                widget.courseId
+                              ]
+                          );
                         });
                       },
                       icon: Icon(Icons.send_rounded,
@@ -118,11 +107,11 @@ class _ChatsScreenState extends State<ChatsScreen> {
   }) {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        if (messages[index].senderUserName == 'sameh') {
-          return userMessageItem(
+        if (messages[index].senderFirstName == 'sameh') {
+          return userrMessageItem(
               theme: theme, message: messages[index], context: context);
         } else {
-          return othersMessageItem(theme: theme, message: messages[index]);
+          return otherMessageItem(theme: theme, message: messages[index]);
         }
       },
       itemCount: messages.length,
@@ -130,7 +119,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
   }
 }
 
-Widget othersMessageItem({
+Widget otherMessageItem({
   required ThemeData theme,
   required Message message,
 }) {
@@ -164,7 +153,7 @@ Widget othersMessageItem({
           crossAxisCount: 1,
           children: [
             Text(
-              message.senderUserName,
+              message.senderFirstName + message.senderLastName,
               style: font.copyWith(
                   fontSize: screenWidth * 0.06,
                   fontWeight: FontWeight.w600,
@@ -195,7 +184,7 @@ Widget othersMessageItem({
   );
 }
 
-Widget userMessageItem({
+Widget userrMessageItem({
   required BuildContext context,
   required ThemeData theme,
   required Message message,
@@ -235,39 +224,48 @@ Widget userMessageItem({
 
 List<Message> messages = [
   Message(
-      senderUserName: 'Mohamed',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'can i ask a question',
+      messageDate: '9:18'),
+  Message(
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
+      messageContent: 'i just test',
+      messageDate: '9:18'),
+  Message(
       senderFirstName: 'Mohamed',
       senderLastName: 'Ahmed',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'Mohamed',
       senderFirstName: 'Mohamed',
       senderLastName: 'Ahmed',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'Mohamed',
       senderFirstName: 'Mohamed',
       senderLastName: 'Ahmed',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'Mohamed',
-      senderFirstName: 'Mohamed',
-      senderLastName: 'Ahmed',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'Mohamed',
-      senderFirstName: 'Mohamed',
-      senderLastName: 'Ahmed',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
   Message(
-      senderUserName: 'Mohamed',
-      senderFirstName: 'Mohamed',
-      senderLastName: 'Ahmed',
+      senderFirstName: 'sameh',
+      senderLastName: 'sameh',
       messageContent: 'can i ask a question',
       messageDate: '9:18'),
 ];

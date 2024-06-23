@@ -586,9 +586,9 @@ Widget themeItem({
       margin:  EdgeInsets.all(screenWidth*.03),
       padding: EdgeInsets.all(screenWidth*.03),
       height: screenWidth * .42,
-      width: screenWidth * .42,
+      width: screenWidth * .41,
       decoration: BoxDecoration(
-        color: cardColor.withOpacity(.2),
+        color: cardColor.withOpacity(.3),
         borderRadius: const BorderRadius.all(Radius.circular(15)),
       ),
       child: Column(

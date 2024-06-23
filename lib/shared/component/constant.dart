@@ -1,4 +1,5 @@
 import 'package:google_fonts/google_fonts.dart';
+import 'package:signalr_netcore/hub_connection.dart';
 
 bool mode = true;
 bool notification = true;
@@ -7,7 +8,7 @@ bool isArabic = true;
 late double screenHeight;
 late double screenWidth;
 var font= GoogleFonts.changa();
-
+late HubConnection hubConnection;
 //user data
 String? jwt = '';
 String? role = '';

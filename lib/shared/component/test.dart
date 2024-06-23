@@ -384,13 +384,12 @@ List<MyCourse> myCourses=[
 
 
 class Message {
-  final String senderUserName;
   final String senderFirstName;
   final String senderLastName;
   ImageProvider<Object>? senderProfileImage;
   final String messageContent;
   final String messageDate;
 
-  Message({required this.senderUserName, required this.senderFirstName, required this.senderLastName, required this.messageContent, required this.messageDate,this.senderProfileImage});
+  Message({required this.senderFirstName, required this.senderLastName, required this.messageContent, required this.messageDate,this.senderProfileImage});
 }
 
