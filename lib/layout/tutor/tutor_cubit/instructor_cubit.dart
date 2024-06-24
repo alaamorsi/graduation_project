@@ -478,7 +478,12 @@ class InstructorCubit extends Cubit<InstructorStates> {
       );
       emit(AddDescriptionSuccessState());
     }catch(e){
+      if(e == 401){
+        emit(SessionEndedState());
+      }
+      else{
       emit(AddDescriptionErrorState());
+    }
     }
   }
   // course Students

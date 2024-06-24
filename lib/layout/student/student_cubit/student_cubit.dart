@@ -175,7 +175,7 @@ class StudentCubit extends Cubit<StudentStates> {
     try{
       courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '', reviews: []);
      var result = await sendRequest(method: 'get', url: "$getCourseDetailsEndPoint$courseId");
-     courseDetails = CourseDetailsModel.fromJson(result);
+     courseDetails = CourseDetailsModel.fromJson(result.data);
      emit(GetCoursesDetailsSuccessState());
    }
    catch(e){

@@ -49,7 +49,7 @@ class CourseDetailsModel {
     lessonName = json['lessonName'] ?? '';
     url = json['url'] ?? '';
     period = json['period'] ?? '';
-    courseDescription = json['courseDescription'] ?? '';
+    courseDescription = json['description'] ?? '';
     json['reviews'].forEach((element) {
       reviews.add(ReviewModel.fromJson(element));
     });
