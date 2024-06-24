@@ -457,7 +457,26 @@ List<DropdownMenuEntry<String>> dropdownMenuEntriesWithSelection({
           )))
           .toList();
     } else {
-      return list
+      List<String> newList =[
+        'Arabic',
+        'English',
+        'Maths',
+        'German',
+        'Spanish',
+        'Italian',
+        'French',
+        'History',
+        'Geography',
+        'Chemistry',
+        'Physics',
+        'Philosophy',
+        'Psychology',
+        'Biology',
+        'Geology',
+        'Economics',
+        'Statistics',
+      ];
+      return newList
           .map((e) => DropdownMenuEntry<String>(
           value: e,
           label: e.tr,

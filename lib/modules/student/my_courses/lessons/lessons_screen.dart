@@ -34,7 +34,7 @@ class LessonsScreen extends StatelessWidget{
                 ListView.builder(
                 itemBuilder: (BuildContext context, int index)=> buildLessonItem(lesson: cubit.lessons[index], theme: theme, course: course,index: index, cubit: cubit),
                 itemCount: cubit.lessons.length,):
-                Center(child: Text("There isn't lessons yet",
+                Center(child: Text("There isn't lessons yet".tr,
                   style: font.copyWith(
                       color: theme.primaryColor,
                       fontSize: screenWidth * 0.06),
@@ -42,7 +42,7 @@ class LessonsScreen extends StatelessWidget{
               fallback: (BuildContext context) =>
                   ConditionalBuilder(
                     condition: state is GetCourseLessonsErrorState,
-                    builder: (BuildContext context)=> Center(child: Text("Something went wrong",
+                    builder: (BuildContext context)=> Center(child: Text("Some thing went wrong".tr,
                       style: font.copyWith(
                           color: theme.primaryColor,
                           fontSize: screenWidth * 0.06),

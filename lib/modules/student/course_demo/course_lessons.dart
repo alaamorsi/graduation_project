@@ -64,7 +64,7 @@ class CourseLessons extends StatelessWidget {
                         children:[
                           Icon(Icons.arrow_back,color: theme.primaryColor,),
                           const SizedBox(width: 9,),
-                          Text('Back',style: font.copyWith(color: theme.primaryColor,fontSize: 18.0,fontWeight: FontWeight.bold),),
+                          Text('Back'.tr,style: font.copyWith(color: theme.primaryColor,fontSize: 18.0,fontWeight: FontWeight.bold),),
                         ],
                       ),
                   ),

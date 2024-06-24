@@ -191,6 +191,8 @@ PreferredSizeWidget secondAppbar({
   required String title,
   Widget? actionIcon,
   bool hasAction = false,
+  bool hasBeforeBack = false,
+  void Function()? beforeBack,
 }) =>
     AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -210,6 +212,9 @@ PreferredSizeWidget secondAppbar({
           ),
           child: IconButton(
             onPressed: () {
+              if(hasBeforeBack){
+                beforeBack!();
+              }else{}
               Navigator.pop(context);
             },
             icon: Icon(

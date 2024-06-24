@@ -78,7 +78,7 @@ class ReviewModel {
     studentName = json["studentName"];
     studentId = json["studentId"];
     rateValue = json["rateValue"] ?? 1;
-    feedback = json["feedback"] ?? '';
+    feedback = json["feedback"] ?? 'There is no Comment';
     profilePicture = json["profilePicture"] ?? '';
   }
 }

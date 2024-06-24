@@ -19,7 +19,7 @@ class ShowAssignmentScreen extends StatelessWidget {
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context, state) {
         if(state is AddAssignmentSolutionSuccessState){
-          showToast(title: "Submitted", description: "assignment has been submitted", state: MotionState.success, context: context);
+          showToast(title: "Success".tr, description: "assignment has been submitted".tr, state: MotionState.success, context: context);
           Get.back();
         } else if(state is AddAssignmentSolutionErrorState){
           showToast(title: "Error".tr, description: "Something went wrong".tr, state: MotionState.error, context: context);
@@ -98,7 +98,7 @@ class ShowAssignmentScreen extends StatelessWidget {
                   paddingSize: 10,
                   radius: 5,
                   atEnd: false,
-                  text: 'Add work',
+                  text: 'Add work'.tr,
                   color: Theme
                       .of(context)
                       .cardColor,
@@ -113,7 +113,7 @@ class ShowAssignmentScreen extends StatelessWidget {
                   paddingSize: 10,
                   radius: 5,
                   atEnd: false,
-                  text: 'submitted',
+                  text: 'submitted'.tr,
                   color: theme.primaryColor,
                   context: context,
                   onPressed: () {},
@@ -122,13 +122,13 @@ class ShowAssignmentScreen extends StatelessWidget {
                   paddingSize: 10,
                   radius: 5,
                   atEnd: false,
-                  text: 'submit',
+                  text: 'submit'.tr,
                   color: Colors.black38,
                   context: context,
                   onPressed: () {
                     cubit.uploadSolution(
                         assignmentId: assignment.id,
-                        description: "_",
+                        description: "description",
                         file: cubit.pickedFile
                     );
                   },

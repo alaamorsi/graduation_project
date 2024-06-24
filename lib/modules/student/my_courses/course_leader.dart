@@ -35,7 +35,7 @@ class ClassLeader extends StatelessWidget {
               children: [
                 dashboardItem(
                   context: context,
-                  title: "Lessons",
+                  title: "Lessons".tr,
                   image: "Assets/for_teacher/recorded.png",
                   goTo: () {
                     cubit.getLessons(course.courseId);
@@ -44,7 +44,7 @@ class ClassLeader extends StatelessWidget {
                 ),
                 dashboardItem(
                   context: context,
-                  title: "Chat",
+                  title: "Chat".tr,
                   image: "Assets/for_teacher/chat.png",
                   goTo: () async{
                     await cubit.getChat(course.courseId, 1);
@@ -53,7 +53,7 @@ class ClassLeader extends StatelessWidget {
                 ),
                 dashboardItem(
                   context: context,
-                  title: "Assignments",
+                  title: "Assignments".tr,
                   image: "Assets/for_teacher/exam.png",
                   goTo: () {
                     cubit.getAssignments(course.courseId);
@@ -62,7 +62,7 @@ class ClassLeader extends StatelessWidget {
                 ),
                 dashboardItem(
                   context: context,
-                  title: "Attachments",
+                  title: "Attachments".tr,
                   image: "Assets/for_teacher/attach.png",
                   goTo: () {
                     cubit.getAttachments(course.courseId);

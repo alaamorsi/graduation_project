@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,7 +57,7 @@ class ReservedScreen extends StatelessWidget {
                                 color: theme.primaryColor,
                               )));
                     } else if (state is GetCoursesErrorState) {
-                      return Text("Ops , SomeThing went wrong".tr);
+                      return Text("SomeThing went wrong".tr);
                     } else {
                       return Center(
                         child: Text('You are not in class yet'.tr,
@@ -85,11 +83,7 @@ class ReservedScreen extends StatelessWidget {
     bool isFavourite = false,
     required double courseProgress,
   }) {
-    ImageProvider<Object> image = const AssetImage("Assets/profile/man_1.png");
-    if (course.instProfilePicture!.isNotEmpty) {
-      Uint8List picture = base64Decode(course.instProfilePicture as String);
-      image = MemoryImage(picture);
-    }
+    ImageProvider<Object> image = iWillReturnImage(course.instProfilePicture);
     return InkWell(
       onTap: () {
         Get.to(()=>ClassLeader(course: course,));

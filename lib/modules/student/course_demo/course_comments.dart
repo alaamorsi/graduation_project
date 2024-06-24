@@ -9,7 +9,7 @@ import '../../../models/courses_model.dart';
 import '../../../shared/component/constant.dart';
 
 class CourseComments extends StatelessWidget {
-  final CourseModel course;
+  final CourseDetailsModel course;
   const CourseComments({super.key,required this.course});
 
   @override
@@ -36,10 +36,11 @@ class CourseComments extends StatelessWidget {
                               context: context,
                               index: index,
                               color: theme.primaryColor,
-                              theme: theme
+                              theme: theme,
+                              review: course.reviews[index]
                           ),
                       separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 10.0,),
-                      itemCount: 3,
+                      itemCount: course.reviews.length,
                     ),
                     fallback: (context)=>const Center(child: CircularProgressIndicator()),
                   ),
@@ -75,11 +76,12 @@ class CourseComments extends StatelessWidget {
   Widget buildReviewItem({
     required BuildContext context,
     required int index,
-    // required Course course,
+    required ReviewModel review,
     required Color color,
     required ThemeData theme,
   })
   {
+    ImageProvider<Object> reviewImage = iWillReturnImage(review.profilePicture);
     return Container(
       width: screenWidth,
       height: screenHeight/8,
@@ -100,7 +102,7 @@ class CourseComments extends StatelessWidget {
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(30),
                   image: DecorationImage(
-                    image:  AssetImage("Assets/profile/man_${index+1}.png"),
+                    image:  reviewImage,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -108,15 +110,15 @@ class CourseComments extends StatelessWidget {
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment:CrossAxisAlignment.start,
               children: [
                 Text(
-                  "name",
+                  review.studentName,
                   style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
                 ),
+                const SizedBox(height: 10,),
                 Expanded(
                   child: Text(
-                    'greet!',
+                    review.feedback,
                     style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
                   ),
                 ),
@@ -142,7 +144,7 @@ class CourseComments extends StatelessWidget {
                         color:Colors.white,
                       ),
                       Text(
-                        '3',
+                        "${review.rateValue}",
                         style: font.copyWith(fontSize: 12.0,color: Colors.white),
                       ),
                     ],

@@ -36,20 +36,17 @@ class _CourseDemoState extends State<CourseDemo>{
   Widget build(BuildContext context) {
     var cubit = StudentCubit.get(context);
     var theme =Theme.of(context);
-    String time = cubit.courseDetails.period.split('.')[0];
     String url='';
-        url = cubit.courseDetails.url.substring(8);
-        url = 'https://digitutors.runasp.net/$url';
-        print(url);
+    String time = cubit.courseDetails.period.split('.')[0];
     ImageProvider<Object> image = iWillReturnImage(widget.course.instProfilePicture);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){
         if(state is PaymentManagerSuccessState){
-          showToast(title: "Course Addition".tr, description: "Course has been added successfully", state: MotionState.success, context: context);
+          showToast(title: "Course Addition".tr, description: "Course has been added successfully".tr, state: MotionState.success, context: context);
           Get.off(()=> ClassLeader(course:widget.course));
         }
         else if(state is PaymentManagerErrorState){
-          showToast(title: "Course Addition".tr, description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);
+          showToast(title: "Course Addition".tr, description: "Sorry, something went wrong during payment process".tr, state: MotionState.error, context: context);
         }
       },
       builder: (context , state ){
@@ -105,6 +102,9 @@ class _CourseDemoState extends State<CourseDemo>{
                           if(cubit.courseDetails.lessonName.isNotEmpty||cubit.courseDetails.lessonName!='')
                             InkWell(
                               onTap: (){
+                                url = cubit.courseDetails.url.substring(8);
+                                url = 'https://digitutors.runasp.net/$url';
+                                print(url);
                                 navigateTo(context, ViewVideoScreen(introUrl: url,));
                               },
                               child: Container(
@@ -171,7 +171,7 @@ class _CourseDemoState extends State<CourseDemo>{
                                 Text('Rate And Review'.tr, style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
                                 const Spacer(),
                                 TextButton(onPressed: () {
-                                  navigateTo(context, CourseComments(course: widget.course));
+                                  navigateTo(context, CourseComments(course: cubit.courseDetails));
                                 },
                                   child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
                           const SizedBox(height: 10,),

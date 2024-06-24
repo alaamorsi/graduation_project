@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/discovery/search_screen.dart';
-import 'package:graduation_project/modules/student/discovery/special_subject_page.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../layout/student/student_cubit/student_cubit.dart';
@@ -27,8 +26,8 @@ class HomeScreen extends StatelessWidget {
     var cubit = StudentCubit.get(context);
     var theme = Theme.of(context);
     cubit.getCourses(1);
-    cubit.getTopRatedCourses();
     cubit.getTopSalesCourses();
+    cubit.getTopRatedCourses();
     String firstName = CacheHelper.getData(key: 'firstName').toString();
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {
@@ -118,8 +117,7 @@ class HomeScreen extends StatelessWidget {
                                 title: element.tr,
                                 image: "Assets/subjects_icon/$element.png",
                                 onTap: () {
-                                  Get.to(() =>
-                                      SpecialSubjectPage(subjectName: element));
+
                                 }),
                           )
                           .toList(),
@@ -158,7 +156,7 @@ class HomeScreen extends StatelessWidget {
                                   .toList()),
                           SizedBox(
                             width: double.maxFinite,
-                            height: (cubit.allCourses.length.toInt() * screenHeight / 7 == 0)
+                            height: (cubit.allCourses.length.toInt() == 0)
                                 ? screenHeight / 3
                                 : cubit.allCourses.length.toInt() * screenHeight / 7,
                             child: TabBarView(

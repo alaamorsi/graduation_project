@@ -21,7 +21,7 @@ class AttachmentsScreen extends StatelessWidget{
           var theme = Theme.of(context);
           var cubit = StudentCubit.get(context);
           return Scaffold(
-            appBar: secondAppbar(context: context, title: "attachment".tr),
+            appBar: secondAppbar(context: context, title: "attachments".tr),
             body: Padding(
               padding: EdgeInsets.all(screenWidth*.02),
               child: ConditionalBuilder(
@@ -31,7 +31,7 @@ class AttachmentsScreen extends StatelessWidget{
                   ListView.builder(
                   itemBuilder: (BuildContext context, int index)=> attachmentItem(attachment: cubit.attachments[index],theme: theme),
                   itemCount: cubit.attachments.length,):
-                  Center(child: Text("There are not Attachment yet",
+                  Center(child: Text("There are not Attachment yet".tr,
                     style: font.copyWith(
                         color: theme.primaryColor,
                         fontSize: screenWidth * 0.06),

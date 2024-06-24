@@ -78,7 +78,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                       validate: (s) {
                         return null;
                       },
-                      label: "Type your question"),
+                      label: "Type your question".tr),
                 ),
                 Expanded(
                   child: IconButton(
@@ -149,7 +149,7 @@ Widget othersMessageItem({
               child: CircleAvatar(
                 backgroundColor: theme.canvasColor.withOpacity(.4),
                 radius: 20,
-                backgroundImage: const AssetImage("Assets/profile/man_5.png"),
+                child: Icon(Icons.person,color: theme.primaryColor,),
               ),
             ),
             Text(

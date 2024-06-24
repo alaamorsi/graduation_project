@@ -41,7 +41,7 @@ class AssignmentsScreen extends StatelessWidget {
                   itemCount: cubit.assignments.length,
                 ) :
                   Text(
-                    "There are not Assignments yet",
+                    "There are not Assignments yet".tr,
                     style: font.copyWith(
                         color: theme.primaryColor,
                         fontSize: screenWidth * 0.06),
@@ -50,7 +50,7 @@ class AssignmentsScreen extends StatelessWidget {
                   condition: state is GetCourseAssignmentsErrorState,
                   builder: (BuildContext context) => Center(
                     child: Text(
-                      "Something went wrong",
+                      "Something went wrong".tr,
                       style: font.copyWith(
                           color: theme.primaryColor,
                           fontSize: screenWidth * 0.06),

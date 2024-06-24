@@ -25,7 +25,7 @@ class Lessons extends StatelessWidget {
         return Scaffold(
           appBar: secondAppbar(
             context: context,
-            title: "Lessons",
+            title: "Lessons".tr,
           ),
           body: Padding(
             padding: EdgeInsets.all(screenWidth*.02),

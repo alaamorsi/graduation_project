@@ -321,7 +321,7 @@ class _MultiSelectState extends State<MultiSelect> {
             const SizedBox(
               height: 10.0,
             ),
-            Text('Price',
+            Text('Price'.tr,
                 style: font.copyWith(
                     color: theme.primaryColorDark,
                     fontSize: 17.0,

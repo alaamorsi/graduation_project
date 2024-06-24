@@ -28,12 +28,11 @@ class WatchLessonScreenState extends State<WatchLessonScreen> {
   }
 
   String newUrl(String url){
-  String newUrl = url.substring(8);
-  newUrl = 'https://digitutors.runasp.net/$newUrl';
-  return newUrl;
+  String newUr = url.substring(8);
+  newUr = 'https://digitutors.runasp.net/$newUr';
+  return newUr;
   }
   void initializeFlickManager() {
-
       try {
         String url = newUrl(widget.lesson.videoUrl);
         print(url);
