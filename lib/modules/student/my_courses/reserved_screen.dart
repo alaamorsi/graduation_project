@@ -20,6 +20,7 @@ class ReservedScreen extends StatelessWidget {
     List<double> progress = [0, 10, 50];
     var theme = Theme.of(context);
     var cubit = StudentCubit.get(context);
+    cubit.getEnrolledCourses(1);
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {
           if(state is GetCoursesEnrolledErrorState && !cubit.enrolled){

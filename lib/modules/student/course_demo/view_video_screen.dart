@@ -27,7 +27,7 @@ class ViewVideoScreenState extends State<ViewVideoScreen> {
 
   void initializeFlickManager() {
     flickManager = FlickManager(
-      videoPlayerController: VideoPlayerController.networkUrl(Uri.parse("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"),
+      videoPlayerController: VideoPlayerController.networkUrl(Uri.parse(widget.introUrl),
       ),
       autoPlay: true, // Automatically start playing the video
       onVideoEnd: () {

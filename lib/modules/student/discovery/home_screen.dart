@@ -22,11 +22,13 @@ class HomeScreen extends StatelessWidget {
       'All',
       'Most Ratified',
       'Top Seller',
-      'Live content',
       'Recorded Content',
     ];
     var cubit = StudentCubit.get(context);
     var theme = Theme.of(context);
+    cubit.getCourses(1);
+    cubit.getTopRatedCourses();
+    cubit.getTopSalesCourses();
     String firstName = CacheHelper.getData(key: 'firstName').toString();
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {
@@ -167,8 +169,6 @@ class HomeScreen extends StatelessWidget {
                                     state, cubit, theme, cubit.topRatedCourses),
                                 coursesCardList(
                                     state, cubit, theme, cubit.topSalesCourses),
-                                coursesCardList(
-                                    state, cubit, theme, cubit.allCourses),
                                 coursesCardList(
                                     state, cubit, theme, cubit.allCourses),
                               ],

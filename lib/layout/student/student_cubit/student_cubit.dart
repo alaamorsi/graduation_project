@@ -63,6 +63,7 @@ class StudentCubit extends Cubit<StudentStates> {
   List<CourseModel> searchList = [];
 
   void searchFunction(String? keyWord, String searchBy) {
+    searchList=[];
     emit(SearchLoadingState());
     sendRequest(method: 'get', url: "$getAllCoursesEndPoint/$searchBy/$keyWord")
         .then((value) {

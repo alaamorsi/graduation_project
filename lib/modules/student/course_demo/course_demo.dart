@@ -38,11 +38,9 @@ class _CourseDemoState extends State<CourseDemo>{
     var theme =Theme.of(context);
     String time = cubit.courseDetails.period.split('.')[0];
     String url='';
-    if(cubit.courseDetails.url!='')
-      {
         url = cubit.courseDetails.url.substring(8);
         url = 'https://digitutors.runasp.net/$url';
-      }
+        print(url);
     ImageProvider<Object> image = iWillReturnImage(widget.course.instProfilePicture);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){

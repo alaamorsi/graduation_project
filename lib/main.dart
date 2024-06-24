@@ -80,10 +80,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => RegisterCubit()),
         BlocProvider(create: (context) =>
         StudentCubit()
-          ..getCourses(1)
-          ..getTopRatedCourses()
-          ..getTopSalesCourses()
-          ..getEnrolledCourses(1)
           ..getUser()
           ..getImage()),
         BlocProvider(create: (context) =>
