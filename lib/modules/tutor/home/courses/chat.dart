@@ -22,7 +22,9 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     hubConnection.start()?.then((value){
       hubConnection.on("getMessage", (List<Object?>? list){
-        InstructorCubit.get(context).addMessageToChats(list![0].toString(),list[1].toString());
+        print(list![0]);
+        print(list[1]);
+        InstructorCubit.get(context).addMessageToChats(list[0].toString(),list[1].toString());
       });
     });
     super.initState();
