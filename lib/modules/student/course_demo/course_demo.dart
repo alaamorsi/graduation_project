@@ -44,7 +44,6 @@ class _CourseDemoState extends State<CourseDemo>{
         url = 'https://digitutors.runasp.net/$url';
       }
     ImageProvider<Object> image = iWillReturnImage(widget.course.instProfilePicture);
-    print(cubit.courseDetails.lessonName);
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){
         if(state is PaymentManagerSuccessState){

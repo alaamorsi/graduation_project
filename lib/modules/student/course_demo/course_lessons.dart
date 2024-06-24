@@ -34,7 +34,7 @@ class CourseLessons extends StatelessWidget {
               children: [
                 Flexible(
                   child: ConditionalBuilder(
-                    condition: state is GetCourseLessonsSuccessState,
+                    condition: cubit.lessons.isNotEmpty,
                     builder: (context)=>ListView.separated(
                       itemBuilder: (context , index)=>
                           buildLessonItem(

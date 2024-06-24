@@ -17,7 +17,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  bool isTyping = false;
   @override
   void initState() {
     hubConnection.start()?.then((value){
@@ -47,65 +46,49 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             bottomNavigationBar: AnimatedSlide(
               duration: const Duration(milliseconds: 500),
-              offset: const Offset(0, 0),
-              child: Container(
-                margin: EdgeInsets.only(left: screenWidth * .02,
-                    right: screenWidth * .02,
-                    bottom: screenWidth * .02),
-                padding: EdgeInsets.all(screenWidth * .03),
-                width: double.infinity,
-                height: 90,
-                decoration: BoxDecoration(
-                  color: theme.primaryColorLight,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(screenWidth * .7),
+              offset: Offset(0, cubit.typingBoxIndex(true)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: screenWidth * 0.75,
+                    child: defaultFormField(
+                        context: context,
+                        controller: messageController,
+                        label: "Type your message",
+                        type: TextInputType.text,
+                        validate: (String? val) {
+                          return null;
+                        }),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 15,
-                      color: theme.primaryColorDark.withOpacity(.1),
-                      offset: const Offset(0, -5),
-                    )
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: screenWidth * 0.75,
-                      child: defaultFormField(
-                          context: context,
-                          controller: messageController,
-                          label: "Type your message",
-                          type: TextInputType.text,
-                          validate: (String? val) {
-                            return null;
-                            }),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              hubConnection.invoke(
-                                  "SendMessage",
-                                  args: <Object>[
-                                    messageController.text,
-                                    widget.courseId
-                                  ]
-                              );
-                            });
-                            cubit.addMessageToChats(
-                                CacheHelper.getData(key: 'userName'),
-                                messageController.text
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: theme.canvasColor.withOpacity(.3),
+                  ),
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            hubConnection.invoke(
+                                "SendMessage",
+                                args: <Object>[
+                                  messageController.text,
+                                  widget.courseId
+                                ]
                             );
-                          },
-                          icon: Icon(
-                            Icons.send_rounded,
-                            color: theme.primaryColor,
-                          )),
-                    )
-                  ],
-                ),
+                          });
+                          cubit.addMessageToChats(
+                              CacheHelper.getData(key: 'userName'),
+                              messageController.text
+                          );
+                        },
+                        icon: Icon(
+                          Icons.send_rounded,
+                          color: theme.primaryColor,
+                        )),
+                  )
+                ],
               ),
             ),
           );

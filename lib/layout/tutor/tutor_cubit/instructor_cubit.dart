@@ -680,4 +680,12 @@ class InstructorCubit extends Cubit<InstructorStates> {
     chat.add(message);
     emit(MessageAddToChatState());
   }
+
+  double typingBoxIndex(bool typing){
+    if(typing){
+      return -5.6;
+    }else{
+      return 0;
+    }
+  }
 }

@@ -22,7 +22,7 @@ class ReservedScreen extends StatelessWidget {
     var cubit = StudentCubit.get(context);
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {
-          if((state is GetCoursesEnrolledErrorState || cubit.currentIndex==1 && cubit.enrolledCourses.isEmpty) && !cubit.enrolled){
+          if(state is GetCoursesEnrolledErrorState && !cubit.enrolled){
             cubit.getEnrolledCourses(1);
           }
         },

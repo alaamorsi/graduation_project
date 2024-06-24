@@ -131,6 +131,7 @@ class StudentCubit extends Cubit<StudentStates> {
 
   bool enrolled = false;
   void getEnrolledCourses(int pageNumber) {
+    enrolled = true;
     emit(GetCoursesEnrolledLoadingState());
     //getAllCoursesEndPoint is equal to getEnrolledCoursesEndPoint
     sendRequest(
