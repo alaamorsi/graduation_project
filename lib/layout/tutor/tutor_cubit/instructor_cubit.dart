@@ -680,5 +680,4 @@ class InstructorCubit extends Cubit<InstructorStates> {
     chat.add(message);
     emit(MessageAddToChatState());
   }
-
 }
