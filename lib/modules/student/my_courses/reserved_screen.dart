@@ -22,8 +22,11 @@ class ReservedScreen extends StatelessWidget {
     var cubit = StudentCubit.get(context);
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {
-          if(state is GetCoursesEnrolledErrorState){
+          if((state is GetCoursesEnrolledErrorState || cubit.currentIndex==1 && cubit.enrolledCourses.isEmpty) && cubit.enrolled){
+            cubit.enrolled = true;
             cubit.getEnrolledCourses(1);
+            if(state is GetCoursesEnrolledSuccessState)
+              cubit.enrolled = false;
           }
         },
         builder: (context, state) {
@@ -33,39 +36,43 @@ class ReservedScreen extends StatelessWidget {
               title: "Enrolled Courses".tr,
               hasActions: false,
             ),
-            body: Padding(
-              padding: EdgeInsets.all(screenWidth * .02),
-              child: ConditionalBuilder(
-                condition: cubit.enrolledCourses.isNotEmpty,
-                builder: (context) => ListView.builder(
-                    itemCount: cubit.enrolledCourses.length,
-                    itemBuilder: (context, index) {
-                      return paidCourse(
-                          context: context,
-                          course: cubit.enrolledCourses[index],
-                          theme: theme,
-                          courseProgress: progress[index]);
-                    }),
-                fallback: (BuildContext context) {
-                  if (state is GetCoursesLoadingState) {
-                    return Center(
-                        child: SizedBox(
-                            width: screenWidth*.2,
-                            height: screenWidth*.2,
-                            child: CircularProgressIndicator(
-                              color: theme.primaryColor,
-                            )));
-                  } else if (state is GetCoursesErrorState) {
-                    return Text("Ops , SomeThing went wrong".tr);
-                  } else {
-                    return Center(
+            body: ConditionalBuilder(
+              condition: state is GetCoursesEnrolledSuccessState,
+              builder: (context)=>Padding(
+                padding: EdgeInsets.all(screenWidth * .02),
+                child: ConditionalBuilder(
+                  condition: cubit.enrolledCourses.isNotEmpty,
+                  builder: (context) => ListView.builder(
+                      itemCount: cubit.enrolledCourses.length,
+                      itemBuilder: (context, index) {
+                        return paidCourse(
+                            context: context,
+                            course: cubit.enrolledCourses[index],
+                            theme: theme,
+                            courseProgress: progress[index]);
+                      }),
+                  fallback: (BuildContext context) {
+                    if (state is GetCoursesLoadingState) {
+                      return Center(
+                          child: SizedBox(
+                              width: screenWidth*.2,
+                              height: screenWidth*.2,
+                              child: CircularProgressIndicator(
+                                color: theme.primaryColor,
+                              )));
+                    } else if (state is GetCoursesErrorState) {
+                      return Text("Ops , SomeThing went wrong".tr);
+                    } else {
+                      return Center(
                         child: Text('You are not in class yet'.tr,
                           style: font.copyWith(color: theme.primaryColor,fontSize: screenWidth*0.06),
                         ),
-                    );
-                  }
-                },
+                      );
+                    }
+                  },
+                ),
               ),
+              fallback: (context)=>Center(child: CircularProgressIndicator(color: theme.primaryColor,)),
             ),
           );
         });
