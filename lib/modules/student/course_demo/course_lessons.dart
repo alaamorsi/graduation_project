@@ -34,7 +34,7 @@ class CourseLessons extends StatelessWidget {
               children: [
                 Flexible(
                   child: ConditionalBuilder(
-                    condition: true,
+                    condition: state is GetCourseLessonsSuccessState,
                     builder: (context)=>ListView.separated(
                       itemBuilder: (context , index)=>
                           buildLessonItem(
@@ -46,7 +46,7 @@ class CourseLessons extends StatelessWidget {
                       separatorBuilder: (context , index)=>const SizedBox(width: double.infinity,height: 10.0,),
                       itemCount: course.lessonsNumber,
                     ),
-                    fallback: (context)=>const Center(child: CircularProgressIndicator()),
+                    fallback: (context)=> Center(child: CircularProgressIndicator(color: theme.primaryColor,)),
                   ),
                 ),
                 Padding(

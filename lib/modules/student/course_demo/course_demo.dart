@@ -62,7 +62,7 @@ class _CourseDemoState extends State<CourseDemo>{
               title:widget.course.subject.tr,
             ),
             body: ConditionalBuilder(
-              condition: state is GetCoursesDetailsSuccessState,
+              condition: state is GetCoursesDetailsSuccessState || cubit.courseDetails.instructorName.isNotEmpty,
               builder: (context)=>Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                 child: Column(
