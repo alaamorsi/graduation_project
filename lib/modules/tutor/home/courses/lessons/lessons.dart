@@ -31,13 +31,19 @@ class Lessons extends StatelessWidget {
             padding: EdgeInsets.all(screenWidth*.02),
             child: ConditionalBuilder(
               condition: state is GetInstCourseLessonsSuccessState ||cubit.lessons.isNotEmpty,
-              builder: (BuildContext context) => ListView.builder(
+              builder: (BuildContext context) =>
+              cubit.lessons.isNotEmpty?ListView.builder(
                 itemBuilder: (BuildContext context, int index)=> buildLessonItem(lesson: cubit.lessons[index], theme: theme, cubit: cubit,index: index),
-                itemCount: cubit.lessons.length,),
+                itemCount: cubit.lessons.length,):
+              Center(child: Text("There isn't lessons yet".tr,
+                style: font.copyWith(
+                    color: theme.primaryColor,
+                    fontSize: screenWidth * 0.06),
+              ),),
               fallback: (BuildContext context) =>
                   ConditionalBuilder(
-                    condition: state is GetInstCourseLessonsErrorState && cubit.lessons.isEmpty,
-                    builder: (BuildContext context)=> Center(child: Text("There isn't lessons yet".tr,
+                    condition: state is GetInstCourseLessonsErrorState,
+                    builder: (BuildContext context)=> Center(child: Text("Some thing went wrong".tr,
                       style: font.copyWith(
                           color: theme.primaryColor,
                           fontSize: screenWidth * 0.06),

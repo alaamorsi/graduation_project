@@ -14,7 +14,7 @@ class AddDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController descriptionController = TextEditingController();
-
+    descriptionController.text = course.description;
     return BlocConsumer<InstructorCubit, InstructorStates>(
       listener: (context, state) {
         if(state is AddDescriptionSuccessState){

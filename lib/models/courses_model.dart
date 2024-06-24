@@ -23,6 +23,7 @@ class InstructorCourseModel {
   late String courseName;
   late double averageRate;
   late int studentCount;
+  late String description;
   late bool isPublished;
 
   InstructorCourseModel.fromJson(Map<String, dynamic> json) {
@@ -30,6 +31,7 @@ class InstructorCourseModel {
     averageRate = json["averageRate"] ?? 0;
     studentCount = json["studentCount"] ?? 0;
     courseId = json["id"];
+    description = json["description"];
     isPublished = json["isPublish"] ?? false;
   }
 }
@@ -49,7 +51,7 @@ class CourseDetailsModel {
     lessonName = json['lessonName'] ?? '';
     url = json['url'] ?? '';
     period = json['period'] ?? '';
-    courseDescription = json['description'] ?? '';
+    courseDescription = json['courseDescription'] ?? '';
     json['reviews'].forEach((element) {
       reviews.add(ReviewModel.fromJson(element));
     });
