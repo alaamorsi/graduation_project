@@ -468,17 +468,18 @@ class InstructorCubit extends Cubit<InstructorStates> {
 
 
   //add description
-  void addDescription(int courseId,String description) {
+  Future<void> addDescription(int courseId,String description) async{
     emit(AddDescriptionLoadingState());
-    sendRequest(
-      method: 'post',
-      url: "$addDescriptionEndPoint$courseId",
-      data: {'description':description}
-    ).then((value) {
+    try{
+      sendRequest(
+          method: 'post',
+          url: "$addDescriptionEndPoint$courseId",
+          data: {'description':description}
+      );
       emit(AddDescriptionSuccessState());
-    }).catchError((error) {
+    }catch(e){
       emit(AddDescriptionErrorState());
-    });
+    }
   }
   // course Students
   List<StudentModel> students = [];
