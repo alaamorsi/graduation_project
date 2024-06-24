@@ -61,226 +61,230 @@ class _CourseDemoState extends State<CourseDemo>{
               context: context,
               title:widget.course.subject.tr,
             ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-              child: Column(
-                children: [
-                  Flexible(
-                    child: ListView(
-                      children: [
-                        Row(
-                          children: [
-                            Text("Instructor : ".tr, style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark),),
-                            Text(cubit.courseDetails.instructorName,style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Text("${"for level".tr} : ${cubit.courseDetails.academicLevel.tr}",
-                          style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark.withOpacity(.9)),
-                        ),
-                        const SizedBox(height: 20),
-                        Text('Description'.tr, style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
-                        Text(
-                          cubit.courseDetails.courseDescription,
-                          style: font.copyWith(fontSize: 13.0,color: theme.primaryColorDark.withOpacity(.5)),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+            body: ConditionalBuilder(
+              condition: state is GetCoursesDetailsSuccessState,
+              builder: (context)=>Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: ListView(
+                        children: [
+                          Row(
                             children: [
-                              Text('${widget.course.lessonsNumber} ${'lessons'.tr}', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
-                              const Spacer(),
-                              TextButton(onPressed: () {
-                                cubit.getLessons(widget.course.courseId);
-                                navigateTo(context, CourseLessons(
-                                  image: image,
-                                  url: url,
-                                  course: widget.course,
-                                ));
-                                },
-                                child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
-                        const SizedBox(height: 10,),
-                        if(cubit.courseDetails.lessonName.isNotEmpty||cubit.courseDetails.lessonName!='')
-                        InkWell(
-                          onTap: (){
-                            navigateTo(context, ViewVideoScreen(introUrl: url,));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(10.0),
-                            width: screenWidth,
-                            height: screenHeight/8,
-                            decoration: BoxDecoration(
-                              color: theme.primaryColor.withOpacity(.1),
-                              borderRadius: const BorderRadius.all(Radius.circular(23.0),),
-                            ),
-                            child:Row(
-                              children: [
-                                //Teacher image
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                  child: Container(
-                                    width: screenHeight/10,
-                                    height: screenHeight/10,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: DecorationImage(
-                                        image: image,
-                                        fit: BoxFit.cover,),
-                                    ),
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Text("1. ${cubit.courseDetails.lessonName} ",
-                                        style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5,),
-                                    Expanded(
-                                      child: Text(
-                                        time,
-                                        style: font.copyWith(fontSize: 12.0,color: Colors.grey),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child:
-                                      Icon( Icons.ondemand_video,color: theme.primaryColor,size: 30,),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(width: 15,),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text('Rate And Review'.tr, style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
-                              const Spacer(),
-                              TextButton(onPressed: () {
-                                navigateTo(context, CourseComments(course: widget.course));
-                                },
-                                child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
-                        const SizedBox(height: 10,),
-                        ConditionalBuilder(
-                          condition: cubit.courseDetails.reviews.isNotEmpty,
-                          builder: (BuildContext context) {
-                            ImageProvider<Object> reviewImage = iWillReturnImage(cubit.courseDetails.reviews[0].profilePicture);
-                            return Container(
-                              width: screenWidth,
-                              height: screenHeight/8,
-                              decoration: BoxDecoration(
-                                color: theme.primaryColor.withOpacity(.1),
-                                borderRadius: const BorderRadius.all(Radius.circular(15.0),),
+                              Text("Instructor : ".tr, style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark),),
+                              Text(cubit.courseDetails.instructorName,style: font.copyWith(fontSize: 18.0,color: theme.primaryColor),
                               ),
-                              child:Padding(
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Text("${"for level".tr} : ${cubit.courseDetails.academicLevel.tr}",
+                            style: font.copyWith(fontSize: 18.0,color: theme.primaryColorDark.withOpacity(.9)),
+                          ),
+                          const SizedBox(height: 20),
+                          Text('Description'.tr, style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),),
+                          Text(
+                            cubit.courseDetails.courseDescription,
+                            style: font.copyWith(fontSize: 13.0,color: theme.primaryColorDark.withOpacity(.5)),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text('${widget.course.lessonsNumber} ${'lessons'.tr}', style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
+                                const Spacer(),
+                                TextButton(onPressed: () {
+                                  cubit.getLessons(widget.course.courseId);
+                                  navigateTo(context, CourseLessons(
+                                    image: image,
+                                    url: url,
+                                    course: widget.course,
+                                  ));
+                                },
+                                  child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
+                          const SizedBox(height: 10,),
+                          if(cubit.courseDetails.lessonName.isNotEmpty||cubit.courseDetails.lessonName!='')
+                            InkWell(
+                              onTap: (){
+                                navigateTo(context, ViewVideoScreen(introUrl: url,));
+                              },
+                              child: Container(
                                 padding: const EdgeInsets.all(10.0),
-                                child: Row(
+                                width: screenWidth,
+                                height: screenHeight/8,
+                                decoration: BoxDecoration(
+                                  color: theme.primaryColor.withOpacity(.1),
+                                  borderRadius: const BorderRadius.all(Radius.circular(23.0),),
+                                ),
+                                child:Row(
                                   children: [
+                                    //Teacher image
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                       child: Container(
-                                        width: 55,
-                                        height: 55,
+                                        width: screenHeight/10,
+                                        height: screenHeight/10,
                                         decoration: BoxDecoration(
-                                          color: theme.primaryColor.withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(30),
+                                          borderRadius: BorderRadius.circular(10),
                                           image: DecorationImage(
-                                            image: reviewImage,
-                                            fit: BoxFit.cover,
-                                          ),
+                                            image: image,
+                                            fit: BoxFit.cover,),
                                         ),
                                       ),
                                     ),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          cubit.courseDetails.reviews[0].studentName,
-                                          style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
+                                        Expanded(
+                                          child: Text("1. ${cubit.courseDetails.lessonName} ",
+                                            style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
+                                          ),
                                         ),
+                                        const SizedBox(height: 5,),
                                         Expanded(
                                           child: Text(
-                                            cubit.courseDetails.reviews[0].feedback,
-                                            style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
+                                            time,
+                                            style: font.copyWith(fontSize: 12.0,color: Colors.grey),
                                           ),
                                         ),
                                       ],
                                     ),
                                     const Spacer(),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Container(
-                                          width: 40,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            color: theme.primaryColor,
-                                            borderRadius: BorderRadius.circular(5),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(
-                                                Icons.star_rate_rounded,
-                                                size: 20.0,
-                                                color:Colors.white,
-                                              ),
-                                              Text(
-                                                "${cubit.courseDetails.reviews[0].rateValue}",
-                                                style: font.copyWith(fontSize: 12.0,color: Colors.white),
-                                              ),
-                                            ],
-                                          ),
+                                        Expanded(
+                                          child:
+                                          Icon( Icons.ondemand_video,color: theme.primaryColor,size: 30,),
                                         ),
                                       ],
                                     ),
+                                    const SizedBox(width: 15,),
                                   ],
                                 ),
                               ),
-                            );
-                          },
-                          fallback: (BuildContext context)=>Center(child: Text(
-                            "There is no reviews yet",
-                            style: font.copyWith(color: theme.primaryColorDark,fontSize: 16),
+                            ),
+                          const SizedBox(height: 20),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text('Rate And Review'.tr, style: font.copyWith(fontSize:20.0,color: theme.primaryColorDark),),
+                                const Spacer(),
+                                TextButton(onPressed: () {
+                                  navigateTo(context, CourseComments(course: widget.course));
+                                },
+                                  child: Text('See all'.tr, style: font.copyWith(color: theme.primaryColor,fontSize: 14.0,fontWeight: FontWeight.w300)),)]),
+                          const SizedBox(height: 10,),
+                          ConditionalBuilder(
+                            condition: cubit.courseDetails.reviews.isNotEmpty,
+                            builder: (BuildContext context) {
+                              ImageProvider<Object> reviewImage = iWillReturnImage(cubit.courseDetails.reviews[0].profilePicture);
+                              return Container(
+                                width: screenWidth,
+                                height: screenHeight/8,
+                                decoration: BoxDecoration(
+                                  color: theme.primaryColor.withOpacity(.1),
+                                  borderRadius: const BorderRadius.all(Radius.circular(15.0),),
+                                ),
+                                child:Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                                        child: Container(
+                                          width: 55,
+                                          height: 55,
+                                          decoration: BoxDecoration(
+                                            color: theme.primaryColor.withOpacity(0.1),
+                                            borderRadius: BorderRadius.circular(30),
+                                            image: DecorationImage(
+                                              image: reviewImage,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            cubit.courseDetails.reviews[0].studentName,
+                                            style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark,fontWeight: FontWeight.bold),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              cubit.courseDetails.reviews[0].feedback,
+                                              style: font.copyWith(fontSize: 14.0,color: theme.primaryColorDark.withOpacity(.7)),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: 40,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                              color: theme.primaryColor,
+                                              borderRadius: BorderRadius.circular(5),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(
+                                                  Icons.star_rate_rounded,
+                                                  size: 20.0,
+                                                  color:Colors.white,
+                                                ),
+                                                Text(
+                                                  "${cubit.courseDetails.reviews[0].rateValue}",
+                                                  style: font.copyWith(fontSize: 12.0,color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            fallback: (BuildContext context)=>Center(child: Text(
+                              "There is no reviews yet",
+                              style: font.copyWith(color: theme.primaryColorDark,fontSize: 16),
+                            ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: usedButton(
-                      atEnd: false,
-                      isLoading: state is PaymentManagerLoadingState,
-                      text: '${"Enroll".tr}-${widget.course.price}${'EGP'.tr}',
-                      color: theme.cardColor,
-                      radius: 30,
-                      paddingSize: 10,
-                      context: context,
-                      onPressed:(){
-                        cubit.payManager(widget.course.price,'buyCourse,${CacheHelper.getData(key: 'id')},${widget.course.courseId},${widget.course.price}',widget.course);
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: usedButton(
+                        atEnd: false,
+                        isLoading: state is PaymentManagerLoadingState,
+                        text: '${"Enroll".tr}-${widget.course.price}${'EGP'.tr}',
+                        color: theme.cardColor,
+                        radius: 30,
+                        paddingSize: 10,
+                        context: context,
+                        onPressed:(){
+                          cubit.payManager(widget.course.price,'buyCourse,${CacheHelper.getData(key: 'id')},${widget.course.courseId},${widget.course.price}',widget.course);
                         },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              fallback: (context)=>Center(child: CircularProgressIndicator(color: theme.primaryColor,)),
             ),
         );
       },

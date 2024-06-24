@@ -43,7 +43,7 @@ class CourseDetailsModel {
   late String url;
   late String period;
   late String courseDescription;
-  late List<ReviewModel> reviews;
+  List<ReviewModel> reviews=[];
 
   CourseDetailsModel.fromJson(Map<String, dynamic> json) {
     instructorName = json['instructorName'] ?? '';
@@ -51,7 +51,7 @@ class CourseDetailsModel {
     lessonName = json['lessonName'] ?? '';
     url = json['url'] ?? '';
     period = json['period'] ?? '';
-    courseDescription = json['courseDescription'] ?? '';
+    courseDescription = json['courseDescription'] ?? 'There is no description yet!';
     json['reviews'].forEach((element) {
       reviews.add(ReviewModel.fromJson(element));
     });
@@ -70,7 +70,7 @@ class CourseDetailsModel {
 class ReviewModel {
   late String studentName;
   late int studentId;
-  late int rateValue;
+  late double rateValue;
   late String feedback;
   late String profilePicture;
 
@@ -78,7 +78,7 @@ class ReviewModel {
     studentName = json["studentName"];
     studentId = json["studentId"];
     rateValue = json["rateValue"] ?? 1;
-    feedback = json["feedback"] ?? "";
+    feedback = json["feedback"] ?? '';
     profilePicture = json["profilePicture"] ?? '';
   }
 }
