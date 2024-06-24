@@ -46,7 +46,8 @@ class ClassLeader extends StatelessWidget {
                   context: context,
                   title: "Chat",
                   image: "Assets/for_teacher/chat.png",
-                  goTo: () {
+                  goTo: () async{
+                    await cubit.getChat(course.courseId, 1);
                     Get.to(()=>ChatsScreen(courseId: course.courseId,));
                   },
                 ),

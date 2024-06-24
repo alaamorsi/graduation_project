@@ -181,4 +181,7 @@ const Map<String, String> en = {
   "Students":"Students",
   "Assignments":"Assignments",
   "Attachments":"Attachments",
+  "Course Addition":"Course Addition",
+  "Course has been added successfully":"Course has been added successfully",
+  "Sorry, something went wrong during payment process":"Sorry, something went wrong during payment process",
 };

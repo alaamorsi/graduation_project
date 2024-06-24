@@ -21,7 +21,11 @@ class ReservedScreen extends StatelessWidget {
     var theme = Theme.of(context);
     var cubit = StudentCubit.get(context);
     return BlocConsumer<StudentCubit, StudentStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is GetCoursesEnrolledErrorState){
+            cubit.getEnrolledCourses(1);
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: defaultAppBar(

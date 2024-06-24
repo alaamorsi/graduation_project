@@ -140,3 +140,9 @@ class FileOpenedSuccessState extends InstructorStates {}
 class FileOpenedErrorState extends InstructorStates {}
 
 class TimePickedSuccessState extends InstructorStates {}
+
+//chat
+class GetChatLoadingState extends InstructorStates {}
+class GetChatSuccessState extends InstructorStates {}
+class GetChatErrorState extends InstructorStates {}
+class MessageAddToChatState extends InstructorStates {}

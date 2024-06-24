@@ -1,5 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/layout/tutor/tutor_cubit/instructor_cubit.dart';
@@ -28,13 +30,20 @@ class AssignmentsScreen extends StatelessWidget{
               padding: EdgeInsets.all(screenWidth*.02),
               child: ConditionalBuilder(
                 condition: state is InstGetAssignmentsSuccessState || cubit.assignments.isNotEmpty,
-                builder: (BuildContext context) => ListView.builder(
+                builder: (BuildContext context) =>
+                cubit.assignments.isNotEmpty?
+                ListView.builder(
                   itemBuilder: (BuildContext context, int index)=> assignmentItem(assignment: cubit.assignments[index],theme: theme, cubit: cubit),
-                  itemCount: cubit.assignments.length,),
+                  itemCount: cubit.assignments.length,):
+                Center(child: Text("There are not Assignments yet".tr,
+                  style: font.copyWith(
+                      color: theme.primaryColor,
+                      fontSize: screenWidth * 0.06),
+                ),),
                 fallback: (BuildContext context) =>
                   ConditionalBuilder(
-                    condition:state is InstGetAssignmentsErrorState && cubit.assignments.isEmpty,
-                    builder: (BuildContext context)=> Center(child: Text("There are not Assignments yet".tr,
+                    condition:state is InstGetAssignmentsErrorState,
+                    builder: (BuildContext context)=> Center(child: Text("Something went wrong".tr,
                       style: font.copyWith(
                           color: theme.primaryColor,
                           fontSize: screenWidth * 0.06),
@@ -82,28 +91,33 @@ class AssignmentsScreen extends StatelessWidget{
         margin: EdgeInsets.all(screenWidth*.02),
         padding: EdgeInsets.all(screenWidth*.03),
         width: screenWidth,
-        height: screenHeight*.13,
+        height: screenHeight*.2,
         decoration: BoxDecoration(
           color: theme.primaryColor.withOpacity(.3),
           borderRadius: const BorderRadius.all(Radius.circular(23.0),),
         ),
-        child:Row(
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 10,),
-                Text(assignment.description,
-                  style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
+                Text("Assignment ${assignment.id}",
+                  style: font.copyWith(fontSize: 20.0,color: theme.primaryColorDark),
                 ),
-                const SizedBox(height: 5,),
-                Text(assignment.deadLine,
+                SizedBox(width: screenWidth*.18,),
+                Text("${assignment.deadLine.split('T')[0]} ",
                   style: font.copyWith(fontSize: 12.0,color: theme.primaryColorDark.withOpacity(.5)),
                 ),
-                const SizedBox(height: 10,),
               ],
             ),
+            const SizedBox(height: 10,),
+            Text(assignment.description,
+              style: font.copyWith(fontSize: 16.0,color: theme.primaryColorDark),
+            ),
+
+            const SizedBox(height: 10,),
           ],
         ),
       ),

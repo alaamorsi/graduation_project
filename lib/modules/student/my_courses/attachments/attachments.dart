@@ -39,7 +39,7 @@ class AttachmentsScreen extends StatelessWidget{
                 fallback: (BuildContext context) =>
                     ConditionalBuilder(
                       condition: state is GetCourseAttachmentsErrorState,
-                      builder: (BuildContext context)=> Center(child: Text("Something went wrong",
+                      builder: (BuildContext context)=> Center(child: Text("Something went wrong".tr,
                         style: font.copyWith(
                             color: theme.primaryColor,
                             fontSize: screenWidth * 0.06),

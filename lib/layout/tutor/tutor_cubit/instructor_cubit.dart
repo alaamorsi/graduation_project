@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 import 'package:graduation_project/models/assignment_model.dart';
 import 'package:graduation_project/models/attachment_model.dart';
+import 'package:graduation_project/models/chat_model.dart';
 import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/models/lesson_model.dart';
 import 'package:graduation_project/models/students_model.dart';
@@ -646,12 +647,32 @@ class InstructorCubit extends Cubit<InstructorStates> {
     emit(ShowAddGradeDialogState());
   }
 
-  // void openFile(PlatformFile? file){
-  //   if(file != null){
-  //     OpenFile.open(file.path);
-  //     emit(FileOpenedSuccessState());
-  //   } else{
-  //     emit(FileOpenedErrorState());
-  //   }
-  // }
+  List<MessageModel> chat = [];
+  Future<void> getChat(int courseId,int pageNumber) async {
+    emit(GetChatLoadingState());
+    try{
+      var result = await sendRequest(method: 'get', url: "Course/$courseId/chat/$pageNumber");
+      chat = (result.data as List)
+          .map((message) => MessageModel.fromJson(message))
+          .toList();
+      emit(GetChatSuccessState());
+    }catch (error){
+      if(error == 401){
+        emit(SessionEndedState());
+      }
+      else{
+        emit(GetChatErrorState());
+      }
+    }
+  }
+  void addMessageToChats(String userName,String content){
+    var dateTime = DateTime.now();
+    String dateT = dateTime.toString().split('.')[0];
+    String date = dateTime.toString().split(' ')[0];
+    String time = "${dateT.split(' ')[1].split(':')[0]}:${dateT.split(' ')[1].split(':')[1]}";
+    MessageModel message = MessageModel(userName,date+time,content);
+    chat.add(message);
+    emit(MessageAddToChatState());
+  }
+
 }

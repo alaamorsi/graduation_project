@@ -47,11 +47,11 @@ class _CourseDemoState extends State<CourseDemo>{
     return BlocConsumer<StudentCubit,StudentStates>(
       listener: (context , state ){
         if(state is PaymentManagerSuccessState){
-          showToast(title: "Course Addition", description: "Course has been added successfully", state: MotionState.success, context: context);
+          showToast(title: "Course Addition".tr, description: "Course has been added successfully", state: MotionState.success, context: context);
           Get.off(()=> ClassLeader(course:widget.course));
         }
         else if(state is PaymentManagerErrorState){
-          showToast(title: "Course Addition", description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);
+          showToast(title: "Course Addition".tr, description: "Sorry, something went wrong during payment process", state: MotionState.error, context: context);
         }
       },
       builder: (context , state ){

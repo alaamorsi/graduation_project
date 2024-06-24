@@ -29,7 +29,15 @@ class HomeScreen extends StatelessWidget {
     var theme = Theme.of(context);
     String firstName = CacheHelper.getData(key: 'firstName').toString();
     return BlocConsumer<StudentCubit, StudentStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is GetCoursesErrorState){
+            cubit.getCourses(1);
+          } else if(state is GetTopRatedCoursesErrorState){
+            cubit.getTopRatedCourses();
+          } else if(state is GetTopSalesCoursesErrorState){
+            cubit.getTopSalesCourses();
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: defaultAppBar(
@@ -133,6 +141,9 @@ class HomeScreen extends StatelessWidget {
                               indicatorColor: Colors.transparent,
                               tabAlignment: TabAlignment.start,
                               isScrollable: true,
+                              onTap:(int num){
+                                cubit.changeListNum(num);
+                              },
                               labelStyle: font.copyWith(
                                   color: theme.primaryColor, fontSize: 19.0),
                               unselectedLabelStyle: font.copyWith(

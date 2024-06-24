@@ -180,4 +180,7 @@ const Map<String, String> ar = {
   "Students":"الطلاب",
   "Assignments":"الواجبات",
   "Attachments":"الملحقات",
+  "Course Addition":"إضافة الدورة",
+  "Course has been added successfully":"تمت إضافة الدورة بنجاح",
+  "Sorry, something went wrong during payment process":"عذرا ، حدث خطأ ما أثناء عملية الدفع",
 };

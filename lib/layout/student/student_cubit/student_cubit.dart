@@ -10,6 +10,7 @@ import 'package:get/route_manager.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
 import 'package:graduation_project/models/assignment_model.dart';
 import 'package:graduation_project/models/attachment_model.dart';
+import 'package:graduation_project/models/chat_model.dart';
 import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/notification/notification.dart';
 import 'package:graduation_project/modules/student/payMob_manager/payMob_manager.dart';
@@ -43,8 +44,13 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(StudentChangeBottomNavState());
   }
 
-  bool startSearching = false;
+  int listNum = 0;
+  void changeListNum(int index) {
+    listNum = index;
+    emit(ChangeListNumberState());
+  }
 
+  bool startSearching = false;
   void showSearchFilter(context) async {
     await showAdaptiveDialog(
         context: context,
@@ -183,7 +189,6 @@ class StudentCubit extends Cubit<StudentStates> {
     emit(AddToFavouriteLoadingState());
     sendRequest(method: 'post', url: "$addToFavouriteEndPoint${course.courseId}",data: {})
         .then((value) {
-          print(value);
           for(int i=0;i<favouriteList.length;i++){
             if(course.favourite){
               favouriteList.remove(course);
@@ -195,7 +200,6 @@ class StudentCubit extends Cubit<StudentStates> {
           course.favourite = !course.favourite;
       emit(AddToFavouriteSuccessState());
     }).catchError((error) {
-      print(error);
       emit(AddToFavouriteErrorState());
     });
   }
@@ -548,10 +552,18 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
 
-  Future<void> addRate(int courseId,double rate,String review) async {
+  Future<void> addRate(int courseId,double rate,String? review) async {
     emit(AddRateLoadingState());
     try{
-      await sendRequest(method: 'post', url: "$getAllCoursesEndPoint$courseId/rate?rate=$rate");
+      await sendRequest(
+          method: 'post',
+          url: "Course/rate",
+          data: {
+            "courseId": courseId.toString(),
+            "rate": rate.toString(),
+            "feedback": review??''
+          }
+      );
       emit(AddRateSuccessState());
     }catch(error){
       if(error == 401){
@@ -583,6 +595,34 @@ class StudentCubit extends Cubit<StudentStates> {
         emit(GetAssignmentGradeErrorState());
       }
     }
+  }
+
+  List<MessageModel> chat = [];
+  Future<void> getChat(int courseId,int pageNumber) async {
+    emit(GetChatLoadingState());
+    try{
+      var result = await sendRequest(method: 'get', url: "Course/$courseId/chat/$pageNumber");
+      chat = (result.data as List)
+          .map((message) => MessageModel.fromJson(message))
+          .toList();
+      emit(GetChatSuccessState());
+    }catch (error){
+      if(error == 401){
+        emit(SessionEndedState());
+      }
+      else{
+        emit(GetChatErrorState());
+      }
+    }
+  }
+  void addMessageToChats(String userName,String content){
+    var dateTime = DateTime.now();
+    String dateT = dateTime.toString().split('.')[0];
+    String date = dateTime.toString().split(' ')[0];
+    String time = "${dateT.split(' ')[1].split(':')[0]}:${dateT.split(' ')[1].split(':')[1]}";
+    MessageModel message = MessageModel(userName,date+time,content);
+    chat.add(message);
+    emit(MessageAddToChatState());
   }
 
 }

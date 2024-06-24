@@ -27,13 +27,21 @@ class AttachmentsScreen extends StatelessWidget{
               padding: EdgeInsets.all(screenWidth*.02),
               child: ConditionalBuilder(
                 condition: state is InstGetAttachmentsSuccessState || cubit.assignments.isNotEmpty,
-                builder: (BuildContext context) => ListView.builder(
-                  itemBuilder: (BuildContext context, int index)=> attachmentItem(attachment: cubit.attachments[index],theme: theme),
-                  itemCount: cubit.attachments.length,),
+                builder: (BuildContext context) =>
+                cubit.attachments.isNotEmpty?
+                ListView.builder(
+                  itemBuilder: (BuildContext context, int index)=>
+                  attachmentItem(attachment: cubit.attachments[index],theme: theme),
+                  itemCount: cubit.attachments.length,):
+                Center(child: Text("There are not Attachment yet",
+                  style: font.copyWith(
+                      color: theme.primaryColor,
+                      fontSize: screenWidth * 0.06),
+                ),),
                 fallback: (BuildContext context) =>
                     ConditionalBuilder(
-                      condition: state is InstGetAttachmentsErrorState && cubit.assignments.isEmpty,
-                      builder: (BuildContext context)=> Center(child: Text("There are not Attachment yet".tr,
+                      condition: state is InstGetAttachmentsErrorState,
+                      builder: (BuildContext context)=> Center(child: Text("Something went wrong".tr,
                         style: font.copyWith(
                             color: theme.primaryColor,
                             fontSize: screenWidth * 0.06),

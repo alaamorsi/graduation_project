@@ -82,8 +82,8 @@ class TutorCoursesScreen extends StatelessWidget {
                     context: context,
                     title: "Chat".tr,
                     image: "Assets/for_teacher/chat.png",
-                    goTo: () {
-                      print(course.courseId);
+                    goTo: () async{
+                      await cubit.getChat(course.courseId, 1);
                       Get.to(() => ChatScreen(courseId: course.courseId,));
                     },
                   ),

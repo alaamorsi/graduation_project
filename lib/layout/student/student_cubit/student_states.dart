@@ -9,6 +9,8 @@ class StudentHasImageState extends StudentStates {}
 
 class StudentChangeBottomNavState extends StudentStates {}
 
+class ChangeListNumberState extends StudentStates {}
+
 
 // all Courses
 class GetCoursesLoadingState extends StudentStates {}
@@ -156,3 +158,9 @@ class FilePickedSuccessState extends StudentStates {}
 class FilePickedErrorState extends StudentStates {}
 
 class FileClearState extends StudentStates {}
+
+//chat
+class GetChatLoadingState extends StudentStates {}
+class GetChatSuccessState extends StudentStates {}
+class GetChatErrorState extends StudentStates {}
+class MessageAddToChatState extends StudentStates {}

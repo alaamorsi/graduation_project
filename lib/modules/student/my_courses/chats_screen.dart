@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_cubit.dart';
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
-import 'package:graduation_project/shared/component/test.dart';
+import 'package:graduation_project/models/chat_model.dart';
+import 'package:graduation_project/shared/network/cache_helper.dart';
 import '../../../shared/component/components.dart';
 import '../../../shared/component/constant.dart';
 
@@ -20,9 +21,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
   void initState() {
     hubConnection.start()?.then((value){
       hubConnection.on("getMessage", (List<Object?>? list){
-        print("Signal R #######################################");
-        print(list![0].toString());
-        print(list[1].toString());
+        StudentCubit.get(context).addMessageToChats(list![0].toString(),list[1].toString());
       });
     });
     super.initState();
@@ -34,10 +33,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
     return  BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {},
         builder: (context, state) {
-      var student = StudentCubit.get(context);
+      var cubit = StudentCubit.get(context);
       return Scaffold(
         appBar: secondAppbar(context: context, title: "Chat".tr),
-        body: buildStudentChat(context: context, theme: theme),
+        body:ListView.builder(
+          itemBuilder: (context,index)=>
+            buildStudentChat(context: context, theme: theme, message: cubit.chat[index]),
+          itemCount: cubit.chat.length,
+        ),
         bottomNavigationBar: AnimatedSlide(
           duration: const Duration(milliseconds: 500),
           offset: Offset(0, 0),
@@ -89,6 +92,10 @@ class _ChatsScreenState extends State<ChatsScreen> {
                               ]
                           );
                         });
+                          cubit.addMessageToChats(
+                            CacheHelper.getData(key: 'userName'),
+                            messageController.text
+                        );
                       },
                       icon: Icon(Icons.send_rounded,
                           color: theme.primaryColor)),
@@ -104,168 +111,99 @@ class _ChatsScreenState extends State<ChatsScreen> {
   Widget buildStudentChat({
     required BuildContext context,
     required ThemeData theme,
+    required MessageModel message
   }) {
-    return ListView.builder(
-      itemBuilder: (BuildContext context, int index) {
-        if (messages[index].senderFirstName == 'sameh') {
-          return userrMessageItem(
-              theme: theme, message: messages[index], context: context);
-        } else {
-          return otherMessageItem(theme: theme, message: messages[index]);
-        }
-      },
-      itemCount: messages.length,
-    );
+    if (message.userName == CacheHelper.getData(key: 'userName')) {
+      return userMessageItem(theme: theme, message: message);
+    } else {
+      return othersMessageItem(theme: theme, message: message);
+    }
   }
 }
 
-Widget otherMessageItem({
+Widget othersMessageItem({
   required ThemeData theme,
-  required Message message,
+  required MessageModel message,
 }) {
   return Container(
-    margin: EdgeInsets.only(
-        right: isArabic ? 11 : 50, top: 6, bottom: 6, left: isArabic ? 50 : 11),
+    margin: EdgeInsets.only(right: isArabic ? 6 : 50, top: 3, bottom: 3, left: isArabic ? 50 : 6),
     padding: EdgeInsets.all(screenWidth * .03),
     decoration: BoxDecoration(
-      color: Colors.grey.withOpacity(.6),
+      color: Colors.grey.shade500,
       borderRadius: BorderRadius.only(
-        topLeft: isArabic ? const Radius.circular(30) : Radius.zero,
-        topRight: isArabic ? Radius.zero : const Radius.circular(30),
-        bottomRight: const Radius.circular(30),
-        bottomLeft: const Radius.circular(30),
+        topLeft: isArabic ? const Radius.circular(20) : Radius.zero,
+        topRight: isArabic ? Radius.zero : const Radius.circular(20),
+        bottomRight: const Radius.circular(20),
+        bottomLeft: const Radius.circular(20),
       ),
     ),
-    child: Row(
+    child: Column(
       textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isArabic)
-          Padding(
-            padding: const EdgeInsets.all(5),
-            child: CircleAvatar(
-              backgroundColor: theme.canvasColor.withOpacity(.4),
-              radius: 25,
-              backgroundImage: const AssetImage("Assets/profile/man_5.png"),
-            ),
-          ),
-        GridView.count(
-          crossAxisCount: 1,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: CircleAvatar(
+                backgroundColor: theme.canvasColor.withOpacity(.4),
+                radius: 20,
+                backgroundImage: const AssetImage("Assets/profile/man_5.png"),
+              ),
+            ),
             Text(
-              message.senderFirstName + message.senderLastName,
+              message.userName,
               style: font.copyWith(
                   fontSize: screenWidth * 0.06,
-                  fontWeight: FontWeight.w600,
                   color: theme.primaryColor),
-            ),
-            Text(
-              textAlign: isArabic ? TextAlign.right : TextAlign.left,
-              message.messageContent,
-              maxLines: 4,
-              style: font.copyWith(
-                  fontSize: screenWidth * 0.05,
-                  fontWeight: FontWeight.w400,
-                  color: theme.primaryColorLight),
             ),
           ],
         ),
-        if (!isArabic)
-          Padding(
-            padding: const EdgeInsets.all(5),
-            child: CircleAvatar(
-              backgroundColor: theme.canvasColor.withOpacity(.4),
-              radius: 25,
-              backgroundImage: const AssetImage("Assets/profile/man_5.png"),
-            ),
-          ),
+        Text(
+          textAlign: isArabic ? TextAlign.right : TextAlign.left,
+          message.content,
+          maxLines: 4,
+          style: font.copyWith(
+              fontSize: screenWidth * 0.04,
+              color: theme.primaryColorLight),
+        ),
+
       ],
     ),
   );
 }
 
-Widget userrMessageItem({
-  required BuildContext context,
+Widget userMessageItem({
   required ThemeData theme,
-  required Message message,
+  required MessageModel message,
 }) {
   return Container(
-    margin: EdgeInsets.only(
-        left: isArabic ? 11 : 50, top: 6, bottom: 6, right: isArabic ? 50 : 11),
-    padding: EdgeInsets.all(screenWidth * .03),
-    decoration: BoxDecoration(
-      color: theme.primaryColor,
-      borderRadius: BorderRadius.only(
-        topRight: isArabic ? const Radius.circular(30.0) : Radius.zero,
-        topLeft: isArabic ? Radius.zero : const Radius.circular(30),
-        bottomRight: const Radius.circular(30),
-        bottomLeft: const Radius.circular(30),
+      margin: EdgeInsets.only(left: isArabic ? 11 : 50, top: 6, bottom: 6, right: isArabic ? 50 : 11),
+      padding: EdgeInsets.all(screenWidth * .03),
+      decoration: BoxDecoration(
+        color: theme.canvasColor,
+        borderRadius: BorderRadius.only(
+          topRight: isArabic ? const Radius.circular(20) : Radius.zero,
+          topLeft: isArabic ? Radius.zero : const Radius.circular(20),
+          bottomRight: const Radius.circular(20),
+          bottomLeft: const Radius.circular(20),
+        ),
       ),
-    ),
-    child: Row(
-      textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Text(
-            message.messageContent,
-            maxLines: 4,
+      child: Column(
+        textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
             textAlign: isArabic ? TextAlign.right : TextAlign.left,
+            message.content,
+            maxLines: 4,
             style: font.copyWith(
                 fontSize: screenWidth * 0.05,
-                fontWeight: FontWeight.w600,
                 color: theme.primaryColorLight),
           ),
-        ),
-      ],
-    ),
+
+        ],
+      )
   );
 }
-
-List<Message> messages = [
-  Message(
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
-      messageContent: 'can i ask a question',
-      messageDate: '9:18'),
-  Message(
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
-      messageContent: 'can i ask a question',
-      messageDate: '9:18'),
-  Message(
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
-      messageContent: 'i just test',
-      messageDate: '9:18'),
-  Message(
-      senderFirstName: 'Mohamed',
-      senderLastName: 'Ahmed',
-      messageContent: 'can i ask a question',
-      messageDate: '9:18'),
-  Message(
-      senderFirstName: 'Mohamed',
-      senderLastName: 'Ahmed',
-      messageContent: 'can i ask a question',
-      messageDate: '9:18'),
-  Message(
-      senderFirstName: 'Mohamed',
-      senderLastName: 'Ahmed',
-      messageContent: 'can i ask a question',
-      messageDate: '9:18'),
-  Message(
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
-      messageContent: 'can i ask a question',
-      messageDate: '9:18'),
-  Message(
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
-      messageContent: 'can i ask a question',
-      messageDate: '9:18'),
-  Message(
-      senderFirstName: 'sameh',
-      senderLastName: 'sameh',
-      messageContent: 'can i ask a question',
-      messageDate: '9:18'),
-];
