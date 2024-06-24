@@ -22,11 +22,8 @@ class ReservedScreen extends StatelessWidget {
     var cubit = StudentCubit.get(context);
     return BlocConsumer<StudentCubit, StudentStates>(
         listener: (context, state) {
-          if((state is GetCoursesEnrolledErrorState || cubit.currentIndex==1 && cubit.enrolledCourses.isEmpty) && cubit.enrolled){
-            cubit.enrolled = true;
+          if((state is GetCoursesEnrolledErrorState || cubit.currentIndex==1 && cubit.enrolledCourses.isEmpty) && !cubit.enrolled){
             cubit.getEnrolledCourses(1);
-            if(state is GetCoursesEnrolledSuccessState)
-              cubit.enrolled = false;
           }
         },
         builder: (context, state) {
@@ -37,7 +34,7 @@ class ReservedScreen extends StatelessWidget {
               hasActions: false,
             ),
             body: ConditionalBuilder(
-              condition: state is GetCoursesEnrolledSuccessState,
+              condition: cubit.enrolledCourses.isNotEmpty,
               builder: (context)=>Padding(
                 padding: EdgeInsets.all(screenWidth * .02),
                 child: ConditionalBuilder(

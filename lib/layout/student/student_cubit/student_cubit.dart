@@ -139,6 +139,7 @@ class StudentCubit extends Cubit<StudentStates> {
       enrolledCourses = (value.data as List)
           .map((course) => CourseModel.fromJson(course))
           .toList();
+      enrolled = true;
       emit(GetCoursesEnrolledSuccessState());
     }).catchError((error) {
       emit(GetCoursesEnrolledErrorState());
