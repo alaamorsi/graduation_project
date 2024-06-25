@@ -77,7 +77,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
             );},
             itemCount: cubit.chat.length,
           ),
-          bottomNavigationBar: AnimatedSlide(
+          floatingActionButton: AnimatedSlide(
             duration: const Duration(milliseconds: 500),
             offset: Offset(0, 0),
             child: Container(
