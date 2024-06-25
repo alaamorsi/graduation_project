@@ -53,13 +53,7 @@ class SecondScreenState extends State<SelectCourseType> {
                 newDivider(),
                 InkWell(
                   onTap: () {
-                    showToast(
-                        title: "Coming Soon".tr,
-                        description: "Sorry, that option isn't available now".tr,
-                        state: MotionState.warning,
-                        context: context
-                    );
-                    // Get.to(()=>const AddCourse(courseType: 'Live',));
+                    Get.to(()=>const AddCourse(courseType: 'Live',));
                   },
                   child: Column(
                     children: [

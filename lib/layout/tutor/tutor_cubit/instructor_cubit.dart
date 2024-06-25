@@ -378,6 +378,7 @@ class InstructorCubit extends Cubit<InstructorStates> {
           .toList();
       emit(GetInstCoursesSuccessState());
     }).catchError((error) {
+      print(error);
       emit(GetInstCoursesErrorState());
     });
   }

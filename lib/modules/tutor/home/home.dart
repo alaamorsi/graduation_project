@@ -18,6 +18,7 @@ class TutorHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var cubit = InstructorCubit.get(context);
+    cubit.getCourses();
     return BlocConsumer<InstructorCubit, InstructorStates>(
         listener: (context, state) {},
         builder: (context, state) {
