@@ -5,6 +5,7 @@ import 'package:graduation_project/layout/student/student_cubit/student_cubit.da
 import 'package:graduation_project/layout/student/student_cubit/student_states.dart';
 import 'package:graduation_project/models/courses_model.dart';
 import 'package:graduation_project/modules/student/my_courses/add_rate.dart';
+import 'package:graduation_project/modules/student/my_courses/live_screen.dart';
 import 'package:graduation_project/shared/component/components.dart';
 import 'package:graduation_project/shared/component/constant.dart';
 import 'assignments/assignments.dart';
@@ -33,15 +34,25 @@ class ClassLeader extends StatelessWidget {
           body: Padding(padding:  EdgeInsets.symmetric(horizontal: screenWidth * .02),
             child: Wrap(
               children: [
+                if(course.type=='Recorded')
                 dashboardItem(
                   context: context,
                   title: "Lessons".tr,
                   image: "Assets/for_teacher/recorded.png",
-                  goTo: () {
-                    cubit.getLessons(course.courseId);
+                  goTo: () async{
+                    await cubit.getLessons(course.courseId);
                     Get.to(()=>LessonsScreen(course: course,));
                   },
                 ),
+                if(course.type=='Live')
+                  dashboardItem(
+                    context: context,
+                    title: "Live".tr,
+                    image: "Assets/for_teacher/recorded.png",
+                    goTo: () {
+                      Get.to(()=>LiveScreen(course: course));
+                    },
+                  ),
                 dashboardItem(
                   context: context,
                   title: "Chat".tr,

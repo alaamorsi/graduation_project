@@ -16,11 +16,12 @@ class AddLessons extends StatelessWidget {
     TextEditingController nameController = TextEditingController();
     return BlocConsumer<InstructorCubit, InstructorStates>(
       listener: (context, state) {
-        if(state is AddDescriptionSuccessState){
+        if(state is AddLessonSuccessState){
           showToast(title: "Success".tr, description: "lesson has been added successfully".tr, state: MotionState.success, context: context);
+          InstructorCubit.get(context).getLessons(courseId);
           Get.back();
         }
-        if(state is AddDescriptionErrorState){
+        if(state is AddLessonErrorState){
           showToast(title: "Error".tr, description: "Something went wrong".tr, state: MotionState.error, context: context);
         }
       },

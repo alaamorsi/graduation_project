@@ -28,9 +28,9 @@ class LessonsScreen extends StatelessWidget{
           body: Padding(
             padding: EdgeInsets.all(screenWidth*.02),
             child: ConditionalBuilder(
-              condition: state is GetCourseLessonsSuccessState ||cubit.assignments.isNotEmpty,
+              condition: state is GetCourseLessonsSuccessState ||cubit.lessons.isNotEmpty,
               builder: (BuildContext context) =>
-                cubit.assignments.isNotEmpty?
+                cubit.lessons.isNotEmpty?
                 ListView.builder(
                 itemBuilder: (BuildContext context, int index)=> buildLessonItem(lesson: cubit.lessons[index], theme: theme, course: course,index: index, cubit: cubit),
                 itemCount: cubit.lessons.length,):

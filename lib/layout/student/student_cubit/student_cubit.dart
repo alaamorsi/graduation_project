@@ -45,12 +45,14 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
   int listNum = 0;
+
   void changeListNum(int index) {
     listNum = index;
     emit(ChangeListNumberState());
   }
 
   bool startSearching = false;
+
   void showSearchFilter(context) async {
     await showAdaptiveDialog(
         context: context,
@@ -63,7 +65,7 @@ class StudentCubit extends Cubit<StudentStates> {
   List<CourseModel> searchList = [];
 
   void searchFunction(String? keyWord, String searchBy) {
-    searchList=[];
+    searchList = [];
     emit(SearchLoadingState());
     sendRequest(method: 'get', url: "$getAllCoursesEndPoint/$searchBy/$keyWord")
         .then((value) {
@@ -92,7 +94,7 @@ class StudentCubit extends Cubit<StudentStates> {
   String? searchText;
   bool startSearch = false;
 
-  void startSearchFunction(String text){
+  void startSearchFunction(String text) {
     if (text.isNotEmpty) {
       startSearch = true;
     } else {
@@ -100,7 +102,8 @@ class StudentCubit extends Cubit<StudentStates> {
     }
     emit(StartSearchState());
   }
-  void changeTheSearchByFunction(int index){
+
+  void changeTheSearchByFunction(int index) {
     for (int i = 0; i < 4; i++) {
       if (i == index) {
         categorySelections[index] = !categorySelections[index];
@@ -131,6 +134,7 @@ class StudentCubit extends Cubit<StudentStates> {
   }
 
   bool enrolled = false;
+
   void getEnrolledCourses(int pageNumber) {
     enrolled = true;
     emit(GetCoursesEnrolledLoadingState());
@@ -172,55 +176,72 @@ class StudentCubit extends Cubit<StudentStates> {
     });
   }
 
+  CourseDetailsModel courseDetails = CourseDetailsModel(
+    instructorName: '',
+    academicLevel: '',
+    lessonName: '',
+    url: '',
+    period: '',
+    courseDescription: '',
+    reviews: [],
+  );
 
-  CourseDetailsModel courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '', reviews: [],);
-  Future getCourseDetails(int courseId) async{
+  Future getCourseDetails(int courseId) async {
     emit(GetCoursesDetailsLoadingState());
-    try{
-      courseDetails= CourseDetailsModel(instructorName: '', academicLevel: '', lessonName: '', url: '', period: '', courseDescription: '', reviews: []);
-     var result = await sendRequest(method: 'get', url: "$getCourseDetailsEndPoint$courseId");
-     courseDetails = CourseDetailsModel.fromJson(result.data);
-     emit(GetCoursesDetailsSuccessState());
-   }
-   catch(e){
-     emit(GetCoursesDetailsErrorState());
-   }
+    try {
+      courseDetails = CourseDetailsModel(
+          instructorName: '',
+          academicLevel: '',
+          lessonName: '',
+          url: '',
+          period: '',
+          courseDescription: '',
+          reviews: []);
+      var result = await sendRequest(
+          method: 'get', url: "$getCourseDetailsEndPoint$courseId");
+      courseDetails = CourseDetailsModel.fromJson(result.data);
+      emit(GetCoursesDetailsSuccessState());
+    } catch (e) {
+      emit(GetCoursesDetailsErrorState());
+    }
   }
 
   List<CourseModel> favouriteList = [];
 
   void addToFavourite(CourseModel course) {
     emit(AddToFavouriteLoadingState());
-    sendRequest(method: 'post', url: "$addToFavouriteEndPoint${course.courseId}",data: {})
-        .then((value) {
-          for(int i=0;i<favouriteList.length;i++){
-            if(course.favourite){
-              favouriteList.remove(course);
-            }
-            else{
-              favouriteList.add(course);
-            }
-          }
-          course.favourite = !course.favourite;
+    sendRequest(
+        method: 'post',
+        url: "$addToFavouriteEndPoint${course.courseId}",
+        data: {}).then((value) {
+      for (int i = 0; i < favouriteList.length; i++) {
+        if (course.favourite) {
+          favouriteList.remove(course);
+        } else {
+          favouriteList.add(course);
+        }
+      }
+      course.favourite = !course.favourite;
       emit(AddToFavouriteSuccessState());
     }).catchError((error) {
       emit(AddToFavouriteErrorState());
     });
   }
-  void getFavouriteList () {
+
+  void getFavouriteList() {
     emit(GetFavouriteListLoadingState());
-    sendRequest(method: 'get', url: getFavourites)
-        .then((value) {
-          favouriteList = (value.data as List)
-            .map((course) => CourseModel.fromJson(course))
-            .toList();
+    sendRequest(method: 'get', url: getFavourites).then((value) {
+      favouriteList = (value.data as List)
+          .map((course) => CourseModel.fromJson(course))
+          .toList();
       emit(GetFavouriteListSuccessState());
     }).catchError((error) {
       emit(GetFavouriteListErrorState());
     });
   }
 
-  Future<void> payManager(int coursePrice, String description,CourseModel course) async {
+  Future<void> payManager(
+      int coursePrice, String description, CourseModel course) async {
     isLoading = true;
     emit(PaymentManagerLoadingState());
     PaymobManager()
@@ -228,9 +249,11 @@ class StudentCubit extends Cubit<StudentStates> {
       coursePrice,
       "EGP",
       description,
-    ).then((String paymentKey) {
+    )
+        .then((String paymentKey) {
       Get.to(() => WebViewScreen(
-            paymentKey: paymentKey, course: course,
+            paymentKey: paymentKey,
+            course: course,
           ));
     }).catchError((error) {
       emit(PaymentManagerErrorState());
@@ -474,22 +497,28 @@ class StudentCubit extends Cubit<StudentStates> {
   bool isLoading = false;
 
   List<LessonModel> lessons = [];
-  void getLessons(int courseId) {
-    lessons=[];
+
+  Future getLessons(int courseId) async {
+    lessons = [];
     emit(GetCourseLessonsLoadingState());
-    sendRequest(method: 'get', url: "$lessonEndPoint/$courseId").then((value) {
-      lessons = (value.data as List)
-          .map((course) => LessonModel.fromJson(course))
-          .toList();
+    try {
+      var result =
+          await sendRequest(method: 'get', url: "$lessonEndPoint/$courseId");
+      result.data.forEach((value) {
+        lessons.add(LessonModel.fromJson(value));
+      });
       emit(GetCourseLessonsSuccessState());
-    }).catchError((error) {
+    } catch (e) {
       emit(GetCourseLessonsErrorState());
-    });
+    }
   }
+
   List<AttachmentModel> attachments = [];
+
   void getAttachments(int courseId) {
     emit(GetCourseAttachmentsLoadingState());
-    sendRequest(method: 'get', url: "$getAttachmentsEndPoint$courseId").then((value) {
+    sendRequest(method: 'get', url: "$getAttachmentsEndPoint$courseId")
+        .then((value) {
       attachments = (value.data as List)
           .map((attachment) => AttachmentModel.fromJson(attachment))
           .toList();
@@ -498,10 +527,13 @@ class StudentCubit extends Cubit<StudentStates> {
       emit(GetCourseAttachmentsErrorState());
     });
   }
+
   List<AssignmentModel> assignments = [];
+
   void getAssignments(int courseId) {
     emit(GetCourseAssignmentsLoadingState());
-    sendRequest(method: 'get', url: "$getAssignmentsEndPoint$courseId").then((value) {
+    sendRequest(method: 'get', url: "$getAssignmentsEndPoint$courseId")
+        .then((value) {
       assignments = (value.data as List)
           .map((assignment) => AssignmentModel.fromJson(assignment))
           .toList();
@@ -511,26 +543,25 @@ class StudentCubit extends Cubit<StudentStates> {
     });
   }
 
-  Future<void> uploadSolution({
-    required int assignmentId,
-    required String description,
-    required File? file
-  }) async{
+  Future<void> uploadSolution(
+      {required int assignmentId,
+      required String description,
+      required File? file}) async {
     emit(AddAssignmentSolutionLoadingState());
     FormData formData = FormData();
-    formData = FormData.fromMap ({
-      'assignmentId':assignmentId,
-      'description':description,
-      'file':await MultipartFile.fromFile(
+    formData = FormData.fromMap({
+      'assignmentId': assignmentId,
+      'description': description,
+      'file': await MultipartFile.fromFile(
         file!.path,
         filename: file.path.split('/').last,
       ),
     });
     sendRequest(
-        method: 'postWithFormData',
-        url: uploadSolutionEndPoint,
-        formData:formData
-    ).then((value) {
+            method: 'postWithFormData',
+            url: uploadSolutionEndPoint,
+            formData: formData)
+        .then((value) {
       emit(AddAssignmentSolutionSuccessState());
     }).catchError((error) {
       emit(AddAssignmentSolutionErrorState());
@@ -539,13 +570,12 @@ class StudentCubit extends Cubit<StudentStates> {
 
   File? pickedFile;
   PlatformFile? file;
+
   Future<void> pickFile() async {
     pickedFile = null;
     file = null;
     final result = await FilePicker.platform.pickFiles(
-        type:FileType.custom,
-        allowedExtensions: ['pdf','txt','ppt']
-    );
+        type: FileType.custom, allowedExtensions: ['pdf', 'txt', 'ppt']);
     file = result?.files.first;
     if (result != null) {
       pickedFile = File(result.files.single.path!);
@@ -555,25 +585,19 @@ class StudentCubit extends Cubit<StudentStates> {
     }
   }
 
-
-  Future<void> addRate(int courseId,double rate,String? review) async {
+  Future<void> addRate(int courseId, double rate, String? review) async {
     emit(AddRateLoadingState());
-    try{
-      await sendRequest(
-          method: 'post',
-          url: "Course/rate",
-          data: {
-            "courseId": courseId.toString(),
-            "rate": rate.toString(),
-            "feedback": review??''
-          }
-      );
+    try {
+      await sendRequest(method: 'post', url: "Course/rate", data: {
+        "courseId": courseId.toString(),
+        "rate": rate.toString(),
+        "feedback": review ?? ''
+      });
       emit(AddRateSuccessState());
-    }catch(error){
-      if(error == 401){
+    } catch (error) {
+      if (error == 401) {
         emit(SessionEndedState());
-      }
-      else{
+      } else {
         emit(AddRateErrorState());
       }
     }
@@ -581,52 +605,54 @@ class StudentCubit extends Cubit<StudentStates> {
 
   GradeModel? gradeModel;
   bool hasGrade = false;
+
   Future<void> getSolutionGrade(int assignmentId) async {
     hasGrade = false;
     emit(GetAssignmentGradeLoadingState());
-    try{
-      var response = await sendRequest(method: 'get', url: "Course/$assignmentId/grade");
+    try {
+      var response =
+          await sendRequest(method: 'get', url: "Course/$assignmentId/grade");
       gradeModel = GradeModel.fromJson(response.data);
-      hasGrade =true;
+      hasGrade = true;
       emit(GetAssignmentGradeSuccessState());
-    }
-    catch(error){
-      hasGrade =false;
-      if(error == 401){
+    } catch (error) {
+      hasGrade = false;
+      if (error == 401) {
         emit(SessionEndedState());
-      }
-      else{
+      } else {
         emit(GetAssignmentGradeErrorState());
       }
     }
   }
 
   List<MessageModel> chat = [];
-  Future<void> getChat(int courseId,int pageNumber) async {
+
+  Future<void> getChat(int courseId, int pageNumber) async {
     emit(GetChatLoadingState());
-    try{
-      var result = await sendRequest(method: 'get', url: "Course/$courseId/chat/$pageNumber");
+    try {
+      var result = await sendRequest(
+          method: 'get', url: "Course/$courseId/chat/$pageNumber");
       chat = (result.data as List)
           .map((message) => MessageModel.fromJson(message))
           .toList();
       emit(GetChatSuccessState());
-    }catch (error){
-      if(error == 401){
+    } catch (error) {
+      if (error == 401) {
         emit(SessionEndedState());
-      }
-      else{
+      } else {
         emit(GetChatErrorState());
       }
     }
   }
-  void addMessageToChats(String userName,String content){
+
+  void addMessageToChats(String userName, String content) {
     var dateTime = DateTime.now();
     String dateT = dateTime.toString().split('.')[0];
     String date = dateTime.toString().split(' ')[0];
-    String time = "${dateT.split(' ')[1].split(':')[0]}:${dateT.split(' ')[1].split(':')[1]}";
-    MessageModel message = MessageModel(userName,date+time,content);
+    String time =
+        "${dateT.split(' ')[1].split(':')[0]}:${dateT.split(' ')[1].split(':')[1]}";
+    MessageModel message = MessageModel(userName, date + time, content);
     chat.add(message);
     emit(MessageAddToChatState());
   }
-
 }
