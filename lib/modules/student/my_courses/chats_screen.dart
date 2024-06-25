@@ -17,101 +17,143 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
+  late ScrollController _scrollController;
+  late TextEditingController _messageController;
+
   @override
   void initState() {
-    hubConnection.start()?.then((value){
-      hubConnection.on("getMessage", (List<Object?>? list){
-        StudentCubit.get(context).addMessageToChats(list![0].toString(),list[1].toString());
+    super.initState();
+    _scrollController = ScrollController();
+    _messageController = TextEditingController();
+    hubConnection.start()?.then((value) {
+      hubConnection.on("getMessage", (List<Object?>? list) {
+        print(list![0]);
+        print(list[1]);
+        StudentCubit.get(context).addMessageToChats(list[0].toString(), list[1].toString());
+        _scrollToBottom();
       });
     });
-    super.initState();
   }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController messageController = TextEditingController();
     var theme = Theme.of(context);
-    return  BlocConsumer<StudentCubit, StudentStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-      var cubit = StudentCubit.get(context);
-      return Scaffold(
-        appBar: secondAppbar(context: context, title: "Chat".tr),
-        body:ListView.builder(
-          itemBuilder: (context,index)=>
-            buildStudentChat(context: context, theme: theme, message: cubit.chat[index]),
-          itemCount: cubit.chat.length,
-        ),
-        bottomNavigationBar: AnimatedSlide(
-          duration: const Duration(milliseconds: 500),
-          offset: Offset(0, 0),
-          child: Container(
-            margin: EdgeInsets.only(
+    return BlocConsumer<StudentCubit, StudentStates>(
+      listener: (context, state) {
+        _scrollToBottom();
+      },
+      builder: (context, state) {
+        var cubit = StudentCubit.get(context);
+        _scrollToBottom();
+        return Scaffold(
+          appBar: secondAppbar(context: context, title: "Chat".tr),
+          body: ListView.builder(
+            controller: _scrollController,
+            itemBuilder: (context, index) {
+              return
+              buildStudentChat(
+              context: context,
+              theme: theme,
+              message: cubit.chat[index],
+            );},
+            itemCount: cubit.chat.length,
+          ),
+          bottomNavigationBar: AnimatedSlide(
+            duration: const Duration(milliseconds: 500),
+            offset: Offset(0, 0),
+            child: Container(
+              margin: EdgeInsets.only(
                 left: screenWidth * .02,
                 right: screenWidth * .02,
-                bottom: screenWidth * .02),
-            padding: EdgeInsets.all(screenWidth * .03),
-            width: double.infinity,
-            height: screenHeight * .1,
-            decoration: BoxDecoration(
-              color: theme.primaryColorLight,
-              borderRadius: BorderRadius.all(
-                Radius.circular(screenWidth * .7),
+                bottom: screenWidth * .02,
               ),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 15,
-                  color: theme.primaryColorDark.withOpacity(.1),
-                  offset: const Offset(0, -5),
-                )
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: screenWidth * .75,
-                  child: defaultFormField(
+              padding: EdgeInsets.all(screenWidth * .03),
+              width: double.infinity,
+              height: screenHeight * .1,
+              decoration: BoxDecoration(
+                color: theme.primaryColorLight,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(screenWidth * .7),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 15,
+                    color: theme.primaryColorDark.withOpacity(.1),
+                    offset: const Offset(0, -5),
+                  )
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: screenWidth * .75,
+                    child: defaultFormField(
                       context: context,
-                      controller: messageController,
+                      controller: _messageController,
                       onChanged: (value) {},
                       type: TextInputType.text,
                       validate: (s) {
                         return null;
                       },
-                      label: "Type your question".tr),
-                ),
-                Expanded(
-                  child: IconButton(
+                      label: "Type your question".tr,
+                    ),
+                  ),
+                  Expanded(
+                    child: IconButton(
                       onPressed: () {
-                        setState(() {
+                        final message = _messageController.text;
+                        if (message.isNotEmpty) {
                           hubConnection.invoke(
-                              "SendMessage",
-                              args: <Object>[
-                                messageController.text,
-                                widget.courseId
-                              ]
+                            "SendMessage",
+                            args: <Object>[message, widget.courseId],
                           );
-                        });
                           cubit.addMessageToChats(
                             CacheHelper.getData(key: 'userName'),
-                            messageController.text
-                        );
+                            message,
+                          );
+                          _messageController.clear();
+                          _scrollToBottom();
+                        }
                       },
-                      icon: Icon(Icons.send_rounded,
-                          color: theme.primaryColor)),
-                )
-              ],
+                      icon: Icon(
+                        Icons.send_rounded,
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   Widget buildStudentChat({
     required BuildContext context,
     required ThemeData theme,
-    required MessageModel message
+    required MessageModel message,
   }) {
     if (message.userName == CacheHelper.getData(key: 'userName')) {
       return userMessageItem(theme: theme, message: message);
