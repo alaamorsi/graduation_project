@@ -204,4 +204,6 @@ const Map<String, String> ar = {
   "AddFile":"اضف ملف",
   'Example : ':'مثال : ',
   'addAssignment':'اضف واجب',
+  "Recorded":"مٌسجل",
+  "Live":"لايف",
 };

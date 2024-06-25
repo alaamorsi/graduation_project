@@ -205,4 +205,6 @@ const Map<String, String> en = {
   "AddFile":"Add File",
   'Example : ':'Example : ',
   'addAssignment':'add Assignment',
+  "Recorded":"Recorded",
+  "Live":"Live",
 };

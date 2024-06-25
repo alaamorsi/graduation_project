@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -47,7 +48,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
       }
@@ -77,72 +78,65 @@ class _ChatsScreenState extends State<ChatsScreen> {
             );},
             itemCount: cubit.chat.length,
           ),
-          floatingActionButton: AnimatedSlide(
-            duration: const Duration(milliseconds: 500),
-            offset: Offset(0, 0),
-            child: Container(
-              margin: EdgeInsets.only(
-                left: screenWidth * .02,
-                right: screenWidth * .02,
-                bottom: screenWidth * .02,
+          floatingActionButton: Container(
+            margin: EdgeInsets.only(right:isArabic?screenWidth * .06:0,left:isArabic?0:screenWidth * .06),
+            padding: EdgeInsets.all(screenWidth * .02),
+            width: double.infinity,
+            height: screenHeight * .1,
+            decoration: BoxDecoration(
+              color: theme.primaryColorLight,
+              borderRadius: BorderRadius.all(
+                Radius.circular(screenWidth * .7),
               ),
-              padding: EdgeInsets.all(screenWidth * .03),
-              width: double.infinity,
-              height: screenHeight * .1,
-              decoration: BoxDecoration(
-                color: theme.primaryColorLight,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(screenWidth * .7),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 15,
+                  color: theme.primaryColorDark.withOpacity(.1),
+                  offset: const Offset(0, -5),
+                )
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: screenWidth * .75,
+                  child: defaultFormField(
+                    context: context,
+                    controller: _messageController,
+                    onChanged: (value) {},
+                    type: TextInputType.text,
+                    validate: (s) {
+                      return null;
+                    },
+                    label: "Type your question".tr,
+                  ),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 15,
-                    color: theme.primaryColorDark.withOpacity(.1),
-                    offset: const Offset(0, -5),
-                  )
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: screenWidth * .75,
-                    child: defaultFormField(
-                      context: context,
-                      controller: _messageController,
-                      onChanged: (value) {},
-                      type: TextInputType.text,
-                      validate: (s) {
-                        return null;
-                      },
-                      label: "Type your question".tr,
+                SizedBox(
+                  width: screenWidth * .15,
+                  child: IconButton(
+                    onPressed: () {
+                      final message = _messageController.text;
+                      if (message.isNotEmpty) {
+                        hubConnection.invoke(
+                          "SendMessage",
+                          args: <Object>[message, widget.courseId],
+                        );
+                        cubit.addMessageToChats(
+                          CacheHelper.getData(key: 'userName'),
+                          message,
+                        );
+                        _messageController.clear();
+                        _scrollToBottom();
+                      }
+                    },
+                    icon: Icon(
+                      Icons.send_rounded,
+                      color: theme.primaryColor,
                     ),
                   ),
-                  Expanded(
-                    child: IconButton(
-                      onPressed: () {
-                        final message = _messageController.text;
-                        if (message.isNotEmpty) {
-                          hubConnection.invoke(
-                            "SendMessage",
-                            args: <Object>[message, widget.courseId],
-                          );
-                          cubit.addMessageToChats(
-                            CacheHelper.getData(key: 'userName'),
-                            message,
-                          );
-                          _messageController.clear();
-                          _scrollToBottom();
-                        }
-                      },
-                      icon: Icon(
-                        Icons.send_rounded,
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );

@@ -103,100 +103,111 @@ class TutorHomeScreen extends StatelessWidget {
         InstructorCubit.get(context)
             .showPopMassage(context, course.isPublished, course.courseId);
       },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          width: screenWidth,
-          height: screenHeight / 5,
-          decoration: BoxDecoration(
-            color: theme.primaryColor.withOpacity(.4),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(20.0),
-            ),
+      child: Container(
+        margin: const EdgeInsets.all(10.0),
+        width: screenWidth,
+        height: screenHeight / 5,
+        decoration: BoxDecoration(
+          color: theme.primaryColor.withOpacity(.4),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20.0),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              children: [
-                //image
-                Container(
-                  width: screenHeight / 9,
-                  height: screenHeight / 9,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            'Assets/subjects_icon/${course.courseName}.png'),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      )),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Stack(
+            alignment:isArabic?Alignment.topLeft:Alignment.topRight,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6,vertical: 3),
+                decoration: BoxDecoration(
+                  color:theme.canvasColor,
+                  borderRadius: BorderRadius.circular(20)
                 ),
-                const SizedBox(
-                  width: 30,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        course.courseName.tr,
-                        style:
-                            font.copyWith(fontSize: 23.0, color: Colors.white),
+                child:Text(course.type.tr,style: font.copyWith(color: Colors.white),),
+              ),
+              Row(
+                children: [
+                  //image
+                  Container(
+                    width: screenHeight / 9,
+                    height: screenHeight / 9,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'Assets/subjects_icon/${course.courseName}.png'),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        )),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          course.courseName.tr,
+                          style:
+                              font.copyWith(fontSize: 23.0, color: Colors.white),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.star_rate_rounded,
-                            color: course.averageRate > 0
-                                ? HexColor("FDBD01")
-                                : Colors.white,
-                            size: 30,
-                          ),
-                          Text(
-                            course.averageRate > 0
-                                ? '${course.averageRate}'
-                                : '--',
-                            style: font.copyWith(
-                                fontSize: 20.0, color: Colors.white),
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.star_rate_rounded,
+                              color: course.averageRate > 0
+                                  ? HexColor("FDBD01")
+                                  : Colors.white,
+                              size: 30,
+                            ),
+                            Text(
+                              course.averageRate > 0
+                                  ? '${course.averageRate}'
+                                  : '--',
+                              style: font.copyWith(
+                                  fontSize: 20.0, color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          course.studentCount > 1
-                              ? const Icon(
-                                  Icons.groups,
-                                  color: Colors.white,
-                                  size: 30,
-                                )
-                              : const Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                  size: 27,
-                                ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${course.studentCount} ${'subscriber'.tr}',
-                            style: font.copyWith(
-                                fontSize: 18.0, color: Colors.white),
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          children: [
+                            course.studentCount > 1
+                                ? const Icon(
+                                    Icons.groups,
+                                    color: Colors.white,
+                                    size: 30,
+                                  )
+                                : const Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                    size: 27,
+                                  ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              '${course.studentCount} ${'subscriber'.tr}',
+                              style: font.copyWith(
+                                  fontSize: 18.0, color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-              ],
-            ),
+                    ],
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ],
           ),
         ),
       ),

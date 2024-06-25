@@ -99,54 +99,67 @@ class ReservedScreen extends StatelessWidget {
             Radius.circular(23.0),
           ),
         ),
-        child: Row(
+        child: Stack(
+          alignment:isArabic?Alignment.topLeft:Alignment.topRight,
           children: [
-            //Teacher image
             Container(
-              width: screenHeight / 10,
-              height: screenHeight / 10,
-              margin: EdgeInsets.symmetric(horizontal:screenWidth*.02),
+              padding: const EdgeInsets.symmetric(horizontal: 6,vertical: 3),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      image: image,
-                      fit: BoxFit.cover)),
+                  color:theme.canvasColor,
+                  borderRadius: BorderRadius.circular(20)
+              ),
+              child:Text(course.type.tr,style: font.copyWith(color: Colors.white),),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               children: [
-                Text(
-                  course.subject.tr,
-                  style: font.copyWith(
-                      fontSize: 18.0, color: theme.primaryColor),
+                //Teacher image
+                Container(
+                  width: screenHeight / 10,
+                  height: screenHeight / 10,
+                  margin: EdgeInsets.symmetric(horizontal:screenWidth*.02),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                          image: image,
+                          fit: BoxFit.cover)),
                 ),
-                const SizedBox(
-                  height: 5,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      course.subject.tr,
+                      style: font.copyWith(
+                          fontSize: 18.0, color: theme.primaryColor),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      '${course.lessonsNumber}${'lessons'.tr}',
+                      style: font.copyWith(
+                          fontSize: 12.0,
+                          color: theme.primaryColorDark.withOpacity(.5)),
+                    ),
+                  ],
                 ),
-                Text(
-                  '${course.lessonsNumber}${'lessons'.tr}',
-                  style: font.copyWith(
-                      fontSize: 12.0,
-                      color: theme.primaryColorDark.withOpacity(.5)),
+                const Spacer(),
+                CircularPercentIndicator(
+                  radius: screenHeight*.05,
+                  lineWidth: 6,
+                  animation: true,
+                  percent: courseProgress / 100,
+                  center: Text(
+                    "$courseProgress%",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.0,
+                        color: theme.primaryColorDark),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: theme.primaryColor,
                 ),
               ],
-            ),
-            const Spacer(),
-            CircularPercentIndicator(
-              radius: screenHeight*.05,
-              lineWidth: 6,
-              animation: true,
-              percent: courseProgress / 100,
-              center: Text(
-                "$courseProgress%",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15.0,
-                    color: theme.primaryColorDark),
-              ),
-              circularStrokeCap: CircularStrokeCap.round,
-              progressColor: theme.primaryColor,
             ),
           ],
         ),

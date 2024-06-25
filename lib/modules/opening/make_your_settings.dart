@@ -31,7 +31,7 @@ class MakeYourSettingScreen extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(screenWidth*.02),
               child: Column(
                   children: [
                     Row(
