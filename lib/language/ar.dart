@@ -196,4 +196,12 @@ const Map<String, String> ar = {
   "reviewTheCourse":"قيم الدورة",
   "describeYourExperience(Optional)":"صف تجربتك (اختياري)",
   'Please enter course description':'من فضلك ادخل الوصف',
+  "AddAssignmentDescription":"اضف وصف للواجب",
+  "(Assignment N.1)":"الواجب رقم 1",
+  "DeadLine":"موعد التسليم",
+  "Grade":"الدرجة",
+  "AddAssignmentGrade":"اضف درجة",
+  "AddFile":"اضف ملف",
+  'Example : ':'مثال : ',
+  'addAssignment':'اضف واجب',
 };

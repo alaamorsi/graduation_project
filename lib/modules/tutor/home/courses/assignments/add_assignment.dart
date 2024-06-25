@@ -46,7 +46,7 @@ class AddAssignmentScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Description",
+                      "Description".tr,
                       style: font.copyWith(
                           color: theme.primaryColor, fontSize: 18),
                     ),
@@ -55,11 +55,11 @@ class AddAssignmentScreen extends StatelessWidget {
                         controller: descriptionController,
                         theme: theme,
                         example: "(Assignment N.1)",
-                        message: "AddAssignmentDescription",
+                        message: "AddAssignmentDescription".tr,
                         type: TextInputType.text),
                     SizedBox(height: screenHeight * .005),
                     Text(
-                      "DeadLine",
+                      "DeadLine".tr,
                       style: font.copyWith(
                           color: theme.primaryColor, fontSize: 18),
                     ),
@@ -89,7 +89,7 @@ class AddAssignmentScreen extends StatelessWidget {
                     ),
                     SizedBox(height: screenHeight * .011),
                     Text(
-                      "Grade",
+                      "Grade".tr,
                       style: font.copyWith(
                           color: theme.primaryColor, fontSize: 18),
                     ),
@@ -98,12 +98,12 @@ class AddAssignmentScreen extends StatelessWidget {
                         controller: gradeController,
                         theme: theme,
                         example: "10",
-                        message: "AddAssignmentGrade",
+                        message: "AddAssignmentGrade".tr,
                         maxLength: null,
                         type: TextInputType.number),
                     SizedBox(height: screenHeight * .011),
                     Text(
-                      "AddFile",
+                      "AddFile".tr,
                       style: font.copyWith(
                           color: theme.primaryColor, fontSize: 18),
                     ),

@@ -197,4 +197,12 @@ const Map<String, String> en = {
   "reviewTheCourse":"reviewTheCourse",
   "describeYourExperience(Optional)":"describeYourExperience(Optional)",
   'Please enter course description':'Please enter course description',
+  "AddAssignmentDescription":"Add Assignment Description",
+  "(Assignment N.1)":"(Assignment N.1)",
+  "DeadLine":"DeadLine",
+  "Grade":"Grade",
+  "AddAssignmentGrade":"Add Assignment Grade",
+  "AddFile":"Add File",
+  'Example : ':'Example : ',
+  'addAssignment':'add Assignment',
 };
